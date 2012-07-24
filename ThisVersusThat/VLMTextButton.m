@@ -17,8 +17,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setAutoresizesSubviews:NO];
+
         // Initialization code
-        self.titleLabel.font = [UIFont fontWithName:HELVETICA size:size];
+        self.titleLabel.font = [UIFont fontWithName:TEXTBUTTON_FONT size:size];
         [self setTitle:text forState:UIControlStateNormal];
         [self setTitleColor:color forState:UIControlStateNormal];
         

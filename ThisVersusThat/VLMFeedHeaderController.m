@@ -32,7 +32,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+    [self.view setAutoresizesSubviews:NO];
+    [[self view] setBackgroundColor:FEED_HEADER_BGCOLOR];
+
     // dimensions
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     CGRect contentrect = CGRectMake(0.0f, 0.0f, winw, HEADER_HEIGHT+HEADER_CORNER_RADIUS);
@@ -40,9 +42,6 @@
     self.offsetY = 0.0f;
     //[[self view] setFrame:contentrect];
     [[self view] setFrame:CGRectOffset(self.rect, 0.0f, self.offsetY)];
-    
-    // set background
-    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"skewed_print.png"]]];
     
     
     [self view].layer.cornerRadius = HEADER_CORNER_RADIUS;
@@ -79,7 +78,7 @@
 - (UIButton*)makeTextButtonWithFrame:(CGRect)frame
 {
     UIButton *fb = [[UIButton alloc] initWithFrame:frame];
-    fb.titleLabel.font = [UIFont fontWithName:HELVETICA size:14.0f];
+    fb.titleLabel.font = [UIFont fontWithName:HEADER_TITLE_FONT size:14.0f];
     UIColor *titlecolor = TEXT_COLOR;
     [fb setTitleColor:titlecolor forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];

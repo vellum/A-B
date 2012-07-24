@@ -43,15 +43,14 @@
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
-    
+    [self.view setAutoresizesSubviews:NO];
+    [[self view] setBackgroundColor:FOOTER_BGCOLOR];
+
     // dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     CGRect contentrect = CGRectMake(0.0f, winh - FOOTER_HEIGHT - STATUSBAR_HEIGHT, winw, FOOTER_HEIGHT);
     [[self view] setFrame:contentrect];
-    
-    // set background
-    [[self view] setBackgroundColor:[UIColor colorWithWhite:0.95 alpha:1.0]];
     
     // log in
     UIButton *ab = [self makeTextButtonWithFrame:CGRectMake(winw/2-50.0f, 0.0f, 100.0f, FOOTER_HEIGHT) andTypeSize:14.0f];
@@ -72,7 +71,7 @@ self.view.layer.shadowOpacity = 0.05;
 - (UIButton*)makeTextButtonWithFrame:(CGRect)frame andTypeSize:(CGFloat)typesize
 {
     UIButton *fb = [[UIButton alloc] initWithFrame:frame];
-    fb.titleLabel.font = [UIFont fontWithName:GEORGIA size:typesize];
+    fb.titleLabel.font = [UIFont fontWithName:FOOTER_FONT size:typesize];
     [fb setTitleColor:FOOTER_TEXT_COLOR forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     [fb setShowsTouchWhenHighlighted:YES];

@@ -15,21 +15,20 @@
 #define PARSE_APP_ID @"dzGqHDiGEsXfO2jTHGfJUZiceqLy1DAmASkMRpKd"
 #define PARSE_CLIENT_KEY @"Wdwk2HHE57VMKhKOXkbKj2zqr1zmaa8cs0u2Nk4R"
 #define PARSE_MASTER_KEY @"s1cIGrqWJx67cvx9o98uMB3HUCPR5Pf1pe3PTMhd"
-
 #define FACEBOOK_APP_ID @"259605200818927"
 #define FACEBOOK_APP_SECRET @"912dc9f297b731dc2e2ff86688147742"
 #define FACEBOOK_APP_NAMESPACE @"thisversusthat"
+
 
 
 #pragma mark -
 #pragma mark Touch and Gesture
 
 #define DEAD_ZONE CGSizeMake(40.0f, 20.0f)
-#define VOTE_THRESHOLD_X 125
-
 #define FUCKING_UNKNOWN 0
 #define FUCKING_VERTICAL 1
 #define FUCKING_HORIZONTAL 2
+
 
 
 #pragma mark -
@@ -37,34 +36,53 @@
 
 #define HEADER_CORNER_RADIUS 0.0f
 #define STATUSBAR_HEIGHT 20.0f
-#define HEADER_HEIGHT 50.0f
+#define HEADER_HEIGHT 60.0f
 #define FOOTER_HEIGHT 50.0f
 #define SECTION_HEADER_HEIGHT 80.0f
 
-#define BORDER_COLOR [UIColor colorWithHue:313/360 saturation:0.12 brightness:0.59 alpha:.15]
-#define BORDER_WIDTH 1.0f
 
-#define HEADER_TEXT_COLOR [UIColor colorWithWhite:1.0 alpha:0.9]
 
-#define BACKGROUND_COLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
-//#define BACKGROUND_COLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"column-grid-white_gray@1x.png"]]
-#define HEAD_BACKGROUND [UIColor colorWithPatternImage:[UIImage imageNamed:@"txture.png"]]
+#pragma mark -
+#pragma mark Colors
+
+#define WINDOW_BGCOLOR [UIColor blackColor]
+#define MAIN_VIEW_BGCOLOR [UIColor clearColor]
+#define FEED_VIEW_BGCOLOR [UIColor clearColor]
+#define FEED_HEADER_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"skewed_print.png"]]
+#define FOOTER_BGCOLOR [UIColor colorWithWhite:0.95 alpha:1.0]
+#define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
 
 #define TEXT_COLOR [UIColor colorWithHue:0.87f saturation:0 brightness:0.12 alpha:1.0]
-#define TEXT_MIDCOLOR [UIColor colorWithHue:0.87f saturation:0.12f brightness:0.2 alpha:1.0]
+#define FOOTER_TEXT_COLOR [UIColor colorWithWhite:0.2f alpha:1.0f]
 #define DISABLED_TEXT_COLOR [UIColor colorWithWhite:0.1f alpha:0.25f]
 
-#define FOOTER_TEXT_COLOR [UIColor colorWithWhite:0.2f alpha:1.0f]
+
 
 #pragma mark -
 #pragma mark Typefaces
 
-#define HELVETICA @"Helvetica-Bold"
-#define TYPEWRITER @"AmericanTypewriter"
-#define GEORGIA @"Georgia-Italic"
+#define SECTION_FONT_BOLD @"Helvetica-Bold"
+#define SECTION_FONT_REGULAR @"Georgia-Italic"
+#define FOOTER_FONT @"Georgia-Italic"
+#define HEADER_TITLE_FONT @"Helvetica-Bold"
+#define TEXTBUTTON_FONT @"Georgia-Italic"
 
+//#define HELVETICA @"Helvetica-Bold"
+//#define TYPEWRITER @"AmericanTypewriter"
+//#define GEORGIA @"Georgia-Italic"
+
+
+
+#pragma mark -
+#pragma mark Lorem Ipsum
+
+// 3 line
 //#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester put a bird on it VHS banksy jean shorts yr cliche. .........."
+
+// 2 line
 //#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester"
+
+// 1 line
 //#define LOREM_IPSUM @"American apparel squid tumblr"
 #define LOREM_IPSUM @"Which couch should I buy?"
 

@@ -19,7 +19,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        [self setAutoresizesSubviews:NO];
 
         // Initialization code
         self.originalOffsetX = 0.0f;

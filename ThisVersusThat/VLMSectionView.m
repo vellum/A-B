@@ -21,7 +21,8 @@
 {
     self = [super initWithFrame:frame];
     if ( self ){
-        
+        [self setAutoresizesSubviews:NO];
+
         // avatar
         UIView *avatarplaceholder = [[UIView alloc] initWithFrame:CGRectMake(5.0f+1, 7.0f+2, 30.0f, 30.0f)];
         [avatarplaceholder setBackgroundColor:[UIColor lightGrayColor]];
@@ -29,7 +30,7 @@
         // create the label objects
         UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         headerLabel.backgroundColor = [UIColor clearColor];
-        headerLabel.font = [UIFont fontWithName:HELVETICA size:14.0f];
+        headerLabel.font = [UIFont fontWithName:SECTION_FONT_BOLD size:14.0f];
         headerLabel.frame = CGRectMake( 44.0f, 5.0f, 250.f, 22.0f );
         headerLabel.text =  username;
         headerLabel.textColor = TEXT_COLOR;
@@ -38,7 +39,7 @@
         detailLabel.lineBreakMode = UILineBreakModeWordWrap;
         detailLabel.minimumFontSize = 10.0f;
         detailLabel.numberOfLines = 0;
-        detailLabel.font = [UIFont fontWithName:GEORGIA size:14.0f];
+        detailLabel.font = [UIFont fontWithName:SECTION_FONT_REGULAR size:14.0f];
         //detailLabel.font = [UIFont fontWithName:TYPEWRITER size:14.0f];
         
         detailLabel.backgroundColor = [UIColor clearColor];

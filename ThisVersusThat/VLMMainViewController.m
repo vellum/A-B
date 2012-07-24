@@ -36,6 +36,8 @@
 
 	// Do any additional setup after loading the view.
     [self.view setAutoresizesSubviews:NO];
+    
+    [self.view setBackgroundColor:MAIN_VIEW_BGCOLOR];
 
     // window dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;

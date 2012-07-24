@@ -43,7 +43,7 @@
     
     
 	// Configure and display the window.
-    self.window.backgroundColor = [UIColor blackColor];//BACKGROUND_COLOR;
+    self.window.backgroundColor = WINDOW_BGCOLOR;
     
     VLMMainViewController *mvc = [[VLMMainViewController alloc] init];
     [self.window addSubview:mvc.view];
@@ -54,9 +54,11 @@
     //self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     
+    /*
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|
                                                     UIRemoteNotificationTypeAlert|
                                                     UIRemoteNotificationTypeSound];
+    */
     return YES;
 }
 

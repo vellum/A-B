@@ -36,6 +36,7 @@
     // window dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
+    [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     
     /*
     CGRect cr = ([UIApplication sharedApplication].statusBarHidden) ? CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT) : CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT - STATUSBAR_HEIGHT);
@@ -50,7 +51,6 @@
     [self.view setFrame: CGRectOffset(self.contentRect, 0.0f, self.contentOffsetY)];
     UITableView *tv = (UITableView *)self.view;
     //tv.sectionHeaderHeight = SECTION_HEADER_HEIGHT;
-    tv.backgroundColor = BACKGROUND_COLOR;
     tv.separatorStyle = UITableViewCellSeparatorStyleNone;
     // set delegate (this may happen by default?)
     [tv setDelegate:self];
@@ -89,7 +89,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
 
     NSString *text = LOREM_IPSUM;
-     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:GEORGIA size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
+     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:SECTION_FONT_REGULAR size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
     CGFloat h = expectedLabelSize.height + 39.0f;
     if ( h < 47.0f ) h = 47.0f;
     return h;

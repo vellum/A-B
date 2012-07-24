@@ -28,6 +28,8 @@
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
+    [self.view setAutoresizesSubviews:NO];
+
     //CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     
@@ -52,7 +54,7 @@
     
     
     UIButton *fb = [[UIButton alloc] initWithFrame:CGRectOffset(circlerect, 1.0, -1.0)];
-    fb.titleLabel.font = [UIFont fontWithName:HELVETICA size:24];
+    fb.titleLabel.font = [UIFont fontWithName:FOOTER_FONT size:24];
 
     [fb setTitle:@"+" forState:UIControlStateNormal];
     [fb setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
