@@ -85,17 +85,9 @@
         self.originalOffsetX = -270;
         
     } else if (fabsf(self.velocity) > 10 ){
-        duration = 140/fabsf(self.velocity);
+        duration = 270/fabsf(self.velocity);
         if ( duration < 0.3 ) duration = 0.3;
         if ( duration > 1 ) duration = 1;
-        /*
-        if ( delta < 0 ) {
-            self.originalOffsetX = -270;
-        }
-        else if ( delta > 0 ) {
-            self.originalOffsetX = 0;
-        }
-         */
         if ( self.velocity < 0 ){
             self.originalOffsetX = -270;
         }else {

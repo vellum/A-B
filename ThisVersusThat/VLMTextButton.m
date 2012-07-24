@@ -23,10 +23,6 @@
         self.titleLabel.font = [UIFont fontWithName:TEXTBUTTON_FONT size:size];
         [self setTitle:text forState:UIControlStateNormal];
         [self setTitleColor:color forState:UIControlStateNormal];
-        
-        //CGFloat h, s, b, a;
-        //[color getHue:&h saturation:&s brightness:&b alpha:&a];
-        //[self setTitleColor:[UIColor colorWithHue:h saturation:s brightness:b*2 alpha:1.0] forState:UIControlStateDisabled];
         [self setTitleColor:DISABLED_TEXT_COLOR forState:UIControlStateDisabled];
         [self setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
         [self setShowsTouchWhenHighlighted:YES];

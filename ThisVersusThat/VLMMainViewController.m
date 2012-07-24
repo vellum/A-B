@@ -58,8 +58,7 @@
     if (![PFUser currentUser]){
         self.footerViewController = [[VLMFooterController alloc] initWithMainViewController:self];  
         [self.view addSubview:[self.footerViewController view]];
-    }
-    else {
+    } else {
     }
 
 }

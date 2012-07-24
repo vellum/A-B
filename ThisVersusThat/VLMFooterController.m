@@ -42,17 +42,19 @@
 {
     [super viewDidLoad];
     
-	// Do any additional setup after loading the view.
-    [self.view setAutoresizesSubviews:NO];
-    [[self view] setBackgroundColor:FOOTER_BGCOLOR];
 
     // dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     CGRect contentrect = CGRectMake(0.0f, winh - FOOTER_HEIGHT - STATUSBAR_HEIGHT, winw, FOOTER_HEIGHT);
-    [[self view] setFrame:contentrect];
+
+    [self.view setAutoresizesSubviews:NO];
+    [self.view setBackgroundColor:FOOTER_BGCOLOR];
+    [self.view setFrame:contentrect];
+    [self.view.layer setShadowRadius:1.0f];
+    [self.view.layer setShadowOpacity:0.05f];
     
-    // log in
+    // add button
     UIButton *ab = [self makeTextButtonWithFrame:CGRectMake(winw/2-50.0f, 0.0f, 100.0f, FOOTER_HEIGHT) andTypeSize:14.0f];
     [ab setTitle:@"Continue" forState:UIControlStateNormal];
     [ab setShowsTouchWhenHighlighted:YES];
@@ -61,33 +63,26 @@
     [[self view] addSubview:ab];
     self.addbutton = ab;
     [ab addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
-self.view.layer.shadowRadius = 1;
-self.view.layer.shadowOpacity = 0.05;
-
 }
 
 
 - (UIButton*)makeTextButtonWithFrame:(CGRect)frame andTypeSize:(CGFloat)typesize
 {
     UIButton *fb = [[UIButton alloc] initWithFrame:frame];
-    fb.titleLabel.font = [UIFont fontWithName:FOOTER_FONT size:typesize];
+    [fb.titleLabel setFont:[UIFont fontWithName:FOOTER_FONT size:typesize]];
     [fb setTitleColor:FOOTER_TEXT_COLOR forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     [fb setShowsTouchWhenHighlighted:YES];
-    
     return fb;
 }
 
 
 -(void) buttonTapped:(id)sender{
-    NSLog(@"tapped");
-    UIActionSheet *sheet = [[UIActionSheet alloc] 
-                                initWithTitle:@"" 
-                                delegate:self 
-                                cancelButtonTitle:@"Cancel"
-                                destructiveButtonTitle:nil
-                                otherButtonTitles:@"New Account", @"Sign In", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" 
+                                                    delegate:self 
+                                                    cancelButtonTitle:@"Cancel"
+                                                    destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"New Account", @"Sign In", nil];
     [sheet showInView:self.view.superview];
 }
 
@@ -95,22 +90,10 @@ self.view.layer.shadowOpacity = 0.05;
 {
     NSLog(@"Button %d", buttonIndex);
     if ( buttonIndex == 0 ){
-        
         [self.mainviewcontroller presentSignUp];
         
     } else if ( buttonIndex == 1 ){
         [self.mainviewcontroller presentLogin];
-
-    }
-    switch (buttonIndex){
-        //new
-        case 0:
-            /*
-            */
-            break;
-        // sign in    
-        case 1:
-            break;
     }
 }
 

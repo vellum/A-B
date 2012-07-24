@@ -5,7 +5,7 @@
 //  Created by David Lu on 7/17/12.
 //  Copyright (c) 2012 NerdGypsy. All rights reserved.
 //
-//#import <QuartzCore/QuartzCore.h>
+
 #import "VLMFeedTableViewController.h"
 #import "VLMConstants.h"
 #import "AppDelegate.h"
@@ -22,39 +22,27 @@
 -(id) initWithHeader:(VLMFeedHeaderController *) headerController {
     self = [super initWithStyle:UITableViewStylePlain];
     if ( headerController ) {
-        // keep a reference here
         self.headerViewController = headerController;
-        //self.view.layer.cornerRadius = 5;
-        
     }
     return self;
 }
 
 - (void)viewDidLoad {
-    [self.view setAutoresizesSubviews:NO];
-    
-    // window dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
-    [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
-    
-    /*
-    CGRect cr = ([UIApplication sharedApplication].statusBarHidden) ? CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT) : CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT - STATUSBAR_HEIGHT);
-    */
     CGFloat footerh = (![PFUser currentUser]) ? FOOTER_HEIGHT : 0;
     CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh-FOOTER_HEIGHT-footerh);
-    
-    self.contentRect = cr;
-    self.contentOffsetY = HEADER_HEIGHT;
-    
-    // size the view and its subviews
-    [self.view setFrame: CGRectOffset(self.contentRect, 0.0f, self.contentOffsetY)];
-    UITableView *tv = (UITableView *)self.view;
-    //tv.sectionHeaderHeight = SECTION_HEADER_HEIGHT;
-    tv.separatorStyle = UITableViewCellSeparatorStyleNone;
-    // set delegate (this may happen by default?)
-    [tv setDelegate:self];
 
+    [self setContentRect:cr];
+    [self setContentOffsetY:HEADER_HEIGHT];
+
+    [self.view setAutoresizesSubviews:NO];
+    [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
+    [self.view setFrame: CGRectOffset(self.contentRect, 0.0f, self.contentOffsetY)];
+    
+    UITableView *tv = (UITableView *)self.view;
+    [tv setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [tv setDelegate:self];
 }
 
 #pragma mark -
@@ -93,7 +81,6 @@
     CGFloat h = expectedLabelSize.height + 39.0f;
     if ( h < 47.0f ) h = 47.0f;
     return h;
-     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -101,7 +88,6 @@
     NSInteger rownum = [indexPath row];
     NSInteger sectionnum = [indexPath section];
 
-    
     // for the very first row in the very first section, compute a dynamic height depending
     // on the scroll position
     if ( sectionnum == 0 && rownum == 0 ) {
@@ -131,45 +117,25 @@
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
 	}
+
     if ( indexPath.section == 0 && indexPath.row == 0 ){
         cell.contentView.hidden = YES;
     } else {
         cell.contentView.hidden = NO;
     }
-    /*
-	// Set up the cell.
-    NSString *s = [NSString stringWithFormat:@"%d", [indexPath section]];
-    if ( indexPath.section == 0 && indexPath.row == 0 ){
-        cell.textLabel.text = @"";
-    } else {
-        cell.textLabel.text = s;
-    }
-     */
-    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    
-    // we're doing some gesture recco in the parent view, so
-    // ignore interactions here at this level
-    //cell.userInteractionEnabled = YES;
 	return cell;
 }
 
-// props
-// http://stackoverflow.com/questions/1349571/how-to-customize-tableview-section-view-iphone
+            // for reference:
+            // http://stackoverflow.com/questions/1349571/how-to-customize-tableview-section-view-iphone
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
-//    if ( section == 0 ) return [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, 0)];
-
     VLMSectionView *customview = [[VLMSectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, winw, 60.0f) andUserName:@"erdogan apparat" andQuestion:LOREM_IPSUM];
-
     return customview;
 }
 
-/*
- To conform to Human Interface Guildelines, since selecting a row would have no effect (such as navigation), make sure that rows cannot be selected.
- */
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	return nil;
 }
@@ -201,7 +167,6 @@
         CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
         CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
 
-        //[self.view setFrame: CGRectOffset(self.contentRect, 0.0f, tvOffsetY)];
         CGFloat footerh = (![PFUser currentUser]) ? FOOTER_HEIGHT : 0;
         [self.view setFrame: CGRectMake(0, tvOffsetY, winw, winh-tvOffsetY-STATUSBAR_HEIGHT - footerh)];
 
@@ -229,6 +194,7 @@
         
         // restore the previous animation state
         [UIView setAnimationsEnabled:animationsEnabled];
+
         /*
         //NSLog(@"%f", tvOffsetY);
         if ( lookupY < HEADER_HEIGHT / 2 )

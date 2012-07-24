@@ -58,12 +58,6 @@
     [self.view addSubview:hc.view];
     [self.view addSubview:fvc.view];
     
-    //UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, winw, 20)];
-    //clearbutton.showsTouchWhenHighlighted = YES;
-    
-    //[self.view addSubview:clearbutton];
-    //[clearbutton addTarget:self action:@selector(clearbuttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
      // - - - - - - G E S T U R E - - - - - -
      
      // set up a pan gesture recognizer to distinguish horizontal pans from vertical ones
@@ -82,11 +76,6 @@
     
     // the default recognized state is unknown
     self.recognizedPanDirection = FUCKING_UNKNOWN;
-}
-
--(void) clearbuttonTapped:(id)sender{
-    UITableView *tv = (UITableView *)self.tableViewController.view;
-    [tv setContentOffset:CGPointZero animated:YES];
 }
 
 // lightweight analysis on detected pan gestures
@@ -180,9 +169,6 @@
             NSIndexPath *path = [tv indexPathForRowAtPoint:location];
             UITableViewCell *cell  = [tv cellForRowAtIndexPath:path];
             self.selectedCell = cell;
-            if ( cell != nil ){
-                //[(VLMCell *) cell recordRectState];
-            }
             //NSLog(@"recognized horizontal pan");
         }
     }
@@ -199,7 +185,6 @@
             [c translateByX:delta.x withVelocity:velocity.x];
             
         }
-        // do something to the selected row based on the pan data
         //NSLog( @"dx:%f", delta.x );
         
     }
