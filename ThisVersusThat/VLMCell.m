@@ -75,6 +75,7 @@
     CGFloat val = self.containerView.frame.origin.x;
     CGFloat delta = self.containerView.frame.origin.x - self.originalOffsetX;
     CGFloat duration = 0.5;
+    UIViewAnimationCurve curve = UIViewAnimationOptionCurveEaseInOut;
     if ( val >= 0 ) {
 
         self.originalOffsetX = 0;
@@ -83,15 +84,22 @@
         
         self.originalOffsetX = -270;
         
-    } else if (fabsf(self.velocity) > 5 ){
-        duration = 120/fabsf(self.velocity);
+    } else if (fabsf(self.velocity) > 10 ){
+        duration = 140/fabsf(self.velocity);
         if ( duration < 0.3 ) duration = 0.3;
         if ( duration > 1 ) duration = 1;
+        /*
         if ( delta < 0 ) {
             self.originalOffsetX = -270;
         }
         else if ( delta > 0 ) {
             self.originalOffsetX = 0;
+        }
+         */
+        if ( self.velocity < 0 ){
+            self.originalOffsetX = -270;
+        }else {
+            self.originalOffsetX = 0;            
         }
     } else {
         if  (fabsf(delta) < 266/2) {
@@ -105,10 +113,9 @@
             }
         }
     }
-        
     [UIView animateWithDuration:duration
             delay:0 
-            options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
+            options:curve|UIViewAnimationOptionBeginFromCurrentState
             animations:^{
                 self.containerView.frame = CGRectOffset(self.originalRect, self.originalOffsetX, 0.0f);
             }

@@ -9,7 +9,7 @@
 #import "VLMFeedHeaderController.h"
 #import "VLMConstants.h"
 #import "VLMTextButton.h"
-
+#import <QuartzCore/QuartzCore.h>
 @interface VLMFeedHeaderController ()
 
 @end
@@ -35,15 +35,20 @@
     
     // dimensions
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
-    CGRect contentrect = CGRectMake(0.0f, 0.0f, winw, HEADER_HEIGHT);
+    CGRect contentrect = CGRectMake(0.0f, 0.0f, winw, HEADER_HEIGHT+HEADER_CORNER_RADIUS);
     self.rect = contentrect;
     self.offsetY = 0.0f;
     //[[self view] setFrame:contentrect];
     [[self view] setFrame:CGRectOffset(self.rect, 0.0f, self.offsetY)];
     
     // set background
-    [[self view] setBackgroundColor:HEAD_BACKGROUND];
+    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"skewed_print.png"]]];
     
+    
+    [self view].layer.cornerRadius = HEADER_CORNER_RADIUS;
+    [self view].layer.masksToBounds = YES;
+
+    //self.view.layer.cornerRadius = 5.0;
 
     /*
      CGFloat buttonwidth = 75.0f;

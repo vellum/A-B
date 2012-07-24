@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "VLMSectionView.h"
 #import "VLMCell.h"
+#import "Parse/Parse.h"
 
 @implementation VLMFeedTableViewController
 
@@ -18,7 +19,7 @@
 @synthesize contentRect;
 @synthesize contentOffsetY;
 
--(id) initWithHeader:(VLMFeedHeaderController *) headerController; {
+-(id) initWithHeader:(VLMFeedHeaderController *) headerController {
     self = [super initWithStyle:UITableViewStylePlain];
     if ( headerController ) {
         // keep a reference here
@@ -30,6 +31,7 @@
 }
 
 - (void)viewDidLoad {
+    [self.view setAutoresizesSubviews:NO];
     
     // window dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
@@ -38,7 +40,8 @@
     /*
     CGRect cr = ([UIApplication sharedApplication].statusBarHidden) ? CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT) : CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT - STATUSBAR_HEIGHT);
     */
-    CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh-FOOTER_HEIGHT);
+    CGFloat footerh = (![PFUser currentUser]) ? FOOTER_HEIGHT : 0;
+    CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh-FOOTER_HEIGHT-footerh);
     
     self.contentRect = cr;
     self.contentOffsetY = HEADER_HEIGHT;
@@ -86,7 +89,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
 
     NSString *text = LOREM_IPSUM;
-     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:TYPEWRITER size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
+     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:GEORGIA size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
     CGFloat h = expectedLabelSize.height + 39.0f;
     if ( h < 47.0f ) h = 47.0f;
     return h;
@@ -199,7 +202,8 @@
         CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
 
         //[self.view setFrame: CGRectOffset(self.contentRect, 0.0f, tvOffsetY)];
-        [self.view setFrame: CGRectMake(0, tvOffsetY, winw, winh-tvOffsetY-STATUSBAR_HEIGHT)];
+        CGFloat footerh = (![PFUser currentUser]) ? FOOTER_HEIGHT : 0;
+        [self.view setFrame: CGRectMake(0, tvOffsetY, winw, winh-tvOffsetY-STATUSBAR_HEIGHT - footerh)];
 
         // cast scrollview to a tableview
         UITableView *tv = (UITableView *)scrollView;
@@ -242,6 +246,11 @@
          */
     }
 }
-
+-(void)updatelayout{
+    CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
+    CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat y = self.view.frame.origin.y;
+    [self.view setFrame: CGRectMake(0, y, winw, winh-y-STATUSBAR_HEIGHT)];
+}
 
 @end

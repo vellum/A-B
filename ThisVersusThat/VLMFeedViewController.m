@@ -35,11 +35,12 @@
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
+    [self.view setAutoresizesSubviews:NO];
     
     // window dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
-    CGRect cr = ([UIApplication sharedApplication].statusBarHidden) ? CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT) : CGRectMake(0.0f, STATUSBAR_HEIGHT, winw, winh - FOOTER_HEIGHT - STATUSBAR_HEIGHT);
+    CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh - FOOTER_HEIGHT - STATUSBAR_HEIGHT);
     [self.view setFrame:cr];
     
     // - - - - - C O N T R O L L E R S - - - - - 
@@ -53,8 +54,8 @@
     self.tableViewController = fvc;
     
     // add child views
-    [self.view addSubview:fvc.view];
     [self.view addSubview:hc.view];
+    [self.view addSubview:fvc.view];
     
     //UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, winw, 20)];
     //clearbutton.showsTouchWhenHighlighted = YES;
@@ -226,4 +227,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(void)updatelayout{
+    [self.tableViewController updatelayout];
+}
 @end

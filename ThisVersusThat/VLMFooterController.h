@@ -8,11 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VLMFooterController : UIViewController {
+@class VLMMainViewController;
+
+@interface VLMFooterController : UIViewController<UIActionSheetDelegate> {
     UIButton *feedbutton;
     UIButton *addbutton;
+    VLMMainViewController *mainviewcontroller;
 }
+
 @property (strong, nonatomic) UIButton *feedbutton;
 @property (strong, nonatomic) UIButton *addbutton;
+@property (strong, nonatomic) VLMMainViewController *mainviewcontroller;
+
+- (id)initWithMainViewController:(VLMMainViewController *)viewcontroller;
 - (UIButton*)makeTextButtonWithFrame:(CGRect)frame andTypeSize:(CGFloat)typesize;
+-(void) buttonTapped:(id)sender;
 @end

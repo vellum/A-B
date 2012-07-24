@@ -32,6 +32,10 @@
 		BD4D508715BDE19D007D6E3A /* VLMFooterController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507615BDE19C007D6E3A /* VLMFooterController.m */; };
 		BD4D508815BDE19D007D6E3A /* VLMSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507815BDE19C007D6E3A /* VLMSectionView.m */; };
 		BD4D508915BDE19D007D6E3A /* VLMTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */; };
+		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
+		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
+		BD90FFF215BE7B6D004621E8 /* subtlenet2.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF115BE7B6D004621E8 /* subtlenet2.png */; };
+		BD90FFF815BE80D3004621E8 /* skewed_print.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF715BE80D3004621E8 /* skewed_print.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +76,12 @@
 		BD4D507815BDE19C007D6E3A /* VLMSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMSectionView.m; sourceTree = "<group>"; };
 		BD4D507915BDE19C007D6E3A /* VLMTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTextButton.h; sourceTree = "<group>"; };
 		BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMTextButton.m; sourceTree = "<group>"; };
+		BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMMainViewController.h; sourceTree = "<group>"; };
+		BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMMainViewController.m; sourceTree = "<group>"; };
+		BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddButtonController.h; sourceTree = "<group>"; };
+		BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddButtonController.m; sourceTree = "<group>"; };
+		BD90FFF115BE7B6D004621E8 /* subtlenet2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subtlenet2.png; sourceTree = "<group>"; };
+		BD90FFF715BE80D3004621E8 /* skewed_print.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skewed_print.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +159,8 @@
 		BD4D506715BDE19C007D6E3A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BD90FFF715BE80D3004621E8 /* skewed_print.png */,
+				BD90FFF115BE7B6D004621E8 /* subtlenet2.png */,
 				BD4D506815BDE19C007D6E3A /* column-grid-white_gray@1x.png */,
 				BD4D506915BDE19C007D6E3A /* txture.png */,
 			);
@@ -158,25 +170,45 @@
 		BD4D508A15BDE2BF007D6E3A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BD4D506E15BDE19C007D6E3A /* VLMConstants.h */,
 				BD4D505F15BDE19C007D6E3A /* AppDelegate.h */,
 				BD4D506015BDE19C007D6E3A /* AppDelegate.m */,
-				BD4D506C15BDE19C007D6E3A /* VLMCell.h */,
-				BD4D506D15BDE19C007D6E3A /* VLMCell.m */,
-				BD4D506E15BDE19C007D6E3A /* VLMConstants.h */,
-				BD4D506F15BDE19C007D6E3A /* VLMFeedHeaderController.h */,
-				BD4D507015BDE19C007D6E3A /* VLMFeedHeaderController.m */,
-				BD4D507115BDE19C007D6E3A /* VLMFeedTableViewController.h */,
-				BD4D507215BDE19C007D6E3A /* VLMFeedTableViewController.m */,
-				BD4D507315BDE19C007D6E3A /* VLMFeedViewController.h */,
-				BD4D507415BDE19C007D6E3A /* VLMFeedViewController.m */,
-				BD4D507515BDE19C007D6E3A /* VLMFooterController.h */,
-				BD4D507615BDE19C007D6E3A /* VLMFooterController.m */,
-				BD4D507715BDE19C007D6E3A /* VLMSectionView.h */,
-				BD4D507815BDE19C007D6E3A /* VLMSectionView.m */,
+				BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */,
+				BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */,
+				BD72B83B15BE3FFB0083CD4E /* ViewControllers */,
 				BD4D507915BDE19C007D6E3A /* VLMTextButton.h */,
 				BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */,
+				BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */,
+				BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		BD72B83B15BE3FFB0083CD4E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				BD4D507315BDE19C007D6E3A /* VLMFeedViewController.h */,
+				BD4D507415BDE19C007D6E3A /* VLMFeedViewController.m */,
+				BD4D506F15BDE19C007D6E3A /* VLMFeedHeaderController.h */,
+				BD4D507015BDE19C007D6E3A /* VLMFeedHeaderController.m */,
+				BD4D507515BDE19C007D6E3A /* VLMFooterController.h */,
+				BD4D507615BDE19C007D6E3A /* VLMFooterController.m */,
+				BD72B83C15BE401F0083CD4E /* TableView */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		BD72B83C15BE401F0083CD4E /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				BD4D507115BDE19C007D6E3A /* VLMFeedTableViewController.h */,
+				BD4D507215BDE19C007D6E3A /* VLMFeedTableViewController.m */,
+				BD4D507715BDE19C007D6E3A /* VLMSectionView.h */,
+				BD4D507815BDE19C007D6E3A /* VLMSectionView.m */,
+				BD4D506C15BDE19C007D6E3A /* VLMCell.h */,
+				BD4D506D15BDE19C007D6E3A /* VLMCell.m */,
+			);
+			name = TableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +266,8 @@
 				BD4D507E15BDE19D007D6E3A /* Entitlements.plist in Resources */,
 				BD4D508015BDE19D007D6E3A /* column-grid-white_gray@1x.png in Resources */,
 				BD4D508115BDE19D007D6E3A /* txture.png in Resources */,
+				BD90FFF215BE7B6D004621E8 /* subtlenet2.png in Resources */,
+				BD90FFF815BE80D3004621E8 /* skewed_print.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +287,8 @@
 				BD4D508715BDE19D007D6E3A /* VLMFooterController.m in Sources */,
 				BD4D508815BDE19D007D6E3A /* VLMSectionView.m in Sources */,
 				BD4D508915BDE19D007D6E3A /* VLMTextButton.m in Sources */,
+				BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */,
+				BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

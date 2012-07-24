@@ -14,12 +14,13 @@
     VLMFeedHeaderController *headerViewController;
     VLMFeedTableViewController *tableViewController;
     NSInteger recognizedPanDirection;
-    UITableViewCell *selectedCell;
+    UITableViewCell *__unsafe_unretained selectedCell;
 }
 
 @property (strong, nonatomic) VLMFeedHeaderController *headerViewController;
 @property (strong, nonatomic) VLMFeedTableViewController *tableViewController;
 @property (nonatomic) NSInteger recognizedPanDirection;
-@property (nonatomic) UITableViewCell *selectedCell;
+@property (unsafe_unretained, nonatomic) UITableViewCell *selectedCell;
 
+-(void)updatelayout;
 @end

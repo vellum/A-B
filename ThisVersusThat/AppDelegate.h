@@ -1,18 +1,15 @@
 // Copyright 2011 Ping Labs, Inc. All rights reserved.
 
 #import <UIKit/UIKit.h>
-
-@class VLMFooterController;
-@class VLMFeedViewController;
+#import "Parse/Parse.h"
+@class VLMMainViewController;
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
-    VLMFeedViewController *feedViewController;
-    VLMFooterController *footerViewController;
+    VLMMainViewController *mainViewController;
 }
 
-@property (nonatomic) IBOutlet UIWindow *window;
-@property (strong, nonatomic) VLMFeedViewController *feedViewController;
-@property (strong, nonatomic) VLMFooterController *footerViewController;
+@property (strong, nonatomic) IBOutlet UIWindow *window;
+@property (strong, nonatomic) VLMMainViewController *mainViewController;
 
 - (void)subscribeFinished:(NSNumber *)result error:(NSError *)error;
 

@@ -20,5 +20,5 @@
 @property (strong, nonatomic) VLMFeedHeaderController *headerViewController;
 @property (nonatomic) CGRect contentRect;
 @property (nonatomic) CGFloat contentOffsetY;
-
+-(void)updatelayout;
 @end

@@ -6,52 +6,49 @@
 //  Copyright (c) 2012 NerdGypsy. All rights reserved.
 //
 
-#import "Parse/Parse.h"
 #import "AppDelegate.h"
-#import "VLMFeedViewController.h"
-#import "VLMFooterController.h"
+#import "VLMConstants.h"
+#import "VLMMainViewController.h"
 
 @implementation AppDelegate
 
-
 @synthesize window=_window;
-@synthesize footerViewController;
-@synthesize feedViewController;
+@synthesize mainViewController;
 
+#pragma mark -
+#pragma mark Setup
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     // ****************************************************************************
     // Uncomment and fill in with your Parse credentials:
-    // [Parse setApplicationId:@"your_application_id" clientKey:@"your_client_key"];
-    //
+    [Parse setApplicationId:PARSE_APP_ID clientKey:PARSE_CLIENT_KEY];
+    
     // If you are using Facebook, uncomment and fill in with your Facebook App Id:
-    // [PFFacebookUtils initializeWithApplicationId:@"your_facebook_app_id"];
+    [PFFacebookUtils initializeWithApplicationId:FACEBOOK_APP_ID];
     // ****************************************************************************
     
-    [PFUser enableAutomaticUser];
+    //[PFUser enableAutomaticUser];
     PFACL *defaultACL = [PFACL ACL];
+
     // Optionally enable public read access by default.
-    // [defaultACL setPublicReadAccess:YES];
-    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+    [defaultACL setPublicReadAccess:YES];
+    //[PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
     
     // Override point for customization after application launch.
-    // feed view controller
-	VLMFeedViewController *fvc = [[VLMFeedViewController alloc] init];
-	
-	// hold on to a reference
-    self.feedViewController = fvc;
+    if ([PFUser currentUser]){
+        [PFUser logOut];
+    }
     
-    // bottom bar
-    //self.footerViewController = [[VLMFooterController alloc] init];
     
 	// Configure and display the window.
-    self.window.backgroundColor = [UIColor whiteColor];//BACKGROUND_COLOR;
+    self.window.backgroundColor = [UIColor blackColor];//BACKGROUND_COLOR;
     
-    // add children
-    [self.window addSubview:[self.feedViewController view]];
-	//[self.window addSubview:[self.footerViewController view]];
-    
+    VLMMainViewController *mvc = [[VLMMainViewController alloc] init];
+    [self.window addSubview:mvc.view];
+    self.mainViewController = mvc;
+
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
     //self.window.rootViewController = self.viewController;
@@ -63,8 +60,9 @@
     return YES;
 }
 
-/*
- 
+#pragma mark -
+#pragma mark Facebook
+
 ///////////////////////////////////////////////////////////
 // Uncomment these two methods if you are using Facebook
 ///////////////////////////////////////////////////////////
@@ -80,7 +78,9 @@
     return [PFFacebookUtils handleOpenURL:url];
 } 
  
-*/
+
+#pragma mark -
+#pragma mark Boilerplate
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
@@ -139,6 +139,9 @@
      See also applicationDidEnterBackground:.
      */
 }
+
+#pragma mark -
+#pragma mark Parse Notifications
 
 - (void)subscribeFinished:(NSNumber *)result error:(NSError *)error {
     if ([result boolValue]) {
