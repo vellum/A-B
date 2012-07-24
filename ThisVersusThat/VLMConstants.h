@@ -36,7 +36,7 @@
 
 #define HEADER_CORNER_RADIUS 0.0f
 #define STATUSBAR_HEIGHT 20.0f
-#define HEADER_HEIGHT 60.0f
+#define HEADER_HEIGHT 70.0f
 #define FOOTER_HEIGHT 50.0f
 #define SECTION_HEADER_HEIGHT 80.0f
 
@@ -45,14 +45,15 @@
 #pragma mark -
 #pragma mark Colors
 
+#define DEBUG_BACKGROUND_GRID [UIColor colorWithPatternImage:[UIImage imageNamed:@"column-grid-white_gray@1x.png"]]
 #define WINDOW_BGCOLOR [UIColor blackColor]
 #define MAIN_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_VIEW_BGCOLOR [UIColor clearColor]
-#define FEED_HEADER_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"skewed_print.png"]]
-#define FOOTER_BGCOLOR [UIColor colorWithWhite:0.95 alpha:1.0]
+#define FEED_HEADER_BGCOLOR [UIColor colorWithWhite:0.0f alpha:1.0f]
+#define FOOTER_BGCOLOR [UIColor colorWithWhite:0.8f alpha:1.0f]
 #define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
 
-#define TEXT_COLOR [UIColor colorWithHue:0.87f saturation:0 brightness:0.12 alpha:1.0]
+#define TEXT_COLOR [UIColor colorWithHue:0.87f saturation:0.0f brightness:0.12f alpha:1.0f]
 #define FOOTER_TEXT_COLOR [UIColor colorWithWhite:0.2f alpha:1.0f]
 #define DISABLED_TEXT_COLOR [UIColor colorWithWhite:0.1f alpha:0.25f]
 

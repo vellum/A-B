@@ -42,15 +42,22 @@
     [self.view setFrame:CGRectOffset(self.rect, 0.0f, self.offsetY)];
     [self.view.layer setCornerRadius:HEADER_CORNER_RADIUS];
     [self.view.layer setMasksToBounds:YES];
+    
+    /*
+    UIButton *t = [self makeTextButtonWithFrame:CGRectMake(winw/2-75.0f, 0, 150.0f, HEADER_HEIGHT)];
+    [t setTitle:@"{ this versus that }" forState:UIControlStateNormal];
+    [t setTitleShadowColor:[UIColor colorWithWhite:0.1f alpha:1.0f] forState:UIControlStateNormal];
+    [self.view addSubview: t];
+     */
 }
 
 
 - (UIButton*)makeTextButtonWithFrame:(CGRect)frame
 {
     UIButton *fb = [[UIButton alloc] initWithFrame:frame];
-    [fb.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:14.0f]];
-    [fb setTitleColor:TEXT_COLOR forState:UIControlStateNormal];
-    [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
+    [fb.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:16.0f]];
+    [fb setTitleColor:[UIColor colorWithWhite:0.2f alpha:1.0f] forState:UIControlStateNormal];
+    //[fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     [fb setShowsTouchWhenHighlighted:YES];
     return fb;
 }

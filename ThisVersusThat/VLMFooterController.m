@@ -51,12 +51,14 @@
     [self.view setAutoresizesSubviews:NO];
     [self.view setBackgroundColor:FOOTER_BGCOLOR];
     [self.view setFrame:contentrect];
+    /*
     [self.view.layer setShadowRadius:1.0f];
     [self.view.layer setShadowOpacity:0.05f];
+    */
     
     // add button
     UIButton *ab = [self makeTextButtonWithFrame:CGRectMake(winw/2-50.0f, 0.0f, 100.0f, FOOTER_HEIGHT) andTypeSize:14.0f];
-    [ab setTitle:@"Continue" forState:UIControlStateNormal];
+    [ab setTitle:@"Sign In" forState:UIControlStateNormal];
     [ab setShowsTouchWhenHighlighted:YES];
     CGRect r = ab.titleLabel.frame;
     ab.titleLabel.frame = r;
