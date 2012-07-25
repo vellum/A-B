@@ -36,7 +36,7 @@
 
 #define HEADER_CORNER_RADIUS 0.0f
 #define STATUSBAR_HEIGHT 20.0f
-#define HEADER_HEIGHT 70.0f
+#define HEADER_HEIGHT 44.0f
 #define FOOTER_HEIGHT 50.0f
 #define SECTION_HEADER_HEIGHT 80.0f
 
@@ -64,9 +64,10 @@
 
 #define SECTION_FONT_BOLD @"Helvetica-Bold"
 #define SECTION_FONT_REGULAR @"Georgia-Italic"
-#define FOOTER_FONT @"Georgia-Italic"
+#define FOOTER_FONT @"Helvetica-Bold"
 #define HEADER_TITLE_FONT @"Helvetica-Bold"
 #define TEXTBUTTON_FONT @"Georgia-Italic"
+#define NAVIGATION_HEADER @"Georgia-Italic"
 
 //#define HELVETICA @"Helvetica-Bold"
 //#define TYPEWRITER @"AmericanTypewriter"

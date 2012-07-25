@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VLMMainViewController.h"
 
-@interface VLMAddButtonController : UIViewController
+@interface VLMAddButtonController : UIViewController{
+    UIButton *button;
+    VLMMainViewController *mvc;
+}
+
+@property (strong, nonatomic) UIButton *button;
+@property (strong, nonatomic) VLMMainViewController *mvc;
+
+- (id)initWithParentController:(VLMMainViewController *)controller;
 
 @end

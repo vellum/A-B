@@ -42,12 +42,14 @@
     }
     
     
+    [self establishAppearanceDefaults];
+       
 	// Configure and display the window.
-    self.window.backgroundColor = WINDOW_BGCOLOR;
+    [self.window setBackgroundColor: WINDOW_BGCOLOR];
     
     VLMMainViewController *mvc = [[VLMMainViewController alloc] init];
     [self.window addSubview:mvc.view];
-    self.mainViewController = mvc;
+    [self setMainViewController:mvc];
 
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
@@ -60,6 +62,41 @@
                                                     UIRemoteNotificationTypeSound];
     */
     return YES;
+}
+
+#pragma mark - 
+#pragma mark appearance
+
+- (void)establishAppearanceDefaults{
+    // appearance api
+    UIImage * custombgd = [UIImage imageNamed:@"customheaderbackground.png"];
+    [[UINavigationBar appearance] setBackgroundImage:custombgd forBarMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
+      [UIColor clearColor], UITextAttributeTextShadowColor, 
+      [UIFont fontWithName:NAVIGATION_HEADER size:14.0f], UITextAttributeFont, 
+      nil
+      ]
+     ];
+    
+    [[UIBarButtonItem appearance] setBackgroundImage:custombgd 
+                                            forState:UIControlStateNormal
+                                          barMetrics:UIBarMetricsDefault]; 
+    [[UIBarButtonItem appearance] setBackgroundImage:custombgd 
+                                            forState:UIControlStateSelected
+                                          barMetrics:UIBarMetricsDefault]; 
+    
+    [[UIBarButtonItem appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
+      [UIColor clearColor], UITextAttributeTextShadowColor, 
+      nil
+      ]
+                                                forState:UIControlStateNormal
+     ];
+
 }
 
 #pragma mark -

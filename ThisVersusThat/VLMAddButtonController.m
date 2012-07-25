@@ -14,11 +14,22 @@
 
 @implementation VLMAddButtonController
 
+@synthesize button;
+@synthesize mvc;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+    }
+    return self;
+}
+
+- (id)initWithParentController:(VLMMainViewController *)controller{
+    self = [super init];
+    if ( self ){
+        self.mvc = controller;
     }
     return self;
 }
@@ -50,10 +61,19 @@
     [fb setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     [fb setShowsTouchWhenHighlighted:YES];
+    [self setButton:fb];
+
 
     [self.view setFrame:CGRectMake(MARGIN_LEFT, winh-BUTTON_HEIGHT-STATUSBAR_HEIGHT-MARGIN_BOTTOM, BUTTON_WIDTH, BUTTON_HEIGHT)];
     [self.view addSubview:circle];
     [self.view addSubview:fb];
+
+    [self.button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+}
+
+-(void) buttonTapped:(id)sender{
+    [self.mvc presentAdd];
 }
 
 - (void)viewDidUnload

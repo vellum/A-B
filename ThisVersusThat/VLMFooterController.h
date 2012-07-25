@@ -22,5 +22,5 @@
 
 - (id)initWithMainViewController:(VLMMainViewController *)viewcontroller;
 - (UIButton*)makeTextButtonWithFrame:(CGRect)frame andTypeSize:(CGFloat)typesize;
--(void) buttonTapped:(id)sender;
+- (void)buttonTapped:(id)sender;
 @end

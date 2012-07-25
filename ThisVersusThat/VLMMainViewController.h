@@ -11,16 +11,21 @@
 
 @class VLMFooterController;
 @class VLMFeedViewController;
+@class VLMAddButtonController;
 
 @interface VLMMainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>{
     VLMFeedViewController *feedViewController;
     VLMFooterController *footerViewController;
+    VLMAddButtonController *addButtonController;
 }
 
 @property (strong, nonatomic) VLMFeedViewController *feedViewController;
 @property (strong, nonatomic) VLMFooterController *footerViewController;
+@property (strong, nonatomic) VLMAddButtonController *addButtonController;
 
 - (void)presentLogin;
 - (void)presentSignUp;
 - (void)showLoggedInState;
+- (void)presentAdd;
+
 @end

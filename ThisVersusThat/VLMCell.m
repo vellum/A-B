@@ -75,7 +75,7 @@
     CGFloat val = self.containerView.frame.origin.x;
     CGFloat delta = self.containerView.frame.origin.x - self.originalOffsetX;
     CGFloat duration = 0.5;
-    UIViewAnimationCurve curve = UIViewAnimationOptionCurveEaseInOut;
+    UIViewAnimationCurve curve = UIViewAnimationOptionCurveEaseOut;
     if ( val >= 0 ) {
 
         self.originalOffsetX = 0;
