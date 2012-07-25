@@ -78,8 +78,20 @@
 
     NSString *text = LOREM_IPSUM;
      CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:SECTION_FONT_REGULAR size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
-    CGFloat h = expectedLabelSize.height + 39.0f;
-    if ( h < 47.0f ) h = 47.0f;
+    CGFloat h = expectedLabelSize.height + 37.0f;
+
+    // 1 line details
+    if ( h < 47.0f ) return 47.0f;   
+    
+    // 4 line
+    if ( h > 14*7 ) return 14*7.5;
+    
+    // 3 line
+    if ( h > 14*6 ) return 14*6.5;
+    
+    // 2 line
+    if ( h > 14*4 ) return 14*5;
+    
     return h;
 }
 

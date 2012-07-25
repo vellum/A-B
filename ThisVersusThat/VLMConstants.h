@@ -57,6 +57,7 @@
 #define FOOTER_BGCOLOR [UIColor colorWithWhite:0.8f alpha:1.0f]
 #define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
 //#define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"column-grid-white_gray@1x.png"]]
+#define FEED_SECTION_HEADER_BGCOLOR [UIColor whiteColor]
 
 #define TEXT_COLOR [UIColor colorWithHue:0.87f saturation:0.0f brightness:0.12f alpha:1.0f]
 #define FOOTER_TEXT_COLOR [UIColor colorWithWhite:0.2f alpha:1.0f]
@@ -84,15 +85,18 @@
 #pragma mark -
 #pragma mark Lorem Ipsum
 
+// 4 line
+#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester put a bird on it VHS banksy jean shorts yr cliche. .........."
+
 // 3 line
-//#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester put a bird on it VHS banksy jean shorts yr cliche. .........."
+//#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester put a bird on it VHS banksy "
 
 // 2 line
 //#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester"
 
 // 1 line
 //#define LOREM_IPSUM @"American apparel squid tumblr"
-#define LOREM_IPSUM @"Which couch should I buy?"
+//#define LOREM_IPSUM @"Which couch should I buy?"
 
 #endif
 
