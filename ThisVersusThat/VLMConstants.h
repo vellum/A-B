@@ -68,11 +68,12 @@
 #pragma mark Typefaces
 
 #define SECTION_FONT_BOLD @"Helvetica-Bold"
-#define SECTION_FONT_REGULAR @"Georgia-Italic"
+#define SECTION_FONT_REGULAR @"AmericanTypewriter"
 #define FOOTER_FONT @"Helvetica-Bold"
 #define HEADER_TITLE_FONT @"Helvetica-Bold"
 #define TEXTBUTTON_FONT @"Georgia-Italic"
 #define NAVIGATION_HEADER @"Georgia-Italic"
+#define PHOTO_LABEL @"AmericanTypewriter"
 
 //#define HELVETICA @"Helvetica-Bold"
 //#define TYPEWRITER @"AmericanTypewriter"

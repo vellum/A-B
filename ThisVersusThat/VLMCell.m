@@ -7,6 +7,7 @@
 //
 
 #import "VLMCell.h"
+#import "VLMConstants.h"
 #import <QuartzCore/QuartzCore.h>
 @implementation VLMCell
 
@@ -44,22 +45,24 @@
         [leftBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
         [left addSubview:leftBar];
         
-        UILabel *leftLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 28)];
-        [leftLabelsmall setTextAlignment:UITextAlignmentRight];
-        [leftLabelsmall setFont:[UIFont fontWithName:@"Georgia-Italic" size:14.0f]];
+        UILabel *leftLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14, 266-30, 266-28)];
+        [leftLabelsmall setTextAlignment:UITextAlignmentCenter];
+        [leftLabelsmall setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
         [leftLabelsmall setBackgroundColor:[UIColor clearColor]];
         [leftLabelsmall setTextColor:[UIColor whiteColor]];
-        [leftLabelsmall setText:@"Jennifer Brook"];
+        [leftLabelsmall setNumberOfLines:0];
+        [leftLabelsmall setText:@"Jennifer Brook\n\n14 votes"];
         [left addSubview:leftLabelsmall];
 
+        /*
         UILabel *leftLabellarge = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 100)];
-        [leftLabellarge setTextAlignment:UITextAlignmentRight];
-        [leftLabellarge setFont:[UIFont fontWithName:@"Georgia-Italic" size:48.0f]];
+        [leftLabellarge setTextAlignment:UITextAlignmentCenter];
+        [leftLabellarge setFont:[UIFont fontWithName:@"Georgia-Italic" size:36.0f]];
         [leftLabellarge setBackgroundColor:[UIColor clearColor]];
         [leftLabellarge setTextColor:[UIColor whiteColor]];
         [leftLabellarge setText:@"25"];
         [left addSubview:leftLabellarge];
-
+         */
 
         UIView *right = [[UIView alloc] initWithFrame:CGRectMake(35 + 276, 14-5, 276, 276)];
         right.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
@@ -78,14 +81,16 @@
         [rightBar setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
         [right addSubview:rightBar];
 
-        UILabel *rightLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 28)];
-        [rightLabelsmall setTextAlignment:UITextAlignmentLeft];
-        [rightLabelsmall setFont:[UIFont fontWithName:@"Georgia-Italic" size:14.0f]];
+        UILabel *rightLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14, 266-30, 266-28)];
+        [rightLabelsmall setTextAlignment:UITextAlignmentCenter];
+        [rightLabelsmall setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
         [rightLabelsmall setBackgroundColor:[UIColor clearColor]];
         [rightLabelsmall setTextColor:[UIColor whiteColor]];
-        [rightLabelsmall setText:@"Veronica Mars"];
+        [rightLabelsmall setNumberOfLines:0];
+        [rightLabelsmall setText:@"Veronica Mars\n\n52 votes"];
         [right addSubview:rightLabelsmall];
         
+        /*
         UILabel *rightLabellarge = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 100)];
         [rightLabellarge setTextAlignment:UITextAlignmentLeft];
         [rightLabellarge setFont:[UIFont fontWithName:@"Georgia-Italic" size:48.0f]];
@@ -93,7 +98,7 @@
         [rightLabellarge setTextColor:[UIColor whiteColor]];
         [rightLabellarge setText:@"75"];
         [right addSubview:rightLabellarge];
-
+         */
         
         self.originalRect = self.containerView.frame;
         [self.contentView addSubview:self.containerView];
