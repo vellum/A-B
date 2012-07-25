@@ -2,6 +2,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
+
 @class VLMMainViewController;
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> {

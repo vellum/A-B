@@ -8,6 +8,9 @@
 
 #import "VLMAddViewController.h"
 #import "VLMConstants.h"
+#import "UINavigationBar+Fat.h"
+#import "UIBarButtonItem+Fat.h"
+
 
 @interface VLMAddViewController ()
 
@@ -30,6 +33,11 @@
     [self setTitle:@"Add Poll"];
 	[self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)]];
+
+    [self.navigationItem.leftBarButtonItem setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
+    /*
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, 1.5) forBarMetrics:UIControlStateNormal];
+     */
 }
 
 - (void)cancel:(id)sender{

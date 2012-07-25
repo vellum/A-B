@@ -18,5 +18,7 @@
 @property (strong, nonatomic) VLMMainViewController *mvc;
 
 - (id)initWithParentController:(VLMMainViewController *)controller;
+- (void)show;
+- (void)hide;
 
 @end

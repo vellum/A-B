@@ -36,9 +36,13 @@
 
 #define HEADER_CORNER_RADIUS 0.0f
 #define STATUSBAR_HEIGHT 20.0f
-#define HEADER_HEIGHT 44.0f
+#define HEADER_HEIGHT 60.0f
 #define FOOTER_HEIGHT 50.0f
 #define SECTION_HEADER_HEIGHT 80.0f
+
+#define HEADER_TITLE_VERTICAL_OFFSET -4.0f
+#define BAR_BUTTON_ITEM_VERTICAL_OFFSET -6.0f
+#define NAVIGATION_HEADER_TITLE_SIZE 15.0f
 
 
 
@@ -49,9 +53,10 @@
 #define WINDOW_BGCOLOR [UIColor blackColor]
 #define MAIN_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_VIEW_BGCOLOR [UIColor clearColor]
-#define FEED_HEADER_BGCOLOR [UIColor colorWithWhite:0.0f alpha:1.0f]
+#define FEED_HEADER_BGCOLOR [UIColor colorWithWhite:0.9f alpha:1.0f]
 #define FOOTER_BGCOLOR [UIColor colorWithWhite:0.8f alpha:1.0f]
 #define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
+//#define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"column-grid-white_gray@1x.png"]]
 
 #define TEXT_COLOR [UIColor colorWithHue:0.87f saturation:0.0f brightness:0.12f alpha:1.0f]
 #define FOOTER_TEXT_COLOR [UIColor colorWithWhite:0.2f alpha:1.0f]

@@ -41,24 +41,24 @@
     [self.view setAutoresizesSubviews:NO];
 
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
-    CGFloat BUTTON_WIDTH = 45;
-    CGFloat BUTTON_HEIGHT = 45;
-    CGFloat MARGIN_BOTTOM = 12;
-    CGFloat MARGIN_LEFT = 12;
+    CGFloat BUTTON_WIDTH = 50;
+    CGFloat BUTTON_HEIGHT = 50;
+    CGFloat MARGIN_BOTTOM = 6;
+    CGFloat MARGIN_LEFT = 6;
     
     CGRect circlerect = CGRectMake(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT);
     UIView *circle = [[UIView alloc] initWithFrame:circlerect];
-    [circle setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
+    [circle setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
     [circle.layer setCornerRadius:BUTTON_WIDTH/2];
     [circle.layer setMasksToBounds:NO];
     [circle.layer setShadowRadius:2.0f];
     [circle.layer setShadowOffset:CGSizeMake(0, 0)];
-    [circle.layer setShadowOpacity:0.5f];
+    [circle.layer setShadowOpacity:0.25f];
 
     UIButton *fb = [[UIButton alloc] initWithFrame:CGRectOffset(circlerect, 1.0, -1.0)];
     [fb.titleLabel setFont:[UIFont fontWithName:FOOTER_FONT size:24]];
     [fb setTitle:@"+" forState:UIControlStateNormal];
-    [fb setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+    [fb setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     [fb setShowsTouchWhenHighlighted:YES];
     [self setButton:fb];
@@ -69,11 +69,19 @@
     [self.view addSubview:fb];
 
     [self.button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
+    [self hide];
 }
 
 -(void) buttonTapped:(id)sender{
     [self.mvc presentAdd];
+}
+
+- (void)show{
+    [self.view setHidden:NO];
+}
+
+- (void)hide{
+    [self.view setHidden:YES];
 }
 
 - (void)viewDidUnload

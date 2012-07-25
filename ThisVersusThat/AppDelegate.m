@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "VLMConstants.h"
 #import "VLMMainViewController.h"
+#import "UINavigationBar+Fat.h"
+#import "UIBarButtonItem+Fat.h"
+
 
 @implementation AppDelegate
 
@@ -37,10 +40,11 @@
     //[PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
     
     // Override point for customization after application launch.
+    /*
     if ([PFUser currentUser]){
         [PFUser logOut];
     }
-    
+    */
     
     [self establishAppearanceDefaults];
        
@@ -69,14 +73,14 @@
 
 - (void)establishAppearanceDefaults{
     // appearance api
-    UIImage * custombgd = [UIImage imageNamed:@"customheaderbackground.png"];
+    UIImage * custombgd = [UIImage imageNamed:@"gray_header_background.png"];
     [[UINavigationBar appearance] setBackgroundImage:custombgd forBarMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
       [UIColor clearColor], UITextAttributeTextShadowColor, 
-      [UIFont fontWithName:NAVIGATION_HEADER size:14.0f], UITextAttributeFont, 
+      [UIFont fontWithName:NAVIGATION_HEADER size:NAVIGATION_HEADER_TITLE_SIZE], UITextAttributeFont, 
       nil
       ]
      ];
@@ -96,7 +100,7 @@
       ]
                                                 forState:UIControlStateNormal
      ];
-
+    
 }
 
 #pragma mark -

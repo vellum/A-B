@@ -13,6 +13,8 @@
 #import "VLMFooterController.h"
 #import "VLMAddButtonController.h"
 #import "VLMAddViewController.h"
+#import "UINavigationBar+Fat.h"
+#import "UIBarButtonItem+Fat.h"
 
 @interface VLMMainViewController ()
 
@@ -53,16 +55,18 @@
 
     [self.view addSubview:[self.feedViewController view]];
     
+    VLMAddButtonController *add = [[VLMAddButtonController alloc] initWithParentController:self];
+    [self.view addSubview:add.view];
+    self.addButtonController = add;
+
     // bottom bar
     if (![PFUser currentUser]){
         self.footerViewController = [[VLMFooterController alloc] initWithMainViewController:self];  
         [self.view addSubview:[self.footerViewController view]];
     } else {
+        [self.addButtonController show];
     }
 
-    VLMAddButtonController *add = [[VLMAddButtonController alloc] initWithParentController:self];
-    [self.view addSubview:add.view];
-    self.addButtonController = add;
 
 }
 #pragma mark -
@@ -74,6 +78,7 @@
     [logInViewController setFields:PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsDismissButton];
     [logInViewController setDelegate:self];
     [self presentModalViewController:logInViewController animated:YES];
+    [self.addButtonController show];
 }
 - (void)presentSignUp{
     PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
@@ -100,7 +105,7 @@
     [self showLoggedInState];
 }
 
-// FIXME: create add button at the start, rather than on demand, just hide and show
+
 - (void)showLoggedInState{
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
@@ -108,6 +113,7 @@
     [self.feedViewController.view setAutoresizesSubviews:NO];
     [self.feedViewController.view setFrame:CGRectMake(0, 0, winw, winh-STATUSBAR_HEIGHT)];
     [self.feedViewController updatelayout];
+    [self.addButtonController show];
 }
 
 #pragma mark -
@@ -116,7 +122,7 @@
 - (void)presentAdd {
     VLMAddViewController *avc = [[VLMAddViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:avc];
-    [navigationController.navigationBar setTitleVerticalPositionAdjustment:4.0f forBarMetrics:UIBarMetricsDefault];
+    [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
     [self presentModalViewController:navigationController animated:YES];
 }
 

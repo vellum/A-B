@@ -24,14 +24,15 @@
         [self setAutoresizesSubviews:NO];
 
         // avatar
-        UIView *avatarplaceholder = [[UIView alloc] initWithFrame:CGRectMake(5.0f+1, 7.0f+2, 30.0f, 30.0f)];
+        CGFloat off = 5.0f;
+        UIView *avatarplaceholder = [[UIView alloc] initWithFrame:CGRectMake(10.0f-off+1, 10.0f, 20.0f+off, 20.0f+off)];
         [avatarplaceholder setBackgroundColor:[UIColor lightGrayColor]];
 
         // create the label objects
         UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [headerLabel setBackgroundColor:[UIColor clearColor]];
         [headerLabel setFont:[UIFont fontWithName:SECTION_FONT_BOLD size:14.0f]];
-        [headerLabel setFrame:CGRectMake( 44.0f, 5.0f, 250.f, 22.0f )];
+        [headerLabel setFrame:CGRectMake( 44.0f-3, 5.0f, 250.f, 22.0f )];
         [headerLabel setText:username];
         [headerLabel setTextColor:TEXT_COLOR];
         
@@ -43,7 +44,7 @@
         [detailLabel setBackgroundColor:[UIColor clearColor]];
         [detailLabel setTextColor:TEXT_COLOR];
         [detailLabel setText:text];
-        [detailLabel setFrame:CGRectMake( 44.0f, 25.0f, 270.f, 0.0f )];
+        [detailLabel setFrame:CGRectMake( 44.0f-3, 25.0f, 270.f, 0.0f )];
         
         // new size for label
         CGSize maximumLabelSize = CGSizeMake(275,100);

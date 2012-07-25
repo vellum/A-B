@@ -27,15 +27,75 @@
         self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 640.0f, 294.0f)];
         self.velocity = 0;
         
-        UIView *left = [[UIView alloc] initWithFrame:CGRectMake(40, 14, 266, 266)];
-        left.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+        UIView *left = [[UIView alloc] initWithFrame:CGRectMake(35, 14-5, 276, 276)];
+        left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
         [self.containerView addSubview:left];
+        
+        UIImageView *leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_sample.jpg"]];
+        [leftimage setFrame:CGRectMake(5, 5, 266, 266)];
+        [left addSubview:leftimage];
+        
+        UIView *leftShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 266, 266)];
+        [leftShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
+        [left addSubview:leftShade];
+        
+        CGFloat leftPct = 0.25f;
+        UIView *leftBar = [[UIView alloc] initWithFrame:CGRectMake(276-5, 5 + (1-leftPct)*266, 5, leftPct*266)];
+        [leftBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
+        [left addSubview:leftBar];
+        
+        UILabel *leftLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 28)];
+        [leftLabelsmall setTextAlignment:UITextAlignmentRight];
+        [leftLabelsmall setFont:[UIFont fontWithName:@"Georgia-Italic" size:14.0f]];
+        [leftLabelsmall setBackgroundColor:[UIColor clearColor]];
+        [leftLabelsmall setTextColor:[UIColor whiteColor]];
+        [leftLabelsmall setText:@"Jennifer Brook"];
+        [left addSubview:leftLabelsmall];
 
-        UIView *right = [[UIView alloc] initWithFrame:CGRectMake(40 + 266 + 5, 14, 266, 266)];
-        right.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+        UILabel *leftLabellarge = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 100)];
+        [leftLabellarge setTextAlignment:UITextAlignmentRight];
+        [leftLabellarge setFont:[UIFont fontWithName:@"Georgia-Italic" size:48.0f]];
+        [leftLabellarge setBackgroundColor:[UIColor clearColor]];
+        [leftLabellarge setTextColor:[UIColor whiteColor]];
+        [leftLabellarge setText:@"25"];
+        [left addSubview:leftLabellarge];
+
+
+        UIView *right = [[UIView alloc] initWithFrame:CGRectMake(35 + 276, 14-5, 276, 276)];
+        right.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
         [self.containerView addSubview:right];
-        self.originalRect = self.containerView.frame;
 
+        UIImageView *rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"right_sample.jpg"]];
+        [rightimage setFrame:CGRectMake(5, 5, 266, 266)];
+        [right addSubview:rightimage];
+
+        UIView *rightShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 266, 266)];
+        [rightShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
+        [right addSubview:rightShade];
+
+        CGFloat rightPct = 0.75f;
+        UIView *rightBar = [[UIView alloc] initWithFrame:CGRectMake(0, 5 + (1-rightPct)*266, 5, rightPct*266)];
+        [rightBar setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
+        [right addSubview:rightBar];
+
+        UILabel *rightLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 28)];
+        [rightLabelsmall setTextAlignment:UITextAlignmentLeft];
+        [rightLabelsmall setFont:[UIFont fontWithName:@"Georgia-Italic" size:14.0f]];
+        [rightLabelsmall setBackgroundColor:[UIColor clearColor]];
+        [rightLabelsmall setTextColor:[UIColor whiteColor]];
+        [rightLabelsmall setText:@"Veronica Mars"];
+        [right addSubview:rightLabelsmall];
+        
+        UILabel *rightLabellarge = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 100)];
+        [rightLabellarge setTextAlignment:UITextAlignmentLeft];
+        [rightLabellarge setFont:[UIFont fontWithName:@"Georgia-Italic" size:48.0f]];
+        [rightLabellarge setBackgroundColor:[UIColor clearColor]];
+        [rightLabellarge setTextColor:[UIColor whiteColor]];
+        [rightLabellarge setText:@"75"];
+        [right addSubview:rightLabellarge];
+
+        
+        self.originalRect = self.containerView.frame;
         [self.contentView addSubview:self.containerView];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.userInteractionEnabled = YES;
@@ -47,7 +107,7 @@
     CGFloat val = offsetval;
     self.velocity = velocityval;
     if (( self.containerView.frame.origin.x >= 0 && val > 0 ) ||
-        ( self.containerView.frame.origin.x < -270 && val < 0 ))
+        ( self.containerView.frame.origin.x < -275 && val < 0 ))
     {
         val /= 4.0;
     }
@@ -80,25 +140,25 @@
 
         self.originalOffsetX = 0;
         
-    } else if ( val <= -270 ) {
+    } else if ( val <= -275 ) {
         
-        self.originalOffsetX = -270;
+        self.originalOffsetX = -275;
         
     } else if (fabsf(self.velocity) > 10 ){
-        duration = 270/fabsf(self.velocity);
+        duration = 275/fabsf(self.velocity);
         if ( duration < 0.3 ) duration = 0.3;
         if ( duration > 1 ) duration = 1;
         if ( self.velocity < 0 ){
-            self.originalOffsetX = -270;
+            self.originalOffsetX = -275;
         }else {
             self.originalOffsetX = 0;            
         }
     } else {
-        if  (fabsf(delta) < 266/2) {
+        if  (fabsf(delta) < 275/2) {
             // do nothing, return to last known page
         } else {
             if ( delta < 0 ) {
-                self.originalOffsetX = -270;
+                self.originalOffsetX = -275;
             }
             else if ( delta > 0 ) {
                 self.originalOffsetX = 0;
