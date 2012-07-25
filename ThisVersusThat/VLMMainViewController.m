@@ -59,12 +59,14 @@
     [self.view addSubview:add.view];
     self.addButtonController = add;
 
+    self.footerViewController = [[VLMFooterController alloc] initWithMainViewController:self];  
+    [self.view addSubview:[self.footerViewController view]];
+
     // bottom bar
-    if (![PFUser currentUser]){
-        self.footerViewController = [[VLMFooterController alloc] initWithMainViewController:self];  
-        [self.view addSubview:[self.footerViewController view]];
-    } else {
-        [self.addButtonController show];
+    if ([PFUser currentUser]){
+        [self showLoggedInState];
+        //NSLog(@"hi");
+        //[self.addButtonController show];
     }
 
 

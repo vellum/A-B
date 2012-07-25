@@ -100,6 +100,19 @@
         [right addSubview:rightLabellarge];
          */
         
+        UIButton *leftcheck = [[UIButton alloc] initWithFrame:CGRectMake(266/2-56/2, 266-75, 55, 55)];;
+        [leftcheck setShowsTouchWhenHighlighted:YES];
+        [leftcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
+        [leftcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
+        [left addSubview:leftcheck];
+
+        UIButton *rightcheck = [[UIButton alloc] initWithFrame:CGRectMake(266/2-56/2, 266-75, 55, 55)];;
+        [rightcheck setShowsTouchWhenHighlighted:YES];
+        [rightcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
+        [rightcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
+        [right addSubview:rightcheck];
+
+        
         self.originalRect = self.containerView.frame;
         [self.contentView addSubview:self.containerView];
         self.selectionStyle = UITableViewCellSelectionStyleNone;

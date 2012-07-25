@@ -41,10 +41,10 @@
     [self.view setAutoresizesSubviews:NO];
 
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
-    CGFloat BUTTON_WIDTH = 50;
-    CGFloat BUTTON_HEIGHT = 50;
+    CGFloat BUTTON_WIDTH = 55;
+    CGFloat BUTTON_HEIGHT = 55;
     CGFloat MARGIN_BOTTOM = 6;
-    CGFloat MARGIN_LEFT = 6;
+    CGFloat MARGIN_LEFT = 7;
     
     CGRect circlerect = CGRectMake(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT);
     UIView *circle = [[UIView alloc] initWithFrame:circlerect];
@@ -55,8 +55,8 @@
     [circle.layer setShadowOffset:CGSizeMake(0, 0)];
     [circle.layer setShadowOpacity:0.25f];
 
-    UIButton *fb = [[UIButton alloc] initWithFrame:CGRectOffset(circlerect, 1.0, -1.0)];
-    [fb.titleLabel setFont:[UIFont fontWithName:FOOTER_FONT size:24]];
+    UIButton *fb = [[UIButton alloc] initWithFrame:CGRectOffset(circlerect, 1.0, -2.0)];
+    [fb.titleLabel setFont:[UIFont fontWithName:FOOTER_FONT size:28]];
     [fb setTitle:@"+" forState:UIControlStateNormal];
     [fb setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
