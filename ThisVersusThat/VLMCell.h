@@ -21,6 +21,7 @@
 @property (nonatomic) CGRect originalRect;
 -(void) translateByX: (CGFloat) offsetval withVelocity: (CGFloat) velocityval;
 -(void) resetAnimated:(BOOL)anim;
+-(void) killAnimations;
 
 
 @end

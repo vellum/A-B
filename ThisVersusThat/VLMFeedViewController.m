@@ -119,6 +119,7 @@
     // pan direction unknown
     if ( self.recognizedPanDirection == FUCKING_UNKNOWN ) {
         
+        
         // accumulated translation from start point
         CGPoint p = [pgr translationInView:self.view];
         
@@ -169,6 +170,7 @@
             NSIndexPath *path = [tv indexPathForRowAtPoint:location];
             UITableViewCell *cell  = [tv cellForRowAtIndexPath:path];
             self.selectedCell = cell;
+            [(VLMCell *)cell killAnimations];
             //NSLog(@"recognized horizontal pan");
         }
     }

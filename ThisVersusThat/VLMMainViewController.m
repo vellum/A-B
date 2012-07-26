@@ -82,6 +82,7 @@
     [self presentModalViewController:logInViewController animated:YES];
     [self.addButtonController show];
 }
+
 - (void)presentSignUp{
     PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
     [signUpViewController setDelegate:self]; // Set ourselves as the delegate

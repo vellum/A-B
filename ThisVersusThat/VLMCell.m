@@ -130,6 +130,9 @@
         val /= 4.0;
     }
     
+    /*
+    // THIS WORKS BUT DISPLAYS JERKY BEHAVIOR IF TRANSLATE BEGINS WHILE 
+    // THE VIEW IS ALREADY BEING ANIMATED
     // preserve the previous animation state
     BOOL animationsEnabled = [UIView areAnimationsEnabled];
     
@@ -137,10 +140,21 @@
     [UIView setAnimationsEnabled:NO];
     [self.containerView.layer removeAllAnimations];
 
-    self.containerView.frame = CGRectOffset(self.containerView.frame, val, 0);
+    //self.containerView.frame = CGRectOffset(self.containerView.frame, val, 0);
     
     // restore the previous animation state
     [UIView setAnimationsEnabled:animationsEnabled];
+    //*/
+    
+    [UIView animateWithDuration:0
+                          delay:0 
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.containerView.frame = CGRectOffset(self.containerView.frame, val, 0);
+                     }
+                     completion:nil
+     ];
+
     
     // if we're panning turn off user input for this cell
     self.userInteractionEnabled = NO;
@@ -193,5 +207,17 @@
                 self.userInteractionEnabled = YES;
             }
      ];
+}
+
+-(void)killAnimations{
+    BOOL animationsEnabled = [UIView areAnimationsEnabled];
+    
+    // kill animations
+    [UIView setAnimationsEnabled:NO];
+    [self.containerView.layer removeAllAnimations];
+
+    // restore the previous animation state
+    [UIView setAnimationsEnabled:animationsEnabled];
+
 }
 @end

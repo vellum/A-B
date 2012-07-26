@@ -72,35 +72,36 @@
 #pragma mark appearance
 
 - (void)establishAppearanceDefaults{
-    // appearance api
-    UIImage * custombgd = [UIImage imageNamed:@"gray_header_background.png"];
+
+    UIImage *custombgd = NAVIGATION_HEADER_BACKGROUND_IMAGE;
     [[UINavigationBar appearance] setBackgroundImage:custombgd forBarMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
-      [UIColor clearColor], UITextAttributeTextShadowColor, 
-      [UIFont fontWithName:NAVIGATION_HEADER size:NAVIGATION_HEADER_TITLE_SIZE], UITextAttributeFont, 
-      nil
-      ]
-     ];
+            [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
+            [UIColor clearColor], UITextAttributeTextShadowColor, 
+            [UIFont fontWithName:NAVIGATION_HEADER size:NAVIGATION_HEADER_TITLE_SIZE], UITextAttributeFont, 
+            nil
+            ]];
+
+    
+    //[[UINavigationBar appearance] setTitlePositionAdjustment:UIO];
     
     [[UIBarButtonItem appearance] setBackgroundImage:custombgd 
-                                            forState:UIControlStateNormal
-                                          barMetrics:UIBarMetricsDefault]; 
+            forState:UIControlStateNormal
+            barMetrics:UIBarMetricsDefault]; 
+
     [[UIBarButtonItem appearance] setBackgroundImage:custombgd 
-                                            forState:UIControlStateSelected
-                                          barMetrics:UIBarMetricsDefault]; 
+            forState:UIControlStateSelected
+            barMetrics:UIBarMetricsDefault]; 
     
     [[UIBarButtonItem appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
-      [UIColor clearColor], UITextAttributeTextShadowColor, 
-      nil
-      ]
-                                                forState:UIControlStateNormal
-     ];
-    
+            [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
+            [UIColor clearColor], UITextAttributeTextShadowColor, 
+            nil
+            ]
+            forState:UIControlStateNormal];
 }
 
 #pragma mark -

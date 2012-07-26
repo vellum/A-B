@@ -43,12 +43,14 @@
     [self.view.layer setCornerRadius:HEADER_CORNER_RADIUS];
     [self.view.layer setMasksToBounds:YES];
     
-    /*
+    
     UIButton *t = [self makeTextButtonWithFrame:CGRectMake(winw/2-75.0f, 0, 150.0f, HEADER_HEIGHT)];
-    [t setTitle:@"{ this versus that }" forState:UIControlStateNormal];
+    [t setTitle:@"All Polls" forState:UIControlStateNormal];
+    [t.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
+    [t setTitleColor:TEXT_COLOR forState:UIControlStateNormal];
     [t setTitleShadowColor:[UIColor colorWithWhite:0.1f alpha:1.0f] forState:UIControlStateNormal];
     [self.view addSubview: t];
-     */
+    
 }
 
 

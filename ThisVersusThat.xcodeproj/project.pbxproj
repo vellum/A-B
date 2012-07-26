@@ -37,6 +37,7 @@
 		BD8891DC15C0605400C1615C /* vote_button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DA15C0605400C1615C /* vote_button_selected.png */; };
 		BD8891DD15C0605400C1615C /* vote_button_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DB15C0605400C1615C /* vote_button_normal.png */; };
 		BD90FFF215BE7B6D004621E8 /* subtlenet2.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF115BE7B6D004621E8 /* subtlenet2.png */; };
+		BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */; };
 		BDC09F3815BF633000349761 /* VLMAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3715BF633000349761 /* VLMAddViewController.m */; };
 		BDC09F3B15BF79C900349761 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3A15BF79C800349761 /* UINavigationBar+Fat.m */; };
 		BDC09F3E15BF825100349761 /* UIBarButtonItem+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3D15BF825100349761 /* UIBarButtonItem+Fat.m */; };
@@ -90,6 +91,8 @@
 		BD8891DA15C0605400C1615C /* vote_button_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vote_button_selected.png; sourceTree = "<group>"; };
 		BD8891DB15C0605400C1615C /* vote_button_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vote_button_normal.png; sourceTree = "<group>"; };
 		BD90FFF115BE7B6D004621E8 /* subtlenet2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subtlenet2.png; sourceTree = "<group>"; };
+		BD94B29515C0F73400DCC8DA /* UIPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceholderTextView.h; sourceTree = "<group>"; };
+		BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceholderTextView.m; sourceTree = "<group>"; };
 		BDC09F3615BF632F00349761 /* VLMAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddViewController.h; sourceTree = "<group>"; };
 		BDC09F3715BF633000349761 /* VLMAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddViewController.m; sourceTree = "<group>"; };
 		BDC09F3915BF79C800349761 /* UINavigationBar+Fat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Fat.h"; sourceTree = "<group>"; };
@@ -192,14 +195,11 @@
 			isa = PBXGroup;
 			children = (
 				BD4D506E15BDE19C007D6E3A /* VLMConstants.h */,
-				BDC09F3915BF79C800349761 /* UINavigationBar+Fat.h */,
-				BDC09F3A15BF79C800349761 /* UINavigationBar+Fat.m */,
-				BDC09F3C15BF825100349761 /* UIBarButtonItem+Fat.h */,
-				BDC09F3D15BF825100349761 /* UIBarButtonItem+Fat.m */,
 				BD4D505F15BDE19C007D6E3A /* AppDelegate.h */,
 				BD4D506015BDE19C007D6E3A /* AppDelegate.m */,
 				BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */,
 				BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */,
+				BDB5C6F515C0BEAA0035750D /* Customizations */,
 				BD72B83B15BE3FFB0083CD4E /* ViewControllers */,
 				BD4D507915BDE19C007D6E3A /* VLMTextButton.h */,
 				BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */,
@@ -229,6 +229,17 @@
 			name = TableView;
 			sourceTree = "<group>";
 		};
+		BDB5C6F515C0BEAA0035750D /* Customizations */ = {
+			isa = PBXGroup;
+			children = (
+				BDC09F3915BF79C800349761 /* UINavigationBar+Fat.h */,
+				BDC09F3A15BF79C800349761 /* UINavigationBar+Fat.m */,
+				BDC09F3C15BF825100349761 /* UIBarButtonItem+Fat.h */,
+				BDC09F3D15BF825100349761 /* UIBarButtonItem+Fat.m */,
+			);
+			name = Customizations;
+			sourceTree = "<group>";
+		};
 		BDC09F2315BF2EFD00349761 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +261,8 @@
 				BDC09F3715BF633000349761 /* VLMAddViewController.m */,
 				BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */,
 				BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */,
+				BD94B29515C0F73400DCC8DA /* UIPlaceholderTextView.h */,
+				BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */,
 			);
 			name = Add;
 			sourceTree = "<group>";
@@ -339,6 +352,7 @@
 				BDC09F3815BF633000349761 /* VLMAddViewController.m in Sources */,
 				BDC09F3B15BF79C900349761 /* UINavigationBar+Fat.m in Sources */,
 				BDC09F3E15BF825100349761 /* UIBarButtonItem+Fat.m in Sources */,
+				BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

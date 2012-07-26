@@ -42,7 +42,6 @@
 
 #define HEADER_TITLE_VERTICAL_OFFSET -4.0f
 #define BAR_BUTTON_ITEM_VERTICAL_OFFSET -6.0f
-#define NAVIGATION_HEADER_TITLE_SIZE 15.0f
 
 
 
@@ -54,9 +53,9 @@
 #define MAIN_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_HEADER_BGCOLOR [UIColor colorWithWhite:0.9f alpha:1.0f]
+#define NAVIGATION_HEADER_BACKGROUND_IMAGE [UIImage imageNamed:@"gray_header_background.png"]
 #define FOOTER_BGCOLOR [UIColor colorWithWhite:0.8f alpha:1.0f]
 #define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
-//#define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"column-grid-white_gray@1x.png"]]
 #define FEED_SECTION_HEADER_BGCOLOR [UIColor whiteColor]
 
 #define TEXT_COLOR [UIColor colorWithHue:0.87f saturation:0.0f brightness:0.12f alpha:1.0f]
@@ -68,13 +67,28 @@
 #pragma mark -
 #pragma mark Typefaces
 
+#define HEADER_TITLE_FONT @"AmericanTypewriter"
+#define NAVIGATION_HEADER @"AmericanTypewriter"
+#define SECTION_FONT_BOLD @"AmericanTypewriter-Bold"
+#define SECTION_FONT_REGULAR @"AmericanTypewriter"
+#define FOOTER_FONT @"Helvetica-Bold"
+#define TEXTBUTTON_FONT @"HelveticaNeue-Bold"
+#define PHOTO_LABEL @"AmericanTypewriter"
+
+#define NAVIGATION_HEADER_TITLE_SIZE 15.0f
+
+
+
+/*
 #define SECTION_FONT_BOLD @"Helvetica-Bold"
 #define SECTION_FONT_REGULAR @"AmericanTypewriter"
 #define FOOTER_FONT @"Helvetica-Bold"
-#define HEADER_TITLE_FONT @"Helvetica-Bold"
+//#define HEADER_TITLE_FONT @"Helvetica-Bold"
+#define HEADER_TITLE_FONT @"AmericanTypewriter"
 #define TEXTBUTTON_FONT @"Georgia-Italic"
 #define NAVIGATION_HEADER @"Georgia-Italic"
 #define PHOTO_LABEL @"AmericanTypewriter"
+*/
 
 //#define HELVETICA @"Helvetica-Bold"
 //#define TYPEWRITER @"AmericanTypewriter"
@@ -86,7 +100,7 @@
 #pragma mark Lorem Ipsum
 
 // 4 line
-#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester put a bird on it VHS banksy jean shorts yr cliche. .........."
+//#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester put a bird on it VHS banksy jean shorts yr cliche. .........."
 
 // 3 line
 //#define LOREM_IPSUM @"American apparel squid tumblr single-origin coffee, shoreditch scenester put a bird on it VHS banksy "
@@ -96,7 +110,7 @@
 
 // 1 line
 //#define LOREM_IPSUM @"American apparel squid tumblr"
-//#define LOREM_IPSUM @"Which couch should I buy?"
+#define LOREM_IPSUM @"Which couch should I buy?"
 
 #endif
 
