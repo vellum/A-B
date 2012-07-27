@@ -106,7 +106,7 @@
     left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
     [self.containerView addSubview:left];
     
-    UIImageView *leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_sample.jpg"]];
+    UIImageView *leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
     [leftimage setFrame:CGRectMake(5, 5, 266, 266)];
     [left addSubview:leftimage];
     self.lefttile = left;
@@ -120,7 +120,7 @@
     [self.containerView addSubview:right];
     self.righttile = right;
     
-    UIImageView *rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"right_sample.jpg"]];
+    UIImageView *rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
     [rightimage setFrame:CGRectMake(5, 5, 266, 266)];
     [right addSubview:rightimage];
     
@@ -140,7 +140,8 @@
     [captionLeft setKeyboardType:UIKeyboardTypeAlphabet];
     [captionLeft setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
     [captionLeft setTextColor:[UIColor whiteColor]];
-    [captionLeft setPlaceholder:@"Set Caption"];
+    [captionLeft setPlaceholderColor:[UIColor colorWithWhite:1.0f alpha:0.5]];
+    [captionLeft setPlaceholder:@"Untitled"];
     [captionLeft setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
     [captionLeft setReturnKeyType: UIReturnKeyDone];
     [captionLeft setDelegate:self];
@@ -152,12 +153,24 @@
     [captionRight setKeyboardType:UIKeyboardTypeAlphabet];
     [captionRight setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
     [captionRight setTextColor:[UIColor whiteColor]];
-    [captionRight setPlaceholder:@"Set Caption"];
+    [captionRight setPlaceholder:@"Untitled"];
+    [captionRight setPlaceholderColor:[UIColor colorWithWhite:1.0f alpha:0.5]];
     [captionRight setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
     [captionRight setReturnKeyType: UIReturnKeyDone];
     [captionRight setDelegate:self];
     self.rightcaption = captionRight;
     [right addSubview:captionRight];
+    
+    UIButton *leftcam = [[UIButton alloc] initWithFrame:CGRectMake(10, 4, 50, 50)];;
+    [leftcam setShowsTouchWhenHighlighted:YES];
+    [leftcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
+    [left addSubview:leftcam];
+
+    //UIButton *rightcam = [[UIButton alloc] initWithFrame:CGRectMake(10, 4, 44, 44)];;
+    //[rightcam setShowsTouchWhenHighlighted:YES];
+    //[rightcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
+    //[right addSubview:rightcam];
+
 }
 
 #pragma mark -
