@@ -111,7 +111,7 @@
     }
     
     // otherwise, row heights are fixed
-    return 310;
+    return 321;
 }
 
 #pragma mark -

@@ -24,7 +24,7 @@
 #pragma mark -
 #pragma mark Touch and Gesture
 
-#define DEAD_ZONE CGSizeMake(40.0f, 20.0f)
+#define DEAD_ZONE CGSizeMake(50.0f, 20.0f)
 #define FUCKING_UNKNOWN 0
 #define FUCKING_VERTICAL 1
 #define FUCKING_HORIZONTAL 2

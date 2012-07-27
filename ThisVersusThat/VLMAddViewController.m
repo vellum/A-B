@@ -102,29 +102,29 @@
     self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 6*14, 640.0f, 294.0f)];
     self.velocity = 0;
     
-    UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20, 14-5, 276, 276)];
+    UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20, 14-5, 286, 286)];
     left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
     [self.containerView addSubview:left];
     
     UIImageView *leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
-    [leftimage setFrame:CGRectMake(5, 5, 266, 266)];
+    [leftimage setFrame:CGRectMake(5, 5, 276, 276)];
     [left addSubview:leftimage];
     self.lefttile = left;
     
-    UIView *leftShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 266, 266)];
+    UIView *leftShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
     [leftShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
     [left addSubview:leftShade];
     
-    UIView *right = [[UIView alloc] initWithFrame:CGRectMake(20 + 276+1, 14-5, 276, 276)];
+    UIView *right = [[UIView alloc] initWithFrame:CGRectMake(20 + 286+5, 14-5, 286, 286)];
     right.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
     [self.containerView addSubview:right];
     self.righttile = right;
     
     UIImageView *rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
-    [rightimage setFrame:CGRectMake(5, 5, 266, 266)];
+    [rightimage setFrame:CGRectMake(5, 5, 276, 276)];
     [right addSubview:rightimage];
     
-    UIView *rightShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 266, 266)];
+    UIView *rightShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
     [rightShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
     [right addSubview:rightShade];
     
@@ -136,11 +136,12 @@
     [self.containerView addGestureRecognizer:pgr];
     self.originalRect = self.containerView.frame;
     
-    UIPlaceHolderTextView *captionLeft = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(5, 5, 266, 14*4)];
+    UITextField *captionLeft = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 276, 14*4)];
     [captionLeft setKeyboardType:UIKeyboardTypeAlphabet];
-    [captionLeft setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
-    [captionLeft setTextColor:[UIColor whiteColor]];
-    [captionLeft setPlaceholderColor:[UIColor colorWithWhite:1.0f alpha:0.5]];
+    [captionLeft setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+    [captionLeft setTextAlignment:UITextAlignmentCenter];
+    [captionLeft setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8]];
+    //[captionLeft setTextColor:[UIColor whiteColor]];
     [captionLeft setPlaceholder:@"Untitled"];
     [captionLeft setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
     [captionLeft setReturnKeyType: UIReturnKeyDone];
@@ -149,49 +150,56 @@
     
     [left addSubview:captionLeft];
     
-    UIPlaceHolderTextView *captionRight = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(5, 5, 266, 14*4)];
+    UITextField *captionRight = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 276, 14*4)];
     [captionRight setKeyboardType:UIKeyboardTypeAlphabet];
-    [captionRight setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
-    [captionRight setTextColor:[UIColor whiteColor]];
+    [captionRight setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+    [captionRight setTextAlignment:UITextAlignmentCenter];
+    [captionRight setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8]];
+    //[captionRight setTextColor:[UIColor whiteColor]];
     [captionRight setPlaceholder:@"Untitled"];
-    [captionRight setPlaceholderColor:[UIColor colorWithWhite:1.0f alpha:0.5]];
     [captionRight setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
     [captionRight setReturnKeyType: UIReturnKeyDone];
     [captionRight setDelegate:self];
     self.rightcaption = captionRight;
     [right addSubview:captionRight];
     
-    UIButton *leftcam = [[UIButton alloc] initWithFrame:CGRectMake(10, 4, 50, 50)];;
+    UIButton *leftcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
     [leftcam setShowsTouchWhenHighlighted:YES];
     [leftcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
     [left addSubview:leftcam];
 
-    //UIButton *rightcam = [[UIButton alloc] initWithFrame:CGRectMake(10, 4, 44, 44)];;
-    //[rightcam setShowsTouchWhenHighlighted:YES];
-    //[rightcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
-    //[right addSubview:rightcam];
+    UIButton *rightcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
+    [rightcam setShowsTouchWhenHighlighted:YES];
+    [rightcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
+    [right addSubview:rightcam];
 
 }
 
 #pragma mark -
-#pragma mark TextViewDelegate
+#pragma mark TextViewDelegate, TextFieldDelegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
-    /*
-    if ( textView == self.leftcaption || textView == self.rightcaption ){
-        if ( textView.text.length > 50 ){
-            return NO;
-        } else {
-            return YES;
-        }
-    }
-    */
+    if ( [[textView text] length] - range.length + text.length > 140 ) return NO;
+    
     if([text isEqualToString:@"\n"]) {
         [self.view endEditing:YES];
         return NO;
     }
     return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+
+    if ( [[textField text] length] - range.length + string.length > 75 ) return NO;
+    
+
+    if([string isEqualToString:@"\n"]) {
+        [self.view endEditing:YES];
+        return NO;
+    }
+    return YES;
+    
 }
 
 #pragma mark -
@@ -220,11 +228,13 @@
     UIPanGestureRecognizer *pgr = ( UIPanGestureRecognizer *)sender;
 
     BOOL registerDeltas = NO;
+    
     // look at the pan gesture's internal state
     switch (pgr.state) {
             
         case UIGestureRecognizerStateBegan:
             [pgr setTranslation:CGPointZero inView:self.view];
+            [self killAnimations];
             break;
             
         case UIGestureRecognizerStateEnded:
@@ -249,8 +259,6 @@
         NSLog( @"dx:%f", delta.x );
 
     }
-        
-    
 }
 
 - (void)cancel:(id)sender{
@@ -261,7 +269,7 @@
     CGFloat val = offsetval;
     self.velocity = velocityval;
     if (( self.containerView.frame.origin.x >= 0 && val > 0 ) ||
-        ( self.containerView.frame.origin.x < -275 && val < 0 ))
+        ( self.containerView.frame.origin.x < -290 && val < 0 ))
     {
         val /= 4.0;
     }
@@ -279,8 +287,6 @@
 }
 
 -(void) resetAnimated:(BOOL)anim{
-    
-    
     CGFloat val = self.containerView.frame.origin.x;
     CGFloat delta = self.containerView.frame.origin.x - self.originalOffsetX;
     CGFloat duration = 0.5;
@@ -289,25 +295,25 @@
         
         self.originalOffsetX = 0;
         
-    } else if ( val <= -275 ) {
+    } else if ( val <= -290 ) {
         
-        self.originalOffsetX = -275;
+        self.originalOffsetX = -290;
         
     } else if (fabsf(self.velocity) > 10 ){
-        duration = 275/fabsf(self.velocity);
+        duration = 290/fabsf(self.velocity);
         if ( duration < 0.3 ) duration = 0.3;
         if ( duration > 1 ) duration = 1;
         if ( self.velocity < 0 ){
-            self.originalOffsetX = -275;
+            self.originalOffsetX = -290;
         }else {
             self.originalOffsetX = 0;            
         }
     } else {
-        if  (fabsf(delta) < 275/2) {
+        if  (fabsf(delta) < 290/2) {
             // do nothing, return to last known page
         } else {
             if ( delta < 0 ) {
-                self.originalOffsetX = -275;
+                self.originalOffsetX = -290;
             }
             else if ( delta > 0 ) {
                 self.originalOffsetX = 0;

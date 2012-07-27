@@ -10,7 +10,7 @@
 
 @class UIPlaceHolderTextView;
 
-@interface VLMAddViewController : UIViewController<UIGestureRecognizerDelegate, UITextViewDelegate>{
+@interface VLMAddViewController : UIViewController<UIGestureRecognizerDelegate, UITextViewDelegate, UITextFieldDelegate>{
     UIView *containerView;
     CGFloat originalOffsetX;
     CGRect originalRect;
@@ -19,16 +19,16 @@
     UIView *lefttile;
     UIView *righttile;
     
-    UIPlaceHolderTextView *leftcaption;
-    UIPlaceHolderTextView *rightcaption;
+    UITextField *leftcaption;
+    UITextField *rightcaption;
     
 }
 
 @property (strong, nonatomic) UIView *containerView;
 @property (strong, nonatomic) UIView *lefttile;
 @property (strong, nonatomic) UIView *righttile;
-@property (strong, nonatomic) UIPlaceHolderTextView *leftcaption;
-@property (strong, nonatomic) UIPlaceHolderTextView *rightcaption;
+@property (strong, nonatomic) UITextField *leftcaption;
+@property (strong, nonatomic) UITextField *rightcaption;
 
 @property (nonatomic) CGFloat velocity;
 @property (nonatomic) CGFloat originalOffsetX;

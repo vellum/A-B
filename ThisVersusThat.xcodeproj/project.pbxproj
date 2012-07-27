@@ -230,13 +230,13 @@
 			name = Feed;
 			sourceTree = "<group>";
 		};
-		BDC09F2515BF2F0700349761 /* Add */ = {
+		BDC09F2515BF2F0700349761 /* Add Poll */ = {
 			isa = PBXGroup;
 			children = (
 				BDC09F3615BF632F00349761 /* VLMAddViewController.h */,
 				BDC09F3715BF633000349761 /* VLMAddViewController.m */,
 			);
-			name = Add;
+			name = "Add Poll";
 			sourceTree = "<group>";
 		};
 		BDFB949215C3049A001FF740 /* Images */ = {
@@ -276,7 +276,7 @@
 			children = (
 				BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */,
 				BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */,
-				BDC09F2515BF2F0700349761 /* Add */,
+				BDC09F2515BF2F0700349761 /* Add Poll */,
 				BDC09F2315BF2EFD00349761 /* Feed */,
 			);
 			name = Controllers;
