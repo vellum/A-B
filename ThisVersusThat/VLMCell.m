@@ -104,6 +104,8 @@
         [leftcheck setShowsTouchWhenHighlighted:YES];
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
+        [leftcheck addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
         [left addSubview:leftcheck];
 
         UIButton *rightcheck = [[UIButton alloc] initWithFrame:CGRectMake(276/2-56/2, 276-65, 55, 55)];;
@@ -119,6 +121,9 @@
         self.userInteractionEnabled = YES;
     }
     return self;
+}
+-(void)buttonTapped:(id)sender{
+    NSLog(@"huhu");
 }
 
 -(void) translateByX: (CGFloat) offsetval withVelocity:(CGFloat)velocityval{

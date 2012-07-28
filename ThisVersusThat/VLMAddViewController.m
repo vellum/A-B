@@ -12,6 +12,7 @@
 #import "UIBarButtonItem+Fat.h"
 #import "UIPlaceholderTextView.h"
 #import <QuartzCore/QuartzCore.h>
+#import <MobileCoreServices/UTCoreTypes.h>
 
 @interface VLMAddViewController ()
 
@@ -27,6 +28,10 @@
 @synthesize righttile;
 @synthesize leftcaption;
 @synthesize rightcaption;
+@synthesize leftcam;
+@synthesize rightcam;
+@synthesize leftimage;
+@synthesize rightimage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -106,7 +111,7 @@
     left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
     [self.containerView addSubview:left];
     
-    UIImageView *leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
+    self.leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
     [leftimage setFrame:CGRectMake(5, 5, 276, 276)];
     [left addSubview:leftimage];
     self.lefttile = left;
@@ -120,7 +125,7 @@
     [self.containerView addSubview:right];
     self.righttile = right;
     
-    UIImageView *rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
+    self.rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
     [rightimage setFrame:CGRectMake(5, 5, 276, 276)];
     [right addSubview:rightimage];
     
@@ -141,15 +146,18 @@
     [captionLeft setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [captionLeft setTextAlignment:UITextAlignmentCenter];
     [captionLeft setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8]];
-    //[captionLeft setTextColor:[UIColor whiteColor]];
     [captionLeft setPlaceholder:@"Untitled"];
     [captionLeft setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
     [captionLeft setReturnKeyType: UIReturnKeyDone];
     [captionLeft setDelegate:self];
     self.leftcaption = captionLeft;
-    
     [left addSubview:captionLeft];
-    
+
+    self.leftcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
+    [self.leftcam setShowsTouchWhenHighlighted:YES];
+    [self.leftcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
+    [left addSubview:self.leftcam];
+
     UITextField *captionRight = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 276, 14*4)];
     [captionRight setKeyboardType:UIKeyboardTypeAlphabet];
     [captionRight setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
@@ -162,13 +170,9 @@
     [captionRight setDelegate:self];
     self.rightcaption = captionRight;
     [right addSubview:captionRight];
+ 
     
-    UIButton *leftcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
-    [leftcam setShowsTouchWhenHighlighted:YES];
-    [leftcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
-    [left addSubview:leftcam];
-
-    UIButton *rightcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
+    self.rightcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
     [rightcam setShowsTouchWhenHighlighted:YES];
     [rightcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
     [right addSubview:rightcam];
@@ -216,10 +220,166 @@
 }
 
 #pragma mark -
+#pragma mark camera
+- (BOOL)shouldStartCameraController {
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
+        return NO;
+    }
+    
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
+        && [[UIImagePickerController availableMediaTypesForSourceType:
+             UIImagePickerControllerSourceTypeCamera] containsObject:(NSString *)kUTTypeImage]) {
+        
+        cameraUI.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
+        cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+        
+        if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear]) {
+            cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+        } else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
+            cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+        }
+        
+    } else {
+        return NO;
+    }
+    
+    cameraUI.allowsEditing = YES;
+    cameraUI.showsCameraControls = YES;
+    cameraUI.delegate = self;
+    cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+    
+    [self presentModalViewController:cameraUI animated:YES];
+    
+    return YES;
+}
+
+
+- (BOOL)shouldPresentPhotoCaptureController {
+    BOOL presentedPhotoCaptureController = [self shouldStartCameraController];
+    
+    if (!presentedPhotoCaptureController) {
+        presentedPhotoCaptureController = [self shouldStartPhotoLibraryPickerController];
+    }
+    
+    return presentedPhotoCaptureController;
+}
+
+
+- (BOOL)shouldStartPhotoLibraryPickerController {
+    if (([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] == NO 
+         && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum] == NO)) {
+        return NO;
+    }
+    
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]
+        && [[UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary] containsObject:(NSString *)kUTTypeImage]) {
+        
+        cameraUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        cameraUI.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
+        
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]
+               && [[UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum] containsObject:(NSString *)kUTTypeImage]) {
+        
+        cameraUI.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        cameraUI.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
+        
+    } else {
+        return NO;
+    }
+    
+    cameraUI.allowsEditing = YES;
+    cameraUI.delegate = self;
+    
+    [self presentModalViewController:cameraUI animated:YES];
+    
+    return YES;
+}
+
+
+
+
+#pragma mark - UIImagePickerDelegate
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [self dismissModalViewControllerAnimated:NO];
+    
+    NSLog(@"picker did finish");
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+
+    if ( self.originalOffsetX == 0 ) {
+        [self.leftimage setImage:image];
+    } else {
+        [self.rightimage setImage:image];
+    }
+    /*
+    PAPEditPhotoViewController *viewController = [[PAPEditPhotoViewController alloc] initWithImage:image];
+    [viewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    
+    [self.navController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self.navController pushViewController:viewController animated:NO];
+    
+    [self presentModalViewController:self.navController animated:YES];
+     */
+}
+
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self shouldStartCameraController];
+    } else if (buttonIndex == 1) {
+        [self shouldStartPhotoLibraryPickerController];
+    }
+}
+
+
+#pragma mark -
 #pragma mark event handlers
 
 - (void)handleGenericTap:(id)sender{
     [self.view endEditing:YES];
+    
+    UITapGestureRecognizer *tgr = (UITapGestureRecognizer *)sender;
+    CGPoint p = [tgr locationInView:self.leftcam.superview];
+    CGPoint p2 = [tgr locationInView:self.rightcam.superview];
+    BOOL shouldStartActionSheet = NO;
+    
+    if ( CGRectContainsPoint(self.leftcam.frame, p)){
+        NSLog(@"a");
+        shouldStartActionSheet = YES;
+        //[self shouldStartCameraController];
+    } else if ( CGRectContainsPoint(self.rightcam.frame, p2)){
+        NSLog(@"b");
+        shouldStartActionSheet = YES;
+        //[self shouldStartCameraController];
+    }
+    
+    if ( shouldStartActionSheet ){
+        
+        BOOL cameraDeviceAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+        BOOL photoLibraryAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
+        
+        if (cameraDeviceAvailable && photoLibraryAvailable) {
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take photo", @"Choose photo", nil];
+            [actionSheet showInView:self.view];
+        } else {
+            // if we don't have at least two options, we automatically show whichever is available (camera or roll)
+            [self shouldPresentPhotoCaptureController];
+        }
+
+    }
+    
 }
 
 -(void) handlePan:(id)sender{
@@ -235,6 +395,7 @@
         case UIGestureRecognizerStateBegan:
             [pgr setTranslation:CGPointZero inView:self.view];
             [self killAnimations];
+            registerDeltas = YES;
             break;
             
         case UIGestureRecognizerStateEnded:
