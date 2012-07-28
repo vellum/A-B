@@ -57,7 +57,7 @@
 - (void)setuptoolbar {
 
     
-    [self setTitle:@"Add Poll"];
+    [self setTitle:@"Add"];
 	[self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     
     UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
@@ -244,7 +244,7 @@
     cameraUI.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
     cameraUI.navigationItem.hidesBackButton = YES;
 
-    [self presentModalViewController:cameraUI animated:YES];
+    [self presentModalViewController:cameraUI animated:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     return YES;
 }
@@ -309,7 +309,7 @@
 #pragma mark - UIImagePickerDelegate
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissModalViewControllerAnimated:NO];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
