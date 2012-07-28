@@ -13,7 +13,9 @@
     CGRect rect;
 }
 
+- (id)initWithTitle:(NSString *)title;
 - (void)pushVerticallyBy:(CGFloat) offsetYVal;
+
 
 @property (nonatomic) CGFloat offsetY;
 @property (nonatomic) CGRect rect;

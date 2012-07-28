@@ -39,8 +39,6 @@
 		BD90FFF215BE7B6D004621E8 /* subtlenet2.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF115BE7B6D004621E8 /* subtlenet2.png */; };
 		BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */; };
 		BDC09F3815BF633000349761 /* VLMAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3715BF633000349761 /* VLMAddViewController.m */; };
-		BDC09F3B15BF79C900349761 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3A15BF79C800349761 /* UINavigationBar+Fat.m */; };
-		BDC09F3E15BF825100349761 /* UIBarButtonItem+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3D15BF825100349761 /* UIBarButtonItem+Fat.m */; };
 		BDC09F4015BFBDBB00349761 /* gray_header_background.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC09F3F15BFBDBB00349761 /* gray_header_background.png */; };
 		BDC09F4715BFC79F00349761 /* left_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDC09F4515BFC79F00349761 /* left_sample.jpg */; };
 		BDC09F4815BFC79F00349761 /* right_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDC09F4615BFC79F00349761 /* right_sample.jpg */; };
@@ -50,6 +48,8 @@
 		BDC29A3315C1EC6700596546 /* vote_button_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A3115C1EC6700596546 /* vote_button_selected@2x.png */; };
 		BDC29A3615C1FFBE00596546 /* leica@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A3415C1FFBE00596546 /* leica@2x.png */; };
 		BDC29A3715C1FFBE00596546 /* leica.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A3515C1FFBE00596546 /* leica.png */; };
+		BDCFED3515C3845D0089A77E /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCFED3415C3845D0089A77E /* clear.png */; };
+		BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,10 +101,6 @@
 		BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIPlaceholderTextView.m; path = ThisVersusThat/UIPlaceholderTextView.m; sourceTree = "<group>"; };
 		BDC09F3615BF632F00349761 /* VLMAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddViewController.h; sourceTree = "<group>"; };
 		BDC09F3715BF633000349761 /* VLMAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddViewController.m; sourceTree = "<group>"; };
-		BDC09F3915BF79C800349761 /* UINavigationBar+Fat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Fat.h"; sourceTree = "<group>"; };
-		BDC09F3A15BF79C800349761 /* UINavigationBar+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Fat.m"; sourceTree = "<group>"; };
-		BDC09F3C15BF825100349761 /* UIBarButtonItem+Fat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Fat.h"; sourceTree = "<group>"; };
-		BDC09F3D15BF825100349761 /* UIBarButtonItem+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Fat.m"; sourceTree = "<group>"; };
 		BDC09F3F15BFBDBB00349761 /* gray_header_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray_header_background.png; sourceTree = "<group>"; };
 		BDC09F4515BFC79F00349761 /* left_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = left_sample.jpg; sourceTree = "<group>"; };
 		BDC09F4615BFC79F00349761 /* right_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = right_sample.jpg; sourceTree = "<group>"; };
@@ -114,6 +110,9 @@
 		BDC29A3115C1EC6700596546 /* vote_button_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vote_button_selected@2x.png"; sourceTree = "<group>"; };
 		BDC29A3415C1FFBE00596546 /* leica@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leica@2x.png"; sourceTree = "<group>"; };
 		BDC29A3515C1FFBE00596546 /* leica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leica.png; sourceTree = "<group>"; };
+		BDCFED3415C3845D0089A77E /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear.png; sourceTree = "<group>"; };
+		BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Fat.m"; path = "ThisVersusThat/UINavigationBar+Fat.m"; sourceTree = "<group>"; };
+		BDFCDCE515C3972E0086DE95 /* UINavigationBar+Fat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+Fat.h"; path = "ThisVersusThat/UINavigationBar+Fat.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,16 +205,6 @@
 			name = TableView;
 			sourceTree = "<group>";
 		};
-		BDB5C6F515C0BEAA0035750D /* UINavigationBar Categories */ = {
-			isa = PBXGroup;
-			children = (
-				BDC09F3915BF79C800349761 /* UINavigationBar+Fat.h */,
-				BDC09F3A15BF79C800349761 /* UINavigationBar+Fat.m */,
-			);
-			name = "UINavigationBar Categories";
-			path = ThisVersusThat;
-			sourceTree = "<group>";
-		};
 		BDC09F2315BF2EFD00349761 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +231,7 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BDCFED3415C3845D0089A77E /* clear.png */,
 				BDC09F3F15BFBDBB00349761 /* gray_header_background.png */,
 				BD90FFF115BE7B6D004621E8 /* subtlenet2.png */,
 				BDC29A2B15C1EB0700596546 /* subtlenet2@2x.png */,
@@ -285,9 +275,9 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BDFCDCE515C3972E0086DE95 /* UINavigationBar+Fat.h */,
+				BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */,
 				BDFB949B15C307A1001FF740 /* UIPlaceholderTextView */,
-				BDFB949815C306F4001FF740 /* UIBarButtonItem Categories */,
-				BDB5C6F515C0BEAA0035750D /* UINavigationBar Categories */,
 			);
 			name = External;
 			sourceTree = "<group>";
@@ -302,16 +292,6 @@
 				BD4D506515BDE19C007D6E3A /* Entitlements.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		BDFB949815C306F4001FF740 /* UIBarButtonItem Categories */ = {
-			isa = PBXGroup;
-			children = (
-				BDC09F3C15BF825100349761 /* UIBarButtonItem+Fat.h */,
-				BDC09F3D15BF825100349761 /* UIBarButtonItem+Fat.m */,
-			);
-			name = "UIBarButtonItem Categories";
-			path = ThisVersusThat;
 			sourceTree = "<group>";
 		};
 		BDFB949915C3073E001FF740 /* UITableViewCells */ = {
@@ -410,6 +390,7 @@
 				BDC29A3315C1EC6700596546 /* vote_button_selected@2x.png in Resources */,
 				BDC29A3615C1FFBE00596546 /* leica@2x.png in Resources */,
 				BDC29A3715C1FFBE00596546 /* leica.png in Resources */,
+				BDCFED3515C3845D0089A77E /* clear.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,9 +413,8 @@
 				BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */,
 				BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */,
 				BDC09F3815BF633000349761 /* VLMAddViewController.m in Sources */,
-				BDC09F3B15BF79C900349761 /* UINavigationBar+Fat.m in Sources */,
-				BDC09F3E15BF825100349761 /* UIBarButtonItem+Fat.m in Sources */,
 				BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */,
+				BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

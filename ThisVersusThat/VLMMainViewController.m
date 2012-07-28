@@ -13,8 +13,6 @@
 #import "VLMFooterController.h"
 #import "VLMAddButtonController.h"
 #import "VLMAddViewController.h"
-#import "UINavigationBar+Fat.h"
-#import "UIBarButtonItem+Fat.h"
 
 @interface VLMMainViewController ()
 
@@ -119,8 +117,7 @@
     [self.addButtonController show];
 }
 
-#pragma mark -
-#pragma add poll
+#pragma mark - add poll
 
 - (void)presentAdd {
     VLMAddViewController *avc = [[VLMAddViewController alloc] init];
@@ -129,8 +126,7 @@
     [self presentModalViewController:navigationController animated:YES];
 }
 
-#pragma mark -
-#pragma mark boilerplate
+#pragma mark - boilerplate
 
 - (void)viewDidUnload
 {

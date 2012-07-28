@@ -28,6 +28,16 @@
     return self;
 }
 
+- (id)initWithTitle:(NSString *)title
+{
+    self = [super init];
+    if (self) {
+        // Custom initialization
+        self.title = title;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,7 +55,8 @@
     
     
     UIButton *t = [self makeTextButtonWithFrame:CGRectMake(winw/2-75.0f, 0, 150.0f, HEADER_HEIGHT)];
-    [t setTitle:@"All Polls" forState:UIControlStateNormal];
+    [t setEnabled:NO];
+    [t setTitle:self.title forState:UIControlStateNormal];
     [t.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
     [t setTitleColor:TEXT_COLOR forState:UIControlStateNormal];
     [t setTitleShadowColor:[UIColor colorWithWhite:0.1f alpha:1.0f] forState:UIControlStateNormal];

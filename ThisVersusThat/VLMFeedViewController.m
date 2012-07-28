@@ -47,7 +47,7 @@
     // - - - - - C O N T R O L L E R S - - - - - 
     
     // header view controller
-    VLMFeedHeaderController *hc = [[VLMFeedHeaderController alloc] init];
+    VLMFeedHeaderController *hc = [[VLMFeedHeaderController alloc] initWithTitle:@"A / B"];
     self.headerViewController = hc;
     
     // feed view controller

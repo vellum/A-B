@@ -8,7 +8,6 @@
 
 #import "VLMAddViewController.h"
 #import "VLMConstants.h"
-#import "UINavigationBar+Fat.h"
 #import "UIBarButtonItem+Fat.h"
 #import "UIPlaceholderTextView.h"
 #import <QuartzCore/QuartzCore.h>
@@ -57,23 +56,13 @@
 
 - (void)setuptoolbar {
 
+    
     [self setTitle:@"Add Poll"];
 	[self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     
-    NSDictionary *dick = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [UIColor clearColor], UITextAttributeTextShadowColor,
-                          
-                          [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
-                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], UITextAttributeFont, 
-                          nil];
-    
     UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
-    [cancelbutton setTitleTextAttributes:dick forState:UIControlStateNormal];
-    [cancelbutton setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
     
     UIBarButtonItem *donebutton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(cancel:)];
-    [donebutton setTitleTextAttributes:dick forState:UIControlStateNormal];
-    [donebutton setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
     [donebutton setEnabled:NO];
     
     [self.navigationItem setLeftBarButtonItem:cancelbutton];
@@ -250,9 +239,13 @@
     cameraUI.showsCameraControls = YES;
     cameraUI.delegate = self;
     cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-    
+    /*self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Prout" style:UIBarButtonItemStyleDone target:nil action:nil] autorelease];
+     self.navigationItem.hidesBackButton = YES;*/
+    cameraUI.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
+    cameraUI.navigationItem.hidesBackButton = YES;
+
     [self presentModalViewController:cameraUI animated:YES];
-    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     return YES;
 }
 
@@ -288,14 +281,24 @@
         cameraUI.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
         cameraUI.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
         
+
+        
     } else {
         return NO;
     }
     
     cameraUI.allowsEditing = YES;
     cameraUI.delegate = self;
+
     
-    [self presentModalViewController:cameraUI animated:YES];
+    UIImage *clear = [UIImage imageNamed:@"clear.png"];
+    [cameraUI.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+
+
+    
+    [self presentViewController:cameraUI animated:NO completion:^(void){
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+    }];
     
     return YES;
 }
