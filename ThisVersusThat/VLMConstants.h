@@ -12,14 +12,48 @@
 #pragma mark -
 #pragma mark Credentials
 
-#define PARSE_APP_ID @"dzGqHDiGEsXfO2jTHGfJUZiceqLy1DAmASkMRpKd"
-#define PARSE_CLIENT_KEY @"Wdwk2HHE57VMKhKOXkbKj2zqr1zmaa8cs0u2Nk4R"
-#define PARSE_MASTER_KEY @"s1cIGrqWJx67cvx9o98uMB3HUCPR5Pf1pe3PTMhd"
-#define FACEBOOK_APP_ID @"259605200818927"
-#define FACEBOOK_APP_SECRET @"912dc9f297b731dc2e2ff86688147742"
-#define FACEBOOK_APP_NAMESPACE @"thisversusthat"
+#define PARSE_APP_ID @"7Maq4hXcHLO4m1ywRQeLnxoxxlQnPimxUlvn7skb"
+#define PARSE_CLIENT_KEY @"63FEATKxAda51PXpBcuJdCeWy4BG3YcOLeT64Lan"
+#define PARSE_MASTER_KEY @"MDBbOirQ5I7Ut5Olz5NCY0CI2xLcm7F5SskL9yzi"
+#define FACEBOOK_APP_ID @"193845217412320"
+#define FACEBOOK_APP_SECRET @"b2271424ca6ba22e500956bbc4f91704"
+#define FACEBOOK_APP_NAMESPACE @""
+
+#define POLL_CLASS_KEY @"Poll"
+#define POLL_QUESTION_KEY @"Question"
+#define POLL_LEFT_THUMB_KEY @"LeftThumbnail"
+#define POLL_LEFT_PHOTO_KEY @"LeftPhoto"
+#define POLL_LEFT_PHOTO_CAPTION_KEY @"LeftCaption"
+#define POLL_RIGHT_THUMB_KEY @"RightThumbnail"
+#define POLL_RIGHT_PHOTO_KEY @"RightPhoto"
+#define POLL_RIGHT_PHOTO_CAPTION_KEY @"RightCaption"
+#define POLL_USER_KEY @"User"
 
 
+// Field keys
+#define kPAPUserDisplayNameKey @"displayName"
+#define kPAPUserFacebookIDKey @"facebookId"
+#define kPAPUserPhotoIDKey @"photoId"
+#define kPAPUserProfilePicSmallKey @"profilePictureSmall"
+#define kPAPUserProfilePicMediumKey @"profilePictureMedium"
+#define kPAPUserAlreadyAutoFollowedFacebookFriendsKey @"userAlreadyAutoFollowedFacebookFriends"
+#define kPAPUserPrivateChannelKey @"channel"
+
+// Class key
+#define kPAPActivityClassKey @"Activity"
+
+// Field keys
+#define kPAPActivityTypeKey @"type"
+#define kPAPActivityFromUserKey @"fromUser"
+#define kPAPActivityToUserKey @"toUser"
+#define kPAPActivityContentKey @"content"
+#define kPAPActivityPhotoKey @"photo"
+
+// Type values
+#define kPAPActivityTypeLike @"like"
+#define kPAPActivityTypeFollow @"follow"
+#define kPAPActivityTypeComment @"comment"
+#define kPAPActivityTypeJoined @"joined"
 
 #pragma mark -
 #pragma mark Touch and Gesture
@@ -43,6 +77,7 @@
 #define HEADER_TITLE_VERTICAL_OFFSET -4.0f
 #define BAR_BUTTON_ITEM_VERTICAL_OFFSET -6.0f
 
+#define NAVIGATION_HEADER_TITLE_SIZE 15.0f
 
 
 #pragma mark -
@@ -71,11 +106,11 @@
 #define NAVIGATION_HEADER @"AmericanTypewriter"
 #define SECTION_FONT_BOLD @"AmericanTypewriter-Bold"
 #define SECTION_FONT_REGULAR @"AmericanTypewriter"
-#define FOOTER_FONT @"Helvetica-Bold"
+#define FOOTER_FONT @"AmericanTypewriter"
 #define TEXTBUTTON_FONT @"HelveticaNeue-Bold"
 #define PHOTO_LABEL @"AmericanTypewriter"
 
-#define NAVIGATION_HEADER_TITLE_SIZE 15.0f
+
 
 
 

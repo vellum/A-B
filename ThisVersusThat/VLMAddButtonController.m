@@ -56,7 +56,7 @@
     [circle.layer setShadowOpacity:0.25f];
 
     UIButton *fb = [[UIButton alloc] initWithFrame:CGRectOffset(circlerect, 1.0, -2.0)];
-    [fb.titleLabel setFont:[UIFont fontWithName:FOOTER_FONT size:28]];
+    [fb.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:28]];
     [fb setTitle:@"+" forState:UIControlStateNormal];
     [fb setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];

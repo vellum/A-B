@@ -9,12 +9,25 @@
 #import "VLMCell.h"
 #import "VLMConstants.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Parse/Parse.h"
+
 @implementation VLMCell
+
 
 @synthesize containerView;
 @synthesize originalOffsetX;
 @synthesize originalRect;
 @synthesize velocity;
+@synthesize leftfile;
+@synthesize rightfile;
+@synthesize leftcaption;
+@synthesize rightcaption;
+@synthesize leftnumvotes;
+@synthesize rightnumvotes;
+@synthesize leftvotecount;
+@synthesize rightvotecount;
+@synthesize leftcheck;
+@synthesize rightcheck;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,80 +40,76 @@
         self.backgroundColor = [UIColor clearColor];
         self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 640.0f, 294.0f)];
         self.velocity = 0;
+        self.leftvotecount = 0;
+        self.rightvotecount = 0;
         
         UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20, 14, 286, 286)];
         left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
         [self.containerView addSubview:left];
         
-        UIImageView *leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_sample.jpg"]];
-        [leftimage setFrame:CGRectMake(5, 5, 276, 276)];
+        PFImageView *leftimage = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [left addSubview:leftimage];
+        self.leftfile = leftimage;
         
         UIView *leftShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [leftShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
         [left addSubview:leftShade];
         
-        CGFloat leftPct = 0.25f;
-        UIView *leftBar = [[UIView alloc] initWithFrame:CGRectMake(286-5, 5 + (1-leftPct)*276, 5, leftPct*276)];
-        [leftBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
-        [left addSubview:leftBar];
+        //CGFloat leftPct = 0.25f;
+        //UIView *leftBar = [[UIView alloc] initWithFrame:CGRectMake(286-5, 5 + (1-leftPct)*276, 5, leftPct*276)];
+        //[leftBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
+        //[left addSubview:leftBar];
         
-        UILabel *leftLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14, 276-30, 276-28)];
-        [leftLabelsmall setTextAlignment:UITextAlignmentCenter];
-        [leftLabelsmall setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
-        [leftLabelsmall setBackgroundColor:[UIColor clearColor]];
-        [leftLabelsmall setTextColor:[UIColor whiteColor]];
-        [leftLabelsmall setNumberOfLines:0];
-        [leftLabelsmall setText:@"Choice A\n\n14 votes"];
-        [left addSubview:leftLabelsmall];
+        self.leftcaption = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 286-30, 286/2)];
+        [self.leftcaption setTextAlignment:UITextAlignmentCenter];
+        [self.leftcaption setContentMode:UIViewContentModeBottom];
+        [self.leftcaption setFont:[UIFont fontWithName:PHOTO_LABEL size:21.0f]];
+        [self.leftcaption setBackgroundColor:[UIColor clearColor]];
+        [self.leftcaption setTextColor:[UIColor whiteColor]];
+        [left addSubview:self.leftcaption];
+        
+        self.leftnumvotes = [[UILabel alloc] initWithFrame:CGRectMake(15, 286/2+7, 286-30, 14)];
+        [self.leftnumvotes setTextAlignment:UITextAlignmentCenter];
+        [self.leftnumvotes setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
+        [self.leftnumvotes setBackgroundColor:[UIColor clearColor]];
+        [self.leftnumvotes setTextColor:[UIColor whiteColor]];
+        [left addSubview:self.leftnumvotes];
 
-        /*
-        UILabel *leftLabellarge = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 100)];
-        [leftLabellarge setTextAlignment:UITextAlignmentCenter];
-        [leftLabellarge setFont:[UIFont fontWithName:@"Georgia-Italic" size:36.0f]];
-        [leftLabellarge setBackgroundColor:[UIColor clearColor]];
-        [leftLabellarge setTextColor:[UIColor whiteColor]];
-        [leftLabellarge setText:@"25"];
-        [left addSubview:leftLabellarge];
-         */
 
         UIView *right = [[UIView alloc] initWithFrame:CGRectMake(35 + 276, 14, 286, 286)];
         right.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
         [self.containerView addSubview:right];
 
-        UIImageView *rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"right_sample.jpg"]];
-        [rightimage setFrame:CGRectMake(5, 5, 276, 276)];
+        PFImageView *rightimage = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [right addSubview:rightimage];
+        self.rightfile = rightimage;
 
         UIView *rightShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [rightShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
         [right addSubview:rightShade];
 
-        CGFloat rightPct = 0.75f;
-        UIView *rightBar = [[UIView alloc] initWithFrame:CGRectMake(0, 5 + (1-rightPct)*276, 5, rightPct*276)];
-        [rightBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
-        [right addSubview:rightBar];
+        //CGFloat rightPct = 0.75f;
+        //UIView *rightBar = [[UIView alloc] initWithFrame:CGRectMake(0, 5 + (1-rightPct)*276, 5, rightPct*276)];
+        //[rightBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
+        //[right addSubview:rightBar];
 
-        UILabel *rightLabelsmall = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14, 276-30, 276-28)];
-        [rightLabelsmall setTextAlignment:UITextAlignmentCenter];
-        [rightLabelsmall setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
-        [rightLabelsmall setBackgroundColor:[UIColor clearColor]];
-        [rightLabelsmall setTextColor:[UIColor whiteColor]];
-        [rightLabelsmall setNumberOfLines:0];
-        [rightLabelsmall setText:@"Choice B\n\n52 votes"];
-        [right addSubview:rightLabelsmall];
+        self.rightcaption = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 286-30, 286/2)];
+        [self.rightcaption setTextAlignment:UITextAlignmentCenter];
+        [self.rightcaption setContentMode:UIViewContentModeBottom];
+        [self.rightcaption setFont:[UIFont fontWithName:PHOTO_LABEL size:21.0f]];
+        [self.rightcaption setBackgroundColor:[UIColor clearColor]];
+        [self.rightcaption setTextColor:[UIColor whiteColor]];
+        [right addSubview:self.rightcaption];
         
-        /*
-        UILabel *rightLabellarge = [[UILabel alloc] initWithFrame:CGRectMake(0 + 15, 14*5, 266-30, 100)];
-        [rightLabellarge setTextAlignment:UITextAlignmentLeft];
-        [rightLabellarge setFont:[UIFont fontWithName:@"Georgia-Italic" size:48.0f]];
-        [rightLabellarge setBackgroundColor:[UIColor clearColor]];
-        [rightLabellarge setTextColor:[UIColor whiteColor]];
-        [rightLabellarge setText:@"75"];
-        [right addSubview:rightLabellarge];
-         */
+        self.rightnumvotes = [[UILabel alloc] initWithFrame:CGRectMake(15, 286/2+7, 286-30, 14)];
+        [self.rightnumvotes setTextAlignment:UITextAlignmentCenter];
+        [self.rightnumvotes setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
+        [self.rightnumvotes setBackgroundColor:[UIColor clearColor]];
+        [self.rightnumvotes setTextColor:[UIColor whiteColor]];
+        [right addSubview:self.rightnumvotes];
         
-        UIButton *leftcheck = [[UIButton alloc] initWithFrame:CGRectMake(276/2-56/2, 276-65, 55, 55)];;
+        
+        self.leftcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-56/2, 286-65, 55, 55)];;
         [leftcheck setShowsTouchWhenHighlighted:YES];
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
@@ -108,10 +117,11 @@
 
         [left addSubview:leftcheck];
 
-        UIButton *rightcheck = [[UIButton alloc] initWithFrame:CGRectMake(276/2-56/2, 276-65, 55, 55)];;
+        self.rightcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-56/2, 286-65, 55, 55)];;
         [rightcheck setShowsTouchWhenHighlighted:YES];
         [rightcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
         [rightcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
+        [rightcheck addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [right addSubview:rightcheck];
 
         
@@ -122,8 +132,21 @@
     }
     return self;
 }
+
 -(void)buttonTapped:(id)sender{
-    NSLog(@"huhu");
+    
+    if ( sender == self.leftcheck ){
+        
+        self.leftcheck.selected = !self.leftcheck.selected;
+        self.rightcheck.enabled = !self.leftcheck.selected;
+        
+    } else if ( sender == self.rightcheck ){
+
+        self.rightcheck.selected = !self.rightcheck.selected;
+        self.leftcheck.enabled = !self.rightcheck.selected;
+        
+    }
+    
 }
 
 -(void) translateByX: (CGFloat) offsetval withVelocity:(CGFloat)velocityval{
@@ -224,5 +247,31 @@
     // restore the previous animation state
     [UIView setAnimationsEnabled:animationsEnabled];
 
+}
+
+- (void)setLeftFile: (PFFile *)left andRightFile: (PFFile *)right{
+    if ( !left || !right ) return;
+    
+    self.leftfile.image = [UIImage imageNamed:@"clear.png"];
+    self.leftfile.file = left;
+    [self.leftfile loadInBackground];
+
+    self.rightfile.image = [UIImage imageNamed:@"clear.png"];
+    self.rightfile.file = right;
+    [self.rightfile loadInBackground];
+}
+
+- (void)setLeftCaptionText: (NSString *)left andRightCaptionText: (NSString *)right{
+    [self.leftcaption setText:left];
+    [self.leftcaption sizeToFit];
+    [self.leftcaption setFrame:CGRectMake(15, 286/2 - (self.leftcaption.frame.size.height + 28 )/2, 286-30, self.leftcaption.frame.size.height)];
+    [self.leftnumvotes setFrame:CGRectMake(15, self.leftcaption.frame.origin.y + self.leftcaption.frame.size.height+7, 286-30, 28)];
+    [self.leftnumvotes setText:@"0 votes"];
+
+    [self.rightcaption setText:right];
+    [self.rightcaption sizeToFit];
+    [self.rightcaption setFrame:CGRectMake(15, 286/2 - (self.rightcaption.frame.size.height + 28 )/2, 286-30, self.rightcaption.frame.size.height)];
+    [self.rightnumvotes setFrame:CGRectMake(15, self.rightcaption.frame.origin.y + self.rightcaption.frame.size.height+7, 286-30, 28)];
+    [self.rightnumvotes setText:@"0 votes"];
 }
 @end

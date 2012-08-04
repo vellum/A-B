@@ -13,5 +13,7 @@
 @property (strong, nonatomic) VLMMainViewController *mainViewController;
 
 - (void)subscribeFinished:(NSNumber *)result error:(NSError *)error;
-
+- (void)showHUD:(NSString *)text;
+- (void)updateHUD:(NSString *)text;
+- (void)hideHUD;
 @end

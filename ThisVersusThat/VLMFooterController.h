@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Parse/Parse.h"
 @class VLMMainViewController;
 
-@interface VLMFooterController : UIViewController<UIActionSheetDelegate> {
+@interface VLMFooterController : UIViewController<UIActionSheetDelegate, PF_FBRequestDelegate> {
     UIButton *feedbutton;
     UIButton *addbutton;
     VLMMainViewController *mainviewcontroller;

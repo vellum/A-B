@@ -16,9 +16,9 @@
     UILabel *placeHolderLabel;
 }
 
-@property (nonatomic, retain) UILabel *placeHolderLabel;
-@property (nonatomic, retain) NSString *placeholder;
-@property (nonatomic, retain) UIColor *placeholderColor;
+@property (nonatomic) UILabel *placeHolderLabel;
+@property (nonatomic) NSString *placeholder;
+@property (nonatomic) UIColor *placeholderColor;
 
 -(void)textChanged:(NSNotification*)notification;
 

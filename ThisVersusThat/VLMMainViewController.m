@@ -13,8 +13,12 @@
 #import "VLMFooterController.h"
 #import "VLMAddButtonController.h"
 #import "VLMAddViewController.h"
+#import "VLMUtility.h"
+#import "AppDelegate.h"
 
-@interface VLMMainViewController ()
+@interface VLMMainViewController (){
+    NSMutableData *_data;
+}
 
 @end
 
@@ -65,6 +69,7 @@
         [self showLoggedInState];
         //NSLog(@"hi");
         //[self.addButtonController show];
+    
     }
 
 
@@ -115,7 +120,39 @@
     [self.feedViewController.view setFrame:CGRectMake(0, 0, winw, winh-STATUSBAR_HEIGHT)];
     [self.feedViewController updatelayout];
     [self.addButtonController show];
+    
+    
+    NSLog(@"Downloading user's profile picture");
+    
+    NSString *fbid = [[PFUser currentUser] objectForKey:@"facebookId"];
+    NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", fbid];
+    
+    // Download user's profile picture
+    NSURL *profilePictureURL = [NSURL URLWithString:url];
+    
+    NSURLRequest *profilePictureURLRequest = [NSURLRequest requestWithURL:profilePictureURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0f]; // Facebook profile picture cache policy: Expires in 2 weeks
+    [NSURLConnection connectionWithRequest:profilePictureURLRequest delegate:self];
+    
+    
+    [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
+
 }
+
+
+#pragma mark - NSURLConnectionDataDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    _data = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [_data appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [VLMUtility processFacebookProfilePictureData:_data];
+}
+
 
 #pragma mark - add poll
 

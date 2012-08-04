@@ -8,8 +8,11 @@
 
 #import "VLMSectionView.h"
 #import "VLMConstants.h"
+#import "Parse/Parse.h"
 
 @implementation VLMSectionView
+
+@synthesize profileImageView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -24,8 +27,7 @@
         [self setAutoresizesSubviews:NO];
 
         // avatar
-        UIView *avatarplaceholder = [[UIView alloc] initWithFrame:CGRectMake(7.0f, 13.0f, 27.0f, 27.0f)];
-        [avatarplaceholder setBackgroundColor:[UIColor lightGrayColor]];
+        self.profileImageView = [[PFImageView alloc] initWithFrame:CGRectMake(7.0f, 13.0f, 27.0f, 27.0f)];
 
         // create the label objects
         UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -59,12 +61,22 @@
         [self setBackgroundColor:FEED_SECTION_HEADER_BGCOLOR];
         //[self setBackgroundColor:DEBUG_BACKGROUND_GRID];
         [self setAutoresizesSubviews:NO];
-        [self addSubview:avatarplaceholder];
+        [self addSubview:self.profileImageView];
         [self addSubview:headerLabel];
         [self addSubview:detailLabel];
     }
     return self;
 }
+- (void)setFile:(PFFile *)file {
+    if (!file) {
+        return;
+    }
+    
+    self.profileImageView.image = [UIImage imageNamed:@"clear.png"];
+    self.profileImageView.file = file;
+    [self.profileImageView loadInBackground];
+}
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

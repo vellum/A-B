@@ -18,6 +18,7 @@
 		09BEF34C13D51C3F001BBCDB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF34B13D51C3F001BBCDB /* Security.framework */; };
 		2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCDD6AF14A573F500295AAC /* QuartzCore.framework */; };
 		743D7B6D157DA60100084B67 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743D7B6C157DA60100084B67 /* CoreGraphics.framework */; };
+		BD01955F15CADE1B00D58D19 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BD01955E15CADE1B00D58D19 /* MBProgressHUD.m */; };
 		BD48B60715C1B5060019C3A2 /* photo_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = BD48B60615C1B5060019C3A2 /* photo_placeholder.png */; };
 		BD48B60A15C1BBCF0019C3A2 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = BD48B60915C1BBCF0019C3A2 /* triangle.png */; };
 		BD4D507B15BDE19C007D6E3A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D506015BDE19C007D6E3A /* AppDelegate.m */; };
@@ -34,6 +35,9 @@
 		BD4D508915BDE19D007D6E3A /* VLMTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
 		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
+		BD7F22C715C8718600598906 /* UIImage+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22C615C8718600598906 /* UIImage+ResizeAdditions.m */; };
+		BD7F22CC15C871D500598906 /* UIImage+AlphaAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22C915C871D500598906 /* UIImage+AlphaAdditions.m */; };
+		BD7F22CD15C871D500598906 /* UIImage+RoundedCornerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22CB15C871D500598906 /* UIImage+RoundedCornerAdditions.m */; };
 		BD8891DC15C0605400C1615C /* vote_button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DA15C0605400C1615C /* vote_button_selected.png */; };
 		BD8891DD15C0605400C1615C /* vote_button_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DB15C0605400C1615C /* vote_button_normal.png */; };
 		BD90FFF215BE7B6D004621E8 /* subtlenet2.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF115BE7B6D004621E8 /* subtlenet2.png */; };
@@ -49,6 +53,8 @@
 		BDC29A3615C1FFBE00596546 /* leica@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A3415C1FFBE00596546 /* leica@2x.png */; };
 		BDC29A3715C1FFBE00596546 /* leica.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A3515C1FFBE00596546 /* leica.png */; };
 		BDCFED3515C3845D0089A77E /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCFED3415C3845D0089A77E /* clear.png */; };
+		BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD0F8C915CB723A00ACAB23 /* VLMCache.m */; };
+		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
 		BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +71,8 @@
 		09BEF34B13D51C3F001BBCDB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2FCDD6AF14A573F500295AAC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		743D7B6C157DA60100084B67 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		BD01955D15CADE1B00D58D19 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		BD01955E15CADE1B00D58D19 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		BD48B60615C1B5060019C3A2 /* photo_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_placeholder.png; sourceTree = "<group>"; };
 		BD48B60915C1BBCF0019C3A2 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		BD4D505F15BDE19C007D6E3A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -94,6 +102,12 @@
 		BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMMainViewController.m; sourceTree = "<group>"; };
 		BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddButtonController.h; sourceTree = "<group>"; };
 		BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddButtonController.m; sourceTree = "<group>"; };
+		BD7F22C515C8718600598906 /* UIImage+ResizeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ResizeAdditions.h"; path = "ThisVersusThat/UIImage+ResizeAdditions.h"; sourceTree = "<group>"; };
+		BD7F22C615C8718600598906 /* UIImage+ResizeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResizeAdditions.m"; path = "ThisVersusThat/UIImage+ResizeAdditions.m"; sourceTree = "<group>"; };
+		BD7F22C815C871D500598906 /* UIImage+AlphaAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+AlphaAdditions.h"; path = "ThisVersusThat/UIImage+AlphaAdditions.h"; sourceTree = "<group>"; };
+		BD7F22C915C871D500598906 /* UIImage+AlphaAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+AlphaAdditions.m"; path = "ThisVersusThat/UIImage+AlphaAdditions.m"; sourceTree = "<group>"; };
+		BD7F22CA15C871D500598906 /* UIImage+RoundedCornerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+RoundedCornerAdditions.h"; path = "ThisVersusThat/UIImage+RoundedCornerAdditions.h"; sourceTree = "<group>"; };
+		BD7F22CB15C871D500598906 /* UIImage+RoundedCornerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+RoundedCornerAdditions.m"; path = "ThisVersusThat/UIImage+RoundedCornerAdditions.m"; sourceTree = "<group>"; };
 		BD8891DA15C0605400C1615C /* vote_button_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vote_button_selected.png; sourceTree = "<group>"; };
 		BD8891DB15C0605400C1615C /* vote_button_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vote_button_normal.png; sourceTree = "<group>"; };
 		BD90FFF115BE7B6D004621E8 /* subtlenet2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subtlenet2.png; sourceTree = "<group>"; };
@@ -111,6 +125,10 @@
 		BDC29A3415C1FFBE00596546 /* leica@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leica@2x.png"; sourceTree = "<group>"; };
 		BDC29A3515C1FFBE00596546 /* leica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leica.png; sourceTree = "<group>"; };
 		BDCFED3415C3845D0089A77E /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear.png; sourceTree = "<group>"; };
+		BDD0F8C815CB723900ACAB23 /* VLMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMCache.h; sourceTree = "<group>"; };
+		BDD0F8C915CB723A00ACAB23 /* VLMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCache.m; sourceTree = "<group>"; };
+		BDFAC8FB15C9F980001A15B5 /* VLMUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMUtility.h; sourceTree = "<group>"; };
+		BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMUtility.m; sourceTree = "<group>"; };
 		BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Fat.m"; path = "ThisVersusThat/UINavigationBar+Fat.m"; sourceTree = "<group>"; };
 		BDFCDCE515C3972E0086DE95 /* UINavigationBar+Fat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+Fat.h"; path = "ThisVersusThat/UINavigationBar+Fat.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,13 +182,22 @@
 				09ABC07313A1D52D009C3FCF /* Foundation.framework */,
 				099CCEAC13F9E3760039A464 /* libz.1.1.3.dylib */,
 				092354B613A1D83C00DA740F /* MobileCoreServices.framework */,
-				094AC9FF14367ACD008398F8 /* Parse.framework */,
 				09BEF34B13D51C3F001BBCDB /* Security.framework */,
 				092354B413A1D7F000DA740F /* SystemConfiguration.framework */,
 				09ABC07113A1D52D009C3FCF /* UIKit.framework */,
 				2FCDD6AF14A573F500295AAC /* QuartzCore.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BD01955C15CADE1B00D58D19 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				BD01955D15CADE1B00D58D19 /* MBProgressHUD.h */,
+				BD01955E15CADE1B00D58D19 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			path = ThisVersusThat/MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		BD4D505E15BDE19C007D6E3A /* ThisVersusThat */ = {
@@ -182,8 +209,12 @@
 				BD4D506315BDE19C007D6E3A /* MainWindow.xib */,
 				BDFB949415C305CF001FF740 /* Views */,
 				BDFB949515C305D6001FF740 /* Controllers */,
+				BDFAC8FB15C9F980001A15B5 /* VLMUtility.h */,
+				BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */,
 				BD4D506715BDE19C007D6E3A /* Resources */,
 				BDFB949715C3064E001FF740 /* Supporting Files */,
+				BDD0F8C815CB723900ACAB23 /* VLMCache.h */,
+				BDD0F8C915CB723A00ACAB23 /* VLMCache.m */,
 			);
 			path = ThisVersusThat;
 			sourceTree = "<group>";
@@ -205,16 +236,38 @@
 			name = TableView;
 			sourceTree = "<group>";
 		};
+		BD7F22C315C85F9C00598906 /* UIImage Category */ = {
+			isa = PBXGroup;
+			children = (
+				BD7F22C515C8718600598906 /* UIImage+ResizeAdditions.h */,
+				BD7F22C615C8718600598906 /* UIImage+ResizeAdditions.m */,
+				BD7F22C815C871D500598906 /* UIImage+AlphaAdditions.h */,
+				BD7F22C915C871D500598906 /* UIImage+AlphaAdditions.m */,
+				BD7F22CA15C871D500598906 /* UIImage+RoundedCornerAdditions.h */,
+				BD7F22CB15C871D500598906 /* UIImage+RoundedCornerAdditions.m */,
+			);
+			name = "UIImage Category";
+			sourceTree = "<group>";
+		};
+		BD7F22C415C85FB000598906 /* UInavigationBar Category */ = {
+			isa = PBXGroup;
+			children = (
+				BDFCDCE515C3972E0086DE95 /* UINavigationBar+Fat.h */,
+				BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */,
+			);
+			name = "UInavigationBar Category";
+			sourceTree = "<group>";
+		};
 		BDC09F2315BF2EFD00349761 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				BD72B83C15BE401F0083CD4E /* TableView */,
 				BD4D507315BDE19C007D6E3A /* VLMFeedViewController.h */,
 				BD4D507415BDE19C007D6E3A /* VLMFeedViewController.m */,
 				BD4D506F15BDE19C007D6E3A /* VLMFeedHeaderController.h */,
 				BD4D507015BDE19C007D6E3A /* VLMFeedHeaderController.m */,
 				BD4D507515BDE19C007D6E3A /* VLMFooterController.h */,
 				BD4D507615BDE19C007D6E3A /* VLMFooterController.m */,
-				BD72B83C15BE401F0083CD4E /* TableView */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -275,8 +328,10 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
-				BDFCDCE515C3972E0086DE95 /* UINavigationBar+Fat.h */,
-				BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */,
+				BD01955C15CADE1B00D58D19 /* MBProgressHUD */,
+				BD7F22C315C85F9C00598906 /* UIImage Category */,
+				094AC9FF14367ACD008398F8 /* Parse.framework */,
+				BD7F22C415C85FB000598906 /* UInavigationBar Category */,
 				BDFB949B15C307A1001FF740 /* UIPlaceholderTextView */,
 			);
 			name = External;
@@ -415,6 +470,12 @@
 				BDC09F3815BF633000349761 /* VLMAddViewController.m in Sources */,
 				BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */,
 				BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */,
+				BD7F22C715C8718600598906 /* UIImage+ResizeAdditions.m in Sources */,
+				BD7F22CC15C871D500598906 /* UIImage+AlphaAdditions.m in Sources */,
+				BD7F22CD15C871D500598906 /* UIImage+RoundedCornerAdditions.m in Sources */,
+				BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */,
+				BD01955F15CADE1B00D58D19 /* MBProgressHUD.m in Sources */,
+				BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +505,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: david lu (D6GE537VAV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -454,6 +515,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PROVISIONING_PROFILE = "C8BB3426-068A-488B-A742-841779F4955F";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -462,7 +524,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: david lu (D6GE537VAV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -470,6 +532,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "C8BB3426-068A-488B-A742-841779F4955F";
 				SDKROOT = iphoneos;
 			};
 			name = Release;

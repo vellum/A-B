@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@class PFImageView;
+@class PFFile;
 
 @interface VLMSectionView : UIView{
 }
 
--(id) initWithFrame:(CGRect)frame andUserName:(NSString *)username andQuestion:(NSString *)text;
+@property (nonatomic, strong) PFImageView *profileImageView;
+
+- (id)initWithFrame:(CGRect)frame andUserName:(NSString *)username andQuestion:(NSString *)text;
+- (void)setFile:(PFFile*)file;
 @end
