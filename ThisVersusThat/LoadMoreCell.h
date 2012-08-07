@@ -13,4 +13,10 @@
     VLMFeedTableViewController *tv;
 }
 @property (strong, nonatomic) VLMFeedTableViewController *tv;
+
+
+- (void)translateByX: (CGFloat) offsetval withVelocity: (CGFloat) velocityval;
+- (void)resetAnimated:(BOOL)anim;
+- (void)killAnimations;
+- (void)setInitialPage:(BOOL)leftside;
 @end

@@ -360,7 +360,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section >= self.objects.count) {
         // Load More Section
-        return 60.0f;
+        return 74.0f;
     }
     NSInteger rownum = [indexPath row];
     NSInteger sectionnum = [indexPath section];
