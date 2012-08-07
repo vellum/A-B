@@ -14,16 +14,21 @@
 #import "Parse/Parse.h"
 #import "VLMCache.h"
 #import "LoadMoreCell.h"
+#import "VLMFeedHeaderDelegate.h"
+#import "VLMTapDelegate.h"
 
 @interface VLMFeedTableViewController()
+
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
 @property (nonatomic, strong) NSMutableSet *reusableSectionHeaderViews;
-
 @property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
 @property (strong, nonatomic) VLMFeedHeaderController *headerViewController;
 @property (nonatomic) CGRect contentRect;
 @property (nonatomic) CGFloat contentOffsetY;
+
 @end
+
+
 
 @implementation VLMFeedTableViewController
 
@@ -33,12 +38,17 @@
 @synthesize reusableSectionHeaderViews;
 @synthesize shouldReloadOnAppear;
 @synthesize outstandingQueries;
+@synthesize delegate;
+
+
 
 #pragma mark - NSObject
 
 -(id) initWithHeader:(VLMFeedHeaderController *) headerController {
     self = [super initWithStyle:UITableViewStylePlain];
     if ( headerController ) {
+        self.loadingViewEnabled = NO;
+        
         self.headerViewController = headerController;
 
         self.outstandingQueries = [NSMutableDictionary dictionary];
@@ -69,6 +79,7 @@
 }
 
 
+
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
@@ -89,6 +100,8 @@
     [[VLMCache sharedCache] clear];
     [super loadObjects];
 }
+
+
 
 #pragma mark - PFQueryTableViewController
 
@@ -111,7 +124,10 @@
     return nil;
 }
 
+
+
 #pragma mark - UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger sections = self.objects.count;
     if (self.paginationEnabled && sections != 0){
@@ -129,7 +145,11 @@
 	return 1;
 }
 
+
+
 #pragma mark - UITableViewDelegate
+
+// header
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -169,8 +189,7 @@
 
     PFObject *obj = [self.objects objectAtIndex:section];
     if ( obj == nil ) return nil;
-    
-    
+        
     NSString *text = [obj objectForKey:@"Question"];
     PFUser *user = [obj objectForKey:@"User"];
     NSString *displayname = [user objectForKey:@"displayName"];
@@ -185,10 +204,13 @@
         [customview setUserName:displayname andQuestion:text];
     }
     [customview setFile:avatar];
+    customview.delegate = self;
+    customview.section = section;
     
     return customview;
 }
 
+// cell
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ( indexPath.section >= [self.objects count] ){
@@ -327,36 +349,6 @@
 	return cell;
 }
 
-- (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll{
-    @synchronized(self){
-        [[VLMCache sharedCache] setDirection:isLeft ForPoll:poll];
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
-    
-    LoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
-    if (!cell) {
-        cell = [[LoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.tv = self;
-    }
-    return cell;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, self.tableView.bounds.size.width, 16.0f)];
-    return footerView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == self.objects.count) {
-        return 0.0f;
-    }
-    return 0.0f;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section >= self.objects.count) {
         // Load More Section
@@ -379,9 +371,37 @@
     return 321.0f;
 }
 
-#pragma mark - VLMFeedTableViewController
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
+    
+    LoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
+    if (!cell) {
+        cell = [[LoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.tv = self;
+    }
+    return cell;
+}
 
-- (VLMSectionView *)dequeueReusableSectionHeaderView {
+// footer
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, self.tableView.bounds.size.width, 16.0f)];
+    return footerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == self.objects.count) {
+        return 0.0f;
+    }
+    return 0.0f;
+}
+
+
+
+#pragma mark - ()
+
+- (VLMSectionView *)dequeueReusableSectionHeaderView{
     for (VLMSectionView *sectionHeaderView in self.reusableSectionHeaderViews) {
         if (!sectionHeaderView.superview) {
             // we found a section header that is no longer visible
@@ -391,28 +411,13 @@
     return nil;
 }
 
-
-// this method is called when we log in and out
--(void)updatelayout{
-    
-    // rearrange layout
-    CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
-    CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat footerh = (![PFUser currentUser]) ? FOOTER_HEIGHT : 0;  
-    CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh-FOOTER_HEIGHT-footerh);
-    //CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh-footerh-HEADER_HEIGHT-STATUSBAR_HEIGHT);
-    
-    [self setContentRect:cr];
-    [self setContentOffsetY:HEADER_HEIGHT];
-    [self.view setFrame: CGRectOffset(self.contentRect, 0.0f, self.contentOffsetY)];
-    
-    
-    // reload data (since our logged in state has changed)
-    [self loadObjects]; 
+- (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll{
+    @synchronized(self){
+        [[VLMCache sharedCache] setDirection:isLeft ForPoll:poll];
+    }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [super scrollViewDidScroll:scrollView];
     
     // get the scroll position of the tableview
@@ -464,5 +469,41 @@
         [UIView setAnimationsEnabled:animationsEnabled];
     }
 }
+
+// this method is called when we log in and out
+-(void)updatelayout{
+    
+    // rearrange layout
+    CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
+    CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat footerh = (![PFUser currentUser]) ? FOOTER_HEIGHT : 0;  
+    CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh-FOOTER_HEIGHT-footerh);
+    //CGRect cr = CGRectMake(0.0f, 0.0f, winw, winh-footerh-HEADER_HEIGHT-STATUSBAR_HEIGHT);
+    
+    [self setContentRect:cr];
+    [self setContentOffsetY:HEADER_HEIGHT];
+    [self.view setFrame: CGRectOffset(self.contentRect, 0.0f, self.contentOffsetY)];
+    
+    
+    // reload data (since our logged in state has changed)
+    [self loadObjects]; 
+}
+
+
+
+#pragma mark - VLMFeedHeaderDelegate
+
+- (void)didTapUser:(int)section{
+    if ( delegate ){
+        [delegate didTapUser:nil];
+    }
+}
+
+- (void)didTapPoll:(int)section{
+    if ( delegate ){
+        [delegate didTapPoll:nil];
+    }
+}
+
 
 @end

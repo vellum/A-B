@@ -15,6 +15,9 @@
 #import "VLMAddViewController.h"
 #import "VLMUtility.h"
 #import "AppDelegate.h"
+#import "UIViewController+Transitions.h"
+#import <QuartzCore/QuartzCore.h>
+#import "VLMTapDelegate.h"
 
 @interface VLMMainViewController (){
     NSMutableData *_data;
@@ -28,8 +31,7 @@
 @synthesize footerViewController;
 @synthesize addButtonController;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -37,8 +39,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
 
 	// Do any additional setup after loading the view.
@@ -54,6 +55,7 @@
     
 	VLMFeedViewController *fvc = [[VLMFeedViewController alloc] init];
     self.feedViewController = fvc;
+    self.feedViewController.popDelegate = self;
 
     [self.view addSubview:[self.feedViewController view]];
     
@@ -71,9 +73,18 @@
         //[self.addButtonController show];
     
     }
-
-
 }
+
+- (void)viewDidUnload{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+
 #pragma mark -
 #pragma mark Signup/Login
 
@@ -160,20 +171,23 @@
     VLMAddViewController *avc = [[VLMAddViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:avc];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+    
     [self presentModalViewController:navigationController animated:YES];
+    //[self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
+    
 }
 
-#pragma mark - boilerplate
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+#pragma mark - VLMPopDelegate
+
+- (void)popPollDetail:(PFObject *)poll{
+    NSLog(@"popdetail");
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)popUserDetail:(PFObject *)user{
+    NSLog(@"popuser");
 }
+
+
 
 @end

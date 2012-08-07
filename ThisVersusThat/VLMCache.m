@@ -73,7 +73,7 @@
                                 commenters, @"Commenters",
                                 nil];
     
-    NSLog(@"%d  %d", [likersLeft count], [likersRight count]);
+    //NSLog(@"%d  %d", [likersLeft count], [likersRight count]);
     [self setAttributes:attributes forPoll:poll];
 }
 

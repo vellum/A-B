@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
+#import "VLMPopModalDelegate.h"
 
 @class VLMFooterController;
 @class VLMFeedViewController;
 @class VLMAddButtonController;
 
-@interface VLMMainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDataDelegate>{
+@interface VLMMainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDataDelegate, VLMPopModalDelegate>{
     VLMFeedViewController *feedViewController;
     VLMFooterController *footerViewController;
     VLMAddButtonController *addButtonController;
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) VLMFeedViewController *feedViewController;
 @property (strong, nonatomic) VLMFooterController *footerViewController;
 @property (strong, nonatomic) VLMAddButtonController *addButtonController;
+
 
 - (void)presentLogin;
 - (void)presentSignUp;

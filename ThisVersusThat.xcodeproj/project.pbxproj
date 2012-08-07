@@ -55,6 +55,7 @@
 		BDCFED3515C3845D0089A77E /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCFED3415C3845D0089A77E /* clear.png */; };
 		BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD0F8C915CB723A00ACAB23 /* VLMCache.m */; };
 		BDEB7A1615D09D51003BC4E3 /* LoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */; };
+		BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */; };
 		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
 		BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */; };
 /* End PBXBuildFile section */
@@ -114,6 +115,9 @@
 		BD90FFF115BE7B6D004621E8 /* subtlenet2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subtlenet2.png; sourceTree = "<group>"; };
 		BD94B29515C0F73400DCC8DA /* UIPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIPlaceholderTextView.h; path = ThisVersusThat/UIPlaceholderTextView.h; sourceTree = "<group>"; };
 		BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIPlaceholderTextView.m; path = ThisVersusThat/UIPlaceholderTextView.m; sourceTree = "<group>"; };
+		BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VLMFeedHeaderDelegate.h; sourceTree = "<group>"; };
+		BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTapDelegate.h; sourceTree = "<group>"; };
+		BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMPopModalDelegate.h; sourceTree = "<group>"; };
 		BDC09F3615BF632F00349761 /* VLMAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddViewController.h; sourceTree = "<group>"; };
 		BDC09F3715BF633000349761 /* VLMAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddViewController.m; sourceTree = "<group>"; };
 		BDC09F3F15BFBDBB00349761 /* gray_header_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray_header_background.png; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 		BDD0F8C915CB723A00ACAB23 /* VLMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCache.m; sourceTree = "<group>"; };
 		BDEB7A1415D09D51003BC4E3 /* LoadMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreCell.h; sourceTree = "<group>"; };
 		BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreCell.m; sourceTree = "<group>"; };
+		BDEB7A1E15D0F222003BC4E3 /* UIViewController+Transitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Transitions.h"; path = "ThisVersusThat/UIViewController+Transitions.h"; sourceTree = "<group>"; };
+		BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Transitions.m"; path = "ThisVersusThat/UIViewController+Transitions.m"; sourceTree = "<group>"; };
 		BDFAC8FB15C9F980001A15B5 /* VLMUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMUtility.h; sourceTree = "<group>"; };
 		BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMUtility.m; sourceTree = "<group>"; };
 		BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Fat.m"; path = "ThisVersusThat/UINavigationBar+Fat.m"; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 		BD72B83C15BE401F0083CD4E /* TableView */ = {
 			isa = PBXGroup;
 			children = (
+				BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */,
 				BD4D507115BDE19C007D6E3A /* VLMFeedTableViewController.h */,
 				BD4D507215BDE19C007D6E3A /* VLMFeedTableViewController.m */,
 			);
@@ -265,6 +272,8 @@
 			isa = PBXGroup;
 			children = (
 				BD72B83C15BE401F0083CD4E /* TableView */,
+				BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */,
+				BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */,
 				BD4D507315BDE19C007D6E3A /* VLMFeedViewController.h */,
 				BD4D507415BDE19C007D6E3A /* VLMFeedViewController.m */,
 				BD4D506F15BDE19C007D6E3A /* VLMFeedHeaderController.h */,
@@ -282,6 +291,15 @@
 				BDC09F3715BF633000349761 /* VLMAddViewController.m */,
 			);
 			name = "Add Poll";
+			sourceTree = "<group>";
+		};
+		BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */ = {
+			isa = PBXGroup;
+			children = (
+				BDEB7A1E15D0F222003BC4E3 /* UIViewController+Transitions.h */,
+				BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */,
+			);
+			name = "UINavigationController Category";
 			sourceTree = "<group>";
 		};
 		BDFB949215C3049A001FF740 /* Images */ = {
@@ -311,8 +329,9 @@
 			children = (
 				BD4D507915BDE19C007D6E3A /* VLMTextButton.h */,
 				BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */,
+				BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */,
+				BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */,
 				BDFB949915C3073E001FF740 /* UITableViewCells */,
-				BDFB949C15C30CD6001FF740 /* Should Be Views */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -331,6 +350,7 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */,
 				BD01955C15CADE1B00D58D19 /* MBProgressHUD */,
 				BD7F22C315C85F9C00598906 /* UIImage Category */,
 				094AC9FF14367ACD008398F8 /* Parse.framework */,
@@ -372,15 +392,6 @@
 				BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */,
 			);
 			name = UIPlaceholderTextView;
-			sourceTree = "<group>";
-		};
-		BDFB949C15C30CD6001FF740 /* Should Be Views */ = {
-			isa = PBXGroup;
-			children = (
-				BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */,
-				BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */,
-			);
-			name = "Should Be Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -482,6 +493,7 @@
 				BD01955F15CADE1B00D58D19 /* MBProgressHUD.m in Sources */,
 				BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */,
 				BDEB7A1615D09D51003BC4E3 /* LoadMoreCell.m in Sources */,
+				BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

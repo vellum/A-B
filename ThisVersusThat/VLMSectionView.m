@@ -9,6 +9,7 @@
 #import "VLMSectionView.h"
 #import "VLMConstants.h"
 #import "Parse/Parse.h"
+#import "VLMFeedHeaderDelegate.h"
 
 @implementation VLMSectionView
 
@@ -18,6 +19,8 @@
 @synthesize clearbutton;
 @synthesize clearbutton2;
 @synthesize clearbutton3;
+@synthesize delegate;
+@synthesize section;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -148,11 +151,13 @@
 }
 
 -(void)handleTap:(id)sender{
-    NSLog(@"tap");
+    if ( !self.delegate ) return;
+    [delegate didTapUser:self.section];
 }
 
 -(void)handleTap2:(id)sender{
-    NSLog(@"tap2");
+    if ( !self.delegate ) return;
+    [delegate didTapPoll:self.section];
 }
 
 

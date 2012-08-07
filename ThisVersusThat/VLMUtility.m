@@ -148,12 +148,12 @@
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
                             
-                            NSLog(@"%d activities",[objects count]);
+                            //NSLog(@"%d activities",[objects count]);
                             
                             // loop through these mixed results
                             for (PFObject *activity in objects) {
                                 
-                                NSLog(@"here");
+                                //NSLog(@"here");
                                 NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
                                 NSString *cur = [[PFUser currentUser] objectId];
                                 // NSLog(@"%@ / %@", userID, cur);
@@ -231,12 +231,12 @@
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
                             
-                            NSLog(@"%d activities",[objects count]);
+                            //NSLog(@"%d activities",[objects count]);
                             
                             // loop through these mixed results
                             for (PFObject *activity in objects) {
                                 
-                                NSLog(@"here");
+                                //NSLog(@"here");
                                 NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
                                 NSString *cur = [[PFUser currentUser] objectId];
                                 // NSLog(@"%@ / %@", userID, cur);

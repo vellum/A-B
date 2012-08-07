@@ -9,9 +9,9 @@
 #import "VLMFeedViewController.h"
 #import "VLMConstants.h"
 #import "VLMCell.h"
+#import "VLMMainViewController.h"
 
 @interface VLMFeedViewController ()
-
 @end
 
 @implementation VLMFeedViewController
@@ -20,9 +20,11 @@
 @synthesize tableViewController;
 @synthesize recognizedPanDirection;
 @synthesize selectedCell;
+@synthesize popDelegate;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+#pragma mark - UIViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -30,8 +32,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     
 	// Do any additional setup after loading the view.
@@ -53,6 +54,7 @@
     // feed view controller
 	VLMFeedTableViewController *fvc = [[VLMFeedTableViewController alloc] initWithHeader:hc];
     self.tableViewController = fvc;
+    self.tableViewController.delegate = self;
     
     // add child views
     [self.view addSubview:hc.view];
@@ -77,6 +79,18 @@
     // the default recognized state is unknown
     self.recognizedPanDirection = FUCKING_UNKNOWN;
 }
+
+- (void)viewDidUnload{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+
+#pragma mark - ()
 
 // lightweight analysis on detected pan gestures
 -(void) handlePan:(id)sender{
@@ -199,8 +213,15 @@
     }
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
-{
+-(void)updatelayout{
+    [self.tableViewController updatelayout];
+}
+
+
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer{
     // currently, our gesture recognizer is always on for the feed
     // we probably want to turn off gesturerecco if we're not dealing with votable rows
     return YES;
@@ -211,18 +232,21 @@
     return YES;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+#pragma mark - VLMTapDelegate
+
+- (void)didTapPoll:(PFObject *)poll{
+    NSLog(@"j");
+    if (popDelegate){
+        [popDelegate popPollDetail:poll];
+    }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)didTapUser:(PFObject *)user{
+    NSLog(@"k");
+    if (popDelegate){
+        [popDelegate popUserDetail:user];
+    }
 }
 
--(void)updatelayout{
-    [self.tableViewController updatelayout];
-}
+
 @end
