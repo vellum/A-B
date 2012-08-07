@@ -202,7 +202,9 @@
 	// if no cell is available create a new one
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
-	}
+	} else {
+        [cell setInitialPage:YES];
+    }
     
     if ( indexPath.section == 0 && indexPath.row == 0 ){
         cell.contentView.hidden = YES;
@@ -210,7 +212,6 @@
     } 
     cell.contentView.hidden = NO;
     [cell setPoll:obj];
-    [cell setInitialPage:YES];
 
     PFObject *poll = obj;
     PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
@@ -306,7 +307,6 @@
                             
                             [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
                             [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
-                            [cell setInitialPage:YES];
 
                         }//end if (!error)
 

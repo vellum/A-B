@@ -152,6 +152,13 @@
             
             // a little debugging
             //NSLog(@"recognized vertical pan");
+            
+            // do some optimization here for scrolling perf
+            if ( self.selectedCell != nil ){
+                VLMCell *c = (VLMCell *) self.selectedCell;
+                c.contentView.clipsToBounds = YES;
+            }
+
         } 
         else if ( p.x > deadzone.width/2 || p.x < -deadzone.width/2 ) {
             

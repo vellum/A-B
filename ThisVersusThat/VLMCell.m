@@ -48,7 +48,8 @@
         // Initialization code
         self.originalOffsetX = 0.0f;
         self.backgroundColor = [UIColor clearColor];
-        self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 640.0f, 294.0f)];
+        self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 592.0f, 301.0f)];
+        self.containerView.clipsToBounds = YES;
         self.velocity = 0;
         self.leftvotecount = 0;
         self.rightvotecount = 0;
@@ -212,6 +213,8 @@
 }
 
 -(void) translateByX: (CGFloat) offsetval withVelocity:(CGFloat)velocityval{
+    self.contentView.clipsToBounds = NO;
+
     CGFloat val = offsetval;
     self.velocity = velocityval;
     if (( self.containerView.frame.origin.x >= 0 && val > 0 ) ||
@@ -341,7 +344,6 @@
             self.leftcheck.selected = NO;
             self.rightcheck.enabled = YES;
             self.rightcheck.selected = YES;
-            [self setInitialPage:NO];
             
         } else {
             
@@ -404,6 +406,7 @@
     }
     self.containerView.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height);
     self.containerView.frame = CGRectOffset(self.containerView.frame, self.originalOffsetX, 0);
+    self.contentView.clipsToBounds = YES;
     [self setNeedsLayout];
 }
 
