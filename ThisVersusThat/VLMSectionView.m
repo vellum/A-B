@@ -13,6 +13,11 @@
 @implementation VLMSectionView
 
 @synthesize profileImageView;
+@synthesize headerLabel;
+@synthesize detailLabel;
+@synthesize clearbutton;
+@synthesize clearbutton2;
+@synthesize clearbutton3;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -30,14 +35,14 @@
         self.profileImageView = [[PFImageView alloc] initWithFrame:CGRectMake(7.0f, 13.0f, 27.0f, 27.0f)];
 
         // create the label objects
-        UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [headerLabel setBackgroundColor:[UIColor clearColor]];
         [headerLabel setFont:[UIFont fontWithName:SECTION_FONT_BOLD size:14.0f]];
         [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, 250.f, 22.0f )];
         [headerLabel setText:username];
         [headerLabel setTextColor:TEXT_COLOR];
         
-        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.detailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [detailLabel setLineBreakMode:UILineBreakModeWordWrap];
         [detailLabel setMinimumFontSize:10.0f];
         [detailLabel setNumberOfLines:0];
@@ -59,22 +64,95 @@
 
         [self setFrame:frame];
         [self setBackgroundColor:FEED_SECTION_HEADER_BGCOLOR];
-        //[self setBackgroundColor:DEBUG_BACKGROUND_GRID];
         [self setAutoresizesSubviews:NO];
         [self addSubview:self.profileImageView];
         [self addSubview:headerLabel];
         [self addSubview:detailLabel];
+        
+        self.clearbutton = [[UIButton alloc] initWithFrame:self.profileImageView.frame];
+        [clearbutton setBackgroundColor:[UIColor clearColor]];
+        [clearbutton addTarget:self action:@selector(handleTap:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:clearbutton];
+
+        [headerLabel sizeToFit];
+        [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, headerLabel.frame.size.width, 22.0f )];
+
+        self.clearbutton2 = [[UIButton alloc] initWithFrame:headerLabel.frame];
+        [clearbutton2 setBackgroundColor:[UIColor clearColor]];
+        [clearbutton2 addTarget:self action:@selector(handleTap:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:clearbutton2];
+        
+        [detailLabel sizeToFit];
+        [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, detailLabel.frame.size.width, detailLabel.frame.size.height )];
+
+        self.clearbutton3 = [[UIButton alloc] initWithFrame:detailLabel.frame];
+        [clearbutton3 setBackgroundColor:[UIColor clearColor]];
+        [clearbutton3 addTarget:self action:@selector(handleTap2:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:clearbutton3];
+
     }
     return self;
 }
+
+- (void)setUserName:(NSString *)username andQuestion:(NSString *)text{
+    
+    // create the label objects
+    [self.headerLabel setFrame:CGRectZero];
+    [headerLabel setBackgroundColor:[UIColor clearColor]];
+    [headerLabel setFont:[UIFont fontWithName:SECTION_FONT_BOLD size:14.0f]];
+    [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, 250.f, 22.0f )];
+    [headerLabel setText:username];
+    [headerLabel setTextColor:TEXT_COLOR];
+    
+    [self.detailLabel setFrame:CGRectZero];
+    [detailLabel setLineBreakMode:UILineBreakModeWordWrap];
+    [detailLabel setMinimumFontSize:10.0f];
+    [detailLabel setNumberOfLines:0];
+    [detailLabel setFont:[UIFont fontWithName:SECTION_FONT_REGULAR size:14.0f]];
+    [detailLabel setBackgroundColor:[UIColor clearColor]];
+    [detailLabel setTextColor:TEXT_COLOR];
+    [detailLabel setText:text];
+    [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, 270.f, 0.0f )];
+    
+    // new size for label
+    CGSize maximumLabelSize = CGSizeMake(275,100);
+    CGSize expectedLabelSize = [text sizeWithFont:detailLabel.font constrainedToSize:maximumLabelSize lineBreakMode:detailLabel.lineBreakMode];   
+    CGRect newFrame = detailLabel.frame;
+    newFrame.size.height = expectedLabelSize.height;
+    [detailLabel setFrame:newFrame];
+    
+    // new size for view
+    CGRect f = self.frame;
+    f.size.height = newFrame.size.height + newFrame.origin.y + 5;
+    
+    [self setFrame:f];
+    
+    [headerLabel sizeToFit];
+    [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, headerLabel.frame.size.width, 22.0f )];
+    
+    [detailLabel sizeToFit];
+    [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, detailLabel.frame.size.width, detailLabel.frame.size.height )];
+    
+    [clearbutton3 setFrame:detailLabel.frame];
+}
+
 - (void)setFile:(PFFile *)file {
     if (!file) {
         return;
     }
     
-    self.profileImageView.image = [UIImage imageNamed:@"clear.png"];
+    self.profileImageView.image = [UIImage imageNamed:@"clearbutton.png"];
     self.profileImageView.file = file;
     [self.profileImageView loadInBackground];
+    
+}
+
+-(void)handleTap:(id)sender{
+    NSLog(@"tap");
+}
+
+-(void)handleTap2:(id)sender{
+    NSLog(@"tap2");
 }
 
 

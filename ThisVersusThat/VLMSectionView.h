@@ -11,10 +11,21 @@
 @class PFFile;
 
 @interface VLMSectionView : UIView{
+    UILabel *headerLabel;
+    UILabel *detailLabel;
+    UIButton *clearbutton;
+    UIButton *clearbutton2;
+    UIButton *clearbutton3;
 }
 
 @property (nonatomic, strong) PFImageView *profileImageView;
+@property (nonatomic, strong) UILabel *headerLabel;
+@property (nonatomic, strong) UILabel *detailLabel;
+@property (nonatomic, strong) UIButton *clearbutton;
+@property (nonatomic, strong) UIButton *clearbutton2;
+@property (nonatomic, strong) UIButton *clearbutton3;
 
 - (id)initWithFrame:(CGRect)frame andUserName:(NSString *)username andQuestion:(NSString *)text;
+- (void)setUserName:(NSString *)username andQuestion:(NSString *)text; 
 - (void)setFile:(PFFile*)file;
 @end

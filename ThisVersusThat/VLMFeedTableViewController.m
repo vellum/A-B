@@ -117,7 +117,6 @@
     if (self.paginationEnabled && sections != 0){
         sections++;
     }
-    NSLog(@"%d sections", sections);
     return sections;
 }
 
@@ -178,8 +177,15 @@
     PFFile *avatar = [user objectForKey:@"profilePicSmall"];
 
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
-    VLMSectionView *customview = [[VLMSectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, winw, 60.0f) andUserName:displayname andQuestion:text];
+    VLMSectionView *customview = [self dequeueReusableSectionHeaderView];
+    if (!customview){
+        customview = [[VLMSectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, winw, 60.0f) andUserName:displayname andQuestion:text];
+        [self.reusableSectionHeaderViews addObject:customview];
+    } else {
+        [customview setUserName:displayname andQuestion:text];
+    }
     [customview setFile:avatar];
+    
     return customview;
 }
 
@@ -222,7 +228,6 @@
 
     // check if we've stored metadata (likes, comments) for this poll
     if (attributesForPoll) {
-        NSLog(@"cached poll");
         NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
         NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
         [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
@@ -256,15 +261,11 @@
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
                             
-                            NSLog(@"%d activities",[objects count]);
-                            
                             // loop through these mixed results
                             for (PFObject *activity in objects) {
                                 
-                                NSLog(@"here");
                                 NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
                                 NSString *cur = [[PFUser currentUser] objectId];
-                                // NSLog(@"%@ / %@", userID, cur);
                                 
                                 // test for likes
                                 if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
@@ -277,7 +278,6 @@
                                         if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
                                             isLikedByCurrentUserL = YES;
                                         }
-                                        NSLog(@"%d: found one on left", indexPath.section);
                                         
                                     // right photo likes
                                     } else {
@@ -289,7 +289,6 @@
                                             isLikedByCurrentUserR = YES;
                                         }
                                         
-                                        NSLog(@"%d: found one on right", indexPath.section);
                                     }
 
 
@@ -455,11 +454,11 @@
         [UIView setAnimationsEnabled:NO];
         
         // trigger a row height computation on our rows
-        [tv beginUpdates];
-        [tv endUpdates];
+        //[tv beginUpdates];
+        //[tv endUpdates];
         
         // alternatively we can do
-        //[tv reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        [tv reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         
         // restore the previous animation state
         [UIView setAnimationsEnabled:animationsEnabled];
