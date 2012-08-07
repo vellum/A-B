@@ -54,7 +54,7 @@
         self.rightvotecount = 0;
         self.outstandingQueries = [NSMutableDictionary dictionary];        
         
-        UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20, 14, 286, 286)];
+        UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20-5, 14, 286, 286)];
         left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
         [self.containerView addSubview:left];
         
@@ -87,7 +87,7 @@
         [left addSubview:self.votecountlabelLeft];
 
 
-        UIView *right = [[UIView alloc] initWithFrame:CGRectMake(35 + 276, 14, 286, 286)];
+        UIView *right = [[UIView alloc] initWithFrame:CGRectMake(35 + 276 -5, 14, 286, 286)];
         right.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
         [self.containerView addSubview:right];
 
@@ -143,7 +143,9 @@
         
         self.personalvotecountleft = -1;
         self.personalvotecountright = -1;
+        
     }
+
     return self;
 }
 
@@ -321,67 +323,6 @@
     NSString *rightcaption = [photoRight objectForKey:@"Caption"];
     [self setLeftFile:left andRightFile:right];
     [self setLeftCaptionText:leftcaption andRightCaptionText:rightcaption];
-
-    /*
-     // now do a variety of queries to determine counts
-     PFCachePolicy poly = kPFCachePolicyNetworkOnly;
-     
-     // count votes on left photo
-     PFQuery *queryExistingLikesLeft = [PFQuery queryWithClassName:@"Activity"];
-     [queryExistingLikesLeft whereKey:@"Poll" equalTo:poll];
-     [queryExistingLikesLeft whereKey:@"Type" equalTo:@"like"];
-     [queryExistingLikesLeft setCachePolicy:poly];
-     [queryExistingLikesLeft whereKey:@"Photo" equalTo:photoLeft];
-     [queryExistingLikesLeft countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-     
-     if ( !error ){
-     self.leftvotecount = number;
-     self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d votes", number];
-     }
-     
-     }];
-     
-     PFQuery *queryExistingLikesRight = [PFQuery queryWithClassName:@"Activity"];
-     [queryExistingLikesRight whereKey:@"Poll" equalTo:poll];
-     [queryExistingLikesRight whereKey:@"Type" equalTo:@"like"];
-     [queryExistingLikesRight setCachePolicy:poly];
-     [queryExistingLikesRight whereKey:@"Photo" equalTo:photoRight];
-     [queryExistingLikesRight countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-     
-     if ( !error ){
-     self.rightvotecount = number;
-     self.votecountlabelRight.text = [NSString stringWithFormat: @"%d votes", number];
-     }
-     }];
-     
-     if ( ![PFUser currentUser] ) return;
-     
-     PFQuery *queryLikesFromUserLeft = [PFQuery queryWithClassName:@"Activity"];
-     [queryLikesFromUserLeft whereKey:@"Poll" equalTo:poll];
-     [queryLikesFromUserLeft whereKey:@"Type" equalTo:@"like"];
-     [queryLikesFromUserLeft whereKey:@"FromUser" equalTo:[PFUser currentUser]];
-     [queryLikesFromUserLeft setCachePolicy:poly];
-     [queryLikesFromUserLeft whereKey:@"Photo" equalTo:photoLeft];
-     [queryLikesFromUserLeft countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-     if ( !error ){
-     self.personalvotecountleft = number;
-     [self enableButtons];
-     }
-     }];
-     
-     PFQuery *queryLikesFromUserRight = [PFQuery queryWithClassName:@"Activity"];
-     [queryLikesFromUserRight whereKey:@"Poll" equalTo:poll];
-     [queryLikesFromUserRight whereKey:@"Type" equalTo:@"like"];
-     [queryLikesFromUserRight whereKey:@"FromUser" equalTo:[PFUser currentUser]];
-     [queryLikesFromUserRight setCachePolicy:poly];
-     [queryLikesFromUserRight whereKey:@"Photo" equalTo:photoRight];
-     [queryLikesFromUserRight countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-     if ( !error ){
-     self.personalvotecountright = number;
-     [self enableButtons];   
-     }
-     }];
-     */
     
 }
 
@@ -393,13 +334,14 @@
             self.leftcheck.selected = YES;
             self.rightcheck.enabled = NO;
             self.rightcheck.selected = NO;
-            
+
         } else if ( self.personalvotecountright > 0 ){
 
             self.leftcheck.enabled = NO;
             self.leftcheck.selected = NO;
             self.rightcheck.enabled = YES;
             self.rightcheck.selected = YES;
+            [self setInitialPage:NO];
             
         } else {
             
@@ -410,6 +352,7 @@
             
         }
     }
+
 }
 
 - (void)setLeftFile: (PFFile *)left andRightFile: (PFFile *)right{
@@ -451,6 +394,16 @@
     self.personalvotecountleft = left;
     self.personalvotecountright = right;
     [self enableButtons];
+}
+
+- (void)setInitialPage:(BOOL)leftside{
+    if ( leftside ){
+        self.originalOffsetX = 0;
+    } else {
+        self.originalOffsetX = -290;
+    }
+    self.containerView.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height);
+    self.containerView.frame = CGRectOffset(self.containerView.frame, self.originalOffsetX, 0);
 }
 
 @end

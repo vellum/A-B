@@ -67,4 +67,5 @@
 - (void)setLeftCount:(NSInteger)left andRightCount:(NSInteger)right;
 - (void)setPersonalLeftCount:(NSInteger)left andPersonalRightCount:(NSInteger)right;
 
+-(void)setInitialPage:(BOOL)leftside;
 @end

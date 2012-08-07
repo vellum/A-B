@@ -193,7 +193,8 @@
     } 
     cell.contentView.hidden = NO;
     [cell setPoll:obj];
-    
+    [cell setInitialPage:YES];
+
     PFObject *poll = obj;
     PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
     //PFObject *photoRight = [poll objectForKey:@"PhotoRight"];
@@ -288,7 +289,8 @@
                             
                             [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
                             [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
-                            
+                            [cell setInitialPage:YES];
+
                         }//end if (!error)
 
                     }// end @synchronized
