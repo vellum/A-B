@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class VLMFeedTableViewController;
 
-@interface LoadMoreCell : UITableViewCell
-
+@interface LoadMoreCell : UITableViewCell{
+    VLMFeedTableViewController *tv;
+}
+@property (strong, nonatomic) VLMFeedTableViewController *tv;
 @end

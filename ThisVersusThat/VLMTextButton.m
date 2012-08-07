@@ -20,12 +20,12 @@
         [self setAutoresizesSubviews:NO];
 
         // Initialization code
-        self.titleLabel.font = [UIFont fontWithName:TEXTBUTTON_FONT size:size];
+        self.titleLabel.font = [UIFont fontWithName:@"AmericanTypewriter" size:size];
         [self setTitle:text forState:UIControlStateNormal];
         [self setTitleColor:color forState:UIControlStateNormal];
         [self setTitleColor:DISABLED_TEXT_COLOR forState:UIControlStateDisabled];
         [self setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
-        [self setShowsTouchWhenHighlighted:YES];
+        [self setShowsTouchWhenHighlighted:NO];
         
         CGRect r = self.titleLabel.frame;
         CGRect t = CGRectMake(r.origin.x, r.origin.y + r.size.height, r.size.width, 4.0f);

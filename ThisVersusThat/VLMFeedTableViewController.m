@@ -13,6 +13,7 @@
 #import "VLMCell.h"
 #import "Parse/Parse.h"
 #import "VLMCache.h"
+#import "LoadMoreCell.h"
 
 @interface VLMFeedTableViewController()
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
@@ -113,8 +114,10 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger sections = self.objects.count;
-    //if (self.paginationEnabled && sections != 0)
-    //    sections++;
+    if (self.paginationEnabled && sections != 0){
+        sections++;
+    }
+    NSLog(@"%d sections", sections);
     return sections;
 }
 
@@ -130,6 +133,10 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    if (section == self.objects.count){
+        return 0;
+    }
     
     PFObject *obj = [self.objects objectAtIndex:section];
     
@@ -156,6 +163,11 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section == self.objects.count) {
+        // Load More section
+        return nil;
+    }
+
     PFObject *obj = [self.objects objectAtIndex:section];
     if ( obj == nil ) return nil;
     
@@ -173,6 +185,11 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ( indexPath.section >= [self.objects count] ){
+        UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
+        return cell;
+    }
+    
     PFObject *obj = [self.objects objectAtIndex:indexPath.section];
     if ( obj == nil ) return nil;
     
@@ -307,6 +324,17 @@
 	return cell;
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
+    
+    LoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
+    if (!cell) {
+        cell = [[LoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.tv = self;
+    }
+    return cell;
+}
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, self.tableView.bounds.size.width, 16.0f)];
@@ -317,13 +345,13 @@
     if (section == self.objects.count) {
         return 0.0f;
     }
-    return 16.0f;
+    return 0.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section >= self.objects.count) {
         // Load More Section
-        return 44.0f;
+        return 60.0f;
     }
     NSInteger rownum = [indexPath row];
     NSInteger sectionnum = [indexPath section];

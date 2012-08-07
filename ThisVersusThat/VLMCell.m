@@ -404,6 +404,7 @@
     }
     self.containerView.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height);
     self.containerView.frame = CGRectOffset(self.containerView.frame, self.originalOffsetX, 0);
+    [self setNeedsLayout];
 }
 
 @end
