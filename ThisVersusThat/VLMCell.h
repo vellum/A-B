@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
-
+@class VLMFeedTableViewController;
 
 @interface VLMCell : PFTableViewCell{
     UIView *containerView;
@@ -20,6 +20,8 @@
     
     PFImageView *imageviewLeft;
     PFImageView *imageviewRight;
+    
+    VLMFeedTableViewController *tv;
 
     UILabel *captionlabelLeft;
     UILabel *captionLabelRight;
@@ -42,6 +44,7 @@
 @property (nonatomic, strong) PFObject *objPoll;
 @property (nonatomic, strong) PFImageView *imageviewLeft;
 @property (nonatomic, strong) PFImageView *imageviewRight;
+@property (nonatomic, strong) VLMFeedTableViewController *tv;
 
 @property (nonatomic, strong) UILabel *captionlabelLeft;
 @property (nonatomic, strong) UILabel *captionLabelRight;

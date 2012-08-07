@@ -321,7 +321,17 @@
 
     } // end else
 
+    [cell setTv:self];
+    BOOL isLeft = [[VLMCache sharedCache] directionForPoll:poll];
+    [cell setInitialPage:isLeft];
+    
 	return cell;
+}
+
+- (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll{
+    @synchronized(self){
+        [[VLMCache sharedCache] setDirection:isLeft ForPoll:poll];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {

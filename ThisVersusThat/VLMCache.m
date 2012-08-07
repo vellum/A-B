@@ -77,6 +77,20 @@
     [self setAttributes:attributes forPoll:poll];
 }
 
+- (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll{
+    NSString *key = [self keyForDirectionPoll:poll];
+    [self.cache setObject:[NSNumber numberWithBool:isLeft] forKey:key];
+}
+
+- (BOOL)directionForPoll:(PFObject *)poll{
+    NSString *key = [self keyForDirectionPoll:poll];
+    NSNumber *obj = [self.cache objectForKey:key];
+    if ( !obj ) {
+        return YES;
+    }
+    return [obj boolValue];
+}
+
 - (NSNumber *)likeCountForPollLeft:(PFObject *)poll{
     NSDictionary *attributes = [self attributesForPoll:poll];
     if (attributes) {
@@ -136,6 +150,10 @@
 - (NSString *)keyForUser:(PFUser *)user {
     return [NSString stringWithFormat:@"user_%@", [user objectId]];
 }
+
+- (NSString *)keyForDirectionPoll:(PFObject *)poll {
+     return [NSString stringWithFormat:@"poll_direction_%@", [poll objectId]];
+ }
 
 
 /*

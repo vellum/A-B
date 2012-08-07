@@ -15,4 +15,5 @@
 
 - (id)initWithHeader:(VLMFeedHeaderController *) headerController;
 - (void)updatelayout;
+- (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll;
 @end

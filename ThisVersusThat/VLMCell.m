@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Parse/Parse.h"
 #import "VLMUtility.h"
+#import "VLMFeedTableViewController.h"
 
 @interface VLMCell()
 @property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
@@ -38,6 +39,8 @@
 @synthesize personalvotecountleft;
 @synthesize personalvotecountright;
 @synthesize outstandingQueries;
+
+@synthesize tv;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -290,6 +293,16 @@
             }
         }
     }
+    
+    if ( self.tv && self.objPoll ){
+        if ( self.originalOffsetX == 0 ){
+            [self.tv setDirection:YES ForPoll:self.objPoll];
+        }
+        else {
+            [self.tv setDirection:NO ForPoll:self.objPoll];
+        }
+    }
+
     [UIView animateWithDuration:duration
             delay:0 
             options:curve|UIViewAnimationOptionBeginFromCurrentState

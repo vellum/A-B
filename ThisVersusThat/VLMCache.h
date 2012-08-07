@@ -18,7 +18,10 @@
 
 - (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight;
 
+- (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll;
+   
 - (NSDictionary *)attributesForPoll:(PFObject *)poll;
+- (BOOL)directionForPoll:(PFObject *)poll;
 
 - (void)setAttributes:(NSDictionary *)attributes forPoll:(PFObject *)poll;
 
@@ -37,6 +40,7 @@
 - (BOOL)isPollLikedByCurrentUserRight:(PFObject *)poll;
 
 - (NSDictionary *)attributesForPoll:(PFObject *)poll;
+
 /*
 - (void)setAttributesForPhoto:(PFObject *)photo likers:(NSArray *)likers commenters:(NSArray *)commenters likedByCurrentUser:(BOOL)likedByCurrentUser;
 
