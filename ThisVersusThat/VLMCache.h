@@ -13,9 +13,33 @@
 
 + (id)sharedCache;
 
+
 - (void)clear;
 
+- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight;
+
+- (NSDictionary *)attributesForPoll:(PFObject *)poll;
+
+- (void)setAttributes:(NSDictionary *)attributes forPoll:(PFObject *)poll;
+
+- (void)setAttributes:(NSDictionary *)attributes forUser:(PFUser *)user;
+
+- (NSString *)keyForPoll:(PFObject *)poll;
+
+- (NSString *)keyForUser:(PFUser *)user;
+
+- (NSNumber *)likeCountForPollLeft:(PFObject *)poll;
+
+- (NSNumber *)likeCountForPollRight:(PFObject *)poll;
+
+- (BOOL)isPollLikedByCurrentUserLeft:(PFObject *)poll;
+
+- (BOOL)isPollLikedByCurrentUserRight:(PFObject *)poll;
+
+- (NSDictionary *)attributesForPoll:(PFObject *)poll;
+/*
 - (void)setAttributesForPhoto:(PFObject *)photo likers:(NSArray *)likers commenters:(NSArray *)commenters likedByCurrentUser:(BOOL)likedByCurrentUser;
+
 
 - (NSDictionary *)attributesForPhoto:(PFObject *)photo;
 
@@ -39,5 +63,5 @@
 
 - (void)setFacebookFriends:(NSArray *)friends;
 - (NSArray *)facebookFriends;
-
+*/
 @end

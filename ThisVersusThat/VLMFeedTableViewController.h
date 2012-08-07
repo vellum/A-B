@@ -13,6 +13,6 @@
 @interface VLMFeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate>{
 }
 
--(id) initWithHeader:(VLMFeedHeaderController *) headerController;
--(void)updatelayout;
+- (id)initWithHeader:(VLMFeedHeaderController *) headerController;
+- (void)updatelayout;
 @end

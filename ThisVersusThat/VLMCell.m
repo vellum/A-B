@@ -10,24 +10,34 @@
 #import "VLMConstants.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Parse/Parse.h"
+#import "VLMUtility.h"
+
+@interface VLMCell()
+@property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
+@end
 
 @implementation VLMCell
 
-
 @synthesize containerView;
+@synthesize velocity;
 @synthesize originalOffsetX;
 @synthesize originalRect;
-@synthesize velocity;
-@synthesize leftfile;
-@synthesize rightfile;
-@synthesize leftcaption;
-@synthesize rightcaption;
-@synthesize leftnumvotes;
-@synthesize rightnumvotes;
+
+@synthesize objPoll;
+@synthesize imageviewLeft;
+@synthesize imageviewRight;
+
+@synthesize captionlabelLeft;
+@synthesize captionLabelRight;
+@synthesize votecountlabelLeft;
+@synthesize votecountlabelRight;
 @synthesize leftvotecount;
 @synthesize rightvotecount;
 @synthesize leftcheck;
 @synthesize rightcheck;
+@synthesize personalvotecountleft;
+@synthesize personalvotecountright;
+@synthesize outstandingQueries;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -42,6 +52,7 @@
         self.velocity = 0;
         self.leftvotecount = 0;
         self.rightvotecount = 0;
+        self.outstandingQueries = [NSMutableDictionary dictionary];        
         
         UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20, 14, 286, 286)];
         left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
@@ -49,7 +60,7 @@
         
         PFImageView *leftimage = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [left addSubview:leftimage];
-        self.leftfile = leftimage;
+        self.imageviewLeft = leftimage;
         
         UIView *leftShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [leftShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
@@ -60,20 +71,20 @@
         //[leftBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
         //[left addSubview:leftBar];
         
-        self.leftcaption = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 286-30, 286/2)];
-        [self.leftcaption setTextAlignment:UITextAlignmentCenter];
-        [self.leftcaption setContentMode:UIViewContentModeBottom];
-        [self.leftcaption setFont:[UIFont fontWithName:PHOTO_LABEL size:21.0f]];
-        [self.leftcaption setBackgroundColor:[UIColor clearColor]];
-        [self.leftcaption setTextColor:[UIColor whiteColor]];
-        [left addSubview:self.leftcaption];
+        self.captionlabelLeft = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 286-30, 286/2)];
+        [self.captionlabelLeft setTextAlignment:UITextAlignmentCenter];
+        [self.captionlabelLeft setContentMode:UIViewContentModeBottom];
+        [self.captionlabelLeft setFont:[UIFont fontWithName:PHOTO_LABEL size:21.0f]];
+        [self.captionlabelLeft setBackgroundColor:[UIColor clearColor]];
+        [self.captionlabelLeft setTextColor:[UIColor whiteColor]];
+        [left addSubview:self.captionlabelLeft];
         
-        self.leftnumvotes = [[UILabel alloc] initWithFrame:CGRectMake(15, 286/2+7, 286-30, 14)];
-        [self.leftnumvotes setTextAlignment:UITextAlignmentCenter];
-        [self.leftnumvotes setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
-        [self.leftnumvotes setBackgroundColor:[UIColor clearColor]];
-        [self.leftnumvotes setTextColor:[UIColor whiteColor]];
-        [left addSubview:self.leftnumvotes];
+        self.votecountlabelLeft = [[UILabel alloc] initWithFrame:CGRectMake(15, 286/2+7, 286-30, 14)];
+        [self.votecountlabelLeft setTextAlignment:UITextAlignmentCenter];
+        [self.votecountlabelLeft setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
+        [self.votecountlabelLeft setBackgroundColor:[UIColor clearColor]];
+        [self.votecountlabelLeft setTextColor:[UIColor whiteColor]];
+        [left addSubview:self.votecountlabelLeft];
 
 
         UIView *right = [[UIView alloc] initWithFrame:CGRectMake(35 + 276, 14, 286, 286)];
@@ -82,7 +93,7 @@
 
         PFImageView *rightimage = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [right addSubview:rightimage];
-        self.rightfile = rightimage;
+        self.imageviewRight = rightimage;
 
         UIView *rightShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [rightShade setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
@@ -93,20 +104,20 @@
         //[rightBar setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
         //[right addSubview:rightBar];
 
-        self.rightcaption = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 286-30, 286/2)];
-        [self.rightcaption setTextAlignment:UITextAlignmentCenter];
-        [self.rightcaption setContentMode:UIViewContentModeBottom];
-        [self.rightcaption setFont:[UIFont fontWithName:PHOTO_LABEL size:21.0f]];
-        [self.rightcaption setBackgroundColor:[UIColor clearColor]];
-        [self.rightcaption setTextColor:[UIColor whiteColor]];
-        [right addSubview:self.rightcaption];
+        self.captionLabelRight = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 286-30, 286/2)];
+        [self.captionLabelRight setTextAlignment:UITextAlignmentCenter];
+        [self.captionLabelRight setContentMode:UIViewContentModeBottom];
+        [self.captionLabelRight setFont:[UIFont fontWithName:PHOTO_LABEL size:21.0f]];
+        [self.captionLabelRight setBackgroundColor:[UIColor clearColor]];
+        [self.captionLabelRight setTextColor:[UIColor whiteColor]];
+        [right addSubview:self.captionLabelRight];
         
-        self.rightnumvotes = [[UILabel alloc] initWithFrame:CGRectMake(15, 286/2+7, 286-30, 14)];
-        [self.rightnumvotes setTextAlignment:UITextAlignmentCenter];
-        [self.rightnumvotes setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
-        [self.rightnumvotes setBackgroundColor:[UIColor clearColor]];
-        [self.rightnumvotes setTextColor:[UIColor whiteColor]];
-        [right addSubview:self.rightnumvotes];
+        self.votecountlabelRight = [[UILabel alloc] initWithFrame:CGRectMake(15, 286/2+7, 286-30, 14)];
+        [self.votecountlabelRight setTextAlignment:UITextAlignmentCenter];
+        [self.votecountlabelRight setFont:[UIFont fontWithName:PHOTO_LABEL size:14.0f]];
+        [self.votecountlabelRight setBackgroundColor:[UIColor clearColor]];
+        [self.votecountlabelRight setTextColor:[UIColor whiteColor]];
+        [right addSubview:self.votecountlabelRight];
         
         
         self.leftcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-56/2, 286-65, 55, 55)];;
@@ -114,7 +125,7 @@
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
         [leftcheck addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
+        [leftcheck setEnabled:NO];
         [left addSubview:leftcheck];
 
         self.rightcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-56/2, 286-65, 55, 55)];;
@@ -122,29 +133,78 @@
         [rightcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
         [rightcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
         [rightcheck addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [rightcheck setEnabled:NO];
         [right addSubview:rightcheck];
-
         
         self.originalRect = self.containerView.frame;
         [self.contentView addSubview:self.containerView];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.userInteractionEnabled = YES;
+        
+        self.personalvotecountleft = -1;
+        self.personalvotecountright = -1;
     }
     return self;
 }
 
 -(void)buttonTapped:(id)sender{
     
+    
     if ( sender == self.leftcheck ){
-        
+        NSLog(@"left");
         self.leftcheck.selected = !self.leftcheck.selected;
         self.rightcheck.enabled = !self.leftcheck.selected;
         
-    } else if ( sender == self.rightcheck ){
+        PFObject *photoLeft = [self.objPoll objectForKey:@"PhotoLeft"];
 
+        if ( self.leftcheck.selected ){
+            self.leftvotecount++;
+            
+            [VLMUtility likePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
+                if ( error ){
+                    // TBD: roll back to previous state (this means we should keep track of the last known state)
+                }
+            }];
+        } else {
+            self.leftvotecount--;
+
+            [VLMUtility unlikePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
+                if ( error ){
+                    // TBD: roll back to previous state (this means we should keep track of the last known state)
+                }
+            }];
+
+        }
+        NSLog(@"%d", self.leftvotecount);
+        self.votecountlabelLeft.text = [NSString stringWithFormat:@"%d votes", leftvotecount];
+        
+    } else if ( sender == self.rightcheck ){
+        NSLog(@"right");
         self.rightcheck.selected = !self.rightcheck.selected;
         self.leftcheck.enabled = !self.rightcheck.selected;
         
+        PFObject *photoRight = [self.objPoll objectForKey:@"PhotoRight"];
+
+        if ( self.rightcheck.selected ){
+            self.rightvotecount++;
+            
+            [VLMUtility likePhotoInBackground:photoRight forPoll:self.objPoll isLeft:NO block:^(BOOL succeeded, NSError *error){
+                if ( error ){
+                    // TBD: roll back to previous state (this means we should keep track of the last known state)
+                }
+            }];
+
+        } else {
+            self.rightvotecount--;
+            [VLMUtility unlikePhotoInBackground:photoRight forPoll:self.objPoll isLeft:NO block:^(BOOL succeeded, NSError *error){
+                if ( error ){
+                    // TBD: roll back to previous state (this means we should keep track of the last known state)
+                }
+            }];
+            
+        }
+        self.votecountlabelRight.text = [NSString stringWithFormat:@"%d votes", rightvotecount];
+        NSLog(@"%d", self.rightvotecount);
     }
     
 }
@@ -186,7 +246,7 @@
     
     // if we're panning turn off user input for this cell
     self.userInteractionEnabled = NO;
-    NSLog(@"%f", val);
+    //NSLog(@"%f", val);
 }
 
 -(void) resetAnimated:(BOOL)anim{
@@ -249,29 +309,148 @@
 
 }
 
+- (void)setPoll:(PFObject *)poll{
+    self.objPoll = poll;
+    PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
+    PFObject *photoRight = [poll objectForKey:@"PhotoRight"];
+    
+    PFFile *left = [photoLeft objectForKey:@"Original"];
+    PFFile *right = [photoRight objectForKey:@"Original"];
+    
+    NSString *leftcaption = [photoLeft objectForKey:@"Caption"];
+    NSString *rightcaption = [photoRight objectForKey:@"Caption"];
+    [self setLeftFile:left andRightFile:right];
+    [self setLeftCaptionText:leftcaption andRightCaptionText:rightcaption];
+
+    /*
+     // now do a variety of queries to determine counts
+     PFCachePolicy poly = kPFCachePolicyNetworkOnly;
+     
+     // count votes on left photo
+     PFQuery *queryExistingLikesLeft = [PFQuery queryWithClassName:@"Activity"];
+     [queryExistingLikesLeft whereKey:@"Poll" equalTo:poll];
+     [queryExistingLikesLeft whereKey:@"Type" equalTo:@"like"];
+     [queryExistingLikesLeft setCachePolicy:poly];
+     [queryExistingLikesLeft whereKey:@"Photo" equalTo:photoLeft];
+     [queryExistingLikesLeft countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+     
+     if ( !error ){
+     self.leftvotecount = number;
+     self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d votes", number];
+     }
+     
+     }];
+     
+     PFQuery *queryExistingLikesRight = [PFQuery queryWithClassName:@"Activity"];
+     [queryExistingLikesRight whereKey:@"Poll" equalTo:poll];
+     [queryExistingLikesRight whereKey:@"Type" equalTo:@"like"];
+     [queryExistingLikesRight setCachePolicy:poly];
+     [queryExistingLikesRight whereKey:@"Photo" equalTo:photoRight];
+     [queryExistingLikesRight countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+     
+     if ( !error ){
+     self.rightvotecount = number;
+     self.votecountlabelRight.text = [NSString stringWithFormat: @"%d votes", number];
+     }
+     }];
+     
+     if ( ![PFUser currentUser] ) return;
+     
+     PFQuery *queryLikesFromUserLeft = [PFQuery queryWithClassName:@"Activity"];
+     [queryLikesFromUserLeft whereKey:@"Poll" equalTo:poll];
+     [queryLikesFromUserLeft whereKey:@"Type" equalTo:@"like"];
+     [queryLikesFromUserLeft whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+     [queryLikesFromUserLeft setCachePolicy:poly];
+     [queryLikesFromUserLeft whereKey:@"Photo" equalTo:photoLeft];
+     [queryLikesFromUserLeft countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+     if ( !error ){
+     self.personalvotecountleft = number;
+     [self enableButtons];
+     }
+     }];
+     
+     PFQuery *queryLikesFromUserRight = [PFQuery queryWithClassName:@"Activity"];
+     [queryLikesFromUserRight whereKey:@"Poll" equalTo:poll];
+     [queryLikesFromUserRight whereKey:@"Type" equalTo:@"like"];
+     [queryLikesFromUserRight whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+     [queryLikesFromUserRight setCachePolicy:poly];
+     [queryLikesFromUserRight whereKey:@"Photo" equalTo:photoRight];
+     [queryLikesFromUserRight countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+     if ( !error ){
+     self.personalvotecountright = number;
+     [self enableButtons];   
+     }
+     }];
+     */
+    
+}
+
+- (void)enableButtons{
+    if ( self.personalvotecountleft > -1 && self.personalvotecountright > -1 ){
+        if ( self.personalvotecountleft > 0 ){
+            
+            self.leftcheck.enabled = YES;
+            self.leftcheck.selected = YES;
+            self.rightcheck.enabled = NO;
+            self.rightcheck.selected = NO;
+            
+        } else if ( self.personalvotecountright > 0 ){
+
+            self.leftcheck.enabled = NO;
+            self.leftcheck.selected = NO;
+            self.rightcheck.enabled = YES;
+            self.rightcheck.selected = YES;
+            
+        } else {
+            
+            self.leftcheck.enabled = YES;
+            self.leftcheck.selected = NO;
+            self.rightcheck.enabled = YES;
+            self.rightcheck.selected = NO;
+            
+        }
+    }
+}
+
 - (void)setLeftFile: (PFFile *)left andRightFile: (PFFile *)right{
     if ( !left || !right ) return;
     
-    self.leftfile.image = [UIImage imageNamed:@"clear.png"];
-    self.leftfile.file = left;
-    [self.leftfile loadInBackground];
+    self.imageviewLeft.image = [UIImage imageNamed:@"clear.png"];
+    self.imageviewLeft.file = left;
+    [self.imageviewLeft loadInBackground];
 
-    self.rightfile.image = [UIImage imageNamed:@"clear.png"];
-    self.rightfile.file = right;
-    [self.rightfile loadInBackground];
+    self.imageviewRight.image = [UIImage imageNamed:@"clear.png"];
+    self.imageviewRight.file = right;
+    [self.imageviewRight loadInBackground];
 }
 
 - (void)setLeftCaptionText: (NSString *)left andRightCaptionText: (NSString *)right{
-    [self.leftcaption setText:left];
-    [self.leftcaption sizeToFit];
-    [self.leftcaption setFrame:CGRectMake(15, 286/2 - (self.leftcaption.frame.size.height + 28 )/2, 286-30, self.leftcaption.frame.size.height)];
-    [self.leftnumvotes setFrame:CGRectMake(15, self.leftcaption.frame.origin.y + self.leftcaption.frame.size.height+7, 286-30, 28)];
-    [self.leftnumvotes setText:@"0 votes"];
+    [self.captionlabelLeft setNumberOfLines:0];
+    [self.captionlabelLeft setText:left];
+    [self.captionlabelLeft sizeToFit];
+    [self.captionlabelLeft setFrame:CGRectMake(15, 286/2 - (self.captionlabelLeft.frame.size.height + 28 )/2, 286-30, self.captionlabelLeft.frame.size.height)];
+    [self.votecountlabelLeft setFrame:CGRectMake(15, self.captionlabelLeft.frame.origin.y + self.captionlabelLeft.frame.size.height+7, 286-30, 28)];
+    [self.votecountlabelLeft setText:@"..."];
 
-    [self.rightcaption setText:right];
-    [self.rightcaption sizeToFit];
-    [self.rightcaption setFrame:CGRectMake(15, 286/2 - (self.rightcaption.frame.size.height + 28 )/2, 286-30, self.rightcaption.frame.size.height)];
-    [self.rightnumvotes setFrame:CGRectMake(15, self.rightcaption.frame.origin.y + self.rightcaption.frame.size.height+7, 286-30, 28)];
-    [self.rightnumvotes setText:@"0 votes"];
+    [self.captionLabelRight setNumberOfLines:0];
+    [self.captionLabelRight setText:right];
+    [self.captionLabelRight sizeToFit];
+    [self.captionLabelRight setFrame:CGRectMake(15, 286/2 - (self.captionLabelRight.frame.size.height + 28 )/2, 286-30, self.captionLabelRight.frame.size.height)];
+    [self.votecountlabelRight setFrame:CGRectMake(15, self.captionLabelRight.frame.origin.y + self.captionLabelRight.frame.size.height+7, 286-30, 28)];
+    [self.votecountlabelRight setText:@"..."];
 }
+
+- (void)setLeftCount:(NSInteger)left andRightCount:(NSInteger)right{
+    self.leftvotecount = left;
+    self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d votes", left];
+    self.rightvotecount = right;
+    self.votecountlabelRight.text = [NSString stringWithFormat: @"%d votes", right];
+}
+
+- (void)setPersonalLeftCount:(NSInteger)left andPersonalRightCount:(NSInteger)right{
+    self.personalvotecountleft = left;
+    self.personalvotecountright = right;
+    [self enableButtons];
+}
+
 @end

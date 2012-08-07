@@ -10,7 +10,7 @@
 
 @interface VLMCache()
 @property (nonatomic, strong) NSCache *cache;
-- (void)setAttributes:(NSDictionary *)attributes forPhoto:(PFObject *)photo;
+//- (void)setAttributes:(NSDictionary *)attributes forPhoto:(PFObject *)photo;
 @end
 
 @implementation VLMCache
@@ -60,6 +60,85 @@
     [self.cache removeAllObjects];
 }
 
+- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight{
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithBool:likedByCurrentUserLeft], @"LikedByCurrentUserLeft",
+                                [NSNumber numberWithBool:likedByCurrentUserRight], @"LikedByCurrentUserRight",
+                                [NSNumber numberWithInt:[likersLeft count]], @"LikerCountLeft",
+                                [NSNumber numberWithInt:[likersRight count]], @"LikerCountRight",
+                                likersLeft, @"LikersLeft",
+                                likersRight, @"LikersRight",
+                                [NSNumber numberWithInt:[commenters count]], @"CommenterCount",
+                                commenters, @"Commenters",
+                                nil];
+    
+    NSLog(@"%d  %d", [likersLeft count], [likersRight count]);
+    [self setAttributes:attributes forPoll:poll];
+}
+
+- (NSNumber *)likeCountForPollLeft:(PFObject *)poll{
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [attributes objectForKey:@"LikerCountLeft"];
+    }
+    
+    return [NSNumber numberWithInt:0];
+}
+
+- (NSNumber *)likeCountForPollRight:(PFObject *)poll{
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [attributes objectForKey:@"LikerCountRight"];
+    }
+    
+    return [NSNumber numberWithInt:0];
+}
+
+- (BOOL)isPollLikedByCurrentUserLeft:(PFObject *)poll{
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [[attributes objectForKey:@"LikedByCurrentUserLeft"] boolValue];
+    }
+    
+    return NO;
+}
+
+- (BOOL)isPollLikedByCurrentUserRight:(PFObject *)poll{
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [[attributes objectForKey:@"LikedByCurrentUserRight"] boolValue];
+    }
+    
+    return NO;
+}
+
+
+- (NSDictionary *)attributesForPoll:(PFObject *)poll{
+    NSString *key = [self keyForPoll:poll];
+    return [self.cache objectForKey:key];
+}
+
+- (void)setAttributes:(NSDictionary *)attributes forPoll:(PFObject *)poll {
+    NSString *key = [self keyForPoll:poll];
+    [self.cache setObject:attributes forKey:key];
+}
+
+- (void)setAttributes:(NSDictionary *)attributes forUser:(PFUser *)user {
+    NSString *key = [self keyForUser:user];
+    [self.cache setObject:attributes forKey:key];    
+}
+
+- (NSString *)keyForPoll:(PFObject *)poll {
+    return [NSString stringWithFormat:@"poll_%@", [poll objectId]];
+}
+
+- (NSString *)keyForUser:(PFUser *)user {
+    return [NSString stringWithFormat:@"user_%@", [user objectId]];
+}
+
+
+/*
 - (void)setAttributesForPhoto:(PFObject *)photo likers:(NSArray *)likers commenters:(NSArray *)commenters likedByCurrentUser:(BOOL)likedByCurrentUser {
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSNumber numberWithBool:likedByCurrentUser],kPAPPhotoAttributesIsLikedByCurrentUserKey,
@@ -252,5 +331,7 @@
 - (NSString *)keyForUser:(PFUser *)user {
     return [NSString stringWithFormat:@"user_%@", [user objectId]];
 }
+ 
+ */
 
 @end

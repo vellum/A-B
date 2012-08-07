@@ -12,12 +12,13 @@
 #import "VLMSectionView.h"
 #import "VLMCell.h"
 #import "Parse/Parse.h"
+#import "VLMCache.h"
 
 @interface VLMFeedTableViewController()
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
 @property (nonatomic, strong) NSMutableSet *reusableSectionHeaderViews;
 
-@property (nonatomic, strong) NSMutableDictionary *outstandingSectionHeaderQueries;
+@property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
 @property (strong, nonatomic) VLMFeedHeaderController *headerViewController;
 @property (nonatomic) CGRect contentRect;
 @property (nonatomic) CGFloat contentOffsetY;
@@ -30,7 +31,7 @@
 @synthesize contentOffsetY;
 @synthesize reusableSectionHeaderViews;
 @synthesize shouldReloadOnAppear;
-@synthesize outstandingSectionHeaderQueries;
+@synthesize outstandingQueries;
 
 #pragma mark - NSObject
 
@@ -39,7 +40,7 @@
     if ( headerController ) {
         self.headerViewController = headerController;
 
-        self.outstandingSectionHeaderQueries = [NSMutableDictionary dictionary];
+        self.outstandingQueries = [NSMutableDictionary dictionary];
         
         // The className to query on
         self.className = POLL_CLASS_KEY;
@@ -56,7 +57,7 @@
         // Improve scrolling performance by reusing UITableView section headers
         self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
         
-        self.shouldReloadOnAppear = NO;
+        self.shouldReloadOnAppear = YES;
 
         [self.view setAutoresizesSubviews:NO];        
         [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
@@ -81,6 +82,11 @@
         self.shouldReloadOnAppear = NO;
         [self loadObjects];
     }
+}
+
+- (void)loadObjects{
+    [[VLMCache sharedCache] clear];
+    [super loadObjects];
 }
 
 #pragma mark - PFQueryTableViewController
@@ -183,20 +189,119 @@
     
     if ( indexPath.section == 0 && indexPath.row == 0 ){
         cell.contentView.hidden = YES;
-    } else {
-        cell.contentView.hidden = NO;
-        PFObject *photoLeft = [obj objectForKey:@"PhotoLeft"];
-        PFObject *photoRight = [obj objectForKey:@"PhotoRight"];
-        
-        PFFile *left = [photoLeft objectForKey:@"Original"];
-        PFFile *right = [photoRight objectForKey:@"Original"];
-        
-        NSString *leftcaption = [photoLeft objectForKey:@"Caption"];
-        NSString *rightcaption = [photoRight objectForKey:@"Caption"];
-        [cell setLeftFile:left andRightFile:right];
-        [cell setLeftCaptionText:leftcaption andRightCaptionText:rightcaption];
-    }
+        return cell;
+    } 
+    cell.contentView.hidden = NO;
+    [cell setPoll:obj];
     
+    PFObject *poll = obj;
+    PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
+    //PFObject *photoRight = [poll objectForKey:@"PhotoRight"];
+
+    NSDictionary *attributesForPoll = [[VLMCache sharedCache] attributesForPoll:poll];
+    PFCachePolicy poly = kPFCachePolicyNetworkOnly;
+
+    // check if we've stored metadata (likes, comments) for this poll
+    if (attributesForPoll) {
+        NSLog(@"cached poll");
+        NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
+        NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
+        [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
+
+        BOOL isLikedByCurrentUserL = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:poll];
+        BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
+        [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
+        
+
+    // if not, stuff query results in the cache
+    } else {
+    
+        if ( ![PFUser currentUser] ) return cell;
+
+        @synchronized(self) {
+
+            NSNumber *outstandingQueryStatus = [self.outstandingQueries objectForKey:[NSNumber numberWithInt:indexPath.section]];
+            
+            if (!outstandingQueryStatus) {
+                
+                PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+                [query whereKey:@"Poll" equalTo:poll];
+                [query setCachePolicy:poly];
+                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    @synchronized(self){
+                    
+                        if ( !error ){
+                            NSMutableArray *likersL = [NSMutableArray array];
+                            NSMutableArray *likersR = [NSMutableArray array];
+                            NSMutableArray *commenters = [NSMutableArray array];
+                            BOOL isLikedByCurrentUserL = NO;
+                            BOOL isLikedByCurrentUserR = NO;
+                            
+                            NSLog(@"%d activities",[objects count]);
+                            
+                            // loop through these mixed results
+                            for (PFObject *activity in objects) {
+                                
+                                NSLog(@"here");
+                                NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
+                                NSString *cur = [[PFUser currentUser] objectId];
+                                // NSLog(@"%@ / %@", userID, cur);
+                                
+                                // test for likes
+                                if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
+                                    
+                                    // left photo likes
+                                    if ([[[activity objectForKey:@"Photo"] objectId] isEqualToString:[photoLeft objectId]]){
+                                        // add userid to array
+                                        [likersL addObject:[activity objectForKey:@"FromUser"]];
+                                        
+                                        if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
+                                            isLikedByCurrentUserL = YES;
+                                        }
+                                        NSLog(@"%d: found one on left", indexPath.section);
+                                        
+                                    // right photo likes
+                                    } else {
+                                        
+                                        // add userid to array
+                                        [likersR addObject:[activity objectForKey:@"FromUser"]];
+                                        
+                                        if ( [userID isEqualToString: cur] ){
+                                            isLikedByCurrentUserR = YES;
+                                        }
+                                        
+                                        NSLog(@"%d: found one on right", indexPath.section);
+                                    }
+
+
+                                // test for comments    
+                                } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
+                                    
+                                }
+                            }
+                            
+                            
+                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+                            
+                            NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
+                            NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
+                            
+                            [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
+                            [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
+                            
+                        }//end if (!error)
+
+                    }// end @synchronized
+
+                }];
+
+            
+             }// end if (!outstandingquerystatus)
+
+        }// end synchronnized
+
+    } // end else
+
 	return cell;
 }
 
@@ -247,7 +352,11 @@
     return nil;
 }
 
+
+// this method is called when we log in and out
 -(void)updatelayout{
+    
+    // rearrange layout
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     CGFloat footerh = (![PFUser currentUser]) ? FOOTER_HEIGHT : 0;  
@@ -257,6 +366,10 @@
     [self setContentRect:cr];
     [self setContentOffsetY:HEADER_HEIGHT];
     [self.view setFrame: CGRectOffset(self.contentRect, 0.0f, self.contentOffsetY)];
+    
+    
+    // reload data (since our logged in state has changed)
+    [self loadObjects]; 
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

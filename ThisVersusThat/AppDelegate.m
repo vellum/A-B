@@ -11,11 +11,8 @@
 #import "VLMMainViewController.h"
 #import "MBProgressHUD.h"
 
-@interface AppDelegate(){
-    
-}
+@interface AppDelegate()
 @property (nonatomic, strong) MBProgressHUD *hud;
-
 @end
 
 @implementation AppDelegate
