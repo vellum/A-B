@@ -493,15 +493,24 @@
 
 #pragma mark - VLMFeedHeaderDelegate
 
-- (void)didTapUser:(int)section{
+- (void)didTapPoll:(NSInteger)section{
     if ( delegate ){
-        [delegate didTapUser:nil];
+        //NSLog(@"tapped section: %d", section);
+        PFObject *poll = [self.objects objectAtIndex:section];
+        //NSLog(@"tapped poll: %@", poll);
+
+        if ( poll == nil ) return;
+        [delegate didTapPoll:poll];
     }
 }
 
-- (void)didTapPoll:(int)section{
+- (void)didTapUser:(NSInteger)section{
     if ( delegate ){
-        [delegate didTapPoll:nil];
+        PFObject *poll = [self.objects objectAtIndex:section];
+        if ( poll == nil ) return;
+        PFUser *user = [poll objectForKey:@"User"];
+        if ( user == nil ) return;
+        [delegate didTapUser:user];
     }
 }
 

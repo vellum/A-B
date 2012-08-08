@@ -6,18 +6,21 @@
 //  Copyright (c) 2012 NerdGypsy. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
+#import "UIViewController+Transitions.h"
 #import "Parse/Parse.h"
+#import "AppDelegate.h"
+#import "VLMUtility.h"
 #import "VLMConstants.h"
 #import "VLMMainViewController.h"
 #import "VLMFeedViewController.h"
 #import "VLMFooterController.h"
 #import "VLMAddButtonController.h"
 #import "VLMAddViewController.h"
-#import "VLMUtility.h"
-#import "AppDelegate.h"
-#import "UIViewController+Transitions.h"
-#import <QuartzCore/QuartzCore.h>
 #import "VLMTapDelegate.h"
+#import "VLMPollDetailController.h"
+#import "VLMUserDetailController.h"
 
 @interface VLMMainViewController (){
     NSMutableData *_data;
@@ -173,19 +176,24 @@
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
     
     [self presentModalViewController:navigationController animated:YES];
-    //[self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
-    
 }
 
 
 #pragma mark - VLMPopDelegate
 
 - (void)popPollDetail:(PFObject *)poll{
-    NSLog(@"popdetail");
+    NSLog(@"poppoll: %@", poll);
+    VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:polldetail];
+    [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+    [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
 }
 
-- (void)popUserDetail:(PFObject *)user{
-    NSLog(@"popuser");
+- (void)popUserDetail:(PFUser *)user{
+    VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController: userdetail];
+    [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+    [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
 }
 
 

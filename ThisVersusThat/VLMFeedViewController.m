@@ -235,14 +235,13 @@
 #pragma mark - VLMTapDelegate
 
 - (void)didTapPoll:(PFObject *)poll{
-    NSLog(@"j");
     if (popDelegate){
+        //NSLog(@"didtappoll: %@", poll);
         [popDelegate popPollDetail:poll];
     }
 }
 
-- (void)didTapUser:(PFObject *)user{
-    NSLog(@"k");
+- (void)didTapUser:(PFUser *)user{
     if (popDelegate){
         [popDelegate popUserDetail:user];
     }

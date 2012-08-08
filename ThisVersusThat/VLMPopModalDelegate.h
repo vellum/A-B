@@ -11,6 +11,6 @@
 @protocol VLMPopModalDelegate <NSObject>
 
 - (void)popPollDetail:(PFObject *)poll;
-- (void)popUserDetail:(PFObject *)user;
+- (void)popUserDetail:(PFUser *)user;
 
 @end

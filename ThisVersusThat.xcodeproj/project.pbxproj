@@ -42,8 +42,11 @@
 		BD8891DD15C0605400C1615C /* vote_button_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DB15C0605400C1615C /* vote_button_normal.png */; };
 		BD90FFF215BE7B6D004621E8 /* subtlenet2.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF115BE7B6D004621E8 /* subtlenet2.png */; };
 		BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */; };
+		BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */; };
+		BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */; };
+		BDAC93E015D2009B008B820F /* gray_header_background.png in Resources */ = {isa = PBXBuildFile; fileRef = BDAC93DF15D2009B008B820F /* gray_header_background.png */; };
+		BDAC93E815D2030F008B820F /* debuggrid.png in Resources */ = {isa = PBXBuildFile; fileRef = BDAC93E715D2030F008B820F /* debuggrid.png */; };
 		BDC09F3815BF633000349761 /* VLMAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3715BF633000349761 /* VLMAddViewController.m */; };
-		BDC09F4015BFBDBB00349761 /* gray_header_background.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC09F3F15BFBDBB00349761 /* gray_header_background.png */; };
 		BDC09F4715BFC79F00349761 /* left_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDC09F4515BFC79F00349761 /* left_sample.jpg */; };
 		BDC09F4815BFC79F00349761 /* right_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDC09F4615BFC79F00349761 /* right_sample.jpg */; };
 		BDC29A2C15C1EB0700596546 /* subtlenet2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A2B15C1EB0700596546 /* subtlenet2@2x.png */; };
@@ -118,9 +121,14 @@
 		BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VLMFeedHeaderDelegate.h; sourceTree = "<group>"; };
 		BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTapDelegate.h; sourceTree = "<group>"; };
 		BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMPopModalDelegate.h; sourceTree = "<group>"; };
+		BDAC93D715D1CFE0008B820F /* VLMPollDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMPollDetailController.h; sourceTree = "<group>"; };
+		BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMPollDetailController.m; sourceTree = "<group>"; };
+		BDAC93DA15D1CFFB008B820F /* VLMUserDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMUserDetailController.h; sourceTree = "<group>"; };
+		BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMUserDetailController.m; sourceTree = "<group>"; };
+		BDAC93DF15D2009B008B820F /* gray_header_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray_header_background.png; sourceTree = "<group>"; };
+		BDAC93E715D2030F008B820F /* debuggrid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debuggrid.png; sourceTree = "<group>"; };
 		BDC09F3615BF632F00349761 /* VLMAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddViewController.h; sourceTree = "<group>"; };
 		BDC09F3715BF633000349761 /* VLMAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddViewController.m; sourceTree = "<group>"; };
-		BDC09F3F15BFBDBB00349761 /* gray_header_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray_header_background.png; sourceTree = "<group>"; };
 		BDC09F4515BFC79F00349761 /* left_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = left_sample.jpg; sourceTree = "<group>"; };
 		BDC09F4615BFC79F00349761 /* right_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = right_sample.jpg; sourceTree = "<group>"; };
 		BDC29A2B15C1EB0700596546 /* subtlenet2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "subtlenet2@2x.png"; sourceTree = "<group>"; };
@@ -220,6 +228,7 @@
 				BDD0F8C815CB723900ACAB23 /* VLMCache.h */,
 				BDD0F8C915CB723A00ACAB23 /* VLMCache.m */,
 				BD4D506315BDE19C007D6E3A /* MainWindow.xib */,
+				BDAC93D315D1B418008B820F /* Delegates */,
 				BDFB949415C305CF001FF740 /* Views */,
 				BDFB949515C305D6001FF740 /* Controllers */,
 				BD4D506715BDE19C007D6E3A /* Resources */,
@@ -239,7 +248,6 @@
 		BD72B83C15BE401F0083CD4E /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */,
 				BD4D507115BDE19C007D6E3A /* VLMFeedTableViewController.h */,
 				BD4D507215BDE19C007D6E3A /* VLMFeedTableViewController.m */,
 			);
@@ -268,12 +276,20 @@
 			name = "UInavigationBar Category";
 			sourceTree = "<group>";
 		};
+		BDAC93D315D1B418008B820F /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */,
+				BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */,
+				BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
 		BDC09F2315BF2EFD00349761 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 				BD72B83C15BE401F0083CD4E /* TableView */,
-				BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */,
-				BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */,
 				BD4D507315BDE19C007D6E3A /* VLMFeedViewController.h */,
 				BD4D507415BDE19C007D6E3A /* VLMFeedViewController.m */,
 				BD4D506F15BDE19C007D6E3A /* VLMFeedHeaderController.h */,
@@ -282,15 +298,6 @@
 				BD4D507615BDE19C007D6E3A /* VLMFooterController.m */,
 			);
 			name = Feed;
-			sourceTree = "<group>";
-		};
-		BDC09F2515BF2F0700349761 /* Add Poll */ = {
-			isa = PBXGroup;
-			children = (
-				BDC09F3615BF632F00349761 /* VLMAddViewController.h */,
-				BDC09F3715BF633000349761 /* VLMAddViewController.m */,
-			);
-			name = "Add Poll";
 			sourceTree = "<group>";
 		};
 		BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */ = {
@@ -305,8 +312,9 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BDAC93DF15D2009B008B820F /* gray_header_background.png */,
+				BDAC93E715D2030F008B820F /* debuggrid.png */,
 				BDCFED3415C3845D0089A77E /* clear.png */,
-				BDC09F3F15BFBDBB00349761 /* gray_header_background.png */,
 				BD90FFF115BE7B6D004621E8 /* subtlenet2.png */,
 				BDC29A2B15C1EB0700596546 /* subtlenet2@2x.png */,
 				BDC29A3515C1FFBE00596546 /* leica.png */,
@@ -341,7 +349,12 @@
 			children = (
 				BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */,
 				BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */,
-				BDC09F2515BF2F0700349761 /* Add Poll */,
+				BDC09F3615BF632F00349761 /* VLMAddViewController.h */,
+				BDC09F3715BF633000349761 /* VLMAddViewController.m */,
+				BDAC93D715D1CFE0008B820F /* VLMPollDetailController.h */,
+				BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */,
+				BDAC93DA15D1CFFB008B820F /* VLMUserDetailController.h */,
+				BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */,
 				BDC09F2315BF2EFD00349761 /* Feed */,
 			);
 			name = Controllers;
@@ -448,7 +461,6 @@
 				BD4D507D15BDE19D007D6E3A /* MainWindow.xib in Resources */,
 				BD4D507E15BDE19D007D6E3A /* Entitlements.plist in Resources */,
 				BD90FFF215BE7B6D004621E8 /* subtlenet2.png in Resources */,
-				BDC09F4015BFBDBB00349761 /* gray_header_background.png in Resources */,
 				BDC09F4715BFC79F00349761 /* left_sample.jpg in Resources */,
 				BDC09F4815BFC79F00349761 /* right_sample.jpg in Resources */,
 				BD8891DC15C0605400C1615C /* vote_button_selected.png in Resources */,
@@ -462,6 +474,8 @@
 				BDC29A3615C1FFBE00596546 /* leica@2x.png in Resources */,
 				BDC29A3715C1FFBE00596546 /* leica.png in Resources */,
 				BDCFED3515C3845D0089A77E /* clear.png in Resources */,
+				BDAC93E015D2009B008B820F /* gray_header_background.png in Resources */,
+				BDAC93E815D2030F008B820F /* debuggrid.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +508,8 @@
 				BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */,
 				BDEB7A1615D09D51003BC4E3 /* LoadMoreCell.m in Sources */,
 				BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */,
+				BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */,
+				BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

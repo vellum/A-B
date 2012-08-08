@@ -83,7 +83,7 @@
 #pragma mark -
 #pragma mark Colors
 
-#define DEBUG_BACKGROUND_GRID [UIColor colorWithPatternImage:[UIImage imageNamed:@"column-grid-white_gray@1x.png"]]
+#define DEBUG_BACKGROUND_GRID [UIColor colorWithPatternImage:[UIImage imageNamed:@"debuggrid.png"]]
 #define WINDOW_BGCOLOR [UIColor blackColor]
 #define MAIN_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_VIEW_BGCOLOR [UIColor clearColor]
