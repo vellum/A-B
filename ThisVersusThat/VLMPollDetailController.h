@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
 
-@interface VLMPollDetailController : UIViewController{
+@interface VLMPollDetailController : PFQueryTableViewController{
     PFObject *poll;
 }
 

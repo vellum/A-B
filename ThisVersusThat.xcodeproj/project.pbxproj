@@ -33,6 +33,7 @@
 		BD4D508715BDE19D007D6E3A /* VLMFooterController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507615BDE19C007D6E3A /* VLMFooterController.m */; };
 		BD4D508815BDE19D007D6E3A /* VLMSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507815BDE19C007D6E3A /* VLMSectionView.m */; };
 		BD4D508915BDE19D007D6E3A /* VLMTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */; };
+		BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD54C2DA15D3568700B73984 /* VLMCommentCell.m */; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
 		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
 		BD7F22C715C8718600598906 /* UIImage+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22C615C8718600598906 /* UIImage+ResizeAdditions.m */; };
@@ -103,6 +104,8 @@
 		BD4D507815BDE19C007D6E3A /* VLMSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMSectionView.m; sourceTree = "<group>"; };
 		BD4D507915BDE19C007D6E3A /* VLMTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTextButton.h; sourceTree = "<group>"; };
 		BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMTextButton.m; sourceTree = "<group>"; };
+		BD54C2D915D3568700B73984 /* VLMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMCommentCell.h; sourceTree = "<group>"; };
+		BD54C2DA15D3568700B73984 /* VLMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCommentCell.m; sourceTree = "<group>"; };
 		BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMMainViewController.h; sourceTree = "<group>"; };
 		BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMMainViewController.m; sourceTree = "<group>"; };
 		BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddButtonController.h; sourceTree = "<group>"; };
@@ -194,7 +197,6 @@
 			isa = PBXGroup;
 			children = (
 				095ACE8513C68EA300566243 /* AudioToolbox.framework */,
-				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
 				743D7B6C157DA60100084B67 /* CoreGraphics.framework */,
 				09ABC07313A1D52D009C3FCF /* Foundation.framework */,
 				099CCEAC13F9E3760039A464 /* libz.1.1.3.dylib */,
@@ -363,6 +365,7 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
 				BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */,
 				BD01955C15CADE1B00D58D19 /* MBProgressHUD */,
 				BD7F22C315C85F9C00598906 /* UIImage Category */,
@@ -394,6 +397,8 @@
 				BD4D506D15BDE19C007D6E3A /* VLMCell.m */,
 				BDEB7A1415D09D51003BC4E3 /* LoadMoreCell.h */,
 				BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */,
+				BD54C2D915D3568700B73984 /* VLMCommentCell.h */,
+				BD54C2DA15D3568700B73984 /* VLMCommentCell.m */,
 			);
 			name = UITableViewCells;
 			sourceTree = "<group>";
@@ -510,6 +515,7 @@
 				BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */,
 				BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */,
 				BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */,
+				BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
