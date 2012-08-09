@@ -31,7 +31,7 @@
     CGFloat y = 0;
     CGFloat w = 40 * 7;
     self.back = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, self.frame.size.height)];
-    [back setBackgroundColor:[UIColor whiteColor]];
+    [back setBackgroundColor:[UIColor clearColor]];
     [back setAutoresizesSubviews:NO];
     
     [self.contentView addSubview:self.back];

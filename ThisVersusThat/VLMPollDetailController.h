@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
+#import "VLMFeedHeaderDelegate.h"
 
-@interface VLMPollDetailController : PFQueryTableViewController{
+@interface VLMPollDetailController : PFQueryTableViewController<UITextViewDelegate, VLMFeedHeaderDelegate>{
     PFObject *poll;
 }
 

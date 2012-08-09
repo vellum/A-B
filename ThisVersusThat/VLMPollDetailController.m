@@ -14,17 +14,21 @@
 #import "VLMCache.h"
 #import "VLMUserDetailController.h"
 #import "VLMCommentCell.h"
+#import "UIPlaceholderTextView.h"
+#import "MBProgressHUD.h"
+#import "VLMFeedHeaderDelegate.h"
 
 @interface VLMPollDetailController ()
 @property (nonatomic, strong) NSArray *likersL;
 @property (nonatomic, strong) NSArray *likersR;
+@property (nonatomic, strong) UIPlaceHolderTextView *ptv;
 @end
 
 @implementation VLMPollDetailController
 @synthesize poll;
 @synthesize likersL;
 @synthesize likersR;
-
+@synthesize ptv;
 - (id)initWithObject:(PFObject *)obj{
     self = [super init];
     if ( self ){
@@ -49,13 +53,34 @@
         [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
         //[self.view setBackgroundColor:DEBUG_BACKGROUND_GRID];
         self.title = @"Poll";
-        //if ( self == [self.navigationController.viewControllers objectAtIndex:0] )
         if ( [self.navigationController.viewControllers count] == 0 )
         {
             UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
             [self.navigationItem setLeftBarButtonItem:cancelbutton];
         }
         
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 140)];
+        footer.backgroundColor = [UIColor clearColor];
+        
+        UIView *fill = [[UIView alloc] initWithFrame:CGRectMake(0, 14, self.view.frame.size.width, 140-14)];
+        [fill setBackgroundColor:[UIColor whiteColor]];
+        [footer addSubview:fill];
+        
+        UIPlaceHolderTextView *textview = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(10, 5, self.view.frame.size.width-20, 140-14-10)];
+        [textview setKeyboardType:UIKeyboardTypeAlphabet];
+        [textview setBackgroundColor:[UIColor whiteColor]];
+        [textview setPlaceholder:@"write comment"];
+        [textview setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
+        [textview setReturnKeyType: UIReturnKeySend];
+        [textview setDelegate:self];
+        
+        self.ptv = textview;
+        [fill addSubview:textview];
+        self.tableView.tableFooterView = footer;
+        
+        // Register to be notified when the keyboard will be shown to scroll the view
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];     
+
     }
     return self;
 }
@@ -88,8 +113,8 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
     [query whereKey:@"Poll" equalTo:poll];
     [query whereKey:@"Type" equalTo:@"comment"];
-    [query orderByDescending:@"createdAt"];
-    [query setLimit:100];
+    [query orderByAscending:@"createdAt"];
+    [query setLimit:1000];
     [query includeKey:@"FromUser"];
     return query;
 }
@@ -110,7 +135,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.objects.count + 2;
+    if (self.objects.count == 0 ) return 2;
+    return self.objects.count + 1;
 }
 
 #pragma mark - UITableViewDelegate
@@ -194,6 +220,7 @@
         return y;
     }
 
+    if ( indexPath.row == 1 && self.objects.count == 0 ) return 56;
     if ( indexPath.row >= self.objects.count + 1 ){
         return 100;
     }
@@ -205,7 +232,7 @@
     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(40*7-3-20-5-5, 49) lineBreakMode:UILineBreakModeWordWrap];
 
     CGFloat cellh = expectedLabelSize.height + 18;
-    cellh = ceilf(cellh/7)*7  + 1;
+    cellh = ceilf(cellh/7)*7  + 14;
     return cellh;
 }
 
@@ -221,6 +248,7 @@
             cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BarGraphIdentifier];            
             cell.autoresizesSubviews = NO;
             [self setupFirstCell:cell];
+
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -229,7 +257,7 @@
     // - - - - - - - - - - - - - - - - - - - - - - - - -
     static NSString *EmptyCommentIdentifier = @"emptycell";
     
-    if (self.objects.count == 0){
+    if (self.objects.count == 0 && indexPath.row == 1){
         NSLog(@"here");
         PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:EmptyCommentIdentifier];
         if (cell == nil){
@@ -239,7 +267,7 @@
             [nada setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
             [nada setBackgroundColor:[UIColor clearColor]];
             [nada setTextColor:TEXT_COLOR];
-            [nada setText:@"No comments yet"];
+            [nada setText:@"No comments yet."];
             [cell.contentView addSubview:nada];
         }
         return cell;
@@ -278,6 +306,7 @@
     return cell;
 }
 
+
 #pragma mark - ()
 
 - (void)setupFirstCell:(PFTableViewCell *)cell {
@@ -288,6 +317,7 @@
     NSString *username = [user objectForKey:@"displayName"];
     VLMSectionView *sectionhead = [[VLMSectionView alloc] initWithFrame:CGRectMake(0, 0, contentw, 0) andUserName:username andQuestion:question];
     [sectionhead setFile:[user objectForKey:@"profilePicSmall"]];
+    [sectionhead setDelegate:self];
     [cell.contentView addSubview:sectionhead];
     
     //UIColor *bg = [UIColor colorWithHue:189.0f/360.0f saturation:0.79f brightness:0.87f alpha:0.5f];
@@ -454,7 +484,7 @@
     UILabel *recentcomments = [[UILabel alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*3)];
     [recentcomments setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
     [recentcomments setNumberOfLines:0.0f];
-    [recentcomments setText:@"Recent Comments"];
+    [recentcomments setText:@"Comments"];
     [recentcomments setTextAlignment:UITextAlignmentCenter];
     [recentcomments setBackgroundColor:TEXT_COLOR];
     [recentcomments setTextColor:[UIColor whiteColor]];
@@ -470,18 +500,116 @@
 - (void)handleTapLikerL:(id)sender{
     NSInteger index = [sender tag];
     PFUser *user = [self.likersL objectAtIndex:index];
-    NSLog(@"%@", user);
-    NSLog(@"tapped: %d", index);
-    VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user];
-    UINavigationController *navigationController = self.navigationController;
-    [navigationController pushViewController:userdetail animated:YES];
+    [self openUserDetail:user];
 }
 
 - (void)handleTapLikerR:(id)sender{
     NSInteger index = [sender tag];
     PFUser *user = [self.likersR objectAtIndex:index];
-    NSLog(@"%@", user);
-    NSLog(@"tapped r: %d", index);
+    [self openUserDetail:user];
+}
+
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    int newlen = [[textView text] length] - range.length + text.length;
+    if ( newlen > 140 ) {
+        return NO;
+    }
+    
+    if([text isEqualToString:@"\n"]) {
+        [self.view endEditing:YES];
+        [self textFieldShouldReturn:textView];
+        return NO;
+    }
+
+    return YES;
+}
+- (BOOL)textFieldShouldReturn:(UITextView *)textView {
+    NSString *trimmedComment = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    PFObject *comment = [PFObject objectWithClassName:@"Activity"];
+    if (trimmedComment.length != 0 && [self.poll objectForKey:@"User"]) {
+
+        
+        [comment setValue:trimmedComment forKey:@"Description"]; 
+        [comment setValue:[self.poll objectForKey:@"User"] forKey:@"ToUser"];
+        [comment setValue:[PFUser currentUser] forKey:@"FromUser"];
+        [comment setValue:self.poll forKey:@"Poll"];   
+        [comment setValue:@"comment" forKey:@"Type"];
+
+        PFACL *ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+        [ACL setPublicReadAccess:YES];
+        comment.ACL = ACL;
+
+        //[[PAPCache sharedCache] incrementCommentCountForPhoto:self.photo];
+
+        // Show HUD view
+        [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+
+        // If more than 5 seconds pass since we post a comment, stop waiting for the server to respond
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(handleCommentTimeout:) userInfo:[NSDictionary dictionaryWithObject:comment forKey:@"comment"] repeats:NO];
+
+        [comment saveEventually:^(BOOL succeeded, NSError *error) {
+            [timer invalidate];
+            
+            if (error && [error code] == kPFErrorObjectNotFound) {
+                
+                //[[PAPCache sharedCache] decrementCommentCountForPhoto:self.photo];
+
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:@"This poll was deleted by its owner" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alert show];
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                // refresh cache
+            }
+            
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [self loadObjects];
+        }];
+    }
+    [textView setText:@""];
+    return [textView resignFirstResponder];
+}
+
+- (void)keyboardWillShow:(NSNotification*)note {
+    // Scroll the view to the comment text box
+    NSDictionary* info = [note userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height-kbSize.height) animated:YES];
+}
+
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.ptv resignFirstResponder];
+}
+
+
+
+
+#pragma mark - VLMFeedHeaderDelegate
+
+- (void)didTapPoll:(NSInteger)section{
+    NSLog(@"tapped poll");
+}
+
+- (void)didTapUser:(NSInteger)section{
+    PFUser *user = [poll objectForKey:@"User"];
+    if ( user == nil ) return;
+    [self openUserDetail:user];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    PFObject *comment = [self objectAtIndex:indexPath];
+    PFUser *u = [comment objectForKey:@"FromUser"];
+    [self openUserDetail:u];
+}
+
+- (void)openUserDetail:(PFUser *)user{
+    if ( !user ) return;
     VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user];
     UINavigationController *navigationController = self.navigationController;
     [navigationController pushViewController:userdetail animated:YES];
