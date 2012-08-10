@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSArray *likersR;
 @property (nonatomic, strong) UIPlaceHolderTextView *ptv;
 @property (nonatomic) BOOL isEditing;
+@property (nonatomic) BOOL isRootController;
 @end
 
 @implementation VLMPollDetailController
@@ -31,8 +32,9 @@
 @synthesize likersR;
 @synthesize ptv;
 @synthesize isEditing;
+@synthesize isRootController;
 
-- (id)initWithObject:(PFObject *)obj{
+- (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot{
     self = [super init];
     if ( self ){
         self.isEditing = NO;
@@ -52,12 +54,14 @@
         // The number of objects to show per page
         self.objectsPerPage = 10;
         
+        self.isRootController = isRoot;
+        
         
         [self.view setAutoresizesSubviews:NO];        
         [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
         //[self.view setBackgroundColor:DEBUG_BACKGROUND_GRID];
         self.title = @"Poll";
-        if ( [self.navigationController.viewControllers count] == 0 )
+        if ( self.isRootController )
         {
             UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
             [self.navigationItem setLeftBarButtonItem:cancelbutton];
@@ -93,13 +97,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];     
 
     }
+    
     return self;
 }
 
-- (void)loadObjects{
-    NSLog(@"here");
-    [super loadObjects];
-}
 
 - (CGFloat) heightfortableheader{
         
@@ -256,8 +257,18 @@
     static NSString *EmptyCommentIdentifier = @"emptycell";
     
     if (self.objects.count == 0 && indexPath.row == 0){
-        NSLog(@"here");
         PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:EmptyCommentIdentifier];
+        if (self.isLoading) {
+            cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"still-loading"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UILabel *nada = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 14*3)];
+            [nada setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+            [nada setBackgroundColor:[UIColor clearColor]];
+            [nada setTextColor:TEXT_COLOR];
+            [nada setText:@"Loading..."];
+            [cell.contentView addSubview:nada];
+            return cell;
+        }
         if (cell == nil){
             cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:EmptyCommentIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -387,14 +398,18 @@
             [iv setBackgroundColor:[UIColor lightGrayColor]];
             PFUser *u = [likersL objectAtIndex:i];
             [left addSubview:iv];
+            PFFile *file = [u objectForKey:@"profilePicSmall"];
+            [iv setFile:file];
+            [iv loadInBackground];
 
+            /*
             [u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
                 if ( !error ){
                     PFFile *file = [u objectForKey:@"profilePicSmall"];
                     [iv setFile:file];
                 }
             }];
-
+             */
             
             UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(left.frame.origin.x+cx, left.frame.origin.y + cy, 25, 25)];
             [clearbutton setBackgroundColor:[UIColor clearColor]];
@@ -458,12 +473,17 @@
             [cell addSubview:clearbutton];
 
             PFUser *u = [likersR objectAtIndex:i];
+            PFFile *file = [u objectForKey:@"profilePicSmall"];
+            [iv setFile:file];
+            [iv loadInBackground];
+            /*
             [u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
                 if ( !error ){
                     PFFile *file = [u objectForKey:@"profilePicSmall"];
                     [iv setFile:file];
                 }
             }];
+             */
 
             cx += 30;
             if ( cx > wwww ){
@@ -611,7 +631,7 @@
 - (void)openUserDetail:(PFUser *)user{
     if ( !user ) return;
     if ( self.isEditing ) return;
-    VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user];
+    VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user isRoot:NO];
     UINavigationController *navigationController = self.navigationController;
     [navigationController pushViewController:userdetail animated:YES];
 }

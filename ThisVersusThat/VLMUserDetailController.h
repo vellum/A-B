@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
+#import "VLMFeedHeaderDelegate.h"
 
-@interface VLMUserDetailController : UIViewController{
+@interface VLMUserDetailController : PFQueryTableViewController<VLMFeedHeaderDelegate>{
     PFUser *user;
 }
 
 @property (strong, nonatomic) PFUser *user;
 
-- (id)initWithObject:(PFUser *)obj;
+- (id)initWithObject:(PFUser *)obj isRoot:(BOOL)isRoot;
 
 @end
+   

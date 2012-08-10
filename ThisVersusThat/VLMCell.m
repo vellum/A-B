@@ -126,18 +126,20 @@
         [right addSubview:self.votecountlabelRight];
         
         
-        self.leftcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-56/2, 286-65, 55, 55)];;
+        self.leftcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-59/2, 286-65-14, 59, 59)];;
         [leftcheck setShowsTouchWhenHighlighted:YES];
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
         [leftcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
+        [leftcheck setImage:[UIImage imageNamed:@"vote_button_disabled"] forState:UIControlStateDisabled];
         [leftcheck addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [leftcheck setEnabled:NO];
         [left addSubview:leftcheck];
 
-        self.rightcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-56/2, 286-65, 55, 55)];;
+        self.rightcheck = [[UIButton alloc] initWithFrame:CGRectMake(286/2-59/2, 286-65-14, 59, 59)];;
         [rightcheck setShowsTouchWhenHighlighted:YES];
         [rightcheck setImage:[UIImage imageNamed:@"vote_button_selected.png"] forState:UIControlStateSelected];
         [rightcheck setImage:[UIImage imageNamed:@"vote_button_normal.png"] forState:UIControlStateNormal];
+        [rightcheck setImage:[UIImage imageNamed:@"vote_button_disabled"] forState:UIControlStateDisabled];
         [rightcheck addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [rightcheck setEnabled:NO];
         [right addSubview:rightcheck];

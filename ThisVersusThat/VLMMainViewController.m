@@ -183,14 +183,14 @@
 
 - (void)popPollDetail:(PFObject *)poll{
     NSLog(@"poppoll: %@", poll);
-    VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll];
+    VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll isRoot:YES];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:polldetail];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
     [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
 }
 
 - (void)popUserDetail:(PFUser *)user{
-    VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user];
+    VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user isRoot:YES];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController: userdetail];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
     [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];

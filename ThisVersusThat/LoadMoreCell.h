@@ -14,7 +14,7 @@
 }
 @property (strong, nonatomic) VLMFeedTableViewController *tv;
 
-
+- (void)reset:(BOOL)hasMoreItems;
 - (void)translateByX: (CGFloat) offsetval withVelocity: (CGFloat) velocityval;
 - (void)resetAnimated:(BOOL)anim;
 - (void)killAnimations;

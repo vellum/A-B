@@ -62,6 +62,8 @@
 		BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */; };
 		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
 		BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */; };
+		BDFE7FDA15D4B00B00D577E2 /* vote_button_disabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDFE7FD815D4B00B00D577E2 /* vote_button_disabled@2x.png */; };
+		BDFE7FDB15D4B00B00D577E2 /* vote_button_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = BDFE7FD915D4B00B00D577E2 /* vote_button_disabled.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,6 +153,8 @@
 		BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMUtility.m; sourceTree = "<group>"; };
 		BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Fat.m"; path = "ThisVersusThat/UINavigationBar+Fat.m"; sourceTree = "<group>"; };
 		BDFCDCE515C3972E0086DE95 /* UINavigationBar+Fat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+Fat.h"; path = "ThisVersusThat/UINavigationBar+Fat.h"; sourceTree = "<group>"; };
+		BDFE7FD815D4B00B00D577E2 /* vote_button_disabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vote_button_disabled@2x.png"; sourceTree = "<group>"; };
+		BDFE7FD915D4B00B00D577E2 /* vote_button_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vote_button_disabled.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +328,8 @@
 				BD48B60615C1B5060019C3A2 /* photo_placeholder.png */,
 				BDC29A2E15C1EC0B00596546 /* photo_placeholder@2x.png */,
 				BD48B60915C1BBCF0019C3A2 /* triangle.png */,
+				BDFE7FD815D4B00B00D577E2 /* vote_button_disabled@2x.png */,
+				BDFE7FD915D4B00B00D577E2 /* vote_button_disabled.png */,
 				BD8891DB15C0605400C1615C /* vote_button_normal.png */,
 				BDC29A3015C1EC6700596546 /* vote_button_normal@2x.png */,
 				BD8891DA15C0605400C1615C /* vote_button_selected.png */,
@@ -481,6 +487,8 @@
 				BDCFED3515C3845D0089A77E /* clear.png in Resources */,
 				BDAC93E015D2009B008B820F /* gray_header_background.png in Resources */,
 				BDAC93E815D2030F008B820F /* debuggrid.png in Resources */,
+				BDFE7FDA15D4B00B00D577E2 /* vote_button_disabled@2x.png in Resources */,
+				BDFE7FDB15D4B00B00D577E2 /* vote_button_disabled.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

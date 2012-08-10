@@ -10,9 +10,13 @@
 #import "VLMTextButton.h"
 #import "VLMFeedTableViewController.h"
 
+@interface LoadMoreCell()
+@property (nonatomic, strong) VLMTextButton *button;
+@end
 
 @implementation LoadMoreCell
 @synthesize tv;
+@synthesize button;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -26,12 +30,30 @@
         [loadmore setBackgroundImage:[UIImage imageNamed:@"gray_header_background.png"] forState:UIControlStateHighlighted];
         [self.contentView addSubview:loadmore];
         [loadmore addTarget:self action:@selector(press:) forControlEvents:UIControlEventTouchUpInside];
+        self.button = loadmore;
     }
     return self;
 }
 
+- (void)reset:(BOOL)hasMoreItems{
+    if ( hasMoreItems ){
+        [button setTitle:@"load more..." forState:UIControlStateNormal];
+        [button setSelected:YES];
+        [button setEnabled:YES];
+        [[button underline] setHidden:NO];
+    } else {
+        [button setTitle:@"all items loaded." forState:UIControlStateDisabled];
+        [[button underline] setHidden:YES];
+        [button setEnabled:NO];
+    }
+}
+
 - (void)press:(id)sender{
     if ( self.tv ){
+        [button setTitle:@"loading..." forState:UIControlStateNormal];
+        [button setSelected:NO];
+        [button setEnabled:NO];
+        [[button underline] setHidden:YES];
         [self.tv loadNextPage];
     }
 }

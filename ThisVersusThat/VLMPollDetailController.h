@@ -16,6 +16,6 @@
 
 @property (strong, nonatomic) PFObject *poll;
 
-- (id)initWithObject:(PFObject *)obj;
+- (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot;
 
 @end

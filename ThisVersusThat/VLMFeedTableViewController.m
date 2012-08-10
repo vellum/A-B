@@ -25,6 +25,7 @@
 @property (strong, nonatomic) VLMFeedHeaderController *headerViewController;
 @property (nonatomic) CGRect contentRect;
 @property (nonatomic) CGFloat contentOffsetY;
+@property (nonatomic) NSInteger resultcount;
 
 @end
 
@@ -39,7 +40,7 @@
 @synthesize shouldReloadOnAppear;
 @synthesize outstandingQueries;
 @synthesize delegate;
-
+@synthesize resultcount;
 
 
 #pragma mark - NSObject
@@ -69,6 +70,7 @@
         self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
         
         self.shouldReloadOnAppear = YES;
+        self.resultcount = 0;
 
         [self.view setAutoresizesSubviews:NO];        
         [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
@@ -97,14 +99,22 @@
     }*/
 }
 
-- (void)loadObjects{
-    [[VLMCache sharedCache] clear];
-    [super loadObjects];
-}
 
 
 
 #pragma mark - PFQueryTableViewController
+
+- (void)loadObjects{
+    [[VLMCache sharedCache] clear];
+    [super loadObjects];
+    
+    PFQuery *q = [self queryForTable];
+    [q countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        if ( !error ){
+            self.resultcount = number;
+        }
+    }];
+}
 
 - (PFQuery *)queryForTable {
     // just get everything (not limited to followees)
@@ -124,7 +134,6 @@
     }
     return nil;
 }
-
 
 
 #pragma mark - UITableViewDataSource
@@ -274,6 +283,7 @@
                 PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
                 [query whereKey:@"Poll" equalTo:poll];
                 [query setCachePolicy:poly];
+                [query includeKey:@"FromUser"];
                 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     @synchronized(self){
                     
@@ -380,6 +390,12 @@
         cell = [[LoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         cell.tv = self;
+    }
+    if ( self.objects.count < self.resultcount ){
+        [cell reset:YES];
+    }
+    else {
+        [cell reset:NO];
     }
     return cell;
 }
