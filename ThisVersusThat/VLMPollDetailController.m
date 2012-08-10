@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSArray *likersL;
 @property (nonatomic, strong) NSArray *likersR;
 @property (nonatomic, strong) UIPlaceHolderTextView *ptv;
+@property (nonatomic) BOOL isEditing;
 @end
 
 @implementation VLMPollDetailController
@@ -29,9 +30,12 @@
 @synthesize likersL;
 @synthesize likersR;
 @synthesize ptv;
+@synthesize isEditing;
+
 - (id)initWithObject:(PFObject *)obj{
     self = [super init];
     if ( self ){
+        self.isEditing = NO;
         self.poll = obj;
         
         self.loadingViewEnabled = NO;
@@ -78,6 +82,13 @@
         [fill addSubview:textview];
         self.tableView.tableFooterView = footer;
         
+        ////
+        UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
+        cell.autoresizesSubviews = NO;
+        [self setupFirstCell:cell];
+        self.tableView.tableHeaderView = cell;
+
+        
         // Register to be notified when the keyboard will be shown to scroll the view
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];     
 
@@ -85,74 +96,8 @@
     return self;
 }
 
-- (void)viewDidLoad{
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone]; 
-    [super viewDidLoad];
-    self.title = @"Poll";
-    if ( self == [self.navigationController.viewControllers objectAtIndex:0] )
-    {
-        UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
-        [self.navigationItem setLeftBarButtonItem:cancelbutton];
-    }
-
-
-}
-
-- (void)viewDidUnload{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - PFQueryTableViewController
-
-- (PFQuery *)queryForTable {
-    PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
-    [query whereKey:@"Poll" equalTo:poll];
-    [query whereKey:@"Type" equalTo:@"comment"];
-    [query orderByAscending:@"createdAt"];
-    [query setLimit:1000];
-    [query includeKey:@"FromUser"];
-    return query;
-}
-
-- (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
-    NSInteger index = indexPath.row - 1;
-    if (index >= 0 && index < self.objects.count) {
-        return [self.objects objectAtIndex:index];
-    }
-    return nil;
-}
-
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.objects.count == 0 ) return 2;
-    return self.objects.count + 1;
-}
-
-#pragma mark - UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    if ( indexPath.row == 0 ){
-
+- (CGFloat) heightfortableheader{
+        
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         
         NSString *text = [poll objectForKey:@"Question"];
@@ -170,10 +115,10 @@
         
         // 2 line
         else if ( h > 14*4 ) h = 14*5;
-
+        
         CGFloat hh = h;
         hh = ceilf(hh/7)*7;
-
+        
         CGFloat hhh = ceilf(hh/14) * 14 + 28;
         CGFloat y = hhh;
         CGFloat m = 3;
@@ -184,7 +129,7 @@
         CGFloat cx = 3;
         CGFloat cy = h + m*2 +2;
         CGFloat wwww = 40*5;
-
+        
         if ( likesL > 0 ){
             for ( int i = 0; i < likesL; i++ ){
                 cx += 25;
@@ -213,17 +158,81 @@
         } else {
             cy += 10;
         }
-
+        
         y += cy;
         y = ceilf(y/14)*14 + 14;
         y += 28 + 14;
         return y;
+}
+- (void)viewDidLoad{
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone]; 
+    [super viewDidLoad];
+    self.title = @"Poll";
+    
+    if ( self == [self.navigationController.viewControllers objectAtIndex:0] )
+    {
+        UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
+        [self.navigationItem setLeftBarButtonItem:cancelbutton];
     }
 
-    if ( indexPath.row == 1 && self.objects.count == 0 ) return 56;
-    if ( indexPath.row >= self.objects.count + 1 ){
-        return 100;
+
+}
+
+- (void)viewDidUnload{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - PFQueryTableViewController
+
+- (PFQuery *)queryForTable {
+    PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+    [query whereKey:@"Poll" equalTo:poll];
+    [query whereKey:@"Type" equalTo:@"comment"];
+    [query orderByAscending:@"createdAt"];
+    [query setLimit:1000];
+    [query includeKey:@"FromUser"];
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    return query;
+}
+
+- (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
+    NSInteger index = indexPath.row;
+    if (index >= 0 && index < self.objects.count) {
+        return [self.objects objectAtIndex:index];
     }
+    return nil;
+}
+
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.objects.count == 0 ) return 1;
+    return self.objects.count;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    if ( indexPath.row == 0 && self.objects.count == 0 ) return 56;
     
     PFObject *row = [self objectAtIndex:indexPath];
 
@@ -239,25 +248,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - -
-	
-    static NSString *BarGraphIdentifier = @"firstbarcell";
-
-    if ( indexPath.row == 0 ){
-        PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BarGraphIdentifier];
-        if ( cell == nil ){
-            cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BarGraphIdentifier];            
-            cell.autoresizesSubviews = NO;
-            [self setupFirstCell:cell];
-
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - -
     static NSString *EmptyCommentIdentifier = @"emptycell";
     
-    if (self.objects.count == 0 && indexPath.row == 1){
+    if (self.objects.count == 0 && indexPath.row == 0){
         NSLog(@"here");
         PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:EmptyCommentIdentifier];
         if (cell == nil){
@@ -272,21 +265,6 @@
         }
         return cell;
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    static NSString *LastIdentifier = @"lastcell";
-
-    if ( indexPath.row >= self.objects.count + 1 ){
-        PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LastIdentifier];
-        if ( cell == nil ){
-            cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LastIdentifier];            
-            cell.autoresizesSubviews = NO;
-            cell.contentView.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.4];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }
-
 
     // - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -309,7 +287,7 @@
 
 #pragma mark - ()
 
-- (void)setupFirstCell:(PFTableViewCell *)cell {
+- (void)setupFirstCell:(UIView *)cell {
     CGFloat contentw = self.view.frame.size.width;
 
     PFUser *user = [poll objectForKey:@"User"];
@@ -318,9 +296,8 @@
     VLMSectionView *sectionhead = [[VLMSectionView alloc] initWithFrame:CGRectMake(0, 0, contentw, 0) andUserName:username andQuestion:question];
     [sectionhead setFile:[user objectForKey:@"profilePicSmall"]];
     [sectionhead setDelegate:self];
-    [cell.contentView addSubview:sectionhead];
+    [cell addSubview:sectionhead];
     
-    //UIColor *bg = [UIColor colorWithHue:189.0f/360.0f saturation:0.79f brightness:0.87f alpha:0.5f];
     UIColor *bg = [UIColor whiteColor];
     CGFloat likesL = [[[VLMCache sharedCache] likeCountForPollLeft:poll] floatValue];
     CGFloat likesR = [[[VLMCache sharedCache] likeCountForPollRight:poll] floatValue];
@@ -347,7 +324,6 @@
     
     CGFloat hh = sectionhead.frame.size.height;
     hh = ceilf(hh/7)*7;
-    NSLog(@"%f",hh);
     if ( hh < 56 ) hh = 56;
     sectionhead.frame = CGRectMake(0, 0, contentw, hh);
     
@@ -364,52 +340,62 @@
     [pollbreakdown setTextAlignment:UITextAlignmentCenter];
     [pollbreakdown setBackgroundColor:TEXT_COLOR];
     [pollbreakdown setTextColor:[UIColor whiteColor]];
-    [cell.contentView addSubview:pollbreakdown];
+    [cell addSubview:pollbreakdown];
     
     y += 28 + 14+14;
     
     UIView *left = [[UIView alloc] initWithFrame:CGRectMake(x, y, leftwidth, h + m*2)];
     left.backgroundColor = bg;
-    [cell.contentView addSubview:left];
+    [cell addSubview:left];
     
     PFImageView *leftimage = [[PFImageView alloc] initWithFrame:CGRectMake(3, 3, h, h)];
-    PFObject *leftphoto = [poll objectForKey:@"PhotoLeft"];
-    [leftimage setFile:[leftphoto objectForKey:@"Original"]];
+    [leftimage setBackgroundColor:[UIColor lightGrayColor]];
     [left addSubview:leftimage];
-    
+
     UILabel *labelL = [[UILabel alloc] initWithFrame:CGRectMake(h + m + 5, 0, wwww-(h - m*2), h+m*2)];
     [labelL setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [labelL setNumberOfLines:0.0f];
-    [labelL setText:[leftphoto objectForKey:@"Caption"]];
     [labelL setBackgroundColor:[UIColor clearColor]];
     [left addSubview:labelL];
-    
+
     UILabel *countL = [[UILabel alloc] initWithFrame:CGRectMake(wwww, 0, 40, h+m*2)];
     [countL setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [countL setNumberOfLines:0.0f];
-    [countL setText:[NSString stringWithFormat:@"%d", (int)likesL]];
     [countL setTextAlignment:UITextAlignmentCenter];
     [countL setBackgroundColor:[UIColor clearColor]];
     [countL setTextColor:TEXT_COLOR];
     [left addSubview:countL];
     
+    PFObject *leftphoto = [poll objectForKey:@"PhotoLeft"];
+    [leftphoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
+        PFFile *leftthumb = [leftphoto objectForKey:@"Original"];
+        [leftimage setFile:leftthumb];
+        [leftimage loadInBackground];
+        [labelL setText:[leftphoto objectForKey:@"Caption"]];
+        [countL setText:[NSString stringWithFormat:@"%d", (int)likesL]];
+    }];
+    
     CGFloat cx = 3;
     CGFloat cy = h + m*2 +2;
     if ( likesL > 0 ){
         for ( int i = 0; i < [likersL count]; i++ ){
-            PFUser *u = [likersL objectAtIndex:i];
-            [u fetchIfNeeded];
             
             PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(cx, cy, 25, 25)];
-            PFFile *file = [u objectForKey:@"profilePicSmall"];
-            [iv setFile:file];
+            [iv setBackgroundColor:[UIColor lightGrayColor]];
+            PFUser *u = [likersL objectAtIndex:i];
             [left addSubview:iv];
+ //           [u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
+            [u fetchInBackgroundWithBlock:^(PFObject *object, NSError *error){
+                PFFile *file = [u objectForKey:@"profilePicSmall"];
+                [iv setFile:file];
+                [iv loadInBackground];
+            }];
             
             UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(left.frame.origin.x+cx, left.frame.origin.y + cy, 25, 25)];
             [clearbutton setBackgroundColor:[UIColor clearColor]];
             [clearbutton setTag:i];
             [clearbutton addTarget:self action:@selector(handleTapLikerL:) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:clearbutton];
+            [cell addSubview:clearbutton];
             
             cx += 30;
             if ( cx > wwww ){
@@ -426,47 +412,55 @@
     
     UIView *right = [[UIView alloc] initWithFrame:CGRectMake(x, y, rightwidth, h+m*2)];
     right.backgroundColor = bg;
-    [cell.contentView addSubview:right];
+    [cell addSubview:right];
     
     PFImageView *rightimage = [[PFImageView alloc] initWithFrame:CGRectMake(3, 3, h, h)];
-    PFObject *rightphoto = [poll objectForKey:@"PhotoRight"];
-    [rightimage setFile:[rightphoto objectForKey:@"Original"]];
+    [rightimage setBackgroundColor:[UIColor lightGrayColor]];
     [right addSubview:rightimage];
-    
+
     UILabel *labelR = [[UILabel alloc] initWithFrame:CGRectMake(h + m + 5, 0, wwww-(h - m*2), h+m*2)];
     [labelR setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [labelR setNumberOfLines:0.0f];
-    [labelR setText:[rightphoto objectForKey:@"Caption"]];
     [labelR setBackgroundColor:[UIColor clearColor]];
     [right addSubview:labelR];
-    
+
     UILabel *countR = [[UILabel alloc] initWithFrame:CGRectMake(wwww, 0, 40, h+m*2)];
     [countR setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [countR setNumberOfLines:0.0f];
     [countR setBackgroundColor:[UIColor clearColor]];
     [countR setTextColor:TEXT_COLOR];
-    [countR setText:[NSString stringWithFormat:@"%d", (int)likesR]];
     [countR setTextAlignment:UITextAlignmentCenter];
+    [countR setText:[NSString stringWithFormat:@"%d", (int)likesR]];
     [right addSubview:countR];
+    
+    PFObject *rightphoto = [poll objectForKey:@"PhotoRight"];
+    [rightphoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
+        [rightimage setFile:[rightphoto objectForKey:@"Original"]];
+        [rightimage loadInBackground];
+        [labelR setText:[rightphoto objectForKey:@"Caption"]];
+        
+    }];
+    
     
     cx = 3;
     cy = h + m*2 +2;
     if ( likesR > 0 ){
         for ( int i = 0; i < [likersR count]; i++ ){
             PFUser *u = [likersR objectAtIndex:i];
-            [u fetchIfNeeded];
-            
             PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(cx, cy, 25, 25)];
-            PFFile *file = [u objectForKey:@"profilePicSmall"];
-            [iv setFile:file];
+            [iv setBackgroundColor:[UIColor lightGrayColor]];
             [right addSubview:iv];
-            
             UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(right.frame.origin.x+cx, right.frame.origin.y + cy, 25, 25)];
             [clearbutton setBackgroundColor:[UIColor clearColor]];
             [clearbutton setTag:i];
             [clearbutton addTarget:self action:@selector(handleTapLikerR:) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:clearbutton];
-            
+            [cell addSubview:clearbutton];
+            //[u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
+            [u fetchInBackgroundWithBlock:^(PFObject *object, NSError *error){
+             PFFile *file = [u objectForKey:@"profilePicSmall"];
+                [iv setFile:file];
+                [iv loadInBackground];
+            }];
             cx += 30;
             if ( cx > wwww ){
                 cx = 5;
@@ -488,7 +482,7 @@
     [recentcomments setTextAlignment:UITextAlignmentCenter];
     [recentcomments setBackgroundColor:TEXT_COLOR];
     [recentcomments setTextColor:[UIColor whiteColor]];
-    [cell.contentView addSubview:recentcomments];
+    [cell addSubview:recentcomments];
 }
 
 - (void)cancel:(id)sender{
@@ -521,6 +515,7 @@
     
     if([text isEqualToString:@"\n"]) {
         [self.view endEditing:YES];
+        self.isEditing = NO;
         [self textFieldShouldReturn:textView];
         return NO;
     }
@@ -570,6 +565,7 @@
         }];
     }
     [textView setText:@""];
+    self.isEditing = NO;
     return [textView resignFirstResponder];
 }
 
@@ -578,6 +574,7 @@
     NSDictionary* info = [note userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height-kbSize.height) animated:YES];
+    self.isEditing = YES;
 }
 
 
@@ -585,9 +582,8 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [self.ptv resignFirstResponder];
+    self.isEditing = NO;
 }
-
-
 
 
 #pragma mark - VLMFeedHeaderDelegate
@@ -610,10 +606,17 @@
 
 - (void)openUserDetail:(PFUser *)user{
     if ( !user ) return;
+    if ( self.isEditing ) return;
     VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user];
     UINavigationController *navigationController = self.navigationController;
     [navigationController pushViewController:userdetail animated:YES];
 }
 
+
+- (void)handleCommentTimeout:(NSTimer *)aTimer {
+    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Comment" message:@"Your comment will be posted next time there is an Internet connection."  delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+    [alert show];
+}
 
 @end

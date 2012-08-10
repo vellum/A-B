@@ -90,10 +90,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    /*
     if (self.shouldReloadOnAppear) {
         self.shouldReloadOnAppear = NO;
         [self loadObjects];
-    }
+    }*/
 }
 
 - (void)loadObjects{
@@ -494,12 +495,14 @@
 #pragma mark - VLMFeedHeaderDelegate
 
 - (void)didTapPoll:(NSInteger)section{
+    
     if ( delegate ){
         //NSLog(@"tapped section: %d", section);
         PFObject *poll = [self.objects objectAtIndex:section];
         //NSLog(@"tapped poll: %@", poll);
-
         if ( poll == nil ) return;
+        if ( [[VLMCache sharedCache] attributesForPoll:poll] == nil ) return;
+
         [delegate didTapPoll:poll];
     }
 }

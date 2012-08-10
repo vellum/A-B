@@ -26,11 +26,14 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    [self setAutoresizesSubviews:NO];
+    [self.contentView setAutoresizesSubviews:NO];
+    self.contentView.clipsToBounds = YES;
     
     CGFloat x = 20;
     CGFloat y = 0;
     CGFloat w = 40 * 7;
-    self.back = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, self.frame.size.height)];
+    self.back = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, 1)];
     [back setBackgroundColor:[UIColor clearColor]];
     [back setAutoresizesSubviews:NO];
     
@@ -42,7 +45,7 @@
     [userlabel setBackgroundColor:[UIColor clearColor]];
     [userlabel setTextColor:TEXT_COLOR];
     
-    self.commentlabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 18, w-3-20-5-5, 49)];
+    self.commentlabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 18, 237, 100)];
     [commentlabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [commentlabel setNumberOfLines:0];
     [commentlabel setBackgroundColor:[UIColor clearColor]];
@@ -56,6 +59,7 @@
 
 - (void)setFile:(PFFile *)file{
     [self.imageview setFile:file];
+    [self.imageview loadInBackground];
 }
 
 - (void)setUser:(NSString *)username{
@@ -63,13 +67,16 @@
 }
 
 - (void)setComment:(NSString *)commenttext{
+    [self.commentlabel setFrame:CGRectMake(35, 18, 237, 100)];
+    [self.commentlabel setNumberOfLines:0];
     [self.commentlabel setText:commenttext];
     [self.commentlabel sizeToFit];
-    CGFloat x = 20;
-    CGFloat y = 0;
-    CGFloat w = 40 * 7;
+    
+    //CGFloat x = 20;
+    //CGFloat y = 0;
+    //CGFloat w = 40 * 7;
 
-    [back setFrame:CGRectMake(x, y, w, commentlabel.frame.size.height + 20)];
+    //[back setFrame:CGRectMake(x, y, w, commentlabel.frame.size.height + 20)];
 }
 
 

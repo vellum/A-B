@@ -49,7 +49,9 @@
 
     [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     
-    self.title = @"User Detail";
+    //self.title = @"User Detail";
+    self.title = [self.user objectForKey:@"displayName"];
+
     
     if ( self == [self.navigationController.viewControllers objectAtIndex:0] )
     {

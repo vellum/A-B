@@ -36,6 +36,7 @@
 
         // avatar
         self.profileImageView = [[PFImageView alloc] initWithFrame:CGRectMake(7.0f, 13.0f, 27.0f, 27.0f)];
+        [self.profileImageView setBackgroundColor:[UIColor lightGrayColor]];
 
         // create the label objects
         self.headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -72,11 +73,24 @@
         [self addSubview:headerLabel];
         [self addSubview:detailLabel];
         
+        self.clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, frame.size.width/2, frame.size.height)];
+        [clearbutton setBackgroundColor:[UIColor clearColor]];
+        [clearbutton addTarget:self action:@selector(handleTapUser:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:clearbutton];
+
+        self.clearbutton2 = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width/2, 0, frame.size.width/2, frame.size.height)];
+        [clearbutton2 setBackgroundColor:[UIColor clearColor]];
+        [clearbutton2 addTarget:self action:@selector(handleTapPoll:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:clearbutton2];
+
+        
+        /*
         self.clearbutton = [[UIButton alloc] initWithFrame:self.profileImageView.frame];
         [clearbutton setBackgroundColor:[UIColor clearColor]];
         [clearbutton addTarget:self action:@selector(handleTap:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:clearbutton];
 
+        
         [headerLabel sizeToFit];
         [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, headerLabel.frame.size.width, 22.0f )];
 
@@ -92,7 +106,7 @@
         [clearbutton3 setBackgroundColor:[UIColor clearColor]];
         [clearbutton3 addTarget:self action:@selector(handleTap2:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:clearbutton3];
-
+         */
     }
     return self;
 }
@@ -136,7 +150,11 @@
     [detailLabel sizeToFit];
     [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, detailLabel.frame.size.width, detailLabel.frame.size.height )];
     
-    [clearbutton3 setFrame:detailLabel.frame];
+    //[clearbutton3 setFrame:detailLabel.frame];
+    
+    [clearbutton setFrame:CGRectMake(0, 0, f.size.width/2, f.size.height)];
+    [clearbutton2 setFrame:CGRectMake(f.size.width/2, 0, f.size.width/2, f.size.height)];
+    
 }
 
 - (void)setFile:(PFFile *)file {
@@ -150,12 +168,12 @@
     
 }
 
--(void)handleTap:(id)sender{
+-(void)handleTapUser:(id)sender{
     if ( !self.delegate ) return;
     [delegate didTapUser:self.section];
 }
 
--(void)handleTap2:(id)sender{
+-(void)handleTapPoll:(id)sender{
     if ( !self.delegate ) return;
     [delegate didTapPoll:self.section];
 }

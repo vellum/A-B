@@ -233,8 +233,7 @@
     [self.hud setDimBackground:YES];
 }
 
-
-- (void)udpateHUD:(NSString *)text{
+- (void)updateHUD:(NSString *)text{
     if ( self.hud ){
         [self.hud setLabelText:text];
     }
