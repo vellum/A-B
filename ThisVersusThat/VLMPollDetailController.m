@@ -65,7 +65,12 @@
         {
             UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
             [self.navigationItem setLeftBarButtonItem:cancelbutton];
+        } else {
+            UIBarButtonItem *backbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+            [self.navigationItem setLeftBarButtonItem:backbutton];
+            [self.navigationItem setHidesBackButton:YES];
         }
+
         
         UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 140)];
         footer.backgroundColor = [UIColor clearColor];
@@ -513,6 +518,10 @@
     
     [self dismissModalViewControllerWithPushDirection:kCATransitionFromLeft];
     
+}
+
+- (void)back:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)handleTapLikerL:(id)sender{

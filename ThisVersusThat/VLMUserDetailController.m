@@ -74,6 +74,10 @@
         UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
         [self.navigationItem setLeftBarButtonItem:cancelbutton];
         [self.navigationItem setHidesBackButton:YES];
+    } else {
+        UIBarButtonItem *backbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+        [self.navigationItem setLeftBarButtonItem:backbutton];
+        [self.navigationItem setHidesBackButton:YES];
     }
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"Activity"];
     [query whereKey:@"FromUser" equalTo:[PFUser currentUser]];
