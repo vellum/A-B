@@ -66,9 +66,11 @@
             UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
             [self.navigationItem setLeftBarButtonItem:cancelbutton];
         } else {
+            /*
             UIBarButtonItem *backbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
             [self.navigationItem setLeftBarButtonItem:backbutton];
             [self.navigationItem setHidesBackButton:YES];
+             */
         }
 
         
@@ -86,6 +88,7 @@
         [textview setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
         [textview setReturnKeyType: UIReturnKeySend];
         [textview setDelegate:self];
+        [textview setScrollsToTop:NO];
         
         self.ptv = textview;
         [fill addSubview:textview];
