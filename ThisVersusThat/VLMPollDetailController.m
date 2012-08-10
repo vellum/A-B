@@ -96,6 +96,11 @@
     return self;
 }
 
+- (void)loadObjects{
+    NSLog(@"here");
+    [super loadObjects];
+}
+
 - (CGFloat) heightfortableheader{
         
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -367,13 +372,11 @@
     [left addSubview:countL];
     
     PFObject *leftphoto = [poll objectForKey:@"PhotoLeft"];
-    [leftphoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
-        PFFile *leftthumb = [leftphoto objectForKey:@"Original"];
-        [leftimage setFile:leftthumb];
-        [leftimage loadInBackground];
-        [labelL setText:[leftphoto objectForKey:@"Caption"]];
-        [countL setText:[NSString stringWithFormat:@"%d", (int)likesL]];
-    }];
+    PFFile *leftthumb = [leftphoto objectForKey:@"Original"];
+    [leftimage setFile:leftthumb];
+    [leftimage loadInBackground];
+    [labelL setText:[leftphoto objectForKey:@"Caption"]];
+    [countL setText:[NSString stringWithFormat:@"%d", (int)likesL]];
     
     CGFloat cx = 3;
     CGFloat cy = h + m*2 +2;
@@ -384,12 +387,14 @@
             [iv setBackgroundColor:[UIColor lightGrayColor]];
             PFUser *u = [likersL objectAtIndex:i];
             [left addSubview:iv];
- //           [u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
-            [u fetchInBackgroundWithBlock:^(PFObject *object, NSError *error){
-                PFFile *file = [u objectForKey:@"profilePicSmall"];
-                [iv setFile:file];
-                [iv loadInBackground];
+
+            [u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
+                if ( !error ){
+                    PFFile *file = [u objectForKey:@"profilePicSmall"];
+                    [iv setFile:file];
+                }
             }];
+
             
             UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(left.frame.origin.x+cx, left.frame.origin.y + cy, 25, 25)];
             [clearbutton setBackgroundColor:[UIColor clearColor]];
@@ -434,19 +439,15 @@
     [right addSubview:countR];
     
     PFObject *rightphoto = [poll objectForKey:@"PhotoRight"];
-    [rightphoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
-        [rightimage setFile:[rightphoto objectForKey:@"Original"]];
-        [rightimage loadInBackground];
-        [labelR setText:[rightphoto objectForKey:@"Caption"]];
-        
-    }];
+    [rightimage setFile:[rightphoto objectForKey:@"Original"]];
+    [rightimage loadInBackground];
+    [labelR setText:[rightphoto objectForKey:@"Caption"]];
     
     
     cx = 3;
     cy = h + m*2 +2;
     if ( likesR > 0 ){
         for ( int i = 0; i < [likersR count]; i++ ){
-            PFUser *u = [likersR objectAtIndex:i];
             PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(cx, cy, 25, 25)];
             [iv setBackgroundColor:[UIColor lightGrayColor]];
             [right addSubview:iv];
@@ -455,12 +456,15 @@
             [clearbutton setTag:i];
             [clearbutton addTarget:self action:@selector(handleTapLikerR:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:clearbutton];
-            //[u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
-            [u fetchInBackgroundWithBlock:^(PFObject *object, NSError *error){
-             PFFile *file = [u objectForKey:@"profilePicSmall"];
-                [iv setFile:file];
-                [iv loadInBackground];
+
+            PFUser *u = [likersR objectAtIndex:i];
+            [u fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error){
+                if ( !error ){
+                    PFFile *file = [u objectForKey:@"profilePicSmall"];
+                    [iv setFile:file];
+                }
             }];
+
             cx += 30;
             if ( cx > wwww ){
                 cx = 5;
