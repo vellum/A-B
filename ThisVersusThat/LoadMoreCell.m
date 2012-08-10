@@ -35,7 +35,13 @@
     return self;
 }
 
-- (void)reset:(BOOL)hasMoreItems{
+- (void)reset:(BOOL)hasMoreItems isLoading:(BOOL)loading{
+    if ( loading ){
+        [button setTitle:@"loading..." forState:UIControlStateDisabled];
+        [[button underline] setHidden:YES];
+        [button setEnabled:NO];
+        return;
+    }
     if ( hasMoreItems ){
         [button setTitle:@"load more..." forState:UIControlStateNormal];
         [button setSelected:YES];

@@ -373,10 +373,10 @@
         //cell.tv = self;
     }
     if ( self.objects.count < self.resultcount ){
-        [cell reset:YES];
+        [cell reset:YES isLoading:self.isLoading];
     }
     else {
-        [cell reset:NO];
+        [cell reset:NO isLoading:self.isLoading];
     }
     return cell;
 }
