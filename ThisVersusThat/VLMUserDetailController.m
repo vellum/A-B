@@ -31,6 +31,7 @@
 
 @property (nonatomic) NSInteger recognizedPanDirection;
 @property (unsafe_unretained, nonatomic) UITableViewCell *selectedCell;
+@property (nonatomic, strong) UIPanGestureRecognizer *localPGR;
 
 - (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy;
 @end
@@ -47,6 +48,7 @@
 @synthesize numFollowingLabel;
 @synthesize recognizedPanDirection;
 @synthesize selectedCell;
+@synthesize localPGR;
 
 #pragma mark - NSObject
 
@@ -66,26 +68,6 @@
         [self.view setAutoresizesSubviews:NO];        
         [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
         
-        
-        // set up a pan gesture recognizer to distinguish horizontal pans from vertical ones
-        UIPanGestureRecognizer *pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        
-        // look for the factory installed pangesturerecognizer in uiscrollview
-        // ask it to require our pan recognizer to fail before registering scrollview touches
-        for (UIGestureRecognizer* gr in self.tableView.gestureRecognizers) {
-            if ( [gr isKindOfClass:[UIPanGestureRecognizer class]] ){
-                [gr requireGestureRecognizerToFail:pgr];
-            }
-        }
-        
-        [pgr setDelegate:self];
-        [self.tableView addGestureRecognizer:pgr];
-        
-        // the default recognized state is unknown
-        self.recognizedPanDirection = FUCKING_UNKNOWN;
-
-        
-
     }
     
     return self;
@@ -99,6 +81,28 @@
 
     [super viewDidLoad];
 
+    // set up a pan gesture recognizer to distinguish horizontal pans from vertical ones
+    UIPanGestureRecognizer *pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    
+    // look for the factory installed pangesturerecognizer in uiscrollview
+    // ask it to require our pan recognizer to fail before registering scrollview touches
+    for (UIGestureRecognizer* gr in self.tableView.gestureRecognizers) {
+        if ( [gr isKindOfClass:[UIPanGestureRecognizer class]] ){
+            [gr requireGestureRecognizerToFail:pgr];
+        }
+    }
+    
+    [pgr setDelegate:self];
+    self.localPGR = pgr;
+    [self.tableView addGestureRecognizer:self.localPGR];
+    
+    // the default recognized state is unknown
+    self.recognizedPanDirection = FUCKING_UNKNOWN;
+
+    
+    
+    
+    
     [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     
     self.title = [VLMUtility firstNameForDisplayName:[self.user objectForKey:@"displayName"]];
@@ -234,6 +238,9 @@
 - (void)viewDidUnload{
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    self.localPGR.delegate = nil;
+    [self.tableView removeGestureRecognizer:self.localPGR];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{

@@ -11,10 +11,11 @@
 #import "VLMFeedHeaderController.h"
 #import "VLMTapDelegate.h"
 #import "VLMMainViewController.h"
+#import "VLMGenericTapDelegate.h"
 
 @protocol VLMPopModalDelegate;
 
-@interface VLMFeedViewController : UIViewController<UIGestureRecognizerDelegate, VLMTapDelegate> {
+@interface VLMFeedViewController : UIViewController<UIGestureRecognizerDelegate, VLMTapDelegate, VLMGenericTapDelegate> {
     VLMFeedHeaderController *headerViewController;
     VLMFeedTableViewController *tableViewController;
     NSInteger recognizedPanDirection;
@@ -28,6 +29,8 @@
 @property (unsafe_unretained, nonatomic) UITableViewCell *selectedCell;
 @property (strong, nonatomic) id <VLMPopModalDelegate> popDelegate;
 
+-(id)initWithTapDelegate:(id)delegate;
 -(void)updatelayout;
+-(void)refreshfeed;
 
 @end

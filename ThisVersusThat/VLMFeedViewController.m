@@ -12,6 +12,7 @@
 #import "VLMMainViewController.h"
 
 @interface VLMFeedViewController ()
+@property (nonatomic, strong) id <VLMGenericTapDelegate> tapdelegate;
 @end
 
 @implementation VLMFeedViewController
@@ -21,6 +22,7 @@
 @synthesize recognizedPanDirection;
 @synthesize selectedCell;
 @synthesize popDelegate;
+@synthesize tapdelegate;
 
 #pragma mark - UIViewController
 
@@ -28,6 +30,13 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+    }
+    return self;
+}
+-(id)initWithTapDelegate:(id)delegate{
+    self = [super init];
+    if (self){
+        self.tapdelegate = delegate;
     }
     return self;
 }
@@ -48,7 +57,7 @@
     // - - - - - C O N T R O L L E R S - - - - - 
     
     // header view controller
-    VLMFeedHeaderController *hc = [[VLMFeedHeaderController alloc] initWithTitle:@"A / B"];
+    VLMFeedHeaderController *hc = [[VLMFeedHeaderController alloc] initWithTitle:@"All Polls" andTapDelegate:self];
     self.headerViewController = hc;
     
     // feed view controller
@@ -217,6 +226,10 @@
     [self.tableViewController updatelayout];
 }
 
+-(void)refreshfeed{
+    [self.tableViewController loadObjects];
+}
+
 
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -244,6 +257,13 @@
 - (void)didTapUser:(PFUser *)user{
     if (popDelegate){
         [popDelegate popUserDetail:user];
+    }
+}
+
+- (void)didTap:(id)sender{
+    NSLog(@"tapped header");
+    if (self.tapdelegate) {
+        [tapdelegate didTap:self];
     }
 }
 

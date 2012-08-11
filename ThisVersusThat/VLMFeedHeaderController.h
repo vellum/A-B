@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol VLMGenericTapDelegate;
 
 @interface VLMFeedHeaderController : UIViewController{
     CGFloat offsetY;
     CGRect rect;
 }
 
-- (id)initWithTitle:(NSString *)title;
+- (id)initWithTitle:(NSString *)title andTapDelegate:(id)delegate;
 - (void)pushVerticallyBy:(CGFloat) offsetYVal;
 
 

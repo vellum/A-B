@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
 #import "VLMPopModalDelegate.h"
+#import "VLMGenericTapDelegate.h"
 
 @class VLMFooterController;
 @class VLMFeedViewController;
 @class VLMAddButtonController;
 
-@interface VLMMainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDataDelegate, VLMPopModalDelegate>{
+@interface VLMMainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDataDelegate, VLMPopModalDelegate, VLMGenericTapDelegate>{
     VLMFeedViewController *feedViewController;
     VLMFooterController *footerViewController;
     VLMAddButtonController *addButtonController;
@@ -29,5 +30,6 @@
 - (void)presentSignUp;
 - (void)showLoggedInState;
 - (void)presentAdd;
-
+- (void)refreshfeed;
+- (void)showLeftPanel;
 @end

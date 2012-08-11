@@ -9,8 +9,12 @@
 #import "VLMFeedHeaderController.h"
 #import "VLMConstants.h"
 #import "VLMTextButton.h"
+#import "VLMGenericTapDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+
 @interface VLMFeedHeaderController ()
+
+@property (nonatomic, strong) id <VLMGenericTapDelegate> tapdelegate;
 
 @end
 
@@ -18,22 +22,15 @@
 
 @synthesize rect;
 @synthesize offsetY;
+@synthesize tapdelegate;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (id)initWithTitle:(NSString *)title
+- (id)initWithTitle:(NSString *)title andTapDelegate:(id)delegate
 {
     self = [super init];
     if (self) {
         // Custom initialization
         self.title = title;
+        self.tapdelegate = delegate;
     }
     return self;
 }
@@ -62,8 +59,20 @@
     [t setTitleShadowColor:[UIColor colorWithWhite:0.1f alpha:1.0f] forState:UIControlStateNormal];
     [self.view addSubview: t];
     
+    
+    UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
+    [left setImage:[UIImage imageNamed:@"3lines.png"] forState:UIControlStateNormal];
+    [left setImage:[UIImage imageNamed:@"3lines_highlighted.png"] forState:UIControlStateHighlighted];
+    [left setFrame:CGRectMake(0, 0, 80, 60)];
+    [self.view addSubview:left];
+    [left addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)tap:(id)sender{
+    if ( self.tapdelegate ){
+        [self.tapdelegate didTap:self];
+    }
+}
 
 - (UIButton*)makeTextButtonWithFrame:(CGRect)frame
 {

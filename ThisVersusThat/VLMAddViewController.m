@@ -12,7 +12,7 @@
 #import "VLMConstants.h"
 #import "UIBarButtonItem+Fat.h"
 #import "UIPlaceholderTextView.h"
-
+#import "AppDelegate.h"
 #import "Parse/Parse.h"
 //#import "Parse/PFFile.h"
 //#import "Parse/PFObject.h"
@@ -535,6 +535,10 @@
     NSString *trimmedCaptionLeft = [self.leftcaption.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *trimmedCaptionRight = [self.rightcaption.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
+    if (!trimmedQuestion) trimmedQuestion = @"";
+    if (!trimmedCaptionLeft) trimmedCaptionLeft = @"";
+    if (!trimmedCaptionRight) trimmedCaptionRight = @"";
+    
     PFACL *photoACL = [PFACL ACLWithUser:[PFUser currentUser]];
     [photoACL setPublicReadAccess:YES];
 
@@ -567,11 +571,14 @@
         [[UIApplication sharedApplication] endBackgroundTask:self.pollPostBackgroundTaskId];
     }];
 
+    AppDelegate *ad =  (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [ad showHUD:@"posting..."];
+    
     [poll saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded){
             
             NSLog(@"Poll uploaded");
-
+            [ad hideHUD];
             //
             
             
@@ -579,7 +586,7 @@
             NSLog(@"Poll failed to save: %@", error);
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't post your poll" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
             [alert show];
-
+            [ad hideHUD];
         }
         [[UIApplication sharedApplication] endBackgroundTask:self.pollPostBackgroundTaskId];
     }];

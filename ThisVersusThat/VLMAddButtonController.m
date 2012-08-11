@@ -77,11 +77,34 @@
 }
 
 - (void)show{
+    [self.view setAlpha:0];
     [self.view setHidden:NO];
+    [self.button setEnabled:YES];
+    [UIView animateWithDuration:0.325
+                          delay:0 
+                        options:UIViewAnimationCurveEaseInOut
+                     animations:^{
+                         [self.view setAlpha:1];
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }
+     ];
+
 }
 
 - (void)hide{
-    [self.view setHidden:YES];
+    [UIView animateWithDuration:0.325
+                          delay:0 
+                        options:UIViewAnimationCurveEaseInOut
+                     animations:^{
+                         [self.view setAlpha:0];
+                     }
+                     completion:^(BOOL finished){
+                         [self.view setHidden:YES];
+                         [self.button setEnabled:NO];
+                     }
+     ];
 }
 
 - (void)viewDidUnload

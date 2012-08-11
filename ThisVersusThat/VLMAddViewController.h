@@ -18,5 +18,4 @@
 - (void) killAnimations;
 - (void)cancel:(id)sender;
 - (void)handleGenericTap:(id)sender;
-
 @end
