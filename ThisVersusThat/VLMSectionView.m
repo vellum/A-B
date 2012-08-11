@@ -169,11 +169,13 @@
 }
 
 -(void)handleTapUser:(id)sender{
+    if ( ![PFUser currentUser] ) return;
     if ( !self.delegate ) return;
     [delegate didTapUser:self.section];
 }
 
 -(void)handleTapPoll:(id)sender{
+    if ( ![PFUser currentUser] ) return;
     if ( !self.delegate ) return;
     [delegate didTapPoll:self.section];
 }

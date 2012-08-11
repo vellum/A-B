@@ -10,6 +10,7 @@
 #import "VLMConstants.h"
 #import "VLMMainViewController.h"
 #import "MBProgressHUD.h"
+#import "VLMCache.h"
 
 @interface AppDelegate()
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -45,6 +46,18 @@
     // Override point for customization after application launch.
     /*
     if ([PFUser currentUser]){
+        
+        // clear cache
+        [[VLMCache sharedCache] clear];
+
+        // remove cached profile image
+        NSURL *cachesDirectoryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject]; // iOS Caches directory
+        NSURL *profilePictureCacheURL = [cachesDirectoryURL URLByAppendingPathComponent:@"FacebookProfilePicture.jpg"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[profilePictureCacheURL path]]) {
+            [[NSFileManager defaultManager] removeItemAtPath:[profilePictureCacheURL path] error:nil];
+        }
+        
+        // Log out
         [PFUser logOut];
     }
     //*/
@@ -96,7 +109,8 @@
     [[UIBarButtonItem appearance] setBackgroundImage:clear forState:UIControlStateNormal barMetrics:UIBarMetricsDefault]; 
     [[UIBarButtonItem appearance] setBackgroundImage:clear forState:UIControlStateSelected barMetrics:UIBarMetricsDefault]; 
     [[UIBarButtonItem appearance] setBackButtonBackgroundImage:clear forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-
+    
+    
     // set plain bar button item typography
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                           [UIColor clearColor], UITextAttributeTextShadowColor,
@@ -127,6 +141,7 @@
                                                 forState:UIControlStateDisabled
      ];
     [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
+
     // interestingly, backbutton needs its own adjustment
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:BAR_BUTTON_ITEM_VERTICAL_OFFSET-1 forBarMetrics:UIBarMetricsDefault];
     

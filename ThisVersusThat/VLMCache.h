@@ -40,6 +40,13 @@
 - (BOOL)isPollLikedByCurrentUserRight:(PFObject *)poll;
 
 
+- (BOOL)followStatusForUser:(PFUser *)user;
+- (NSDictionary *)attributesForUser:(PFUser *)user;
+//- (NSNumber *)photoCountForUser:(PFUser *)user;
+- (BOOL)followStatusForUser:(PFUser *)user;
+//- (void)setPhotoCount:(NSNumber *)count user:(PFUser *)user;
+- (void)setFollowStatus:(BOOL)following user:(PFUser *)user;
+
 /*
 - (void)setAttributesForPhoto:(PFObject *)photo likers:(NSArray *)likers commenters:(NSArray *)commenters likedByCurrentUser:(BOOL)likedByCurrentUser;
 
@@ -58,11 +65,7 @@
 - (void)incrementCommentCountForPhoto:(PFObject *)photo;
 - (void)decrementCommentCountForPhoto:(PFObject *)photo;
 
-- (NSDictionary *)attributesForUser:(PFUser *)user;
-- (NSNumber *)photoCountForUser:(PFUser *)user;
-- (BOOL)followStatusForUser:(PFUser *)user;
-- (void)setPhotoCount:(NSNumber *)count user:(PFUser *)user;
-- (void)setFollowStatus:(BOOL)following user:(PFUser *)user;
+
 
 - (void)setFacebookFriends:(NSArray *)friends;
 - (NSArray *)facebookFriends;

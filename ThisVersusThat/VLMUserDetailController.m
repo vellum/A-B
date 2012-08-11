@@ -10,6 +10,7 @@
 #import "VLMConstants.h"
 #import "UIViewController+Transitions.h"
 #import "VLMCache.h"
+#import "VLMUtility.h"
 #import <QuartzCore/QuartzCore.h>
 #import "VLMSectionView.h"
 #import "VLMCell.h"
@@ -23,7 +24,15 @@
 @property (nonatomic) NSInteger resultcount;
 @property (nonatomic, strong) NSMutableSet *reusableSectionHeaderViews;
 @property (nonatomic) BOOL isRootController;
+@property (nonatomic, strong) UILabel *numPollsLabel;
+@property (nonatomic, strong) UILabel *numVotesLabel;
+@property (nonatomic, strong) UILabel *numFollowingLabel;
+@property (nonatomic, strong) UILabel *numFollowersLabel;
 
+@property (nonatomic) NSInteger recognizedPanDirection;
+@property (unsafe_unretained, nonatomic) UITableViewCell *selectedCell;
+
+- (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy;
 @end
 
 @implementation VLMUserDetailController
@@ -32,6 +41,12 @@
 @synthesize resultcount;
 @synthesize reusableSectionHeaderViews;
 @synthesize isRootController;
+@synthesize numPollsLabel;
+@synthesize numVotesLabel;
+@synthesize numFollowersLabel;
+@synthesize numFollowingLabel;
+@synthesize recognizedPanDirection;
+@synthesize selectedCell;
 
 #pragma mark - NSObject
 
@@ -50,6 +65,26 @@
         self.isRootController = isRoot;
         [self.view setAutoresizesSubviews:NO];        
         [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
+        
+        
+        // set up a pan gesture recognizer to distinguish horizontal pans from vertical ones
+        UIPanGestureRecognizer *pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        
+        // look for the factory installed pangesturerecognizer in uiscrollview
+        // ask it to require our pan recognizer to fail before registering scrollview touches
+        for (UIGestureRecognizer* gr in self.tableView.gestureRecognizers) {
+            if ( [gr isKindOfClass:[UIPanGestureRecognizer class]] ){
+                [gr requireGestureRecognizerToFail:pgr];
+            }
+        }
+        
+        [pgr setDelegate:self];
+        [self.tableView addGestureRecognizer:pgr];
+        
+        // the default recognized state is unknown
+        self.recognizedPanDirection = FUCKING_UNKNOWN;
+
+        
 
     }
     
@@ -65,7 +100,8 @@
     [super viewDidLoad];
 
     [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
-    self.title = [self.user objectForKey:@"displayName"];
+    
+    self.title = [VLMUtility firstNameForDisplayName:[self.user objectForKey:@"displayName"]];
 
     NSLog(@"%d viewcontrollers", self.navigationController.viewControllers.count);
 
@@ -81,21 +117,116 @@
         [self.navigationItem setHidesBackButton:YES];
          */
     }
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Activity"];
-    [query whereKey:@"FromUser" equalTo:[PFUser currentUser]];
-    [query whereKey:@"ToUser" equalTo:self.user];
-    [query whereKey:@"Type" equalTo:@"follow"];
-    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*3)];
+    [head setBackgroundColor:TEXT_COLOR];
+    
+    UILabel *col1 = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, 80, 42)];
+    [col1 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    [col1 setBackgroundColor:[UIColor clearColor]];
+    [col1 setTextColor:[UIColor whiteColor]];
+    [col1 setText:@"... polls"];
+    [col1 setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:col1];
+    self.numPollsLabel = col1;
+    
+    UILabel *col2 = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 80, 42)];
+    [col2 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    [col2 setBackgroundColor:[UIColor clearColor]];
+    [col2 setTextColor:[UIColor whiteColor]];
+    [col2 setText:@"... votes"];
+    [col2 setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:col2];
+    self.numVotesLabel = col2;
+    
+    UILabel *col3 = [[UILabel alloc] initWithFrame:CGRectMake(160, 0, 80, 42)];
+    [col3 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    [col3 setBackgroundColor:[UIColor clearColor]];
+    [col3 setTextColor:[UIColor whiteColor]];
+    [col3 setText:@"... followees"];
+    [col3 setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:col3];
+    self.numFollowingLabel = col3;
+
+    UILabel *col4 = [[UILabel alloc] initWithFrame:CGRectMake(240, 0, 80, 42)];
+    [col4 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    [col4 setBackgroundColor:[UIColor clearColor]];
+    [col4 setTextColor:[UIColor whiteColor]];
+    [col4 setText:@"... followers"];
+    [col4 setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:col4];
+    self.numFollowersLabel = col4;
+    
+    [col1 sizeToFit];
+    [col2 sizeToFit];
+    [col3 sizeToFit];
+    [col4 sizeToFit];
+    CGFloat w = col1.frame.size.width + col2.frame.size.width + col3.frame.size.width + col4.frame.size.width;
+    CGFloat m = self.view.frame.size.width - w;
+    m/=4;
+    [col1 setFrame:CGRectMake(0, 0, col1.frame.size.width + m, 42)];
+    [col2 setFrame:CGRectMake(col1.frame.origin.x+col1.frame.size.width, 0, col2.frame.size.width + m, 42)];
+    [col3 setFrame:CGRectMake(col2.frame.origin.x+col2.frame.size.width, 0, col3.frame.size.width + m, 42)];
+    [col4 setFrame:CGRectMake(col3.frame.origin.x+col3.frame.size.width, 0, col4.frame.size.width + m, 42)];
+
+    self.tableView.tableHeaderView = head;
+    
+    PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
+    [queryPollCount whereKey:@"User" equalTo:self.user];
+    [queryPollCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        if (!error) {
+            [self.numPollsLabel setText:[NSString stringWithFormat:@"%d poll%@", number, number==1?@"":@"s"]];
+        }
+    }];
+    
+    PFQuery *queryVoteCount = [PFQuery queryWithClassName:@"Activity"];
+    [queryVoteCount whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+    [queryVoteCount whereKey:@"Type" equalTo:@"like"];
+    [queryVoteCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryVoteCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        if (!error) {
+            [self.numVotesLabel setText:[NSString stringWithFormat:@"%d vote%@", number, number==1?@"":@"s"]];
+        }
+    }];
+    
+    [self loadFollowerDataWithPolicy:kPFCachePolicyCacheThenNetwork];
+    
+    PFQuery *queryF = [[PFQuery alloc] initWithClassName:@"Activity"];
+    [queryF whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+    [queryF whereKey:@"ToUser" equalTo:self.user];
+    [queryF whereKey:@"Type" equalTo:@"follow"];
+    [queryF setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryF countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
             if ( number == 0 ){
-                UIBarButtonItem *followbutton = [[UIBarButtonItem alloc] initWithTitle:@"Follow" style:UIBarButtonItemStylePlain target:self action:@selector(follow:)];
-                [self.navigationItem setRightBarButtonItem:followbutton];
-                
+                [self configureFollowButton];
             } else {
-                UIBarButtonItem *followbutton = [[UIBarButtonItem alloc] initWithTitle:@"Unfollow" style:UIBarButtonItemStylePlain target:self action:@selector(unfollow:)];
-                [self.navigationItem setRightBarButtonItem:followbutton];
-                
+                [self configureUnfollowButton];
             }
+        }
+    }];
+
+}
+- (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy{
+    
+    PFQuery *queryFolloweesCount = [PFQuery queryWithClassName:@"Activity"];
+    [queryFolloweesCount whereKey:@"ToUser" equalTo:[PFUser currentUser]];
+    [queryFolloweesCount whereKey:@"Type" equalTo:@"follow"];
+    [queryFolloweesCount setCachePolicy:policy];
+    [queryFolloweesCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        if ( !error ){
+            [self.numFollowingLabel setText:[NSString stringWithFormat:@"%d followee%@", number, number==1?@"":@"s"]];
+        }
+    }];
+    
+    PFQuery *queryFollowersCount = [PFQuery queryWithClassName:@"Activity"];
+    [queryFollowersCount whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+    [queryFollowersCount whereKey:@"Type" equalTo:@"follow"];
+    [queryFollowersCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryFollowersCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        if ( !error ){
+            [self.numFollowersLabel setText:[NSString stringWithFormat:@"%d follower%@", number, number==1?@"":@"s"]];
         }
     }];
 }
@@ -133,6 +264,7 @@
     [polls includeKey:@"User"];
     [polls includeKey:@"PhotoLeft"];
     [polls includeKey:@"PhotoRight"];
+    [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [polls setLimit:1000];
     [polls orderByDescending:@"createdAt"];
     return polls;
@@ -432,14 +564,190 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)follow:(id)sender{
-    NSLog(@"follow");
+- (void)followButtonAction:(id)sender {
+    UIActivityIndicatorView *loadingActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [loadingActivityIndicatorView startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:loadingActivityIndicatorView];
+    
+    [self configureUnfollowButton];
+    
+    [VLMUtility followUserEventually:self.user block:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            [self configureFollowButton];
+        } else {
+            [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
+        }
+    }];
+    
 }
 
-- (void)unfollow:(id)sender{
-    NSLog(@"unfollow");
+- (void)unfollowButtonAction:(id)sender {
+    UIActivityIndicatorView *loadingActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [loadingActivityIndicatorView startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:loadingActivityIndicatorView];
+    
+    [self configureFollowButton];
+    
+    [VLMUtility unfollowUserEventually:self.user block:^(BOOL succeeded, NSError *error) {
+        [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
+        if ( error ){
+            [self configureUnfollowButton];
+        }
+    }];
 }
 
+- (void)backButtonAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)configureFollowButton {
+
+    UIBarButtonItem *followbutton = [[UIBarButtonItem alloc] initWithTitle:@"Follow" style:UIBarButtonItemStylePlain target:self action:@selector(followButtonAction:)];
+    [self.navigationItem setRightBarButtonItem:followbutton];
+    [[VLMCache sharedCache] setFollowStatus:NO user:self.user];
+}
+
+- (void)configureUnfollowButton {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Unfollow" style:UIBarButtonItemStylePlain target:self action:@selector(unfollowButtonAction:)];
+    [[VLMCache sharedCache] setFollowStatus:YES user:self.user];
+}
+
+// lightweight analysis on detected pan gestures
+-(void) handlePan:(id)sender{
+    
+    // cast sender to uipangesturerecognizer
+    UIPanGestureRecognizer *pgr = ( UIPanGestureRecognizer *)sender;
+    
+    // cast our uiview to uiscrollview
+    UIScrollView *scrollview = (UIScrollView *) self.tableView;
+    
+    // look at the pan gesture's internal state
+    switch (pgr.state) {
+            
+            // when the pan starts, make sure the scrollview is enabled
+            // and reset the recognized pan direction to unknown
+        case UIGestureRecognizerStateBegan:
+            self.recognizedPanDirection = FUCKING_UNKNOWN;
+            scrollview.scrollEnabled = YES;
+            //NSLog(@"pan began");
+            break;
+            
+            // when the pan ends, make sure we reset the state
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+            
+            if ( self.recognizedPanDirection == FUCKING_HORIZONTAL && selectedCell != nil)
+            {
+                // reset cell
+                [(VLMCell *)selectedCell resetAnimated:YES];
+            }
+            self.recognizedPanDirection = FUCKING_UNKNOWN;
+            scrollview.scrollEnabled = YES;
+            //NSLog(@"pan ended");
+            
+            // do nothing otherwise
+        default:
+            break;
+    }
+    
+    // pan direction unknown
+    if ( self.recognizedPanDirection == FUCKING_UNKNOWN ) {
+        
+        
+        // accumulated translation from start point
+        CGPoint p = [pgr translationInView:self.view];
+        
+        // establish a deadzone of 50 x 24
+        // this is a generous allowance for which we ignore wiggly movement
+        CGSize deadzone = DEAD_ZONE;
+        
+        // vertical pans will cancel this gesture recognizer 
+        // and let the scrollview's recognizer to take over
+        if ( p.y > deadzone.height/2 || p.y < -deadzone.height/2 ) {
+            
+            // set the recognized direction
+            self.recognizedPanDirection = FUCKING_VERTICAL;
+            
+            // find the pan gesture recognizer in the scrollview
+            // and set its translation value to zero
+            // this means that we scroll based on fresh data (not accumulated translation data)
+            for (UIGestureRecognizer* gr in self.tableView.gestureRecognizers) {
+                if ( [gr isKindOfClass:[UIPanGestureRecognizer class]] && gr != pgr )
+                {
+                    UIPanGestureRecognizer *tvpgr = (UIPanGestureRecognizer *)gr;
+                    [tvpgr setTranslation:CGPointZero inView:self.tableView];
+                }
+            }
+            
+            // cancel the recognizer and restart it for capturing the next pan
+            // the current pan will continue, but the scrollview will handle it
+            pgr.enabled = NO;
+            pgr.enabled = YES;
+            
+            // a little debugging
+            //NSLog(@"recognized vertical pan");
+            
+            /*
+            // do some optimization here for scrolling perf
+            if ( self.selectedCell != nil ){
+                VLMCell *c = (VLMCell *) self.selectedCell;
+                c.contentView.clipsToBounds = YES;
+            }*/
+            
+        } 
+        else if ( p.x > deadzone.width/2 || p.x < -deadzone.width/2 ) {
+            
+            // horizontal pan resets the translation point 
+            // so that translationinview: reports a delta from last event
+            self.recognizedPanDirection = FUCKING_HORIZONTAL;
+            [pgr setTranslation:CGPointZero inView:self.view];
+            
+            // disable the scrollview
+            scrollview.scrollEnabled = NO;
+            
+            // extract the selected cell from the tableview 
+            // (we're going to perform horizontal swipes on it)
+            UITableView *tv = self.tableView;
+            CGPoint location = [pgr locationInView:tv];
+            NSIndexPath *path = [tv indexPathForRowAtPoint:location];
+            UITableViewCell *cell  = [tv cellForRowAtIndexPath:path];
+            self.selectedCell = cell;
+            [(VLMCell *)cell killAnimations];
+            //NSLog(@"recognized horizontal pan");
+        }
+    }
+    
+    // now handle horizontal pan, if one has been detected
+    if ( self.recognizedPanDirection == FUCKING_HORIZONTAL ) {
+        
+        CGPoint delta = [pgr translationInView:self.view];
+        [pgr setTranslation:CGPointZero inView:self.view];
+        
+        if ( self.selectedCell != nil ){
+            VLMCell *c = (VLMCell *) self.selectedCell;
+            CGPoint velocity = [pgr velocityInView:self.view];
+            [c translateByX:delta.x withVelocity:velocity.x];
+            
+        }
+        //NSLog( @"dx:%f", delta.x );
+        
+    }
+}
+
+
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer{
+    // currently, our gesture recognizer is always on for the feed
+    // we probably want to turn off gesturerecco if we're not dealing with votable rows
+    return YES;
+}
+
+// recognize gestures at same time as scrollview
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return YES;
+}
 
 
 #pragma mark - VLMFeedHeaderDelegate

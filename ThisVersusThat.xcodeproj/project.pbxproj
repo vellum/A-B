@@ -19,6 +19,10 @@
 		2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCDD6AF14A573F500295AAC /* QuartzCore.framework */; };
 		743D7B6D157DA60100084B67 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743D7B6C157DA60100084B67 /* CoreGraphics.framework */; };
 		BD01955F15CADE1B00D58D19 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BD01955E15CADE1B00D58D19 /* MBProgressHUD.m */; };
+		BD19858115D5C9F400AE9590 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19857F15D5C9F400AE9590 /* facebook.png */; };
+		BD19858215D5C9F400AE9590 /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19858015D5C9F400AE9590 /* facebook@2x.png */; };
+		BD19858515D5D3EA00AE9590 /* backbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19858315D5D3EA00AE9590 /* backbutton.png */; };
+		BD19858615D5D3EA00AE9590 /* backbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19858415D5D3EA00AE9590 /* backbutton@2x.png */; };
 		BD48B60715C1B5060019C3A2 /* photo_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = BD48B60615C1B5060019C3A2 /* photo_placeholder.png */; };
 		BD48B60A15C1BBCF0019C3A2 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = BD48B60915C1BBCF0019C3A2 /* triangle.png */; };
 		BD4D507B15BDE19C007D6E3A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D506015BDE19C007D6E3A /* AppDelegate.m */; };
@@ -81,6 +85,10 @@
 		743D7B6C157DA60100084B67 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BD01955D15CADE1B00D58D19 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		BD01955E15CADE1B00D58D19 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		BD19857F15D5C9F400AE9590 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
+		BD19858015D5C9F400AE9590 /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
+		BD19858315D5D3EA00AE9590 /* backbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backbutton.png; sourceTree = "<group>"; };
+		BD19858415D5D3EA00AE9590 /* backbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backbutton@2x.png"; sourceTree = "<group>"; };
 		BD48B60615C1B5060019C3A2 /* photo_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_placeholder.png; sourceTree = "<group>"; };
 		BD48B60915C1BBCF0019C3A2 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		BD4D505F15BDE19C007D6E3A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -318,7 +326,11 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BD19858315D5D3EA00AE9590 /* backbutton.png */,
+				BD19858415D5D3EA00AE9590 /* backbutton@2x.png */,
 				BDAC93DF15D2009B008B820F /* gray_header_background.png */,
+				BD19857F15D5C9F400AE9590 /* facebook.png */,
+				BD19858015D5C9F400AE9590 /* facebook@2x.png */,
 				BDAC93E715D2030F008B820F /* debuggrid.png */,
 				BDCFED3415C3845D0089A77E /* clear.png */,
 				BD90FFF115BE7B6D004621E8 /* subtlenet2.png */,
@@ -489,6 +501,10 @@
 				BDAC93E815D2030F008B820F /* debuggrid.png in Resources */,
 				BDFE7FDA15D4B00B00D577E2 /* vote_button_disabled@2x.png in Resources */,
 				BDFE7FDB15D4B00B00D577E2 /* vote_button_disabled.png in Resources */,
+				BD19858115D5C9F400AE9590 /* facebook.png in Resources */,
+				BD19858215D5C9F400AE9590 /* facebook@2x.png in Resources */,
+				BD19858515D5D3EA00AE9590 /* backbutton.png in Resources */,
+				BD19858615D5D3EA00AE9590 /* backbutton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

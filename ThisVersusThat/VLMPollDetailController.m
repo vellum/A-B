@@ -24,6 +24,7 @@
 @property (nonatomic, strong) UIPlaceHolderTextView *ptv;
 @property (nonatomic) BOOL isEditing;
 @property (nonatomic) BOOL isRootController;
+
 @end
 
 @implementation VLMPollDetailController
@@ -94,12 +95,83 @@
         [fill addSubview:textview];
         self.tableView.tableFooterView = footer;
         
-        ////
-        UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
-        cell.autoresizesSubviews = NO;
-        [self setupFirstCell:cell];
-        self.tableView.tableHeaderView = cell;
+        if ( [[VLMCache sharedCache] attributesForPoll:poll] ){
 
+            UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
+            cell.autoresizesSubviews = NO;
+            [self setupFirstCell:cell];
+            self.tableView.tableHeaderView = cell;
+
+        } else {
+             @synchronized(self) {
+                 PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+                 [query whereKey:@"Poll" equalTo:poll];
+                 [query setCachePolicy:kPFCachePolicyNetworkOnly];
+                 [query includeKey:@"FromUser"];
+                 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                     @synchronized(self){
+                         
+                         if ( !error ){
+                             NSMutableArray *alikersL = [NSMutableArray array];
+                             NSMutableArray *alikersR = [NSMutableArray array];
+                             NSMutableArray *commenters = [NSMutableArray array];
+                             BOOL isLikedByCurrentUserL = NO;
+                             BOOL isLikedByCurrentUserR = NO;
+                             PFObject *photoLeft = [self.poll objectForKey:@"LeftPhoto"];
+                             
+                             // loop through these mixed results
+                             for (PFObject *activity in objects) {
+                                 
+                                 NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
+                                 NSString *cur = [[PFUser currentUser] objectId];
+                                 
+                                 // test for likes
+                                 if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
+                                     
+                                     // left photo likes
+                                     if ([[[activity objectForKey:@"Photo"] objectId] isEqualToString:[photoLeft objectId]]){
+                                         // add userid to array
+                                         [alikersL addObject:[activity objectForKey:@"FromUser"]];
+                                         
+                                         if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
+                                             isLikedByCurrentUserL = YES;
+                                         }
+                                         
+                                         // right photo likes
+                                     } else {
+                                         
+                                         // add userid to array
+                                         [alikersR addObject:[activity objectForKey:@"FromUser"]];
+                                         
+                                         if ( [userID isEqualToString: cur] ){
+                                             isLikedByCurrentUserR = YES;
+                                         }
+                                         
+                                     }
+                                     
+                                     
+                                     // test for comments    
+                                 } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
+                                     
+                                 }
+                             }
+                             
+                             
+                             [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+
+                             UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
+                             cell.autoresizesSubviews = NO;
+                             [self setupFirstCell:cell];
+                             self.tableView.tableHeaderView = cell;
+                             
+                             
+                         }//end if (!error)
+                         
+                     }// end @synchronized
+                 }];
+             }
+            
+        }
         
         // Register to be notified when the keyboard will be shown to scroll the view
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];     

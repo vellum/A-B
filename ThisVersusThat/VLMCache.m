@@ -155,6 +155,37 @@
      return [NSString stringWithFormat:@"poll_direction_%@", [poll objectId]];
  }
 
+- (BOOL)followStatusForUser:(PFUser *)user {
+    NSDictionary *attributes = [self attributesForUser:user];
+    if (attributes) {
+        NSNumber *followStatus = [attributes objectForKey:kPAPUserAttributesIsFollowedByCurrentUserKey];
+        if (followStatus) {
+            return [followStatus boolValue];
+        }
+    }
+    
+    return NO;
+}
+
+- (void)setFollowStatus:(BOOL)following user:(PFUser *)user {
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:[self attributesForUser:user]];
+    [attributes setObject:[NSNumber numberWithBool:following] forKey:kPAPUserAttributesIsFollowedByCurrentUserKey];
+    [self setAttributes:attributes forUser:user];
+}
+
+- (void)setAttributesForUser:(PFUser *)user photoCount:(NSNumber *)count followedByCurrentUser:(BOOL)following {
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                count,kPAPUserAttributesPhotoCountKey,
+                                [NSNumber numberWithBool:following],kPAPUserAttributesIsFollowedByCurrentUserKey,
+                                nil];
+    [self setAttributes:attributes forUser:user];
+}
+
+- (NSDictionary *)attributesForUser:(PFUser *)user {
+    NSString *key = [self keyForUser:user];
+    return [self.cache objectForKey:key];
+}
+
 
 /*
 - (void)setAttributesForPhoto:(PFObject *)photo likers:(NSArray *)likers commenters:(NSArray *)commenters likedByCurrentUser:(BOOL)likedByCurrentUser {

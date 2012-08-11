@@ -10,7 +10,7 @@
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
 
-@interface VLMUserDetailController : PFQueryTableViewController<VLMFeedHeaderDelegate>{
+@interface VLMUserDetailController : PFQueryTableViewController<VLMFeedHeaderDelegate, UIGestureRecognizerDelegate>{
     PFUser *user;
 }
 

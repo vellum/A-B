@@ -48,7 +48,7 @@
     
     CGRect circlerect = CGRectMake(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT);
     UIView *circle = [[UIView alloc] initWithFrame:circlerect];
-    [circle setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.5f]];
+    [circle setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.75f]];
     [circle.layer setCornerRadius:BUTTON_WIDTH/2];
     [circle.layer setMasksToBounds:NO];
     [circle.layer setShadowRadius:2.0f];

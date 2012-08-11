@@ -159,7 +159,8 @@
 
 -(void)buttonTapped:(id)sender{
     
-    
+    if ( ![PFUser currentUser] ) return;
+
     if ( sender == self.leftcheck ){
         NSLog(@"left");
         self.leftcheck.selected = !self.leftcheck.selected;
@@ -262,7 +263,7 @@
 }
 
 -(void) resetAnimated:(BOOL)anim{
-    
+
 
     CGFloat val = self.containerView.frame.origin.x;
     CGFloat delta = self.containerView.frame.origin.x - self.originalOffsetX;
@@ -315,6 +316,8 @@
             }
             completion:^(BOOL finished){
                 self.userInteractionEnabled = YES;
+                self.contentView.clipsToBounds = YES;
+
             }
      ];
 }
@@ -344,6 +347,13 @@
     [self setLeftFile:left andRightFile:right];
     [self setLeftCaptionText:leftcaption andRightCaptionText:rightcaption];
     
+    self.leftvotecount = 0;
+    self.rightvotecount = 0;
+    self.votecountlabelLeft.text = @"...";
+    self.votecountlabelRight.text = @"...";
+    self.leftcheck.enabled = NO;
+    self.rightcheck.enabled = NO;
+
 }
 
 - (void)enableButtons{

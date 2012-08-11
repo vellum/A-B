@@ -63,15 +63,20 @@
     [self.view.layer setShadowOpacity:0.05f];
     */
     
+    UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(winw-25-27, (FOOTER_HEIGHT-27)/2, 27, 27)];
+    [iv setImage:[UIImage imageNamed:@"facebook.png"]];
+    [self.view addSubview:iv];
+    
     // add button
-    UIButton *ab = [self makeTextButtonWithFrame:CGRectMake(winw/2-100.0f, 0.0f, 200.0f, FOOTER_HEIGHT) andTypeSize:14.0f];
+    UIButton *ab = [self makeTextButtonWithFrame:CGRectMake(0.0f, 0.0f, winw, FOOTER_HEIGHT) andTypeSize:13.0f];
     [ab setTitle:@"Sign in via Facebook" forState:UIControlStateNormal];
     [ab setShowsTouchWhenHighlighted:YES];
-    CGRect r = ab.titleLabel.frame;
-    ab.titleLabel.frame = r;
+    [ab setBackgroundColor:[UIColor clearColor]];
     [[self view] addSubview:ab];
     self.addbutton = ab;
     [ab addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
 }
 
 #pragma mark - ()

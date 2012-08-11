@@ -67,7 +67,7 @@
         self.objectsPerPage = 10;
         
         // Improve scrolling performance by reusing UITableView section headers
-        self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
+        self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:4];
         
         self.shouldReloadOnAppear = YES;
         self.resultcount = 0;
@@ -128,6 +128,8 @@
 }
 
 - (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
+    if ( self.objects.count == 0 ) return nil;
+    
     // overridden, since we want to implement sections
     if (indexPath.section < self.objects.count) {
         return [self.objects objectAtIndex:indexPath.section];
@@ -140,13 +142,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger sections = self.objects.count;
-    if (self.paginationEnabled && sections != 0){
+    if (self.paginationEnabled){
         sections++;
     }
     return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    if ( self.objects.count == 0 ) return 1;
+    
     // the very first section is a special case:
     // it contains an additional variable height cell that we use for our sticky header hack
     if ( section == 0 ) return 2;
@@ -223,7 +228,9 @@
 // cell
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"section: %d", indexPath.section);
     if ( indexPath.section >= [self.objects count] ){
+        
         UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
         return cell;
     }
@@ -243,11 +250,12 @@
 	} else {
         [cell setInitialPage:YES];
     }
-    
-    if ( indexPath.section == 0 && indexPath.row == 0 ){
-        cell.contentView.hidden = YES;
-        return cell;
-    } 
+    if ( self.objects.count > 0 ){
+        if ( indexPath.section == 0 && indexPath.row == 0 ){
+            cell.contentView.hidden = YES;
+            return cell;
+        } 
+    }
     cell.contentView.hidden = NO;
     [cell setPoll:obj];
 
@@ -272,7 +280,7 @@
     // if not, stuff query results in the cache
     } else {
     
-        if ( ![PFUser currentUser] ) return cell;
+        //if ( ![PFUser currentUser] ) return cell;
 
         @synchronized(self) {
 
@@ -298,7 +306,7 @@
                             for (PFObject *activity in objects) {
                                 
                                 NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
-                                NSString *cur = [[PFUser currentUser] objectId];
+                                NSString *cur = ([PFUser currentUser]) ? [[PFUser currentUser] objectId] : @"ollyollyoxenfree";
                                 
                                 // test for likes
                                 if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
@@ -308,7 +316,7 @@
                                         // add userid to array
                                         [likersL addObject:[activity objectForKey:@"FromUser"]];
                                         
-                                        if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
+                                        if ( [userID isEqualToString:cur] ){
                                             isLikedByCurrentUserL = YES;
                                         }
                                         
@@ -338,6 +346,7 @@
                             NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
                             
                             [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
+
                             [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
 
                         }//end if (!error)
@@ -379,7 +388,7 @@
     }
     
     // otherwise, row heights are fixed
-    return 321.0f;
+    return 321.0f + 28;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
@@ -436,6 +445,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [super scrollViewDidScroll:scrollView];
+    if ( self.objects.count == 0 ) return;
     
     // get the scroll position of the tableview
     CGFloat lookupY = scrollView.contentOffset.y;
@@ -517,7 +527,7 @@
         PFObject *poll = [self.objects objectAtIndex:section];
         //NSLog(@"tapped poll: %@", poll);
         if ( poll == nil ) return;
-        if ( [[VLMCache sharedCache] attributesForPoll:poll] == nil ) return;
+        //if ( [[VLMCache sharedCache] attributesForPoll:poll] == nil ) return;
 
         [delegate didTapPoll:poll];
     }
