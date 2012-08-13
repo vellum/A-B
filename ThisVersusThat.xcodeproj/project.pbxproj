@@ -19,6 +19,7 @@
 		2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCDD6AF14A573F500295AAC /* QuartzCore.framework */; };
 		743D7B6D157DA60100084B67 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743D7B6C157DA60100084B67 /* CoreGraphics.framework */; };
 		BD01955F15CADE1B00D58D19 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BD01955E15CADE1B00D58D19 /* MBProgressHUD.m */; };
+		BD0B3D5515D8DB0500EA0A7E /* triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD0B3D5415D8DB0500EA0A7E /* triangle@2x.png */; };
 		BD19858115D5C9F400AE9590 /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19857F15D5C9F400AE9590 /* facebook.png */; };
 		BD19858215D5C9F400AE9590 /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19858015D5C9F400AE9590 /* facebook@2x.png */; };
 		BD19859115D60EFE00AE9590 /* 3lines_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19858F15D60EFE00AE9590 /* 3lines_highlighted.png */; };
@@ -40,6 +41,10 @@
 		BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD54C2DA15D3568700B73984 /* VLMCommentCell.m */; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
 		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
+		BD7998E115D654670070D759 /* skewed_print@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998DF15D654670070D759 /* skewed_print@2X.png */; };
+		BD7998E215D654670070D759 /* skewed_print.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998E015D654670070D759 /* skewed_print.png */; };
+		BD7998E515D6DB400070D759 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7998E415D6DB400070D759 /* ActivityViewController.m */; };
+		BD7998EE15D89FA50070D759 /* VLMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7998ED15D89FA50070D759 /* VLMActivityCell.m */; };
 		BD7F22C715C8718600598906 /* UIImage+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22C615C8718600598906 /* UIImage+ResizeAdditions.m */; };
 		BD7F22CC15C871D500598906 /* UIImage+AlphaAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22C915C871D500598906 /* UIImage+AlphaAdditions.m */; };
 		BD7F22CD15C871D500598906 /* UIImage+RoundedCornerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22CB15C871D500598906 /* UIImage+RoundedCornerAdditions.m */; };
@@ -85,6 +90,7 @@
 		743D7B6C157DA60100084B67 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BD01955D15CADE1B00D58D19 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		BD01955E15CADE1B00D58D19 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		BD0B3D5415D8DB0500EA0A7E /* triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle@2x.png"; sourceTree = "<group>"; };
 		BD19857F15D5C9F400AE9590 /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
 		BD19858015D5C9F400AE9590 /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		BD19858F15D60EFE00AE9590 /* 3lines_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3lines_highlighted.png; sourceTree = "<group>"; };
@@ -121,6 +127,12 @@
 		BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddButtonController.h; sourceTree = "<group>"; };
 		BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddButtonController.m; sourceTree = "<group>"; };
 		BD7998D615D632C20070D759 /* VLMGenericTapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMGenericTapDelegate.h; sourceTree = "<group>"; };
+		BD7998DF15D654670070D759 /* skewed_print@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skewed_print@2X.png"; sourceTree = "<group>"; };
+		BD7998E015D654670070D759 /* skewed_print.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skewed_print.png; sourceTree = "<group>"; };
+		BD7998E315D6DB3F0070D759 /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
+		BD7998E415D6DB400070D759 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
+		BD7998EC15D89FA50070D759 /* VLMActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMActivityCell.h; sourceTree = "<group>"; };
+		BD7998ED15D89FA50070D759 /* VLMActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMActivityCell.m; sourceTree = "<group>"; };
 		BD7F22C515C8718600598906 /* UIImage+ResizeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ResizeAdditions.h"; path = "ThisVersusThat/UIImage+ResizeAdditions.h"; sourceTree = "<group>"; };
 		BD7F22C615C8718600598906 /* UIImage+ResizeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ResizeAdditions.m"; path = "ThisVersusThat/UIImage+ResizeAdditions.m"; sourceTree = "<group>"; };
 		BD7F22C815C871D500598906 /* UIImage+AlphaAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+AlphaAdditions.h"; path = "ThisVersusThat/UIImage+AlphaAdditions.h"; sourceTree = "<group>"; };
@@ -328,6 +340,8 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BD7998DF15D654670070D759 /* skewed_print@2X.png */,
+				BD7998E015D654670070D759 /* skewed_print.png */,
 				BD19858F15D60EFE00AE9590 /* 3lines_highlighted.png */,
 				BD19859015D60EFE00AE9590 /* 3lines.png */,
 				BDAC93DF15D2009B008B820F /* gray_header_background.png */,
@@ -342,6 +356,7 @@
 				BD48B60615C1B5060019C3A2 /* photo_placeholder.png */,
 				BDC29A2E15C1EC0B00596546 /* photo_placeholder@2x.png */,
 				BD48B60915C1BBCF0019C3A2 /* triangle.png */,
+				BD0B3D5415D8DB0500EA0A7E /* triangle@2x.png */,
 				BDFE7FD815D4B00B00D577E2 /* vote_button_disabled@2x.png */,
 				BDFE7FD915D4B00B00D577E2 /* vote_button_disabled.png */,
 				BD8891DB15C0605400C1615C /* vote_button_normal.png */,
@@ -377,6 +392,8 @@
 				BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */,
 				BDAC93DA15D1CFFB008B820F /* VLMUserDetailController.h */,
 				BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */,
+				BD7998E315D6DB3F0070D759 /* ActivityViewController.h */,
+				BD7998E415D6DB400070D759 /* ActivityViewController.m */,
 				BDC09F2315BF2EFD00349761 /* Feed */,
 			);
 			name = Controllers;
@@ -419,6 +436,8 @@
 				BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */,
 				BD54C2D915D3568700B73984 /* VLMCommentCell.h */,
 				BD54C2DA15D3568700B73984 /* VLMCommentCell.m */,
+				BD7998EC15D89FA50070D759 /* VLMActivityCell.h */,
+				BD7998ED15D89FA50070D759 /* VLMActivityCell.m */,
 			);
 			name = UITableViewCells;
 			sourceTree = "<group>";
@@ -507,6 +526,9 @@
 				BD19858215D5C9F400AE9590 /* facebook@2x.png in Resources */,
 				BD19859115D60EFE00AE9590 /* 3lines_highlighted.png in Resources */,
 				BD19859215D60EFE00AE9590 /* 3lines.png in Resources */,
+				BD7998E115D654670070D759 /* skewed_print@2X.png in Resources */,
+				BD7998E215D654670070D759 /* skewed_print.png in Resources */,
+				BD0B3D5515D8DB0500EA0A7E /* triangle@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +564,8 @@
 				BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */,
 				BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */,
 				BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */,
+				BD7998E515D6DB400070D759 /* ActivityViewController.m in Sources */,
+				BD7998EE15D89FA50070D759 /* VLMActivityCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

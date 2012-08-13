@@ -73,12 +73,12 @@
         [self addSubview:headerLabel];
         [self addSubview:detailLabel];
         
-        self.clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, frame.size.width/2, frame.size.height)];
+        self.clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, frame.size.height)];
         [clearbutton setBackgroundColor:[UIColor clearColor]];
         [clearbutton addTarget:self action:@selector(handleTapUser:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:clearbutton];
 
-        self.clearbutton2 = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width/2, 0, frame.size.width/2, frame.size.height)];
+        self.clearbutton2 = [[UIButton alloc] initWithFrame:CGRectMake(50, 0, frame.size.width-50, frame.size.height)];
         [clearbutton2 setBackgroundColor:[UIColor clearColor]];
         [clearbutton2 addTarget:self action:@selector(handleTapPoll:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:clearbutton2];
@@ -152,8 +152,8 @@
     
     //[clearbutton3 setFrame:detailLabel.frame];
     
-    [clearbutton setFrame:CGRectMake(0, 0, f.size.width/2, f.size.height)];
-    [clearbutton2 setFrame:CGRectMake(f.size.width/2, 0, f.size.width/2, f.size.height)];
+    //[clearbutton setFrame:CGRectMake(0, 0, f.size.width/2, f.size.height)];
+    //[clearbutton2 setFrame:CGRectMake(f.size.width/2, 0, f.size.width/2, f.size.height)];
     
 }
 

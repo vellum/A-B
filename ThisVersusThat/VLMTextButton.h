@@ -14,7 +14,6 @@
 
 @property (strong, nonatomic) UIView *underline;
 
-- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color andText:(NSString *)text;
-- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color andText:(NSString *)text andUnderlineHeight:(CGFloat)underlineHeight;
+- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color disabledColor:(UIColor*)disabledcolor andText:(NSString *)text;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Parse/Parse.h"
 
 @protocol VLMTapDelegate <NSObject>
 - (void)didTapPoll:(PFObject *)poll;

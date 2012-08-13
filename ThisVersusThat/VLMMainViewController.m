@@ -21,11 +21,13 @@
 #import "VLMTapDelegate.h"
 #import "VLMPollDetailController.h"
 #import "VLMUserDetailController.h"
+#import "ActivityViewController.h"
 
 @interface VLMMainViewController (){
     NSMutableData *_data;
 }
 @property (nonatomic, strong) UIButton *clearbutton;
+@property (nonatomic, strong) ActivityViewController *activityController;
 @end
 
 @implementation VLMMainViewController
@@ -34,6 +36,7 @@
 @synthesize footerViewController;
 @synthesize addButtonController;
 @synthesize clearbutton;
+@synthesize activityController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -45,11 +48,11 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-
+    
 	// Do any additional setup after loading the view.
     [self.view setAutoresizesSubviews:NO];
-    
-    [self.view setBackgroundColor:MAIN_VIEW_BGCOLOR];
+    [self.view setBackgroundColor:BLACK_LINEN];
+    //[self.view setBackgroundColor:[UIColor grayColor]];
 
     // window dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
@@ -57,7 +60,11 @@
     
     self.view.frame = CGRectMake(0, STATUSBAR_HEIGHT, winw, winh-STATUSBAR_HEIGHT);
     
-	VLMFeedViewController *fvc = [[VLMFeedViewController alloc] initWithTapDelegate:self];
+    self.activityController = [[ActivityViewController alloc] initWithPopDelegate:self];
+    [self.view addSubview:self.activityController.tableView];
+
+	
+    VLMFeedViewController *fvc = [[VLMFeedViewController alloc] initWithTapDelegate:self];
     self.feedViewController = fvc;
     self.feedViewController.popDelegate = self;
 
@@ -207,6 +214,7 @@
 
 
 - (void)showLeftPanel{
+    [activityController enable:YES];
     CGRect f = self.feedViewController.view.frame;
     f = CGRectOffset(f, f.size.width-40, 0);
     [addButtonController hide];
@@ -218,7 +226,7 @@
         [clearbutton setUserInteractionEnabled:YES];
         [clearbutton setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0]];
         [clearbutton setFrame:CGRectMake(self.view.frame.size.width-40, 0, 40, self.view.frame.size.height)];
-        [clearbutton addTarget:self action:@selector(hideLeftPanel:) forControlEvents:UIControlEventTouchUpInside];
+        [clearbutton addTarget:self action:@selector(hideLeftPanel:) forControlEvents:UIControlEventTouchUpInside|UIControlEventTouchDragOutside];
     }
     [self.view addSubview:clearbutton];
     
@@ -235,6 +243,7 @@
 }
          
 -(void)hideLeftPanel:(id)sender{
+    [activityController enable:NO];
     [clearbutton removeFromSuperview];
     CGRect f = self.feedViewController.view.frame;
     f = CGRectMake(0, 0, f.size.width, f.size.height);

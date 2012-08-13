@@ -9,23 +9,42 @@
 #import "LoadMoreCell.h"
 #import "VLMTextButton.h"
 #import "VLMFeedTableViewController.h"
+#import "VLMGenericTapDelegate.h"
 
 @interface LoadMoreCell()
 @property (nonatomic, strong) VLMTextButton *button;
+@property (nonatomic, strong) id <VLMGenericTapDelegate> tapdelegate;
 @end
 
 @implementation LoadMoreCell
-@synthesize tv;
 @synthesize button;
+@synthesize tapdelegate;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier color:(UIColor*)color disabledcolor:(UIColor*)disabledcolor
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
         self.contentView.backgroundColor = [UIColor clearColor];
         
-        VLMTextButton *loadmore = [[VLMTextButton alloc] initWithFrame:CGRectMake(15, 0, 286, 60) andTypeSize:13.0f andColor:[UIColor blackColor] andText:@"load more..."  andUnderlineHeight:1.5f];
+        VLMTextButton *loadmore = [[VLMTextButton alloc] initWithFrame:CGRectMake(15, 0, 286, 60) andTypeSize:13.0f andColor:color disabledColor:disabledcolor andText:@"load more..."];
+        [loadmore setBackgroundColor:[UIColor clearColor]];
+        //[loadmore setBackgroundImage:[UIImage imageNamed:@"gray_header_background.png"] forState:UIControlStateHighlighted];
+        [self.contentView addSubview:loadmore];
+        [loadmore addTarget:self action:@selector(press:) forControlEvents:UIControlEventTouchUpInside];
+        self.button = loadmore;
+    }
+    return self;
+
+}
+
+- (id)initWithFrame:(CGRect)frame style:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier color:(UIColor*)color disabledcolor:(UIColor*)disabledcolor{
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        self.contentView.backgroundColor = [UIColor clearColor];
+        
+        VLMTextButton *loadmore = [[VLMTextButton alloc] initWithFrame:frame andTypeSize:13.0f andColor:color disabledColor:disabledcolor andText:@"load more..."];
         [loadmore setBackgroundColor:[UIColor clearColor]];
         [loadmore setBackgroundImage:[UIImage imageNamed:@"gray_header_background.png"] forState:UIControlStateHighlighted];
         [self.contentView addSubview:loadmore];
@@ -34,6 +53,7 @@
     }
     return self;
 }
+
 
 - (void)reset:(BOOL)hasMoreItems isLoading:(BOOL)loading{
     if ( loading ){
@@ -55,12 +75,12 @@
 }
 
 - (void)press:(id)sender{
-    if ( self.tv ){
+    if ( tapdelegate ){
         [button setTitle:@"loading..." forState:UIControlStateNormal];
         [button setSelected:NO];
         [button setEnabled:NO];
         [[button underline] setHidden:YES];
-        [self.tv loadNextPage];
+        [tapdelegate didTap:self];
     }
 }
 
@@ -75,5 +95,11 @@
 - (void)resetAnimated:(BOOL)anim{}
 - (void)killAnimations{}
 - (void)setInitialPage:(BOOL)leftside{}
-
+- (void)setTextColor:(UIColor *)textColor{
+    [self.button setTitleColor:textColor forState:UIControlStateNormal];
+    [self.button setFrame:CGRectMake(20, 0, self.frame.size.width-40-20 - 20, self.frame.size.height)];
+}
+- (void)setDelegate:(id)delegate{
+    self.tapdelegate = delegate;
+}
 @end

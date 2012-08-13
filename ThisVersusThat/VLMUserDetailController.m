@@ -17,6 +17,7 @@
 #import "LoadMoreCell.h"
 #import "VLMFeedHeaderDelegate.h"
 #import "VLMPollDetailController.h"
+#import "VLMGenericTapDelegate.h"
 
 
 @interface VLMUserDetailController ()
@@ -61,7 +62,7 @@
         self.className = @"Poll";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 10;
+        self.objectsPerPage = 3;
         self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
         self.resultcount = 0;
         self.isRootController = isRoot;
@@ -513,9 +514,9 @@
     
     LoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
     if (!cell) {
-        cell = [[LoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        //cell.tv = self;
+        cell = [[LoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier color:[UIColor colorWithWhite:0.2f alpha:1.0f] disabledcolor:[UIColor colorWithWhite:0.2f alpha:0.5f]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell setDelegate:self];
     }
     if ( self.objects.count < self.resultcount ){
         [cell reset:YES isLoading:self.isLoading];
@@ -525,6 +526,7 @@
     }
     return cell;
 }
+
 
 // footer
 
@@ -778,5 +780,10 @@
     [self.navigationController pushViewController:userdetail animated:YES];
 }
 
+#pragma mark - VLMGenericTapDelegate
+
+- (void)didTap:(id)sender{
+    [self loadNextPage];
+}
 
 @end

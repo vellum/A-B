@@ -10,10 +10,13 @@
 #import "VLMFeedHeaderController.h"
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
+#import "VLMTapDelegate.h"
+#import "VLMGenericTapDelegate.h"
 
 @protocol VLMTapDelegate;
+@protocol VLMGenericTapDelegate;
 
-@interface VLMFeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate, VLMFeedHeaderDelegate>{
+@interface VLMFeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate, VLMFeedHeaderDelegate, VLMTapDelegate, VLMGenericTapDelegate>{
     id <VLMTapDelegate> delegate;
 }
 @property (nonatomic, strong) id <VLMTapDelegate> delegate;

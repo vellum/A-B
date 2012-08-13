@@ -8,12 +8,16 @@
 
 #import "VLMTextButton.h"
 #import "VLMConstants.h"
+@interface VLMTextButton()
+@property (nonatomic, strong) UIColor *col;
+@end
 
 @implementation VLMTextButton
 
 @synthesize underline;
+@synthesize col;
 
-- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color andText:(NSString *)text
+- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color disabledColor:(UIColor*)disabledcolor andText:(NSString *)text
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -23,40 +27,34 @@
         self.titleLabel.font = [UIFont fontWithName:@"AmericanTypewriter" size:size];
         [self setTitle:text forState:UIControlStateNormal];
         [self setTitleColor:color forState:UIControlStateNormal];
-        [self setTitleColor:DISABLED_TEXT_COLOR forState:UIControlStateDisabled];
+        
+        [self setTitleColor:disabledcolor forState:UIControlStateDisabled];
         [self setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
         [self setShowsTouchWhenHighlighted:NO];
         
         CGRect r = self.titleLabel.frame;
-        CGRect t = CGRectMake(r.origin.x, r.origin.y + r.size.height, r.size.width, 4.0f);
+        CGRect t = CGRectMake(r.origin.x, r.origin.y + r.size.height, r.size.width, 1.5f);
         UIView *line = [[UIView alloc] initWithFrame:t];
         [line setBackgroundColor:color];
         [line setUserInteractionEnabled:NO];
         [self addSubview:line];
         self.underline = line;
+        
+        [self addTarget:self action:@selector(highlight:) forControlEvents:UIControlEventTouchDown];
+        [self addTarget:self action:@selector(unhighlight:) forControlEvents:UIControlEventTouchCancel|UIControlEventTouchUpInside|UIControlEventTouchUpOutside];
+        [self setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+        
+        self.col = color;
     }
     return self;
+}
+- (void)highlight:(id)sender{
+    [self setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [self.underline setBackgroundColor:[UIColor lightGrayColor]];
+}
+- (void)unhighlight:(id)sender{
+    [self setTitleColor:col forState:UIControlStateNormal];
+    [self.underline setBackgroundColor:col];
 }
 
-- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color andText:(NSString *)text andUnderlineHeight:(CGFloat)underlineHeight{
-    self = [self initWithFrame:frame andTypeSize:size andColor:color andText:text];
-    if( self ){
-        CGRect r = self.titleLabel.frame;
-        CGRect t = CGRectMake(r.origin.x, r.origin.y + r.size.height, r.size.width, underlineHeight);
-        self.underline.frame = t;
-    }
-    return self;
-}
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-    [super drawRect:rect];
-    
-    self.underline.hidden = !self.selected;
-    
-}
- */
 @end

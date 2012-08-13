@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
+#import "VLMGenericTapDelegate.h"
 
-@interface VLMUserDetailController : PFQueryTableViewController<VLMFeedHeaderDelegate, UIGestureRecognizerDelegate>{
+@interface VLMUserDetailController : PFQueryTableViewController<VLMFeedHeaderDelegate, UIGestureRecognizerDelegate, VLMGenericTapDelegate>{
     PFUser *user;
 }
 

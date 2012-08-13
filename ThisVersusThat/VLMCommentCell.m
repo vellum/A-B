@@ -10,10 +10,6 @@
 #import "VLMConstants.h"
 
 @interface VLMCommentCell ()
-@property (nonatomic, strong) PFImageView* imageview;
-@property (nonatomic, strong) UILabel* userlabel;
-@property (nonatomic, strong) UILabel* commentlabel;
-@property (nonatomic, strong) UIView* back;
 @end
 
 @implementation VLMCommentCell
@@ -78,6 +74,19 @@
 
     //[back setFrame:CGRectMake(x, y, w, commentlabel.frame.size.height + 20)];
 }
+- (void)setUserColor:(UIColor *)color{
+    [self.userlabel setTextColor:color];
+}
+- (void)setCommentColor:(UIColor *)color{
+    [self.commentlabel setTextColor:color];
+}
 
++ (CGFloat)heightForDescriptionText:(NSString *)text{
+    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(40*7-3-20-5-5, 49) lineBreakMode:UILineBreakModeWordWrap];
+    
+    CGFloat cellh = expectedLabelSize.height + 18;
+    cellh = ceilf(cellh/7)*7  + 28;
+    return cellh;
 
+}
 @end

@@ -84,6 +84,7 @@
 #pragma mark Colors
 
 #define DEBUG_BACKGROUND_GRID [UIColor colorWithPatternImage:[UIImage imageNamed:@"debuggrid.png"]]
+#define BLACK_LINEN [UIColor colorWithPatternImage:[UIImage imageNamed:@"skewed_print.png"]]
 
 #define WINDOW_BGCOLOR [UIColor blackColor]
 #define MAIN_VIEW_BGCOLOR [UIColor clearColor]
