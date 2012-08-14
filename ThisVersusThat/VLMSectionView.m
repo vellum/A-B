@@ -152,8 +152,8 @@
     
     //[clearbutton3 setFrame:detailLabel.frame];
     
-    //[clearbutton setFrame:CGRectMake(0, 0, f.size.width/2, f.size.height)];
-    //[clearbutton2 setFrame:CGRectMake(f.size.width/2, 0, f.size.width/2, f.size.height)];
+    [clearbutton setFrame:CGRectMake(0, 0, 50, f.size.height)];
+    [clearbutton2 setFrame:CGRectMake(50, 0, f.size.width-50, f.size.height)];
     
 }
 

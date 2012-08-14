@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "VLMUtility.h"
 #import "VLMConstants.h"
+#import "VLMCache.h"
 #import "VLMMainViewController.h"
 #import "VLMFeedViewController.h"
 #import "VLMFooterController.h"
@@ -22,6 +23,8 @@
 #import "VLMPollDetailController.h"
 #import "VLMUserDetailController.h"
 #import "ActivityViewController.h"
+#import "ActivityNavButton.h"
+
 
 @interface VLMMainViewController (){
     NSMutableData *_data;
@@ -60,7 +63,44 @@
     
     self.view.frame = CGRectMake(0, STATUSBAR_HEIGHT, winw, winh-STATUSBAR_HEIGHT);
     
-    self.activityController = [[ActivityViewController alloc] initWithPopDelegate:self];
+    
+    
+    CGFloat y = 0;
+    CGFloat x = 20;
+    CGFloat h = 42;
+
+    UIView *activityHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, 14*5 + (28+28)*2 + 14)];
+    [activityHeader setBackgroundColor:[UIColor clearColor]];
+    [activityHeader setAutoresizesSubviews:NO];
+
+                                // THIS SHOULD BE ITS OWN CLASS
+                                
+                                
+                                ActivityNavButton *profilebutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:[UIColor colorWithWhite:0.8 alpha:0.9] highlightColor:[UIColor whiteColor] disabledColor:[UIColor blackColor] andText:@"Profile"];
+                                [activityHeader addSubview:profilebutton];
+                                [profilebutton addTarget:self action:@selector(tappedProfile:) forControlEvents:UIControlEventTouchUpInside];
+                                y+= 28 + 28;
+
+                                ActivityNavButton *logoutbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:[UIColor colorWithWhite:0.8 alpha:0.9] highlightColor:[UIColor whiteColor] disabledColor:[UIColor blackColor] andText:@"Log out"];
+                                [activityHeader addSubview:logoutbutton];
+                                //[logoutbutton showLine:NO];
+                                [logoutbutton addTarget:self action:@selector(tappedLogout:) forControlEvents:UIControlEventTouchUpInside];
+                                y+= 28 + 28;
+                                
+                                y+=14+7;
+                                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 6*40, h)];
+                                [label setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
+                                [label setText:@"Activity"];
+                                [label setTextAlignment:UITextAlignmentCenter];
+                                [label setBackgroundColor:TEXT_COLOR];
+                                [label setTextColor:[UIColor whiteColor]];
+                                [activityHeader addSubview:label];
+                                
+
+    
+    [self.view addSubview:activityHeader];
+    
+    self.activityController = [[ActivityViewController alloc] initWithPopDelegate:self andHeaderView:activityHeader];
     [self.view addSubview:self.activityController.tableView];
 
 	
@@ -209,7 +249,9 @@
 }
 
 - (void)didTap:(id)sender{
+    if ( [PFUser currentUser] ){
     [self showLeftPanel];
+    }
 }
 
 
@@ -218,7 +260,7 @@
     CGRect f = self.feedViewController.view.frame;
     f = CGRectOffset(f, f.size.width-40, 0);
     [addButtonController hide];
-
+    [feedViewController.tableViewController.tableView setScrollsToTop:NO];
     if (!clearbutton) {
         self.clearbutton = [UIButton buttonWithType:UIButtonTypeCustom];
         [clearbutton setEnabled:YES];
@@ -244,10 +286,13 @@
          
 -(void)hideLeftPanel:(id)sender{
     [activityController enable:NO];
+    [feedViewController.tableViewController.tableView setScrollsToTop:YES];
     [clearbutton removeFromSuperview];
     CGRect f = self.feedViewController.view.frame;
     f = CGRectMake(0, 0, f.size.width, f.size.height);
-    [addButtonController show];
+    if ( [PFUser currentUser] ){
+        [addButtonController show];
+    }
     [UIView animateWithDuration:0.325
                           delay:0 
                         options:UIViewAnimationCurveEaseInOut
@@ -260,4 +305,48 @@
      ];
  
 }
+
+-(void)tappedProfile:(id)sender{
+    if (![PFUser currentUser] ) return;
+    [self popUserDetail:[PFUser currentUser]];
+}
+
+- (void)tappedLogout:(id)sender{
+    // open an allertyview
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Log out", nil];
+    [actionSheet showInView:self.view];
+
+}
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self logout];
+    } else if (buttonIndex == 1) {
+    }
+}
+
+- (void)logout{
+    if ([PFUser currentUser]){
+        
+        // clear cache
+        [[VLMCache sharedCache] clear];
+        
+        // remove cached profile image
+        NSURL *cachesDirectoryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject]; // iOS Caches directory
+        NSURL *profilePictureCacheURL = [cachesDirectoryURL URLByAppendingPathComponent:@"FacebookProfilePicture.jpg"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[profilePictureCacheURL path]]) {
+            [[NSFileManager defaultManager] removeItemAtPath:[profilePictureCacheURL path] error:nil];
+        }
+        
+        // Log out
+        [PFUser logOut];
+    }
+    [self.view addSubview:self.footerViewController.view];
+    [self.feedViewController updatelayout];
+
+    [self hideLeftPanel:nil];
+
+}
+
 @end

@@ -15,7 +15,7 @@
 @class VLMFeedViewController;
 @class VLMAddButtonController;
 
-@interface VLMMainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDataDelegate, VLMPopModalDelegate, VLMGenericTapDelegate>{
+@interface VLMMainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, NSURLConnectionDataDelegate, VLMPopModalDelegate, VLMGenericTapDelegate, UIActionSheetDelegate>{
     VLMFeedViewController *feedViewController;
     VLMFooterController *footerViewController;
     VLMAddButtonController *addButtonController;

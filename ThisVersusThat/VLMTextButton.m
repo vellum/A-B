@@ -48,6 +48,8 @@
     }
     return self;
 }
+
+
 - (void)highlight:(id)sender{
     [self setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     [self.underline setBackgroundColor:[UIColor lightGrayColor]];

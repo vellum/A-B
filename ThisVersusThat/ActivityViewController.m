@@ -11,18 +11,29 @@
 #import "VLMActivityCell.h"
 #import "LoadMoreCell.h"
 #import "VLMPopModalDelegate.h"
+#import "VLMTextButton.h"
 
 @interface ActivityViewController ()
 @property (nonatomic) int resultcount;
 @property (nonatomic, strong) id <VLMPopModalDelegate> popdelegate;
+@property (nonatomic, strong) UIView *headerview;
+@property (nonatomic) CGRect contentRect;
+@property (nonatomic) CGFloat contentOffsetY;
+@property (nonatomic) CGRect headerRect;
 @end
 
 @implementation ActivityViewController
 @synthesize resultcount;
 @synthesize popdelegate;
+@synthesize headerview;
+@synthesize contentRect;
+@synthesize contentOffsetY;
+
+@synthesize headerRect;
+
 #pragma mark - NSObject
 
-- (id)initWithPopDelegate:(id)popmodaldelegate{
+- (id)initWithPopDelegate:(id)popmodaldelegate andHeaderView:(UIView *)headview{
     self = [super init];
     if ( self ){
         self.loadingViewEnabled = NO;
@@ -44,6 +55,16 @@
         self.resultcount = 0;
         self.popdelegate = popmodaldelegate;
 
+        self.headerview = headview;
+        self.contentOffsetY = 0;
+        
+        CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
+        CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
+        self.tableView.frame = CGRectMake(0, headerview.frame.size.height, winw, winh - STATUSBAR_HEIGHT - headerview.frame.size.height);
+        
+        self.contentRect = self.tableView.frame;
+        self.headerRect = self.headerview.frame;
+        
     }
     return self;
     
@@ -60,23 +81,6 @@
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     [self.tableView setFrame:CGRectMake(0, 0, winw, winh-STATUSBAR_HEIGHT)];
     [super viewDidLoad];
-    
-    // TABLEHEADER
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 42 + 28 + 14)];
-    [head setBackgroundColor:[UIColor clearColor]];
-    
-    CGFloat y = 14;
-    CGFloat x = 20;
-    CGFloat h = 42;
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 6*40, h)];
-    [label setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
-    [label setText:@"Activity"];
-    [label setTextAlignment:UITextAlignmentCenter];
-    [label setBackgroundColor:TEXT_COLOR];
-    [label setTextColor:[UIColor whiteColor]];
-    [head addSubview:label];
-    self.tableView.tableHeaderView = head;
 }
 
 - (void)viewDidUnload
@@ -89,6 +93,16 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self loadObjects];
+    /*
+     if (self.shouldReloadOnAppear) {
+     self.shouldReloadOnAppear = NO;
+     }*/
+}
+
+
 
 -(void)enable:(BOOL)enabled{
     [self.tableView setUserInteractionEnabled:enabled];
@@ -116,6 +130,10 @@
 
 - (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
     NSInteger index = indexPath.row;
+    if ( index == 0 ){
+        return nil;
+    }
+    index--;
     if (index >= 0 && index < self.objects.count) {
         return [self.objects objectAtIndex:index];
     }
@@ -142,7 +160,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //if (self.paginationEnabled) return self.objects.count + 1;
-    return self.objects.count+1;
+    return self.objects.count+2;
 }
 
 #pragma mark - UITableViewDelegate
@@ -156,8 +174,19 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ( indexPath.row == 0 && self.objects.count == 0 ) return 56;
-    if ( indexPath.row >= self.objects.count ) return 56;
+    int rowind = indexPath.row - 1;
+    
+    if ( rowind == -1 ){
+        // compute dynamic height based on scroll position
+        CGFloat scrollval = tableView.contentOffset.y;
+        NSLog(@"%f", scrollval);
+        if ( scrollval < 0 ) scrollval = 0.0f;
+        if ( scrollval > self.headerview.frame.size.height ) scrollval = self.headerview.frame.size.height;
+        return scrollval;
+    }
+    
+    if ( rowind == 0 && self.objects.count == 0 ) return 56;
+    if ( rowind >= self.objects.count ) return 56;
     PFObject *row = [self objectAtIndex:indexPath];
 
     NSString *text;
@@ -174,7 +203,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ( indexPath.row >= [self.objects count] ){
+    
+    int rowind = indexPath.row - 1;
+    
+    if ( rowind > -1 && rowind >= [self.objects count] ){
         UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
         return cell;
     }
@@ -188,6 +220,12 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setUserColor:[UIColor colorWithWhite:1.0f alpha:0.9f]];
         [cell setCommentColor:[UIColor colorWithWhite:1.0f alpha:0.75f]];
+    }
+    if ( rowind == -1 ){
+        cell.contentView.hidden = YES;
+        return cell;
+    } else {
+        cell.contentView.hidden = NO;
     }
     PFObject *row = [self objectAtIndex:indexPath];
     PFUser *u = [row objectForKey:@"FromUser"];
@@ -265,6 +303,62 @@
 
 -(void)didTap:(id)sender{
     [self loadNextPage];
+}
+
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [super scrollViewDidScroll:scrollView];
+    if ( self.objects.count == 0 ) return;
+    
+    // get the scroll position of the tableview
+    CGFloat lookupY = scrollView.contentOffset.y;
+    
+    // invert the scroll position and use it as a y offset for positioning 
+    // our fake header
+    CGFloat headerOffsetY = -lookupY;
+    if (headerOffsetY > 0 ) headerOffsetY = 0;
+    if (headerOffsetY < -self.headerview.frame.size.height ) headerOffsetY = -self.headerview.frame.size.height;
+    //[self.headerViewController pushVerticallyBy:headerOffsetY];
+    [self.headerview setFrame:CGRectOffset(self.headerRect, 0.0f, headerOffsetY)];
+    
+    // now compute a y offset to apply to the scrollview
+    // ( we're pushing this up where the header used to be
+    //   or vice versa )
+    CGFloat tvOffsetY = self.headerview.frame.size.height + headerOffsetY;
+    if ( tvOffsetY != self.contentOffsetY )
+    {
+        //NSLog(@"%f", tvOffsetY);
+        CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
+        CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
+        
+        [self.view setFrame: CGRectMake(0, tvOffsetY, winw, winh-tvOffsetY-STATUSBAR_HEIGHT)];
+        
+        // cast scrollview to a tableview
+        UITableView *tv = (UITableView *)scrollView;
+        
+        // store this offset in an ivar
+        self.contentOffsetY = tvOffsetY;
+        
+        // UITableView animates height changes by default
+        // override that and make sure we don't animate
+        
+        // preserve the previous animation state
+        BOOL animationsEnabled = [UIView areAnimationsEnabled];
+        
+        // kill animations
+        [UIView setAnimationsEnabled:NO];
+        
+        // trigger a row height computation on our rows
+        //[tv beginUpdates];
+        //[tv endUpdates];
+        
+        // alternatively we can do
+        [tv reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        
+        // restore the previous animation state
+        [UIView setAnimationsEnabled:animationsEnabled];
+    }
 }
 
 @end

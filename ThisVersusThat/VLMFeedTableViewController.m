@@ -77,6 +77,7 @@
         [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
         [self updatelayout];
         
+        
     }
     return self;
 }
@@ -91,7 +92,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    //[super viewDidAppear:animated];
     
     /*
     if (self.shouldReloadOnAppear) {
@@ -389,7 +390,7 @@
     }
     
     // otherwise, row heights are fixed
-    return 321.0f + 28;
+    return 321.0f + 7;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {

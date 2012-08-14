@@ -9,6 +9,6 @@
 #import <Parse/Parse.h>
 #import "VLMGenericTapDelegate.h"
 @interface ActivityViewController : PFQueryTableViewController<VLMGenericTapDelegate>
-- (id)initWithPopDelegate:(id)popmodaldelegate;
+- (id)initWithPopDelegate:(id)popmodaldelegate andHeaderView:(UIView *)headview;
 -(void)enable:(BOOL)enabled;
 @end

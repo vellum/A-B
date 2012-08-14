@@ -33,7 +33,7 @@
     self.contentView.clipsToBounds = YES;
     
     CGFloat x = 20;
-    CGFloat y = 0;
+    CGFloat y = 7;
     CGFloat w = 40 * 7;
     self.back = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, 1)];
     [back setBackgroundColor:[UIColor clearColor]];
@@ -86,7 +86,7 @@
     [self.commentlabel setText:commenttext];
     [self.commentlabel sizeToFit];
     [blockquoteborder setBackgroundColor:[UIColor clearColor]];
-    
+    [self.quote setText:@""];
 }
 
 - (void)setComment:(NSString *)commenttext andQuote:(NSString*)quotetext {
