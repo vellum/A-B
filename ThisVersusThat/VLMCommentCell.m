@@ -106,7 +106,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
 }
 
 -(void)setTime:(NSDate*)d{
-    [timestamp setFrame:CGRectMake(35, self.commentlabel.frame.origin.y + self.commentlabel.frame.size.height + 1, 200, 100)];
+    [timestamp setFrame:CGRectMake(35, self.commentlabel.frame.origin.y + self.commentlabel.frame.size.height + 2, 200, 100)];
     [timestamp setNumberOfLines:0];
     [timestamp setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:d]];
     [timestamp sizeToFit];
