@@ -67,34 +67,30 @@
     
     CGFloat y = 0;
     CGFloat x = 20;
-    CGFloat h = 42;
 
-    UIView *activityHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, 14*5 + (28+28)*2 + 14)];
+    UIView *activityHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, 14*1 + (28+28)*3)];
     [activityHeader setBackgroundColor:[UIColor clearColor]];
     [activityHeader setAutoresizesSubviews:NO];
 
                                 // THIS SHOULD BE ITS OWN CLASS
                                 
                                 
-                                ActivityNavButton *profilebutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:[UIColor colorWithWhite:0.8 alpha:0.9] highlightColor:[UIColor whiteColor] disabledColor:[UIColor blackColor] andText:@"Profile"];
-                                [activityHeader addSubview:profilebutton];
-                                [profilebutton addTarget:self action:@selector(tappedProfile:) forControlEvents:UIControlEventTouchUpInside];
-                                y+= 28 + 28;
-
+    ActivityNavButton *profilebutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:[UIColor colorWithWhite:0.8 alpha:0.9] highlightColor:[UIColor whiteColor] disabledColor:[UIColor blackColor] andText:@"Profile"];
+    [activityHeader addSubview:profilebutton];
+    [profilebutton addTarget:self action:@selector(tappedProfile:) forControlEvents:UIControlEventTouchUpInside];
+    y+= 28 + 28;
+    
+    ActivityNavButton *settingsbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:[UIColor colorWithWhite:0.8 alpha:0.9] highlightColor:[UIColor whiteColor] disabledColor:[UIColor blackColor] andText:@"Settings"];
+    [activityHeader addSubview:settingsbutton];
+    [settingsbutton addTarget:self action:@selector(tappedSettings:) forControlEvents:UIControlEventTouchUpInside];
+    y+= 28 + 28;
+    
                                 ActivityNavButton *logoutbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:[UIColor colorWithWhite:0.8 alpha:0.9] highlightColor:[UIColor whiteColor] disabledColor:[UIColor blackColor] andText:@"Log out"];
                                 [activityHeader addSubview:logoutbutton];
                                 //[logoutbutton showLine:NO];
                                 [logoutbutton addTarget:self action:@selector(tappedLogout:) forControlEvents:UIControlEventTouchUpInside];
                                 y+= 28 + 28;
-                                
                                 y+=14+7;
-                                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 6*40, h)];
-                                [label setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
-                                [label setText:@"Activity"];
-                                [label setTextAlignment:UITextAlignmentCenter];
-                                [label setBackgroundColor:TEXT_COLOR];
-                                [label setTextColor:[UIColor whiteColor]];
-                                [activityHeader addSubview:label];
                                 
 
     
@@ -313,10 +309,14 @@
 
 - (void)tappedLogout:(id)sender{
     // open an allertyview
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Log out", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Log out" otherButtonTitles:nil];
     [actionSheet showInView:self.view];
-
 }
+
+- (void)tappedSettings:(id)sender{
+    NSLog(@"settings");
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

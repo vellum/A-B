@@ -51,7 +51,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
         
         [self.contentView addSubview:self.back];
         
-        self.imageview = [[PFImageView alloc] initWithFrame:CGRectMake(3, 3, 25, 25)];
+        self.imageview = [[PFImageView alloc] initWithFrame:CGRectMake(0, 3, 25, 25)];
         self.userlabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 3, w, 14)];
         [userlabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
         [userlabel setBackgroundColor:[UIColor clearColor]];

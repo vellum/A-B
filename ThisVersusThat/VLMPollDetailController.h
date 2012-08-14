@@ -10,7 +10,7 @@
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
 
-@interface VLMPollDetailController : PFQueryTableViewController<UITextViewDelegate, VLMFeedHeaderDelegate>{
+@interface VLMPollDetailController : PFQueryTableViewController<UITextViewDelegate, VLMFeedHeaderDelegate, UIActionSheetDelegate>{
     PFObject *poll;
 }
 

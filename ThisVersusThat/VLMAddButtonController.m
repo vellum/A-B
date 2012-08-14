@@ -48,7 +48,8 @@
     
     CGRect circlerect = CGRectMake(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT);
     UIView *circle = [[UIView alloc] initWithFrame:circlerect];
-    [circle setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.75f]];
+    //[circle setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.75f]];
+    [circle setBackgroundColor:[UIColor colorWithWhite:0.1f alpha:0.9f]];
     [circle.layer setCornerRadius:BUTTON_WIDTH/2];
     [circle.layer setMasksToBounds:NO];
     [circle.layer setShadowRadius:2.0f];
@@ -58,7 +59,7 @@
     UIButton *fb = [[UIButton alloc] initWithFrame:CGRectOffset(circlerect, 1.0, -2.0)];
     [fb.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:28]];
     [fb setTitle:@"+" forState:UIControlStateNormal];
-    [fb setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateNormal];
+    [fb setTitleColor:[UIColor colorWithWhite:0.8f alpha:1.0f] forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     [fb setShowsTouchWhenHighlighted:YES];
     [self setButton:fb];

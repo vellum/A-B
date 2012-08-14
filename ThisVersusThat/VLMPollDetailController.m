@@ -260,6 +260,13 @@
         UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
         [self.navigationItem setLeftBarButtonItem:cancelbutton];
     }
+    
+    PFUser *u = [poll objectForKey:@"User"];
+    PFUser *c = [PFUser currentUser];
+    if ([[u objectId] isEqualToString:[c objectId]]) {
+        UIBarButtonItem *dotdotdot = [[UIBarButtonItem alloc] initWithTitle:@"Remove" style:UIBarButtonItemStylePlain target:self action:@selector(dotdotdot:)];
+        [self.navigationItem setRightBarButtonItem:dotdotdot];
+    }
 
 
 }
@@ -613,6 +620,19 @@
     [self openUserDetail:user];
 }
 
+- (void)dotdotdot:(id)sender{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Remove" otherButtonTitles:nil];
+    [actionSheet showInView:self.view];
+    
+}
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        NSLog(@"pppp");
+    } else if (buttonIndex == 1) {
+    }
+}
 
 #pragma mark - UITextFieldDelegate
 
