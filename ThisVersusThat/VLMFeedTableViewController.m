@@ -68,7 +68,7 @@
         self.objectsPerPage = 10;
         
         // Improve scrolling performance by reusing UITableView section headers
-        self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:4];
+        self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
         
         self.shouldReloadOnAppear = NO;
         self.resultcount = 0;

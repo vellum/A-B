@@ -62,7 +62,7 @@
         self.className = @"Poll";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 3;
+        self.objectsPerPage = 10;
         self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
         self.resultcount = 0;
         self.isRootController = isRoot;
