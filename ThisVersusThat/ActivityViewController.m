@@ -189,18 +189,18 @@
         if ( scrollval < 0 ) scrollval = 0.0f;
         if ( scrollval > headerHeight ) scrollval = headerHeight;
         
-        NSLog(@"rowind -2 / returning %f", scrollval);
+        //NSLog(@"rowind -2 / returning %f", scrollval);
         return scrollval;
     }
     
     if ( rowind == -1 ){
-        NSLog(@"rowind -1 / returning 56");
+        //NSLog(@"rowind -1 / returning 56");
         return 56;
     }
     
     if ( rowind == 0 && self.objects.count == 0 ) {
         //return self.tableView.frame.size.height;
-        NSLog(@"rowind 0, objectcount 0 / returning 56");
+        //NSLog(@"rowind 0, objectcount 0 / returning 56");
         return 56;
     }
     if ( rowind >= self.objects.count ) {
@@ -223,12 +223,12 @@
                 estimatedcontentheight += [VLMActivityCell heightForDescriptionText:text] + 14;
             }
         }
-        NSLog(@"computing estimatedcontentheight: %f", estimatedcontentheight);
+        //NSLog(@"computing estimatedcontentheight: %f", estimatedcontentheight);
         if ( headerview.frame.origin.y < 0 && maxh - estimatedcontentheight > 0 ) {
-            NSLog(@"returning %f", maxh - estimatedcontentheight);
+            //NSLog(@"returning %f", maxh - estimatedcontentheight);
             return maxh - estimatedcontentheight;   
         }
-        NSLog(@"just returning 56");
+        //NSLog(@"just returning 56");
         return 56;
     }
     PFObject *row = [self objectAtIndex:indexPath];
@@ -345,7 +345,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *LoadMoreCellIdentifier = @"LoadMoreCell";
-    NSLog(@"constructing nextpagecell");
+    //NSLog(@"constructing nextpagecell");
     LoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
     if (!cell) {
         cell = [[LoadMoreCell alloc] initWithFrame:CGRectMake(20, 0, 40*6, 56)  style:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier color:[UIColor colorWithWhite:1.0f alpha:0.75f] disabledcolor:[UIColor colorWithWhite:1.0f alpha:0.5f]];
@@ -409,7 +409,7 @@
     CGFloat tvOffsetY = headerHeight + headerOffsetY;
     if ( tvOffsetY != self.contentOffsetY )
     {
-        //NSLog(@"%f", tvOffsetY);
+        ////NSLog(@"%f", tvOffsetY);
         CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
         CGFloat winw = [[UIScreen mainScreen] bounds].size.width-40;
         

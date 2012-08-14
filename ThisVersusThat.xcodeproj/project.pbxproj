@@ -43,7 +43,6 @@
 		BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD54C2DA15D3568700B73984 /* VLMCommentCell.m */; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
 		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
-		BD7998E115D654670070D759 /* skewed_print@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998DF15D654670070D759 /* skewed_print@2X.png */; };
 		BD7998E215D654670070D759 /* skewed_print.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998E015D654670070D759 /* skewed_print.png */; };
 		BD7998E515D6DB400070D759 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7998E415D6DB400070D759 /* ActivityViewController.m */; };
 		BD7998EE15D89FA50070D759 /* VLMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7998ED15D89FA50070D759 /* VLMActivityCell.m */; };
@@ -133,7 +132,6 @@
 		BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddButtonController.h; sourceTree = "<group>"; };
 		BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddButtonController.m; sourceTree = "<group>"; };
 		BD7998D615D632C20070D759 /* VLMGenericTapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMGenericTapDelegate.h; sourceTree = "<group>"; };
-		BD7998DF15D654670070D759 /* skewed_print@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skewed_print@2X.png"; sourceTree = "<group>"; };
 		BD7998E015D654670070D759 /* skewed_print.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skewed_print.png; sourceTree = "<group>"; };
 		BD7998E315D6DB3F0070D759 /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		BD7998E415D6DB400070D759 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
@@ -346,7 +344,6 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				BD7998DF15D654670070D759 /* skewed_print@2X.png */,
 				BD7998E015D654670070D759 /* skewed_print.png */,
 				BD19858F15D60EFE00AE9590 /* 3lines_highlighted.png */,
 				BD19859015D60EFE00AE9590 /* 3lines.png */,
@@ -536,7 +533,6 @@
 				BD19858215D5C9F400AE9590 /* facebook@2x.png in Resources */,
 				BD19859115D60EFE00AE9590 /* 3lines_highlighted.png in Resources */,
 				BD19859215D60EFE00AE9590 /* 3lines.png in Resources */,
-				BD7998E115D654670070D759 /* skewed_print@2X.png in Resources */,
 				BD7998E215D654670070D759 /* skewed_print.png in Resources */,
 				BD0B3D5515D8DB0500EA0A7E /* triangle@2x.png in Resources */,
 			);

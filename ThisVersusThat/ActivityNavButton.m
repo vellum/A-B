@@ -51,7 +51,7 @@
         self.underline = line;
         
         [self addTarget:self action:@selector(highlight:) forControlEvents:UIControlEventTouchDown];
-        [self addTarget:self action:@selector(unhighlight:) forControlEvents:UIControlEventTouchCancel|UIControlEventTouchUpInside|UIControlEventTouchUpOutside];
+        [self addTarget:self action:@selector(unhighlight:) forControlEvents:UIControlEventTouchCancel|UIControlEventTouchUpInside|UIControlEventTouchUpOutside|UIControlEventTouchDragExit];
 
         self.enabledColor = color;
         self.disabledColor = disabledcolor;
