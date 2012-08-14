@@ -398,6 +398,7 @@
     NSString *question = [poll objectForKey:@"Question"];
     NSString *username = [user objectForKey:@"displayName"];
     VLMSectionView *sectionhead = [[VLMSectionView alloc] initWithFrame:CGRectMake(0, 0, contentw, 0) andUserName:username andQuestion:question];
+    [sectionhead setDetailButtonEnabled:NO];
     [sectionhead setFile:[user objectForKey:@"profilePicSmall"]];
     [sectionhead setTime:[poll createdAt]];
     [sectionhead setDelegate:self];

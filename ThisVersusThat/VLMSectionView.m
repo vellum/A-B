@@ -13,9 +13,12 @@
 #import "VLMFeedHeaderDelegate.h"
 
 static TTTTimeIntervalFormatter *timeFormatter;
+@interface  VLMSectionView()
+@property (nonatomic, strong) UIView *profilehitview;
+@property (nonatomic) BOOL detaillabelenabled;
+@end
 
 @implementation VLMSectionView
-
 @synthesize profileImageView;
 @synthesize headerLabel;
 @synthesize detailLabel;
@@ -25,6 +28,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
 @synthesize delegate;
 @synthesize section;
 @synthesize timestamp;
+@synthesize profilehitview;
+@synthesize detaillabelenabled;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -49,6 +54,10 @@ static TTTTimeIntervalFormatter *timeFormatter;
         // avatar
         self.profileImageView = [[PFImageView alloc] initWithFrame:CGRectMake(7.0f, 13.0f, 27.0f, 27.0f)];
         [self.profileImageView setBackgroundColor:[UIColor lightGrayColor]];
+        
+        self.profilehitview = [[UIView alloc] initWithFrame:CGRectMake(4.0f, 10.0f, 33.0f, 33.0f)];
+        profilehitview.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.5f];
+        profilehitview.hidden = YES;
 
         // create the label objects
         self.headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -91,17 +100,25 @@ static TTTTimeIntervalFormatter *timeFormatter;
         [self addSubview:timestamp];
         [self addSubview:headerLabel];
         [self addSubview:detailLabel];
+        [self addSubview:profilehitview];
         
         self.clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, frame.size.height)];
         [clearbutton setBackgroundColor:[UIColor clearColor]];
         [clearbutton addTarget:self action:@selector(handleTapUser:) forControlEvents:UIControlEventTouchUpInside];
+        [clearbutton addTarget:self action:@selector(showUserHitState:) forControlEvents:UIControlEventTouchDown];
+        [clearbutton addTarget:self action:@selector(hideUserHitState:) forControlEvents:UIControlEventTouchCancel|UIControlEventTouchDragExit|UIControlEventTouchUpInside|UIControlEventTouchUpOutside];
         [self addSubview:clearbutton];
 
         self.clearbutton2 = [[UIButton alloc] initWithFrame:CGRectMake(50, 0, frame.size.width-50, frame.size.height)];
         [clearbutton2 setBackgroundColor:[UIColor clearColor]];
         [clearbutton2 addTarget:self action:@selector(handleTapPoll:) forControlEvents:UIControlEventTouchUpInside];
+        [clearbutton2 addTarget:self action:@selector(showPollHitState:) forControlEvents:UIControlEventTouchDown];
+        [clearbutton2 addTarget:self action:@selector(hidePollHitState:) forControlEvents:UIControlEventTouchCancel|        UIControlEventTouchDragExit|UIControlEventTouchUpInside|UIControlEventTouchUpOutside];
         [self addSubview:clearbutton2];
+        
+        self.detaillabelenabled = YES;
     }
+    
     return self;
 }
 
@@ -192,7 +209,28 @@ static TTTTimeIntervalFormatter *timeFormatter;
 //    [timestamp setText:];
 }
 
+- (void)showUserHitState:(id)sender{
+    NSLog(@"hit");
+    self.profilehitview.hidden = NO;
+}
 
+- (void)hideUserHitState:(id)sender{
+    NSLog(@"unhit");
+    self.profilehitview.hidden = YES;
+}
+
+- (void)showPollHitState:(id)sender{
+    if ( detaillabelenabled )
+        [self.detailLabel setTextColor:[UIColor colorWithWhite:0.2f alpha:0.4f]];
+}
+
+- (void)hidePollHitState:(id)sender{
+    [detailLabel setTextColor:TEXT_COLOR];
+
+}
+- (void)setDetailButtonEnabled:(BOOL)enabled{
+    self.detaillabelenabled = enabled;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

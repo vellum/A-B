@@ -38,5 +38,6 @@
 - (void)setUserName:(NSString *)username andQuestion:(NSString *)text; 
 - (void)setFile:(PFFile*)file;
 
--(void)setTime:(NSDate*)d;
+- (void)setTime:(NSDate*)d;
+- (void)setDetailButtonEnabled:(BOOL)enabled;
 @end
