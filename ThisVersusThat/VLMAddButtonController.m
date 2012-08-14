@@ -69,7 +69,8 @@
     [self.view addSubview:fb];
 
     [self.button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self hide];
+    [self show];
+    //[self hide];
 }
 
 -(void) buttonTapped:(id)sender{

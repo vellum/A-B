@@ -12,9 +12,14 @@
 #import "Parse/Parse.h"
 #import "VLMUtility.h"
 #import "VLMFeedTableViewController.h"
+#import "TTTTimeIntervalFormatter.h"
+
+
+static TTTTimeIntervalFormatter *timeFormatter;
 
 @interface VLMCell()
 @property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
+@property (nonatomic, strong) UILabel *timestamp;
 @end
 
 @implementation VLMCell
@@ -39,7 +44,7 @@
 @synthesize personalvotecountleft;
 @synthesize personalvotecountright;
 @synthesize outstandingQueries;
-
+@synthesize timestamp;
 @synthesize tv;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -47,6 +52,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self setAutoresizesSubviews:NO];
+        if (!timeFormatter) {
+            timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
+        }
 
         // Initialization code
         self.originalOffsetX = 0.0f;
@@ -152,6 +160,13 @@
         self.personalvotecountleft = -1;
         self.personalvotecountright = -1;
         
+        self.timestamp = [[UILabel alloc] initWithFrame:CGRectMake(20, 14+2, 275-2, 28)];
+        [timestamp setTextAlignment:UITextAlignmentRight];
+        [timestamp setBackgroundColor:[UIColor clearColor]];
+        [timestamp setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+        [timestamp setTextColor:[UIColor colorWithWhite:1.0 alpha:0.25]];
+        [self.contentView addSubview:timestamp];
+            
     }
 
     return self;
@@ -435,6 +450,10 @@
     self.containerView.frame = CGRectOffset(self.containerView.frame, self.originalOffsetX, 0);
     self.contentView.clipsToBounds = YES;
     [self setNeedsLayout];
+}
+
+-(void)setTime:(NSDate*)d{
+   // [timestamp setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:d]];
 }
 
 @end

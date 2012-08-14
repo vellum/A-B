@@ -120,9 +120,9 @@
     // bottom bar
     if ([PFUser currentUser]){
         [self showLoggedInState];
-        //NSLog(@"hi");
-        //[self.addButtonController show];
-    
+        [add show];
+    }else {
+        [add hide];
     }
     
     self.view.clipsToBounds = YES;
@@ -184,7 +184,7 @@
     [self.feedViewController.view setFrame:CGRectMake(0, 0, winw, winh-STATUSBAR_HEIGHT)];
     [self.feedViewController updatelayout];
     [self.addButtonController show];
-    
+    [self.activityController refresh];
     
     NSLog(@"Downloading user's profile picture");
     

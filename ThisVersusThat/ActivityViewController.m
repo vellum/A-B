@@ -95,7 +95,7 @@
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self loadObjects];
+    //[self loadObjects];
     /*
      if (self.shouldReloadOnAppear) {
      self.shouldReloadOnAppear = NO;
@@ -105,9 +105,12 @@
 
 
 -(void)enable:(BOOL)enabled{
+    
     [self.tableView setUserInteractionEnabled:enabled];
 }
-
+- (void)refresh{
+    [self loadObjects];
+}
 #pragma mark - PFQueryTableViewController
 
 - (PFQuery *)queryForTable {
@@ -124,7 +127,7 @@
     [query includeKey:@"Poll.PhotoLeft"];
     [query includeKey:@"Poll.PhotoRight"];
     
-    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     return query;
 }
 
@@ -193,13 +196,18 @@
     NSString *type = [row objectForKey:@"Type"];
     if ( [type isEqualToString:@"like"] ){
         text = @"voted on your poll.";
-    }else if( [type isEqualToString:@"follow"] ){
-        text = @"followed you.";
-    }else if( [type isEqualToString:@"comment"] ){
-        text = [NSString stringWithFormat: @"commented on your poll.\n\n%@", [row objectForKey:@"Description"]];
+        return [VLMActivityCell heightForDescriptionText:text];
     }
+    if( [type isEqualToString:@"follow"] ){
+        text = @"followed you.";
+        return [VLMActivityCell heightForDescriptionText:text];
+    }
+    if( [type isEqualToString:@"comment"] ){
+        text = [NSString stringWithFormat: @"commented on your poll.\n\n%@", [row objectForKey:@"Description"]];
+        return [VLMActivityCell heightForDescriptionText:text] + 14;
+    }
+    return 0;
 
-    return [VLMActivityCell heightForDescriptionText:text];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -259,6 +267,7 @@
         text = [row objectForKey:@"Description"];
         [cell setComment:@"commented on your poll." andQuote:text];
     }
+    [cell setTime:[row createdAt]];
     return cell;
 }
 

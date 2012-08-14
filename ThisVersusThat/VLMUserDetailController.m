@@ -357,6 +357,7 @@
     } else {
         [customview setUserName:displayname andQuestion:text];
     }
+    [customview setTime:[obj createdAt]];
     [customview setFile:avatar];
     customview.delegate = self;
     customview.section = section;

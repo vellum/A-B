@@ -8,8 +8,11 @@
 
 #import "VLMCommentCell.h"
 #import "VLMConstants.h"
+#import "TTTTimeIntervalFormatter.h"
 
+static TTTTimeIntervalFormatter *timeFormatter;
 @interface VLMCommentCell ()
+@property (nonatomic, strong) UILabel *timestamp;
 @end
 
 @implementation VLMCommentCell
@@ -18,9 +21,13 @@
 @synthesize userlabel;
 @synthesize commentlabel;
 @synthesize back;
+@synthesize timestamp;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
+    if (!timeFormatter) {
+        timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
+    }
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     [self setAutoresizesSubviews:NO];
     [self.contentView setAutoresizesSubviews:NO];
@@ -46,9 +53,16 @@
     [commentlabel setNumberOfLines:0];
     [commentlabel setBackgroundColor:[UIColor clearColor]];
     
+    self.timestamp = [[UILabel alloc] initWithFrame:CGRectMake(35, 42, 237, 28)];
+    [timestamp setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [timestamp setNumberOfLines:0];
+    [timestamp setBackgroundColor:[UIColor clearColor]];
+    [timestamp setTextColor:[UIColor colorWithWhite:0.2f alpha:0.5f]];
+    
     [back addSubview:imageview];
     [back addSubview:userlabel];
     [back addSubview:commentlabel];
+    [back addSubview:timestamp];
     
     return self;
 }
@@ -74,9 +88,11 @@
 
     //[back setFrame:CGRectMake(x, y, w, commentlabel.frame.size.height + 20)];
 }
+
 - (void)setUserColor:(UIColor *)color{
     [self.userlabel setTextColor:color];
 }
+
 - (void)setCommentColor:(UIColor *)color{
     [self.commentlabel setTextColor:color];
 }
@@ -87,6 +103,13 @@
     CGFloat cellh = expectedLabelSize.height + 18;
     cellh = ceilf(cellh/7)*7  + 28;
     return cellh;
-
 }
+
+-(void)setTime:(NSDate*)d{
+    [timestamp setFrame:CGRectMake(35, self.commentlabel.frame.origin.y + self.commentlabel.frame.size.height + 1, 200, 100)];
+    [timestamp setNumberOfLines:0];
+    [timestamp setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:d]];
+    [timestamp sizeToFit];
+}
+
 @end

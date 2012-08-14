@@ -327,7 +327,7 @@
     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(40*7-3-20-5-5, 49) lineBreakMode:UILineBreakModeWordWrap];
 
     CGFloat cellh = expectedLabelSize.height + 18;
-    cellh = ceilf(cellh/7)*7  + 14;
+    cellh = ceilf(cellh/7)*7 + 28;
     return cellh;
 }
 
@@ -377,6 +377,7 @@
     [cell setUser:un];
     [cell setFile:[u objectForKey:@"profilePicSmall"]];
     [cell setComment:text];
+    [cell setTime:[row createdAt]];
     return cell;
 }
 

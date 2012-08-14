@@ -14,4 +14,5 @@
 - (void)setLeftFile:(PFFile *)file;
 - (void)setRightFile:(PFFile *)file;
 - (void)setTriangleDirection:(BOOL)isLeft;
+-(void)setTime:(NSDate*)d;
 @end

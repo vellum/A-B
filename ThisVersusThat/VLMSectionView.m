@@ -7,9 +7,12 @@
 //
 
 #import "VLMSectionView.h"
+#import "TTTTimeIntervalFormatter.h"
 #import "VLMConstants.h"
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
+
+static TTTTimeIntervalFormatter *timeFormatter;
 
 @implementation VLMSectionView
 
@@ -21,10 +24,15 @@
 @synthesize clearbutton3;
 @synthesize delegate;
 @synthesize section;
+@synthesize timestamp;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    if (!timeFormatter) {
+        timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
+    }
+
     return self;
 }
 
@@ -32,6 +40,10 @@
 {
     self = [super initWithFrame:frame];
     if ( self ){
+        if (!timeFormatter) {
+            timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
+            timeFormatter.usesAbbreviatedCalendarUnits = YES;
+        }
         [self setAutoresizesSubviews:NO];
 
         // avatar
@@ -45,7 +57,13 @@
         [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, 250.f, 22.0f )];
         [headerLabel setText:username];
         [headerLabel setTextColor:TEXT_COLOR];
-        
+
+        self.timestamp = [[UILabel alloc] initWithFrame:CGRectMake(self.headerLabel.frame.origin.x, self.headerLabel.frame.origin.y, frame.size.width-headerLabel.frame.origin.x-10, headerLabel.frame.size.height)];
+        [timestamp setTextAlignment:UITextAlignmentRight];
+        [timestamp setBackgroundColor:[UIColor clearColor]];
+        [timestamp setFont:[UIFont fontWithName:@"AmericanTypewriter" size:12.0f]];
+        [timestamp setTextColor:[UIColor colorWithWhite:0.2 alpha:0.5]];
+
         self.detailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [detailLabel setLineBreakMode:UILineBreakModeWordWrap];
         [detailLabel setMinimumFontSize:10.0f];
@@ -70,6 +88,7 @@
         [self setBackgroundColor:FEED_SECTION_HEADER_BGCOLOR];
         [self setAutoresizesSubviews:NO];
         [self addSubview:self.profileImageView];
+        [self addSubview:timestamp];
         [self addSubview:headerLabel];
         [self addSubview:detailLabel];
         
@@ -82,31 +101,6 @@
         [clearbutton2 setBackgroundColor:[UIColor clearColor]];
         [clearbutton2 addTarget:self action:@selector(handleTapPoll:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:clearbutton2];
-
-        
-        /*
-        self.clearbutton = [[UIButton alloc] initWithFrame:self.profileImageView.frame];
-        [clearbutton setBackgroundColor:[UIColor clearColor]];
-        [clearbutton addTarget:self action:@selector(handleTap:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:clearbutton];
-
-        
-        [headerLabel sizeToFit];
-        [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, headerLabel.frame.size.width, 22.0f )];
-
-        self.clearbutton2 = [[UIButton alloc] initWithFrame:headerLabel.frame];
-        [clearbutton2 setBackgroundColor:[UIColor clearColor]];
-        [clearbutton2 addTarget:self action:@selector(handleTap:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:clearbutton2];
-        
-        [detailLabel sizeToFit];
-        [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, detailLabel.frame.size.width, detailLabel.frame.size.height )];
-
-        self.clearbutton3 = [[UIButton alloc] initWithFrame:detailLabel.frame];
-        [clearbutton3 setBackgroundColor:[UIColor clearColor]];
-        [clearbutton3 addTarget:self action:@selector(handleTap2:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:clearbutton3];
-         */
     }
     return self;
 }
@@ -178,6 +172,24 @@
     if ( ![PFUser currentUser] ) return;
     if ( !self.delegate ) return;
     [delegate didTapPoll:self.section];
+}
+
+-(void)setTime:(NSDate*)d{
+    NSString *f = [timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:d];
+    f = [f stringByReplacingOccurrencesOfString:@" years ago" withString:@"y"];
+    f = [f stringByReplacingOccurrencesOfString:@" year ago" withString:@"y"];
+    f = [f stringByReplacingOccurrencesOfString:@" months ago" withString:@"mo"];
+    f = [f stringByReplacingOccurrencesOfString:@" month ago" withString:@"mo"];
+    f = [f stringByReplacingOccurrencesOfString:@" days ago" withString:@"d"];
+    f = [f stringByReplacingOccurrencesOfString:@" day ago" withString:@"d"];
+    f = [f stringByReplacingOccurrencesOfString:@" hours ago" withString:@"h"];
+    f = [f stringByReplacingOccurrencesOfString:@" hour ago" withString:@"h"];
+    f = [f stringByReplacingOccurrencesOfString:@" minutes ago" withString:@"m"];
+    f = [f stringByReplacingOccurrencesOfString:@" minute ago" withString:@"m"];
+    f = [f stringByReplacingOccurrencesOfString:@" seconds ago" withString:@"s"];
+    f = [f stringByReplacingOccurrencesOfString:@" second ago" withString:@"s"];
+    [timestamp setText:f];
+//    [timestamp setText:];
 }
 
 

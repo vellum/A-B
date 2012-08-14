@@ -220,6 +220,7 @@
     } else {
         [customview setUserName:displayname andQuestion:text];
     }
+    [customview setTime:[obj createdAt]];
     [customview setFile:avatar];
     customview.delegate = self;
     customview.section = section;
@@ -367,7 +368,7 @@
     [cell setTv:self];
     BOOL isLeft = [[VLMCache sharedCache] directionForPoll:poll];
     [cell setInitialPage:isLeft];
-    
+    [cell setTime:[poll createdAt]];
 	return cell;
 }
 

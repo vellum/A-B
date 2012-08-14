@@ -7,8 +7,11 @@
 //
 
 #import "VLMActivityCell.h"
+#import "TTTTimeIntervalFormatter.h"
 #import "VLMConstants.h"
 #import "Parse/Parse.h"
+
+static TTTTimeIntervalFormatter *timeFormatter;
 
 @interface VLMActivityCell()
 @property (nonatomic, strong) UILabel *quote;
@@ -16,6 +19,7 @@
 @property (nonatomic, strong) PFImageView *left;
 @property (nonatomic, strong) PFImageView *right;
 @property (nonatomic, strong) UIImageView *triangle;
+@property (nonatomic, strong) UILabel *timestamp;
 @end
 
 @implementation VLMActivityCell
@@ -24,59 +28,75 @@
 @synthesize left;
 @synthesize right;
 @synthesize triangle;
+@synthesize timestamp;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    [self setAutoresizesSubviews:NO];
-    [self.contentView setAutoresizesSubviews:NO];
-    self.contentView.clipsToBounds = YES;
-    
-    CGFloat x = 20;
-    CGFloat y = 7;
-    CGFloat w = 40 * 7;
-    self.back = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, 1)];
-    [back setBackgroundColor:[UIColor clearColor]];
-    [back setAutoresizesSubviews:NO];
-    
-    [self.contentView addSubview:self.back];
-    
-    self.imageview = [[PFImageView alloc] initWithFrame:CGRectMake(3, 3, 25, 25)];
-    self.userlabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 3, w, 14)];
-    [userlabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
-    [userlabel setBackgroundColor:[UIColor clearColor]];
-    [userlabel setTextColor:[UIColor colorWithWhite:0.8f alpha:1.0f]];
-    
-    self.commentlabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 21, 200, 100)];
-    [commentlabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [commentlabel setNumberOfLines:0];
-    [commentlabel setBackgroundColor:[UIColor clearColor]];
-    [commentlabel setTextColor:[UIColor colorWithWhite:0.8f alpha:1.0f]];
+    if ( self ){
+        if (!timeFormatter) {
+            timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
+        }
 
-    self.quote = [[UILabel alloc] initWithFrame:CGRectMake(40, 18-14, 200, 100)];
-    [quote setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [quote setNumberOfLines:0];
-    [quote setBackgroundColor:[UIColor clearColor]];
-    [quote setTextColor:[UIColor colorWithWhite:0.5f alpha:1.0f]];
-    
-    self.blockquoteborder = [[UIView alloc] initWithFrame:CGRectMake(0, 5, 2, 25)];
-    [blockquoteborder setBackgroundColor:[UIColor clearColor]];
+        [self setAutoresizesSubviews:NO];
+        [self.contentView setAutoresizesSubviews:NO];
+        self.contentView.clipsToBounds = YES;
+        
+        CGFloat x = 20;
+        CGFloat y = 7;
+        CGFloat w = 40 * 7;
+        self.back = [[UIView alloc] initWithFrame:CGRectMake(x, y, w, 1)];
+        [back setBackgroundColor:[UIColor clearColor]];
+        [back setAutoresizesSubviews:NO];
+        
+        [self.contentView addSubview:self.back];
+        
+        self.imageview = [[PFImageView alloc] initWithFrame:CGRectMake(3, 3, 25, 25)];
+        self.userlabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 3, w, 14)];
+        [userlabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
+        [userlabel setBackgroundColor:[UIColor clearColor]];
+        [userlabel setTextColor:[UIColor colorWithWhite:0.8f alpha:1.0f]];
+        
+        self.commentlabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 21, 200, 100)];
+        [commentlabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+        [commentlabel setNumberOfLines:0];
+        [commentlabel setBackgroundColor:[UIColor clearColor]];
+        [commentlabel setTextColor:[UIColor colorWithWhite:0.8f alpha:1.0f]];
 
-    self.left = [[PFImageView alloc] initWithFrame:CGRectMake(180, 3, 25, 25)];
-    self.right = [[PFImageView alloc] initWithFrame:CGRectMake(215, 3, 25, 25)];
+        self.quote = [[UILabel alloc] initWithFrame:CGRectMake(40, 18-14, 200, 100)];
+        [quote setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+        [quote setNumberOfLines:0];
+        [quote setBackgroundColor:[UIColor clearColor]];
+        [quote setTextColor:[UIColor colorWithWhite:0.5f alpha:1.0f]];
+        
+        self.blockquoteborder = [[UIView alloc] initWithFrame:CGRectMake(0, 5, 2, 25)];
+        [blockquoteborder setBackgroundColor:[UIColor clearColor]];
 
-    self.triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle.png"]];
-    [self.triangle setFrame:CGRectMake(210 + 3, 50, 9, 9)];
-    [back addSubview:self.triangle];
-    [back addSubview:imageview];
-    [back addSubview:left];
-    [back addSubview:right];
-    [back addSubview:userlabel];
-    [back addSubview:commentlabel];
-    [back addSubview:quote];
-    [back addSubview:blockquoteborder];
-    
-    [self.contentView setClipsToBounds:YES];
+        self.timestamp = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 200, 18)];
+        [timestamp setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+        [timestamp setNumberOfLines:0];
+        [timestamp setBackgroundColor:[UIColor clearColor]];
+        [timestamp setTextColor:[UIColor colorWithWhite:0.25f alpha:1.0f]];
+        
+
+        
+        self.left = [[PFImageView alloc] initWithFrame:CGRectMake(180, 3, 25, 25)];
+        self.right = [[PFImageView alloc] initWithFrame:CGRectMake(215, 3, 25, 25)];
+
+        self.triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle.png"]];
+        [self.triangle setFrame:CGRectMake(210 + 3, 50, 9, 9)];
+        [back addSubview:self.triangle];
+        [back addSubview:imageview];
+        [back addSubview:left];
+        [back addSubview:right];
+        [back addSubview:userlabel];
+        [back addSubview:commentlabel];
+        [back addSubview:quote];
+        [back addSubview:blockquoteborder];
+        [back addSubview:timestamp];
+        
+        [self.contentView setClipsToBounds:YES];
+    }
     return self;
 }
 
@@ -124,19 +144,29 @@
 - (void)setTriangleDirection:(BOOL)isLeft{
     [self.triangle setHidden:NO];
     if ( isLeft ){
-        [self.triangle setFrame:CGRectMake(180 + 7, 35-4, 9, 9)];
+        [self.triangle setFrame:CGRectMake(180 + 8, 35-4, 9, 9)];
 
     } else {
-        [self.triangle setFrame:CGRectMake(215 + 7, 35-4, 9, 9)];
+        [self.triangle setFrame:CGRectMake(215 + 8, 35-4, 9, 9)];
 
     }
+}
+-(void)setTime:(NSDate*)d{
+    if ( self.quote.text.length > 0 ){
+        [timestamp setFrame:CGRectMake(35, self.quote.frame.origin.y + self.quote.frame.size.height + 7, 200, 100)];
+    } else {
+        [timestamp setFrame:CGRectMake(35, self.commentlabel.frame.origin.y + self.commentlabel.frame.size.height + 1, 200, 100)];
+    }
+    [timestamp setNumberOfLines:0];
+    [timestamp setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:d]];
+    [timestamp sizeToFit];
 }
 
 + (CGFloat)heightForDescriptionText:(NSString *)text{
     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(200, 49) lineBreakMode:UILineBreakModeWordWrap];
     
     CGFloat cellh = expectedLabelSize.height + 18;
-    cellh = ceilf(cellh/7)*7  + 28+7;
+    cellh = ceilf(cellh/7)*7 + 28+7;
     return cellh;
     
 }

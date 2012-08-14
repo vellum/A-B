@@ -26,6 +26,6 @@
 - (void)setComment:(NSString *)commenttext;
 - (void)setUserColor:(UIColor *)color;
 - (void)setCommentColor:(UIColor *)color;
-
+-(void)setTime:(NSDate*)d;
 + (CGFloat)heightForDescriptionText:(NSString *)text;
 @end

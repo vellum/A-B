@@ -71,4 +71,5 @@
 - (void)setPersonalLeftCount:(NSInteger)left andPersonalRightCount:(NSInteger)right;
 
 -(void)setInitialPage:(BOOL)leftside;
+-(void)setTime:(NSDate*)d;
 @end

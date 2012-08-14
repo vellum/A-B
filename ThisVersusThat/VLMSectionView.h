@@ -17,6 +17,7 @@
     UIButton *clearbutton;
     UIButton *clearbutton2;
     UIButton *clearbutton3;
+    UILabel *timestamp;
     NSInteger section;
     id <VLMFeedHeaderDelegate> delegate;
 }
@@ -31,7 +32,11 @@
 @property (nonatomic, strong) UIButton *clearbutton2;
 @property (nonatomic, strong) UIButton *clearbutton3;
 
+@property (nonatomic, strong) UILabel *timestamp;
+
 - (id)initWithFrame:(CGRect)frame andUserName:(NSString *)username andQuestion:(NSString *)text;
 - (void)setUserName:(NSString *)username andQuestion:(NSString *)text; 
 - (void)setFile:(PFFile*)file;
+
+-(void)setTime:(NSDate*)d;
 @end
