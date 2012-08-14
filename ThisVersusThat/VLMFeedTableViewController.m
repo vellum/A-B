@@ -242,7 +242,7 @@
     if ( obj == nil ) return nil;
     
 	// identifier
-	static NSString *FeedCellIdentifier = @"PollCell";
+	static NSString *FeedCellIdentifier = @"PollCell";  
 	
 	// get an unused cell from existing pool of tableviewcells
 	VLMCell *cell = [tableView dequeueReusableCellWithIdentifier:FeedCellIdentifier];
@@ -250,9 +250,9 @@
 	// if no cell is available create a new one
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
-	} else {
-        [cell setInitialPage:YES];
-    }
+	} 
+    [cell setInitialPage:YES];
+
     if ( self.objects.count > 0 ){
         if ( indexPath.section == 0 && indexPath.row == 0 ){
             cell.contentView.hidden = YES;

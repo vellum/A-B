@@ -396,6 +396,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
             
         }
     }
+    else {
+        
+        self.leftcheck.enabled = NO;
+        self.leftcheck.selected = NO;
+        self.rightcheck.enabled = NO;
+        self.rightcheck.selected = NO;
+    }
 
 }
 
