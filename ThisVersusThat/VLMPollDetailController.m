@@ -59,8 +59,9 @@
         
         
         [self.view setAutoresizesSubviews:NO];        
-        [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
+        //[self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
         //[self.view setBackgroundColor:DEBUG_BACKGROUND_GRID];
+        [self.view setBackgroundColor:[UIColor clearColor]];
         self.title = @"Poll";
         if ( self.isRootController )
         {
