@@ -93,6 +93,10 @@
 
 
 -(void) buttonTapped:(id)sender{
+    AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [dell showHUD:@""];
+
+    
     ///*
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = [NSArray arrayWithObjects:@"user_about_me", nil];
@@ -137,8 +141,8 @@
 
 - (BOOL)shouldProceedToMainInterface:(PFUser *)user {
     if ([VLMUtility userHasValidFacebookData:[PFUser currentUser]]) {
-        AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [dell showHUD:@"logging in"];
+        //AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        //[dell showHUD:@"logging in"];
         [self.mainviewcontroller showLoggedInState];
         return YES;
     }
