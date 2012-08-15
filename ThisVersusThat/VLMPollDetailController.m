@@ -416,10 +416,10 @@
     CGFloat wwww = 40*6;
     if ( likesL > likesR ){
         leftwidth = wwww;
-        rightwidth = likesR / (likesL + likesR) * leftwidth;
+        rightwidth = likesR / likesL * leftwidth;
     } else if ( likesL < likesR ){
         rightwidth = wwww;
-        leftwidth = likesL / (likesL + likesR) * rightwidth;
+        leftwidth = likesL / likesR * rightwidth;
     } else {
         if ( likesL == 0 ){
             leftwidth = rightwidth = 0;

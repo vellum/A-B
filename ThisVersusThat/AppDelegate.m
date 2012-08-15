@@ -14,6 +14,7 @@
 
 @interface AppDelegate()
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) UIView *hudlayer;
 @end
 
 @implementation AppDelegate
@@ -21,6 +22,7 @@
 @synthesize window=_window;
 @synthesize mainViewController;
 @synthesize hud;
+@synthesize hudlayer;
 
 #pragma mark -
 #pragma mark Setup
@@ -70,7 +72,13 @@
     VLMMainViewController *mvc = [[VLMMainViewController alloc] init];
     [self.window addSubview:mvc.view];
     [self setMainViewController:mvc];
-
+    
+    UIView *layer = [[UIView alloc] initWithFrame:self.window.frame];
+    [layer setBackgroundColor:[UIColor clearColor]];
+    [layer setUserInteractionEnabled:NO];
+    [self.window addSubview:layer];
+    self.hudlayer = layer;
+    
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
     //self.window.rootViewController = self.viewController;
@@ -242,7 +250,7 @@
 
 - (void)showHUD:(NSString *)text{
     if ( !self.hud ){
-        self.hud = [MBProgressHUD showHUDAddedTo:self.mainViewController.view animated:YES];;
+        self.hud = [MBProgressHUD showHUDAddedTo:self.hudlayer animated:YES];
     }
     [self.hud setLabelText:text];
     [self.hud setDimBackground:YES];

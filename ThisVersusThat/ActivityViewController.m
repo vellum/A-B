@@ -109,6 +109,7 @@
 
 -(void)enable:(BOOL)enabled{
     
+    NSLog(@"enable: %@", (enabled)?@"YES":@"NO");
     [self.tableView setUserInteractionEnabled:enabled];
 }
 - (void)refresh{

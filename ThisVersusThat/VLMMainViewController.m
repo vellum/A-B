@@ -161,7 +161,6 @@
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user{
     [logInController dismissViewControllerAnimated:YES completion:nil];
     [self showLoggedInState];
-    
 }
 
 -(void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error{
@@ -197,7 +196,6 @@
     
     
     [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
-
 }
 
 
@@ -254,6 +252,7 @@
 
 
 - (void)showLeftPanel{
+    
     [activityController enable:YES];
     CGRect f = self.feedViewController.view.frame;
     f = CGRectOffset(f, f.size.width-40, 0);

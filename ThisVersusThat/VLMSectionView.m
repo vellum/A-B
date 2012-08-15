@@ -47,7 +47,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     if ( self ){
         if (!timeFormatter) {
             timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
-            timeFormatter.usesAbbreviatedCalendarUnits = YES;
+            //timeFormatter.usesAbbreviatedCalendarUnits = YES;
         }
         [self setAutoresizesSubviews:NO];
 

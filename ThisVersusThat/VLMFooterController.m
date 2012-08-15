@@ -115,11 +115,11 @@
         
             if (![self shouldProceedToMainInterface:user]) {
                 AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                [dell showHUD:@"Loading"];
+                [dell updateHUD:@"loading"];
                 [[PFFacebookUtils facebook] requestWithGraphPath:@"me/?fields=name,picture"
                                                      andDelegate:self];           
-            } 
-            
+            }else{
+            }
         }
     }];
     //*/
@@ -137,6 +137,8 @@
 
 - (BOOL)shouldProceedToMainInterface:(PFUser *)user {
     if ([VLMUtility userHasValidFacebookData:[PFUser currentUser]]) {
+        AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [dell showHUD:@"logging in"];
         [self.mainviewcontroller showLoggedInState];
         return YES;
     }
@@ -223,7 +225,7 @@
          */
     } else {
         AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [dell showHUD:@"Creating Profile"];
+        [dell showHUD:@"creating profile"];
 
         NSString *facebookId = [result objectForKey:@"id"];
         NSString *facebookName = [result objectForKey:@"name"];
