@@ -46,7 +46,8 @@
     
 	// Do any additional setup after loading the view.
     [self.view setAutoresizesSubviews:NO];
-    [self.view setBackgroundColor:FEED_VIEW_BGCOLOR];
+    //[self.view setBackgroundColor:FEED_VIEW_BGCOLOR];
+    [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     
     // window dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
