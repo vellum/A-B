@@ -391,7 +391,7 @@
     }
     
     // otherwise, row heights are fixed
-    return 321.0f + 7;
+    return 321.0f + 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
