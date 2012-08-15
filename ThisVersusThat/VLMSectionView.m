@@ -11,6 +11,7 @@
 #import "VLMConstants.h"
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
+#import <QuartzCore/QuartzCore.h>
 
 static TTTTimeIntervalFormatter *timeFormatter;
 @interface  VLMSectionView()
@@ -58,6 +59,9 @@ static TTTTimeIntervalFormatter *timeFormatter;
         self.profilehitview = [[UIView alloc] initWithFrame:CGRectMake(4.0f, 10.0f, 33.0f, 33.0f)];
         profilehitview.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.5f];
         profilehitview.hidden = YES;
+        profilehitview.layer.cornerRadius = 2.0f;
+        profilehitview.layer.masksToBounds = YES;
+
 
         // create the label objects
         self.headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];

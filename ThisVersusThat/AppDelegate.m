@@ -75,6 +75,7 @@
     
     UIView *layer = [[UIView alloc] initWithFrame:self.window.frame];
     [layer setBackgroundColor:[UIColor clearColor]];
+    //[layer setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [layer setUserInteractionEnabled:NO];
     [self.window addSubview:layer];
     self.hudlayer = layer;
@@ -89,6 +90,9 @@
                                                     UIRemoteNotificationTypeAlert|
                                                     UIRemoteNotificationTypeSound];
     */
+    
+    //[self showHUD:@"test"];
+    
     return YES;
 }
 
@@ -250,8 +254,13 @@
 
 - (void)showHUD:(NSString *)text{
     if ( !self.hud ){
-        self.hud = [MBProgressHUD showHUDAddedTo:self.hudlayer animated:YES];
-    }
+
+        hud = [MBProgressHUD showHUDAddedTo:hudlayer animated:YES];
+        hud.square = YES;
+
+    }   
+    
+    [hud show:YES];
     [self.hud setLabelText:text];
     [self.hud setDimBackground:YES];
 }

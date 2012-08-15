@@ -155,8 +155,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.labelText = nil;
 		self.detailsLabelText = nil;
 		self.opacity = 0.8f;
-		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
-		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
+		self.labelFont = [UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f];//[UIFont boldSystemFontOfSize:kLabelFontSize];
+		self.detailsLabelFont = [UIFont fontWithName:@"AmericanTypewriter" size:13.0f];//[UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
 		self.xOffset = 0.0f;
 		self.yOffset = 0.0f;
 		self.dimBackground = NO;
@@ -402,7 +402,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// Update to indeterminate indicator
 		[indicator removeFromSuperview];
 		self.indicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
-										 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
+										 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite]);
 		[(UIActivityIndicatorView *)indicator startAnimating];
 		[self addSubview:indicator];
 	}
@@ -481,7 +481,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		yPos += kPadding;
 	}
 	CGRect labelF;
-	labelF.origin.y = yPos;
+	labelF.origin.y = yPos + 4.0f;
 	labelF.origin.x = roundf((bounds.size.width - labelSize.width) / 2) + xPos;
 	labelF.size = labelSize;
 	label.frame = labelF;
@@ -546,7 +546,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	// Draw rounded HUD bacgroud rect
 	CGRect boxRect = CGRectMake(roundf((allRect.size.width - size.width) / 2) + self.xOffset,
 								roundf((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
-	float radius = 10.0f;
+	float radius = 6.0f;
 	CGContextBeginPath(context);
 	CGContextSetGrayFillColor(context, 0.0f, self.opacity);
 	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
