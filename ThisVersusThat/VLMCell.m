@@ -201,8 +201,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
             }];
 
         }
-        NSLog(@"%d", self.leftvotecount);
-        self.votecountlabelLeft.text = [NSString stringWithFormat:@"%d votes", leftvotecount];
+        self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d vote%@", leftvotecount, leftvotecount != 1 ? @"s" : @""];
         
     } else if ( sender == self.rightcheck ){
         NSLog(@"right");
@@ -229,7 +228,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
             }];
             
         }
-        self.votecountlabelRight.text = [NSString stringWithFormat:@"%d votes", rightvotecount];
+        self.votecountlabelRight.text = [NSString stringWithFormat: @"%d vote%@", rightvotecount, rightvotecount != 1 ? @"s" : @""];
+
         NSLog(@"%d", self.rightvotecount);
     }
     
