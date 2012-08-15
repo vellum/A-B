@@ -86,7 +86,7 @@
 #define DEBUG_BACKGROUND_GRID [UIColor colorWithPatternImage:[UIImage imageNamed:@"debuggrid.png"]]
 #define BLACK_LINEN [UIColor colorWithPatternImage:[UIImage imageNamed:@"skewed_print.png"]]
 
-#define WINDOW_BGCOLOR [UIColor blackColor]
+#define WINDOW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
 #define MAIN_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_HEADER_BGCOLOR [UIColor colorWithWhite:0.9f alpha:1.0f]

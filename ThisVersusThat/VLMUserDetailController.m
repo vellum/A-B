@@ -67,7 +67,8 @@
         self.resultcount = 0;
         self.isRootController = isRoot;
         [self.view setAutoresizesSubviews:NO];        
-        [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
+        [self.view setBackgroundColor:[UIColor clearColor]];
+        [self.tableView setBackgroundColor:[UIColor clearColor]];
         
     }
     
