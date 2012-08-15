@@ -436,9 +436,9 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
 - (void)setLeftCount:(NSInteger)left andRightCount:(NSInteger)right{
     self.leftvotecount = left;
-    self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d votes", left];
+    self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d vote%@", left, left != 1 ? @"s" : @""];
     self.rightvotecount = right;
-    self.votecountlabelRight.text = [NSString stringWithFormat: @"%d votes", right];
+    self.votecountlabelRight.text = [NSString stringWithFormat: @"%d vote%@", right, right != 1 ? @"s" : @""];
 }
 
 - (void)setPersonalLeftCount:(NSInteger)left andPersonalRightCount:(NSInteger)right{
