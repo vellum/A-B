@@ -394,6 +394,7 @@
     }
     PFObject *row = [self objectAtIndex:indexPath];
     PFUser *u = [row objectForKey:@"FromUser"];
+    [u fetchIfNeeded];
     NSString *un = [u objectForKey:@"displayName"];
     NSString *text = [row objectForKey:@"Description"];
     [cell setUser:un];
@@ -410,6 +411,7 @@
     CGFloat contentw = self.view.frame.size.width;
 
     PFUser *user = [poll objectForKey:@"User"];
+    [user fetchIfNeeded];
     NSString *question = [poll objectForKey:@"Question"];
     NSString *username = [user objectForKey:@"displayName"];
     VLMSectionView *sectionhead = [[VLMSectionView alloc] initWithFrame:CGRectMake(0, 0, contentw, 0) andUserName:username andQuestion:question];
@@ -502,6 +504,8 @@
             PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(cx, cy, 25, 25)];
             [iv setBackgroundColor:[UIColor lightGrayColor]];
             PFUser *u = [likersL objectAtIndex:i];
+            [u fetchIfNeeded];
+
             [left addSubview:iv];
             PFFile *file = [u objectForKey:@"profilePicSmall"];
             [iv setFile:file];
@@ -578,6 +582,7 @@
             [cell addSubview:clearbutton];
 
             PFUser *u = [likersR objectAtIndex:i];
+            [u fetchIfNeeded];
             PFFile *file = [u objectForKey:@"profilePicSmall"];
             [iv setFile:file];
             [iv loadInBackground];
@@ -746,6 +751,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PFObject *comment = [self objectAtIndex:indexPath];
+    if (!comment) return;
     PFUser *u = [comment objectForKey:@"FromUser"];
     [self openUserDetail:u];
 }

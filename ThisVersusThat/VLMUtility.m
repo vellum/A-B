@@ -127,6 +127,9 @@
         [likeACL setPublicReadAccess:YES];
         likeActivity.ACL = likeACL;
         
+        PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];
+        NSString *theleftphotoobjectid = [theleftphoto objectId];
+        
         [likeActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (completionBlock) {
                 completionBlock(succeeded,error);
@@ -161,7 +164,7 @@
                                 if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
                                     
                                     // left photo likes
-                                    if (isphotoleft){
+                                    if ( [theleftphotoobjectid isEqualToString:[[activity objectForKey:@"Photo"] objectId]] ){
                                         // add userid to array
                                         [likersL addObject:[activity objectForKey:@"FromUser"]];
                                         
@@ -188,7 +191,7 @@
                                 }
                             }
                             
-                            
+                            NSLog(@"[likersL: %d, likersR: %d]", likersL.count, likersR.count);
                             [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
                         }
                         
@@ -230,6 +233,10 @@
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
                             
+                            PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];
+                            NSString *theleftphotoobjectid = [theleftphoto objectId];
+
+                            
                             //NSLog(@"%d activities",[objects count]);
                             
                             // loop through these mixed results
@@ -244,7 +251,7 @@
                                 if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
                                     
                                     // left photo likes
-                                    if (isleftphoto){
+                                    if ( [theleftphotoobjectid isEqualToString:[[activity objectForKey:@"Photo"] objectId]] ){
                                         // add userid to array
                                         [likersL addObject:[activity objectForKey:@"FromUser"]];
                                         

@@ -86,13 +86,13 @@
 #define DEBUG_BACKGROUND_GRID [UIColor colorWithPatternImage:[UIImage imageNamed:@"debuggrid.png"]]
 #define BLACK_LINEN [UIColor colorWithPatternImage:[UIImage imageNamed:@"skewed_print.png"]]
 
-#define WINDOW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
+#define WINDOW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet.png"]]
 #define MAIN_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_VIEW_BGCOLOR [UIColor clearColor]
 #define FEED_HEADER_BGCOLOR [UIColor colorWithWhite:0.9f alpha:1.0f]
 #define NAVIGATION_HEADER_BACKGROUND_IMAGE [UIImage imageNamed:@"gray_header_background.png"]
 #define FOOTER_BGCOLOR [UIColor colorWithWhite:0.9f alpha:1.0f]
-#define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet2.png"]]
+#define FEED_TABLEVIEW_BGCOLOR [UIColor colorWithPatternImage:[UIImage imageNamed:@"subtlenet.png"]]
 #define FEED_SECTION_HEADER_BGCOLOR [UIColor whiteColor]
 
 #define TEXT_COLOR [UIColor colorWithHue:0.87f saturation:0.0f brightness:0.12f alpha:1.0f]

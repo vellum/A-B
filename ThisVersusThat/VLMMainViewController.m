@@ -68,7 +68,7 @@
     CGFloat y = 0;
     CGFloat x = 20;
 
-    UIView *activityHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, 14*1 + (28+28)*3)];
+    UIView *activityHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, 14*1 + (28+28)*2)];
     [activityHeader setBackgroundColor:[UIColor clearColor]];
     [activityHeader setAutoresizesSubviews:NO];
 
@@ -81,12 +81,12 @@
                                 [activityHeader addSubview:profilebutton];
                                 [profilebutton addTarget:self action:@selector(tappedProfile:) forControlEvents:UIControlEventTouchUpInside];
                                 y+= 28 + 28;
-                                
+                                /*
                                 ActivityNavButton *settingsbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Settings"];
                                 [activityHeader addSubview:settingsbutton];
                                 [settingsbutton addTarget:self action:@selector(tappedSettings:) forControlEvents:UIControlEventTouchUpInside];
                                 y+= 28 + 28;
-    
+                                */
                                 ActivityNavButton *logoutbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Log out"];
                                 [activityHeader addSubview:logoutbutton];
                                 //[logoutbutton showLine:NO];
