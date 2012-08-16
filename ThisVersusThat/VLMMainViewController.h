@@ -32,4 +32,6 @@
 - (void)presentAdd;
 - (void)refreshfeed;
 - (void)showLeftPanel;
+- (void)logout; 
+
 @end

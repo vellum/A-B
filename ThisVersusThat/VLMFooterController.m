@@ -93,8 +93,6 @@
 
 
 -(void) buttonTapped:(id)sender{
-    AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [dell showHUD:@""];
 
     
     ///*
@@ -118,8 +116,6 @@
             }
         
             if (![self shouldProceedToMainInterface:user]) {
-                AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                [dell updateHUD:@"loading"];
                 [[PFFacebookUtils facebook] requestWithGraphPath:@"me/?fields=name,picture"
                                                      andDelegate:self];           
             }else{
@@ -141,8 +137,8 @@
 
 - (BOOL)shouldProceedToMainInterface:(PFUser *)user {
     if ([VLMUtility userHasValidFacebookData:[PFUser currentUser]]) {
-        //AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        //[dell showHUD:@"logging in"];
+        AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [dell showHUD:@"" animated:YES];
         [self.mainviewcontroller showLoggedInState];
         return YES;
     }
@@ -253,6 +249,7 @@
 
 - (void)request:(PF_FBRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Facebook error: %@", error);
+    /*
     [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
     
     if ([PFUser currentUser]) {
@@ -261,7 +258,8 @@
             NSLog(@"The facebook token was invalidated");
             [self logOut];
         }
-    }
+    }*/
+    [self.mainviewcontroller logout];
 }
 
 

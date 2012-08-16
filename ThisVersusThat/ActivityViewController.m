@@ -311,8 +311,6 @@
         UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
         [bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
         [cell setSelectedBackgroundView:bg];
-
-
     }
     cell.contentView.hidden = NO;
     PFObject *row = [self objectAtIndex:indexPath];

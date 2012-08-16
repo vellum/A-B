@@ -180,6 +180,7 @@
     [self.feedViewController.view setAutoresizesSubviews:NO];
     [self.feedViewController.view setFrame:CGRectMake(0, 0, winw, winh-STATUSBAR_HEIGHT)];
     [self.feedViewController updatelayout];
+    [self.feedViewController.tableViewController scrollViewDidScroll:self.feedViewController.tableViewController.tableView];
     [self.addButtonController show];
     [self.activityController refresh];
     
@@ -196,6 +197,8 @@
     
     
     [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
+    
+    
 }
 
 

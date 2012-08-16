@@ -278,6 +278,19 @@
         //[mainViewController refreshfeed];
     }
 }
+- (void)showHUD:(NSString *)text animated:(BOOL)animated{
+    if ( !self.hud ){
+        
+        hud = [MBProgressHUD showHUDAddedTo:hudlayer animated:animated];
+        hud.square = YES;
+        
+    }   
+    
+    [hud show:animated];
+    [self.hud setLabelText:text];
+    [self.hud setDimBackground:YES];
+    
+}
 
 
 
