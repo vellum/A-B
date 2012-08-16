@@ -261,7 +261,10 @@
         VLMActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentIdentifier];
         if ( cell == nil ){
             cell = [[VLMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CommentIdentifier];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
+            [bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
+            [cell setSelectedBackgroundView:bg];
+
             
         }
         cell.contentView.hidden = YES;
@@ -302,9 +305,14 @@
     VLMActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentIdentifier];
     if ( cell == nil ){
         cell = [[VLMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CommentIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         [cell setUserColor:[UIColor colorWithWhite:1.0f alpha:0.9f]];
         [cell setCommentColor:[UIColor colorWithWhite:1.0f alpha:0.75f]];
+        UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
+        [bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
+        [cell setSelectedBackgroundView:bg];
+
+
     }
     cell.contentView.hidden = NO;
     PFObject *row = [self objectAtIndex:indexPath];
