@@ -12,5 +12,6 @@
 
 - (void)popPollDetail:(PFObject *)poll;
 - (void)popUserDetail:(PFUser *)user;
+- (void)popPollDetailAndScrollToComments:(PFObject *)poll;
 
 @end

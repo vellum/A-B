@@ -44,7 +44,7 @@
         CGRect r = self.label.frame;
         CGRect t = CGRectMake(r.origin.x, r.origin.y + r.size.height, r.size.width, 1.0f);
         UIView *line = [[UIView alloc] initWithFrame:t];
-        [line setBackgroundColor:TEXT_COLOR];
+        [line setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.075f]];
         [line setUserInteractionEnabled:NO];
 
         [self addSubview:line];

@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UIPlaceHolderTextView *ptv;
 @property (nonatomic) BOOL isEditing;
 @property (nonatomic) BOOL isRootController;
+@property (nonatomic) BOOL shouldScrollToComments;
+@property (nonatomic) BOOL shouldScrollToCommentsAndPopKeyboard;
 
 @end
 
@@ -34,12 +36,16 @@
 @synthesize ptv;
 @synthesize isEditing;
 @synthesize isRootController;
+@synthesize shouldScrollToComments;
+@synthesize shouldScrollToCommentsAndPopKeyboard;
 
 - (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot{
     self = [super init];
     if ( self ){
         self.isEditing = NO;
         self.poll = obj;
+        self.shouldScrollToComments = NO;
+        self.shouldScrollToCommentsAndPopKeyboard = NO;
         
         self.loadingViewEnabled = NO;
         
@@ -302,7 +308,15 @@
     return nil;
 }
 
+- (void)objectsDidLoad:(NSError *)error{
+    [super objectsDidLoad:error];
+    if ( !shouldScrollToComments ) return;
+    shouldScrollToComments = NO;
 
+    NSIndexPath* ipath = [NSIndexPath indexPathForRow: self.objects.count-1 inSection: 0];
+    [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: YES];
+
+}
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -749,6 +763,13 @@
     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Comment" message:@"Your comment will be posted next time there is an Internet connection."  delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
     [alert show];
+}
+
+- (void)scrollToComments{
+    self.shouldScrollToComments = YES;
+}
+- (void)scrollToCommentsAndPopKeyboard{
+    self.shouldScrollToCommentsAndPopKeyboard = YES;
 }
 
 @end

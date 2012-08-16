@@ -73,9 +73,9 @@
     [activityHeader setAutoresizesSubviews:NO];
 
                                 // THIS SHOULD BE ITS OWN CLASS
-    UIColor *norm = [UIColor colorWithWhite:0.8f alpha:0.9f];
-    UIColor *high = [UIColor colorWithWhite:0.8f alpha:0.5f];
-    UIColor *dis = [UIColor colorWithWhite:0.8f alpha:0.25f];
+    UIColor *norm = [UIColor colorWithWhite:0.9f alpha:1.0f];
+    UIColor *high = [UIColor colorWithWhite:0.9f alpha:0.5f];
+    UIColor *dis = [UIColor colorWithWhite:0.9f alpha:0.25f];
                                 
                                 ActivityNavButton *profilebutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Profile"];
                                 [activityHeader addSubview:profilebutton];
@@ -244,6 +244,14 @@
     [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
 }
 
+- (void)popPollDetailAndScrollToComments:(PFObject *)poll{
+    VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll isRoot:YES];
+    [polldetail scrollToComments];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:polldetail];
+    [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+    [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
+    
+}
 - (void)didTap:(id)sender{
     if ( [PFUser currentUser] ){
     [self showLeftPanel];

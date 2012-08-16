@@ -373,11 +373,16 @@
             [popdelegate popUserDetail:u];
         }
         
-    } else if ( [type isEqualToString:@"like"] || [type isEqualToString:@"comment"] ){
+    } else if ( [type isEqualToString:@"like"] ){
         // open poll
         PFObject *poll = [row objectForKey:@"Poll"];
         if ( self.popdelegate ){
             [popdelegate popPollDetail:poll];
+        }
+    } else if ( [type isEqualToString:@"comment"] ){
+        PFObject *poll = [row objectForKey:@"Poll"];
+        if ( self.popdelegate ){
+            [popdelegate popPollDetailAndScrollToComments:poll];
         }
     }
 }
