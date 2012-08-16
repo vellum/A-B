@@ -336,8 +336,9 @@
 }
 
 - (void)logout{
+    [(AppDelegate *)[UIApplication sharedApplication].delegate showHUD:@""];
     if ([PFUser currentUser]){
-        
+
         // clear cache
         [[VLMCache sharedCache] clear];
         
@@ -355,7 +356,6 @@
     [self.feedViewController updatelayout];
 
     [self hideLeftPanel:nil];
-
 }
 
 @end

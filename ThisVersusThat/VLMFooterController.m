@@ -157,6 +157,8 @@
     NSArray *data = [result objectForKey:@"data"];
     
     if (data) {
+        
+        
         /*
         // we have friends data
         NSMutableArray *facebookIds = [[NSMutableArray alloc] initWithCapacity:[data count]];
@@ -251,6 +253,7 @@
 
 - (void)request:(PF_FBRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Facebook error: %@", error);
+    [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
     
     if ([PFUser currentUser]) {
         if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"] 

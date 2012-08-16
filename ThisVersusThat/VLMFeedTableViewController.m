@@ -140,6 +140,12 @@
     return nil;
 }
 
+- (void)objectsDidLoad:(NSError *)error{
+    [super objectsDidLoad:error];
+    
+    // hide the hud if it's visible (necessary when log out)
+    [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
+}
 
 #pragma mark - UITableViewDataSource
 
