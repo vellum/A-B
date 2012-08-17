@@ -402,7 +402,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [super scrollViewDidScroll:scrollView];
     if ( self.objects.count == 0 ) return;
-    if ( self.objects.count < 3 ) return;
+    if ( self.objects.count < 4 ) return;
     
     // get the scroll position of the tableview
     CGFloat lookupY = scrollView.contentOffset.y;
