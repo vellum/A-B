@@ -72,4 +72,6 @@
 
 -(void)setInitialPage:(BOOL)leftside;
 -(void)setTime:(NSDate*)d;
+
+- (void)resetCell;
 @end

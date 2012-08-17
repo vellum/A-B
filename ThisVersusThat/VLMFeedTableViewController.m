@@ -69,7 +69,7 @@
         
         // Improve scrolling performance by reusing UITableView section headers
         self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
-        
+
         self.shouldReloadOnAppear = NO;
         self.resultcount = 0;
 
@@ -258,7 +258,8 @@
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
 	} 
-    [cell setInitialPage:YES];
+    //[cell setInitialPage:YES];
+    [cell resetCell];
 
     if ( self.objects.count > 0 ){
         if ( indexPath.section == 0 && indexPath.row == 0 ){

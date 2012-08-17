@@ -235,7 +235,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     
 }
 
--(void) translateByX: (CGFloat) offsetval withVelocity:(CGFloat)velocityval{
+-(void)translateByX: (CGFloat) offsetval withVelocity:(CGFloat)velocityval{
     self.contentView.clipsToBounds = NO;
 
     CGFloat val = offsetval;
@@ -277,7 +277,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     //NSLog(@"%f", val);
 }
 
--(void) resetAnimated:(BOOL)anim{
+-(void)resetAnimated:(BOOL)anim{
 
 
     CGFloat val = self.containerView.frame.origin.x;
@@ -458,6 +458,15 @@ static TTTTimeIntervalFormatter *timeFormatter;
     self.contentView.clipsToBounds = YES;
     [self setNeedsLayout];
 }
+
+- (void)resetCell{
+    [self setInitialPage:YES];
+    [self setLeftCaptionText:@"" andRightCaptionText:@""];
+    [self setLeftCount:-1 andRightCount:-1];
+    [self setPersonalLeftCount:-1 andPersonalRightCount:-1];
+}
+
+
 
 -(void)setTime:(NSDate*)d{
    // [timestamp setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:d]];

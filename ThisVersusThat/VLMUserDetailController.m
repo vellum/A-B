@@ -387,8 +387,9 @@
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
 	} else {
-        [cell setInitialPage:YES];
+        //[cell setInitialPage:YES];
     }
+    [cell resetCell];
     
     cell.contentView.hidden = NO;
     [cell setPoll:obj];
