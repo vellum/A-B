@@ -123,9 +123,13 @@
         [self.navigationItem setHidesBackButton:YES];
          */
     }
-        
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*3)];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*9)];
+    //[header setBackgroundColor:DEBUG_BACKGROUND_GRID];
+
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 14*6, self.view.frame.size.width, 14*3)];
+    [header addSubview:head];
     [head setBackgroundColor:TEXT_COLOR];
+    
     
     UILabel *col1 = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, 80, 42)];
     [col1 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
@@ -175,7 +179,24 @@
     [col3 setFrame:CGRectMake(col2.frame.origin.x+col2.frame.size.width, 0, col3.frame.size.width + m, 42)];
     [col4 setFrame:CGRectMake(col3.frame.origin.x+col3.frame.size.width, 0, col4.frame.size.width + m, 42)];
 
-    self.tableView.tableHeaderView = head;
+    UIView *imageborder = [[UIView alloc] initWithFrame:CGRectMake(7, 11, 14*4+6, 14*4+6)];
+    [imageborder setBackgroundColor:[UIColor whiteColor]];
+    [header addSubview:imageborder];
+    
+    PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(10, 14, 14*4, 14*4)];
+    [iv setBackgroundColor:[UIColor lightGrayColor]];
+    [iv setFile:[user objectForKey:@"profilePicMedium"]];
+    [iv loadInBackground];
+    [header addSubview:iv];
+    
+    UILabel *a = [[UILabel alloc] initWithFrame:CGRectMake(80, 14, 5*40, 14*2)];
+    [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [a setBackgroundColor:[UIColor clearColor]];
+    [a setTextColor:TEXT_COLOR];
+    [a setText:[user objectForKey:@"displayName"]];
+    [header addSubview:a];
+
+    self.tableView.tableHeaderView = header;
     
     PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
     [queryPollCount whereKey:@"User" equalTo:self.user];
