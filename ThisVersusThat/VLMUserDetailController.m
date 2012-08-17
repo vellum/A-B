@@ -116,19 +116,35 @@
         UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
         [self.navigationItem setLeftBarButtonItem:cancelbutton];
         [self.navigationItem setHidesBackButton:YES];
-    } else {
-        /*
-        UIBarButtonItem *backbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-        [self.navigationItem setLeftBarButtonItem:backbutton];
-        [self.navigationItem setHidesBackButton:YES];
-         */
     }
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*9)];
-    //[header setBackgroundColor:DEBUG_BACKGROUND_GRID];
 
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 14*6, self.view.frame.size.width, 14*3)];
-    [header addSubview:head];
+    
+    
+    
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*11)];
+    //[header setBackgroundColor:DEBUG_BACKGROUND_GRID];
+    
+    UIView *card = [[UIView alloc] initWithFrame:CGRectMake(15, 14, 40*6+45, 14*5)];
+    [card setBackgroundColor:[UIColor whiteColor]];
+    [header addSubview:card];
+    
+    PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 14*4+4, 14*4+4)];
+    [iv setBackgroundColor:[UIColor lightGrayColor]];
+    [iv setFile:[user objectForKey:@"profilePicMedium"]];
+    [iv loadInBackground];
+    [card addSubview:iv];
+    
+    
+    UILabel *a = [[UILabel alloc] initWithFrame:CGRectMake(90, 14, 5*40, 14*2)];
+    [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [a setBackgroundColor:[UIColor clearColor]];
+    [a setTextColor:TEXT_COLOR];
+    [a setText:[user objectForKey:@"displayName"]];
+    [header addSubview:a];
+    
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 14*7, self.view.frame.size.width, 14*3)];
     [head setBackgroundColor:TEXT_COLOR];
+    [header addSubview:head];
     
     
     UILabel *col1 = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, 80, 42)];
@@ -179,22 +195,6 @@
     [col3 setFrame:CGRectMake(col2.frame.origin.x+col2.frame.size.width, 0, col3.frame.size.width + m, 42)];
     [col4 setFrame:CGRectMake(col3.frame.origin.x+col3.frame.size.width, 0, col4.frame.size.width + m, 42)];
 
-    UIView *imageborder = [[UIView alloc] initWithFrame:CGRectMake(7, 11, 14*4+6, 14*4+6)];
-    [imageborder setBackgroundColor:[UIColor whiteColor]];
-    [header addSubview:imageborder];
-    
-    PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(10, 14, 14*4, 14*4)];
-    [iv setBackgroundColor:[UIColor lightGrayColor]];
-    [iv setFile:[user objectForKey:@"profilePicMedium"]];
-    [iv loadInBackground];
-    [header addSubview:iv];
-    
-    UILabel *a = [[UILabel alloc] initWithFrame:CGRectMake(80, 14, 5*40, 14*2)];
-    [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [a setBackgroundColor:[UIColor clearColor]];
-    [a setTextColor:TEXT_COLOR];
-    [a setText:[user objectForKey:@"displayName"]];
-    [header addSubview:a];
 
     self.tableView.tableHeaderView = header;
     
