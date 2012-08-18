@@ -143,39 +143,40 @@
     [header addSubview:a];
     
     UIView *head = [[UIView alloc] initWithFrame:CGRectMake(15, 14*7, self.view.frame.size.width-35, 14*4)];
-    [head setBackgroundColor:TEXT_COLOR];
+    //[head setBackgroundColor:TEXT_COLOR];
+    [head setBackgroundColor:[UIColor whiteColor]];
     [header addSubview:head];
     
     
     UILabel *col1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 71.25, 2*14)];
-    [col1 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
+    [col1 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
     [col1 setBackgroundColor:[UIColor clearColor]];
-    [col1 setTextColor:[UIColor lightGrayColor]];
-    [col1 setText:@"Polls"];
+     [col1 setTextColor:TEXT_COLOR];
+    [col1 setText:@"POLLS"];
     [col1 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col1];
     
     UILabel *col2 = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 71.25, 2*14)];
-    [col2 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
+    [col2 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
     [col2 setBackgroundColor:[UIColor clearColor]];
-    [col2 setTextColor:[UIColor lightGrayColor]];
-    [col2 setText:@"Voted On"];
+    [col2 setTextColor:TEXT_COLOR];
+    [col2 setText:@"VOTED"];
     [col2 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col2];
     
     UILabel *col3 = [[UILabel alloc] initWithFrame:CGRectMake(160, 0, 71.25, 2*14)];
-    [col3 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
+    [col3 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
     [col3 setBackgroundColor:[UIColor clearColor]];
-    [col3 setTextColor:[UIColor lightGrayColor]];
-    [col3 setText:@"Following"];
+    [col3 setTextColor:TEXT_COLOR];
+    [col3 setText:@"FOLLOWING"];
     [col3 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col3];
 
     UILabel *col4 = [[UILabel alloc] initWithFrame:CGRectMake(240, 0, 71.25, 2*14)];
-    [col4 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
+    [col4 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
     [col4 setBackgroundColor:[UIColor clearColor]];
-    [col4 setTextColor:[UIColor lightGrayColor]];
-    [col4 setText:@"Followers"];
+    [col4 setTextColor:TEXT_COLOR];
+    [col4 setText:@"FOLLOWERS"];
     [col4 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col4];
     
@@ -193,31 +194,31 @@
     [col4 setFrame:CGRectMake(col3.frame.origin.x+col3.frame.size.width, 0, col4.frame.size.width + m, 14*2)];
 
 
-    self.numPollsLabel = [[UILabel alloc] initWithFrame:CGRectMake(col1.frame.origin.x, col1.frame.origin.y+14, col1.frame.size.width, 14*3)];
+    self.numPollsLabel = [[UILabel alloc] initWithFrame:CGRectMake(col1.frame.origin.x, col1.frame.origin.y+14, col1.frame.size.width, 14*3.5)];
     [self.numPollsLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numPollsLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numPollsLabel setTextColor:TEXT_COLOR];
     [self.numPollsLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [self.numPollsLabel setTextAlignment:UITextAlignmentCenter];
     [head addSubview:self.numPollsLabel];
 
-    self.numVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(col2.frame.origin.x, col2.frame.origin.y+14, col2.frame.size.width, 14*3)];
+    self.numVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(col2.frame.origin.x, col2.frame.origin.y+14, col2.frame.size.width, 14*3.5)];
     [self.numVotesLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numVotesLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numVotesLabel setTextColor:TEXT_COLOR];
     [self.numVotesLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [self.numVotesLabel setTextAlignment:UITextAlignmentCenter];
     [head addSubview:self.numVotesLabel];
     
     
-    self.numFollowingLabel = [[UILabel alloc] initWithFrame:CGRectMake(col3.frame.origin.x, col3.frame.origin.y+14, col3.frame.size.width, 14*3)];
+    self.numFollowingLabel = [[UILabel alloc] initWithFrame:CGRectMake(col3.frame.origin.x, col3.frame.origin.y+14, col3.frame.size.width, 14*3.5)];
     [self.numFollowingLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numFollowingLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numFollowingLabel setTextColor:TEXT_COLOR];
     [self.numFollowingLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [self.numFollowingLabel setTextAlignment:UITextAlignmentCenter];
     [head addSubview:self.numFollowingLabel];
     
-    self.numFollowersLabel = [[UILabel alloc] initWithFrame:CGRectMake(col4.frame.origin.x, col4.frame.origin.y+14, col4.frame.size.width, 14*3)];
+    self.numFollowersLabel = [[UILabel alloc] initWithFrame:CGRectMake(col4.frame.origin.x, col4.frame.origin.y+14, col4.frame.size.width, 14*3.5)];
     [self.numFollowersLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numFollowersLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numFollowersLabel setTextColor:TEXT_COLOR];
     [self.numFollowersLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
     [self.numFollowersLabel setTextAlignment:UITextAlignmentCenter];
     [head addSubview:self.numFollowersLabel];
