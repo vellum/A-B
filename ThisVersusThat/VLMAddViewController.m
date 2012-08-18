@@ -111,7 +111,8 @@
     CGRect f = CGRectMake(0, 0, 150, HEADER_HEIGHT);
     UIView *titleView = [[UIView alloc] initWithFrame:f];
     UIButton *fb = [[UIButton alloc] initWithFrame:f];    
-    [fb.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:16.0f]];
+
+    [fb.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:15.0f]];
     [fb setTitleColor:[UIColor colorWithWhite:0.2f alpha:1.0f] forState:UIControlStateNormal];
     [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     [fb setShowsTouchWhenHighlighted:NO];
@@ -119,6 +120,9 @@
     [titleView addSubview:fb];
     [fb addTarget:self action:@selector(handleGenericTap:) forControlEvents:UIControlEventTouchUpInside];
     
+    CGRect ff = fb.titleLabel.frame;
+    ff.origin.y += HEADER_TITLE_VERTICAL_OFFSET;
+    [fb.titleLabel setFrame:ff];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, HEADER_HEIGHT*0.5, 150, HEADER_HEIGHT/2)];
     [label setBackgroundColor:[UIColor clearColor]];
     [label setTextColor:[UIColor colorWithWhite:0.2f alpha:1.0f]];
@@ -163,7 +167,7 @@
     self.velocity = 0;
     
     // left tile
-    UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20, 14-5, 286, 286)];
+    UIView *left = [[UIView alloc] initWithFrame:CGRectMake(15, 14-5, 286, 286)];
     left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
     [self.containerView addSubview:left];
     
@@ -198,7 +202,7 @@
     [left addSubview:leftcam];
 
     // right tile
-    UIView *right = [[UIView alloc] initWithFrame:CGRectMake(20 + 286+5, 14-5, 286, 286)];
+    UIView *right = [[UIView alloc] initWithFrame:CGRectMake(15 + 286+5, 14-5, 286, 286)];
     right.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
     [self.containerView addSubview:right];
     
@@ -422,7 +426,7 @@
         ((UIImagePickerController *)navigationController).sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
-    }
+    }   
 }
 
 #pragma mark - UIActionSheetDelegate
