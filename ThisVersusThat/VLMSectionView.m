@@ -204,7 +204,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     f = [f stringByReplacingOccurrencesOfString:@" week ago" withString:@"w"];
     f = [f stringByReplacingOccurrencesOfString:@" weeks ago" withString:@"w"];    
     f = [f stringByReplacingOccurrencesOfString:@" days ago" withString:@"d"];
-    f = [f stringByReplacingOccurrencesOfString:@" day ago" withString:@"d"];
+    f = [f stringByReplacingOccurrenc esOfString:@" day ago" withString:@"d"];
     f = [f stringByReplacingOccurrencesOfString:@" hours ago" withString:@"h"];
     f = [f stringByReplacingOccurrencesOfString:@" hour ago" withString:@"h"];
     f = [f stringByReplacingOccurrencesOfString:@" minutes ago" withString:@"m"];

@@ -121,7 +121,7 @@
     
     
     
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*11)];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*13)];
     //[header setBackgroundColor:DEBUG_BACKGROUND_GRID];
     
     UIView *card = [[UIView alloc] initWithFrame:CGRectMake(15, 14, 40*6+45, 14*5)];
@@ -142,59 +142,86 @@
     [a setText:[user objectForKey:@"displayName"]];
     [header addSubview:a];
     
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 14*7, self.view.frame.size.width, 14*3)];
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(15, 14*7, self.view.frame.size.width-35, 14*4)];
     [head setBackgroundColor:TEXT_COLOR];
     [header addSubview:head];
     
     
-    UILabel *col1 = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, 80, 42)];
-    [col1 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    UILabel *col1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 71.25, 2*14)];
+    [col1 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
     [col1 setBackgroundColor:[UIColor clearColor]];
-    [col1 setTextColor:[UIColor whiteColor]];
-    [col1 setText:@"... polls"];
+    [col1 setTextColor:[UIColor lightGrayColor]];
+    [col1 setText:@"Polls"];
     [col1 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col1];
-    self.numPollsLabel = col1;
     
-    UILabel *col2 = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 80, 42)];
-    [col2 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    UILabel *col2 = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 71.25, 2*14)];
+    [col2 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
     [col2 setBackgroundColor:[UIColor clearColor]];
-    [col2 setTextColor:[UIColor whiteColor]];
-    [col2 setText:@"... votes"];
+    [col2 setTextColor:[UIColor lightGrayColor]];
+    [col2 setText:@"Voted On"];
     [col2 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col2];
-    self.numVotesLabel = col2;
     
-    UILabel *col3 = [[UILabel alloc] initWithFrame:CGRectMake(160, 0, 80, 42)];
-    [col3 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    UILabel *col3 = [[UILabel alloc] initWithFrame:CGRectMake(160, 0, 71.25, 2*14)];
+    [col3 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
     [col3 setBackgroundColor:[UIColor clearColor]];
-    [col3 setTextColor:[UIColor whiteColor]];
-    [col3 setText:@"... followees"];
+    [col3 setTextColor:[UIColor lightGrayColor]];
+    [col3 setText:@"Following"];
     [col3 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col3];
-    self.numFollowingLabel = col3;
 
-    UILabel *col4 = [[UILabel alloc] initWithFrame:CGRectMake(240, 0, 80, 42)];
-    [col4 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    UILabel *col4 = [[UILabel alloc] initWithFrame:CGRectMake(240, 0, 71.25, 2*14)];
+    [col4 setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:11.0f]];
     [col4 setBackgroundColor:[UIColor clearColor]];
-    [col4 setTextColor:[UIColor whiteColor]];
-    [col4 setText:@"... followers"];
+    [col4 setTextColor:[UIColor lightGrayColor]];
+    [col4 setText:@"Followers"];
     [col4 setTextAlignment:UITextAlignmentCenter];
     [head addSubview:col4];
-    self.numFollowersLabel = col4;
+    
     
     [col1 sizeToFit];
     [col2 sizeToFit];
     [col3 sizeToFit];
     [col4 sizeToFit];
     CGFloat w = col1.frame.size.width + col2.frame.size.width + col3.frame.size.width + col4.frame.size.width;
-    CGFloat m = self.view.frame.size.width - w;
+    CGFloat m = card.frame.size.width - w;
     m/=4;
-    [col1 setFrame:CGRectMake(0, 0, col1.frame.size.width + m, 42)];
-    [col2 setFrame:CGRectMake(col1.frame.origin.x+col1.frame.size.width, 0, col2.frame.size.width + m, 42)];
-    [col3 setFrame:CGRectMake(col2.frame.origin.x+col2.frame.size.width, 0, col3.frame.size.width + m, 42)];
-    [col4 setFrame:CGRectMake(col3.frame.origin.x+col3.frame.size.width, 0, col4.frame.size.width + m, 42)];
+    [col1 setFrame:CGRectMake(0, 0, col1.frame.size.width + m, 14*2)];
+    [col2 setFrame:CGRectMake(col1.frame.origin.x+col1.frame.size.width, 0, col2.frame.size.width + m, 14*2)];
+    [col3 setFrame:CGRectMake(col2.frame.origin.x+col2.frame.size.width, 0, col3.frame.size.width + m, 14*2)];
+    [col4 setFrame:CGRectMake(col3.frame.origin.x+col3.frame.size.width, 0, col4.frame.size.width + m, 14*2)];
 
+
+    self.numPollsLabel = [[UILabel alloc] initWithFrame:CGRectMake(col1.frame.origin.x, col1.frame.origin.y+14, col1.frame.size.width, 14*3)];
+    [self.numPollsLabel setBackgroundColor:[UIColor clearColor]];
+    [self.numPollsLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numPollsLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [self.numPollsLabel setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:self.numPollsLabel];
+
+    self.numVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(col2.frame.origin.x, col2.frame.origin.y+14, col2.frame.size.width, 14*3)];
+    [self.numVotesLabel setBackgroundColor:[UIColor clearColor]];
+    [self.numVotesLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numVotesLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [self.numVotesLabel setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:self.numVotesLabel];
+    
+    
+    self.numFollowingLabel = [[UILabel alloc] initWithFrame:CGRectMake(col3.frame.origin.x, col3.frame.origin.y+14, col3.frame.size.width, 14*3)];
+    [self.numFollowingLabel setBackgroundColor:[UIColor clearColor]];
+    [self.numFollowingLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numFollowingLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [self.numFollowingLabel setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:self.numFollowingLabel];
+    
+    self.numFollowersLabel = [[UILabel alloc] initWithFrame:CGRectMake(col4.frame.origin.x, col4.frame.origin.y+14, col4.frame.size.width, 14*3)];
+    [self.numFollowersLabel setBackgroundColor:[UIColor clearColor]];
+    [self.numFollowersLabel setTextColor:[UIColor lightGrayColor]];
+    [self.numFollowersLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [self.numFollowersLabel setTextAlignment:UITextAlignmentCenter];
+    [head addSubview:self.numFollowersLabel];
+    
 
     self.tableView.tableHeaderView = header;
     
@@ -203,7 +230,7 @@
     [queryPollCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         if (!error) {
-            [self.numPollsLabel setText:[NSString stringWithFormat:@"%d poll%@", number, number==1?@"":@"s"]];
+            [self.numPollsLabel setText:[NSString stringWithFormat:@"%d", number]];
         }
     }];
     
@@ -213,7 +240,7 @@
     [queryVoteCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [queryVoteCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if (!error) {
-            [self.numVotesLabel setText:[NSString stringWithFormat:@"%d vote%@", number, number==1?@"":@"s"]];
+            [self.numVotesLabel setText:[NSString stringWithFormat:@"%d", number]];
         }
     }];
     
@@ -243,7 +270,7 @@
     [queryFolloweesCount setCachePolicy:policy];
     [queryFolloweesCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
-            [self.numFollowingLabel setText:[NSString stringWithFormat:@"%d followee%@", number, number==1?@"":@"s"]];
+            [self.numFollowingLabel setText:[NSString stringWithFormat:@"%d", number]];
         }
     }];
     
@@ -253,7 +280,7 @@
     [queryFollowersCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [queryFollowersCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
-            [self.numFollowersLabel setText:[NSString stringWithFormat:@"%d follower%@", number, number==1?@"":@"s"]];
+            [self.numFollowersLabel setText:[NSString stringWithFormat:@"%d", number]];
         }
     }];
 }
