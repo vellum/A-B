@@ -237,6 +237,10 @@ static TTTTimeIntervalFormatter *timeFormatter;
 - (void)setDetailButtonEnabled:(BOOL)enabled{
     self.detaillabelenabled = enabled;
 }
+- (void)reset{
+    [self.profileImageView setImage:[UIImage imageNamed:@"clear.png"]];
+    [self.profileImageView setBackgroundColor:[UIColor lightGrayColor]];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

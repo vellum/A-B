@@ -254,6 +254,7 @@
     } else {
         [customview setUserName:displayname andQuestion:text];
     }
+    [customview reset];
     [customview setTime:[poll createdAt]];
     [customview setFile:avatar];
     customview.delegate = self;

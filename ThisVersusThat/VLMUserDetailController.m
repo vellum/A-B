@@ -437,6 +437,7 @@
     } else {
         [customview setUserName:displayname andQuestion:text];
     }
+    [customview reset];
     [customview setTime:[obj createdAt]];
     [customview setFile:avatar];
     customview.delegate = self;

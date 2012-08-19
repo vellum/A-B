@@ -40,4 +40,5 @@
 
 - (void)setTime:(NSDate*)d;
 - (void)setDetailButtonEnabled:(BOOL)enabled;
+- (void)reset;
 @end
