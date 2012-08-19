@@ -26,6 +26,7 @@
 @property (nonatomic) BOOL isRootController;
 @property (nonatomic) BOOL shouldScrollToComments;
 @property (nonatomic) BOOL shouldScrollToCommentsAndPopKeyboard;
+@property (nonatomic) BOOL shouldRefreshVotes;
 
 @end
 
@@ -38,6 +39,7 @@
 @synthesize isRootController;
 @synthesize shouldScrollToComments;
 @synthesize shouldScrollToCommentsAndPopKeyboard;
+@synthesize shouldRefreshVotes;
 
 - (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot{
     self = [super init];
@@ -63,6 +65,7 @@
         
         self.isRootController = isRoot;
         
+        self.shouldRefreshVotes = NO;
         
         [self.view setAutoresizesSubviews:NO];        
         //[self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
@@ -73,7 +76,9 @@
         {
             UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
             [self.navigationItem setLeftBarButtonItem:cancelbutton];
+            
         } else {
+            self.shouldRefreshVotes = YES;
             /*
             UIBarButtonItem *backbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
             [self.navigationItem setLeftBarButtonItem:backbutton];
@@ -111,7 +116,6 @@
 
         } else {
             [self loadVotingData];
-            
         }
         
         // Register to be notified when the keyboard will be shown to scroll the view
@@ -121,9 +125,15 @@
     
     return self;
 }
-
-- (void) loadVotingData{
+- (void)loadVotingData{
+    NSLog(@"poll: %@", poll);
+    NSLog(@"photoleft: %@", [poll objectForKey:@"PhotoLeft"]);
+    NSLog(@"photoleftif: %@", [[poll objectForKey:@"PhotoLeft"] objectId]);
+    
+    NSString *leftPhotoID = [[poll objectForKey:@"PhotoLeft"] objectId];
     @synchronized(self) {
+        [self.poll fetchIfNeeded];
+        
         PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
         [query whereKey:@"Poll" equalTo:poll];
         [query setCachePolicy:kPFCachePolicyNetworkOnly];
@@ -138,6 +148,8 @@
                     BOOL isLikedByCurrentUserL = NO;
                     BOOL isLikedByCurrentUserR = NO;
                     PFObject *photoLeft = [self.poll objectForKey:@"LeftPhoto"];
+                    [photoLeft fetchIfNeeded];
+                    NSLog(@"%@", photoLeft);
                     
                     // loop through these mixed results
                     for (PFObject *activity in objects) {
@@ -149,7 +161,7 @@
                         if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
                             
                             // left photo likes
-                            if ([[[activity objectForKey:@"Photo"] objectId] isEqualToString:[photoLeft objectId]]){
+                            if ([[[activity objectForKey:@"Photo"] objectId] isEqualToString:leftPhotoID]){
                                 // add userid to array
                                 [alikersL addObject:[activity objectForKey:@"FromUser"]];
                                 
@@ -177,7 +189,7 @@
                     }
                     
                     
-                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:alikersL likersR:alikersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
                     
                     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
                     cell.autoresizesSubviews = NO;
@@ -187,10 +199,11 @@
                     
                 }//end if (!error)
                 
-            }// end @synchronized
+            }
         }];
-    }
+    }// end @synchronized
 }
+
 - (CGFloat) heightfortableheader{
         
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -310,6 +323,13 @@
     return nil;
 }
 
+- (void)loadObjects{
+    [super loadObjects];
+    if ( self.shouldRefreshVotes )
+        [self loadVotingData];
+    self.shouldRefreshVotes = YES;
+}
+
 - (void)objectsDidLoad:(NSError *)error{
     [super objectsDidLoad:error];
     if ( !shouldScrollToComments ) return;
@@ -318,8 +338,6 @@
     NSIndexPath* ipath = [NSIndexPath indexPathForRow: self.objects.count-1 inSection: 0];
     [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: YES];
 
-    
-    [self loadVotingData];
 }
 #pragma mark - UITableViewDataSource
 
