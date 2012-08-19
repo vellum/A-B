@@ -35,11 +35,14 @@
 }
 
 - (void)setFile:(PFFile *)file{
+    [self.icon setImage:[UIImage imageNamed:@"clear.png"]];
+    [self.icon setBackgroundColor:[UIColor lightGrayColor]];
     if (!file) {
         return;
     }
 
     [self.icon setFile:file];
+    [self.icon loadInBackground];
 }
 
 - (void)setText:(NSString *)text{
