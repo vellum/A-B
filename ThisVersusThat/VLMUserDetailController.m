@@ -337,6 +337,11 @@
     [q countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
             self.resultcount = number;
+            NSInteger lastsection = [self numberOfSectionsInTableView:self.tableView] - 1;
+            NSInteger lastrow = [self tableView:self.tableView numberOfRowsInSection:lastsection] - 1;
+            NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:lastrow inSection:lastsection]];
+            [self.tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
+
         }
     }];
 }
