@@ -41,6 +41,7 @@
 		BD4D508815BDE19D007D6E3A /* VLMSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507815BDE19C007D6E3A /* VLMSectionView.m */; };
 		BD4D508915BDE19D007D6E3A /* VLMTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */; };
 		BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD54C2DA15D3568700B73984 /* VLMCommentCell.m */; };
+		BD5E12F015E028F8004D557E /* VotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5E12EF15E028F8004D557E /* VotesViewController.m */; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
 		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
 		BD7998E215D654670070D759 /* skewed_print.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998E015D654670070D759 /* skewed_print.png */; };
@@ -53,6 +54,8 @@
 		BD8891DC15C0605400C1615C /* vote_button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DA15C0605400C1615C /* vote_button_selected.png */; };
 		BD8891DD15C0605400C1615C /* vote_button_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DB15C0605400C1615C /* vote_button_normal.png */; };
 		BD90FFF215BE7B6D004621E8 /* subtlenet.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF115BE7B6D004621E8 /* subtlenet.png */; };
+		BD92EF4815E04D5700FAC490 /* FollowerController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD92EF4715E04D5700FAC490 /* FollowerController.m */; };
+		BD92EF5015E061D900FAC490 /* FollowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD92EF4F15E061D900FAC490 /* FollowCell.m */; };
 		BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */; };
 		BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */; };
 		BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */; };
@@ -127,6 +130,8 @@
 		BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMTextButton.m; sourceTree = "<group>"; };
 		BD54C2D915D3568700B73984 /* VLMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMCommentCell.h; sourceTree = "<group>"; };
 		BD54C2DA15D3568700B73984 /* VLMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCommentCell.m; sourceTree = "<group>"; };
+		BD5E12EE15E028F8004D557E /* VotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotesViewController.h; sourceTree = "<group>"; };
+		BD5E12EF15E028F8004D557E /* VotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotesViewController.m; sourceTree = "<group>"; };
 		BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMMainViewController.h; sourceTree = "<group>"; };
 		BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMMainViewController.m; sourceTree = "<group>"; };
 		BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddButtonController.h; sourceTree = "<group>"; };
@@ -147,6 +152,10 @@
 		BD8891DA15C0605400C1615C /* vote_button_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vote_button_selected.png; sourceTree = "<group>"; };
 		BD8891DB15C0605400C1615C /* vote_button_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vote_button_normal.png; sourceTree = "<group>"; };
 		BD90FFF115BE7B6D004621E8 /* subtlenet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subtlenet.png; sourceTree = "<group>"; };
+		BD92EF4615E04D5700FAC490 /* FollowerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowerController.h; sourceTree = "<group>"; };
+		BD92EF4715E04D5700FAC490 /* FollowerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowerController.m; sourceTree = "<group>"; };
+		BD92EF4E15E061D900FAC490 /* FollowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowCell.h; sourceTree = "<group>"; };
+		BD92EF4F15E061D900FAC490 /* FollowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowCell.m; sourceTree = "<group>"; };
 		BD94B29515C0F73400DCC8DA /* UIPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIPlaceholderTextView.h; path = ThisVersusThat/UIPlaceholderTextView.h; sourceTree = "<group>"; };
 		BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIPlaceholderTextView.m; path = ThisVersusThat/UIPlaceholderTextView.m; sourceTree = "<group>"; };
 		BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VLMFeedHeaderDelegate.h; sourceTree = "<group>"; };
@@ -399,6 +408,10 @@
 				BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */,
 				BD7998E315D6DB3F0070D759 /* ActivityViewController.h */,
 				BD7998E415D6DB400070D759 /* ActivityViewController.m */,
+				BD5E12EE15E028F8004D557E /* VotesViewController.h */,
+				BD5E12EF15E028F8004D557E /* VotesViewController.m */,
+				BD92EF4615E04D5700FAC490 /* FollowerController.h */,
+				BD92EF4715E04D5700FAC490 /* FollowerController.m */,
 				BDC09F2315BF2EFD00349761 /* Feed */,
 			);
 			name = Controllers;
@@ -445,6 +458,8 @@
 				BD54C2DA15D3568700B73984 /* VLMCommentCell.m */,
 				BD7998EC15D89FA50070D759 /* VLMActivityCell.h */,
 				BD7998ED15D89FA50070D759 /* VLMActivityCell.m */,
+				BD92EF4E15E061D900FAC490 /* FollowCell.h */,
+				BD92EF4F15E061D900FAC490 /* FollowCell.m */,
 			);
 			name = UITableViewCells;
 			sourceTree = "<group>";
@@ -574,6 +589,9 @@
 				BD7998EE15D89FA50070D759 /* VLMActivityCell.m in Sources */,
 				BD19FDCC15D9F3A60083E65D /* ActivityNavButton.m in Sources */,
 				BD19FDD315DA1D3D0083E65D /* TTTTimeIntervalFormatter.m in Sources */,
+				BD5E12F015E028F8004D557E /* VotesViewController.m in Sources */,
+				BD92EF4815E04D5700FAC490 /* FollowerController.m in Sources */,
+				BD92EF5015E061D900FAC490 /* FollowCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

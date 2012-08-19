@@ -1,12 +1,14 @@
 //
-//  VLMUserDetailController.m
+//  VotesViewController.m
 //  ThisVersusThat
 //
-//  Created by David Lu on 8/7/12.
+//  Created by David Lu on 8/18/12.
 //  Copyright (c) 2012 NerdGypsy. All rights reserved.
 //
 
-#import "VLMUserDetailController.h"
+#import "VotesViewController.h"
+
+#import "VotesViewController.h"
 #import "VLMConstants.h"
 #import "UIViewController+Transitions.h"
 #import "VLMCache.h"
@@ -18,10 +20,11 @@
 #import "VLMFeedHeaderDelegate.h"
 #import "VLMPollDetailController.h"
 #import "VLMGenericTapDelegate.h"
-#import "VotesViewController.h"
-#import "FollowerController.h"
+#import "VLMUserDetailController.h"
 
-@interface VLMUserDetailController ()
+
+
+@interface VotesViewController ()
 @property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
 @property (nonatomic) NSInteger resultcount;
 @property (nonatomic, strong) NSMutableSet *reusableSectionHeaderViews;
@@ -35,10 +38,9 @@
 @property (unsafe_unretained, nonatomic) UITableViewCell *selectedCell;
 @property (nonatomic, strong) UIPanGestureRecognizer *localPGR;
 
-- (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy;
 @end
 
-@implementation VLMUserDetailController
+@implementation VotesViewController
 @synthesize user;
 @synthesize outstandingQueries;
 @synthesize resultcount;
@@ -60,7 +62,7 @@
         self.user = obj;
         self.loadingViewEnabled = NO;
         self.outstandingQueries = [NSMutableDictionary dictionary];
-        self.className = @"Poll";
+        self.className = @"Activity";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
         self.objectsPerPage = 10;
@@ -81,9 +83,9 @@
 
 - (void)viewDidLoad{    
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone]; 
-
+    
     [super viewDidLoad];
-
+    
     // set up a pan gesture recognizer to distinguish horizontal pans from vertical ones
     UIPanGestureRecognizer *pgr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     
@@ -101,214 +103,20 @@
     
     // the default recognized state is unknown
     self.recognizedPanDirection = FUCKING_UNKNOWN;
-
-    
-    
     
     
     [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
     
-    self.title = [VLMUtility firstNameForDisplayName:[self.user objectForKey:@"displayName"]];
-
-    NSLog(@"%d viewcontrollers", self.navigationController.viewControllers.count);
-
+    self.title = @"Voted On";
+    
     if ( self.isRootController )
     {
         UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
         [self.navigationItem setLeftBarButtonItem:cancelbutton];
         [self.navigationItem setHidesBackButton:YES];
     }
-
     
     
-    
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*13)];
-    //[header setBackgroundColor:DEBUG_BACKGROUND_GRID];
-    
-    UIView *card = [[UIView alloc] initWithFrame:CGRectMake(15, 14, 40*6+45, 14*5)];
-    [card setBackgroundColor:[UIColor whiteColor]];
-    [header addSubview:card];
-    
-    PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 14*4+4, 14*4+4)];
-    [iv setBackgroundColor:[UIColor lightGrayColor]];
-    [iv setFile:[user objectForKey:@"profilePicMedium"]];
-    [iv loadInBackground];
-    [card addSubview:iv];
-    
-    
-    UILabel *a = [[UILabel alloc] initWithFrame:CGRectMake(90, 14, 5*40, 14*2)];
-    [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [a setBackgroundColor:[UIColor clearColor]];
-    [a setTextColor:TEXT_COLOR];
-    [a setText:[user objectForKey:@"displayName"]];
-    [header addSubview:a];
-    
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(15, 14*7, self.view.frame.size.width-35, 14*4)];
-    //[head setBackgroundColor:TEXT_COLOR];
-    [head setBackgroundColor:[UIColor whiteColor]];
-    [header addSubview:head];
-    
-    
-    UILabel *col1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 71.25, 2*14)];
-    [col1 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
-    [col1 setBackgroundColor:[UIColor clearColor]];
-     [col1 setTextColor:TEXT_COLOR];
-    [col1 setText:@"POLLS"];
-    [col1 setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:col1];
-    
-    UILabel *col2 = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 71.25, 2*14)];
-    [col2 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
-    [col2 setBackgroundColor:[UIColor clearColor]];
-    [col2 setTextColor:TEXT_COLOR];
-    [col2 setText:@"VOTED"];
-    [col2 setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:col2];
-    
-    UILabel *col3 = [[UILabel alloc] initWithFrame:CGRectMake(160, 0, 71.25, 2*14)];
-    [col3 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
-    [col3 setBackgroundColor:[UIColor clearColor]];
-    [col3 setTextColor:TEXT_COLOR];
-    [col3 setText:@"FOLLOWING"];
-    [col3 setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:col3];
-
-    UILabel *col4 = [[UILabel alloc] initWithFrame:CGRectMake(240, 0, 71.25, 2*14)];
-    [col4 setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
-    [col4 setBackgroundColor:[UIColor clearColor]];
-    [col4 setTextColor:TEXT_COLOR];
-    [col4 setText:@"FOLLOWERS"];
-    [col4 setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:col4];
-    
-    
-    [col1 sizeToFit];
-    [col2 sizeToFit];
-    [col3 sizeToFit];
-    [col4 sizeToFit];
-    CGFloat w = col1.frame.size.width + col2.frame.size.width + col3.frame.size.width + col4.frame.size.width;
-    CGFloat m = card.frame.size.width - w;
-    m/=4;
-    [col1 setFrame:CGRectMake(0, 0, col1.frame.size.width + m, 14*2)];
-    [col2 setFrame:CGRectMake(col1.frame.origin.x+col1.frame.size.width, 0, col2.frame.size.width + m, 14*2)];
-    [col3 setFrame:CGRectMake(col2.frame.origin.x+col2.frame.size.width, 0, col3.frame.size.width + m, 14*2)];
-    [col4 setFrame:CGRectMake(col3.frame.origin.x+col3.frame.size.width, 0, col4.frame.size.width + m, 14*2)];
-
-
-    self.numPollsLabel = [[UILabel alloc] initWithFrame:CGRectMake(col1.frame.origin.x, col1.frame.origin.y+14, col1.frame.size.width, 14*3.5)];
-    [self.numPollsLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numPollsLabel setTextColor:TEXT_COLOR];
-    [self.numPollsLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [self.numPollsLabel setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:self.numPollsLabel];
-
-    self.numVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(col2.frame.origin.x, col2.frame.origin.y+14, col2.frame.size.width, 14*3.5)];
-    [self.numVotesLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numVotesLabel setTextColor:TEXT_COLOR];
-    [self.numVotesLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [self.numVotesLabel setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:self.numVotesLabel];
-    
-    
-    self.numFollowingLabel = [[UILabel alloc] initWithFrame:CGRectMake(col3.frame.origin.x, col3.frame.origin.y+14, col3.frame.size.width, 14*3.5)];
-    [self.numFollowingLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numFollowingLabel setTextColor:TEXT_COLOR];
-    [self.numFollowingLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [self.numFollowingLabel setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:self.numFollowingLabel];
-    
-    self.numFollowersLabel = [[UILabel alloc] initWithFrame:CGRectMake(col4.frame.origin.x, col4.frame.origin.y+14, col4.frame.size.width, 14*3.5)];
-    [self.numFollowersLabel setBackgroundColor:[UIColor clearColor]];
-    [self.numFollowersLabel setTextColor:TEXT_COLOR];
-    [self.numFollowersLabel setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
-    [self.numFollowersLabel setTextAlignment:UITextAlignmentCenter];
-    [head addSubview:self.numFollowersLabel];
-
-    UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(col1.frame.origin.x, col1.frame.origin.y, col1.frame.size.width, 14*4)];
-    //[clearbutton setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
-    [clearbutton addTarget:self action:@selector(profilePollsTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [head addSubview:clearbutton];
-    
-
-    UIButton *clearbutton2 = [[UIButton alloc] initWithFrame:CGRectMake(col2.frame.origin.x, col2.frame.origin.y, col2.frame.size.width, 14*4)];
-    //[clearbutton2 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
-    [clearbutton2 addTarget:self action:@selector(profileVotesTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [head addSubview:clearbutton2];
-    
-    UIButton *clearbutton3 = [[UIButton alloc] initWithFrame:CGRectMake(col3.frame.origin.x, col3.frame.origin.y, col3.frame.size.width, 14*4)];
-    //[clearbutton3 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
-    [clearbutton3 addTarget:self action:@selector(profileFollowingTapped:) forControlEvents:UIControlEventTouchUpInside];
-
-    [head addSubview:clearbutton3];
-
-    UIButton *clearbutton4 = [[UIButton alloc] initWithFrame:CGRectMake(col4.frame.origin.x, col4.frame.origin.y, col4.frame.size.width, 14*4)];
-    //[clearbutton4 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
-    [clearbutton4 addTarget:self action:@selector(profileFollowersTapped:) forControlEvents:UIControlEventTouchUpInside];
-
-    [head addSubview:clearbutton4];
-    
-
-    
-    self.tableView.tableHeaderView = header;
-    
-    PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
-    [queryPollCount whereKey:@"User" equalTo:self.user];
-    [queryPollCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
-    [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-        if (!error) {
-            [self.numPollsLabel setText:[NSString stringWithFormat:@"%d", number]];
-        }
-    }];
-    
-    PFQuery *queryVoteCount = [PFQuery queryWithClassName:@"Activity"];
-    [queryVoteCount whereKey:@"FromUser" equalTo:self.user];
-    [queryVoteCount whereKey:@"Type" equalTo:@"like"];
-    [queryVoteCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
-    [queryVoteCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-        if (!error) {
-            [self.numVotesLabel setText:[NSString stringWithFormat:@"%d", number]];
-        }
-    }];
-    
-    [self loadFollowerDataWithPolicy:kPFCachePolicyCacheThenNetwork];
-    
-    PFQuery *queryF = [[PFQuery alloc] initWithClassName:@"Activity"];
-    [queryF whereKey:@"FromUser" equalTo:[PFUser currentUser]];
-    [queryF whereKey:@"ToUser" equalTo:self.user];
-    [queryF whereKey:@"Type" equalTo:@"follow"];
-    [queryF setCachePolicy:kPFCachePolicyCacheThenNetwork];
-    [queryF countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-        if ( !error ){
-            if ( number == 0 ){
-                [self configureFollowButton];
-            } else {
-                [self configureUnfollowButton];
-            }
-        }
-    }];
-
-}
-- (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy{
-    
-    PFQuery *queryFolloweesCount = [PFQuery queryWithClassName:@"Activity"];
-    [queryFolloweesCount whereKey:@"ToUser" equalTo:self.user];
-    [queryFolloweesCount whereKey:@"Type" equalTo:@"follow"];
-    [queryFolloweesCount setCachePolicy:policy];
-    [queryFolloweesCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-        if ( !error ){
-            [self.numFollowersLabel setText:[NSString stringWithFormat:@"%d", number]];
-        }
-    }];
-    
-    PFQuery *queryFollowersCount = [PFQuery queryWithClassName:@"Activity"];
-    [queryFollowersCount whereKey:@"FromUser" equalTo:self.user];
-    [queryFollowersCount whereKey:@"Type" equalTo:@"follow"];
-    [queryFollowersCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
-    [queryFollowersCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-        if ( !error ){
-            [self.numFollowingLabel setText:[NSString stringWithFormat:@"%d", number]];
-        }
-    }];
 }
 
 - (void)viewDidUnload{
@@ -316,7 +124,7 @@
     // Release any retained subviews of the main view.
     self.localPGR.delegate = nil;
     [self.tableView removeGestureRecognizer:self.localPGR];
-
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
@@ -327,10 +135,10 @@
 #pragma mark - PFQueryTableViewController
 
 - (void)loadObjects{
-
+    
     // FIXME: clear the cache of objects in the view already
     //[[VLMCache sharedCache] clear]; // this nukes EVERYTHING which is bad
-
+    
     [super loadObjects];
     
     PFQuery *q = [self queryForTable];
@@ -343,10 +151,14 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *polls = [PFQuery queryWithClassName:self.className];
-    [polls whereKey:@"User" equalTo:self.user];
-    [polls includeKey:@"User"];
-    [polls includeKey:@"PhotoLeft"];
-    [polls includeKey:@"PhotoRight"];
+    [polls whereKey:@"FromUser" equalTo:self.user];
+    [polls whereKeyExists:@"Poll"];
+    [polls whereKey:@"Type" equalTo:@"like"];
+    [polls includeKey:@"ToUser"];
+    [polls includeKey:@"Poll"];
+    [polls includeKey:@"Poll.PhotoLeft"];
+    [polls includeKey:@"Poll.PhotoRight"];
+    [polls includeKey:@"Poll.createdAt"];
     [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [polls setLimit:1000];
     [polls orderByDescending:@"createdAt"];
@@ -389,9 +201,11 @@
     PFObject *obj = [self.objects objectAtIndex:section];
     
     if ( obj == nil ) return 0;
-    
-    
-    NSString *text = [obj objectForKey:@"Question"];
+
+    PFObject *poll = [obj objectForKey:@"Poll"];
+    if ( poll == nil ) return 0;
+          
+    NSString *text = [poll objectForKey:@"Question"];
     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:SECTION_FONT_REGULAR size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
     CGFloat h = expectedLabelSize.height + 37.0f;
     
@@ -418,9 +232,12 @@
     
     PFObject *obj = [self.objects objectAtIndex:section];
     if ( obj == nil ) return nil;
-    
-    NSString *text = [obj objectForKey:@"Question"];
-    PFUser *u = [obj objectForKey:@"User"];
+
+    PFObject *poll = [obj objectForKey:@"Poll"];
+    if ( poll == nil ) return nil;
+
+    NSString *text = [poll objectForKey:@"Question"];
+    PFUser *u = [obj objectForKey:@"ToUser"];
     NSString *displayname = [u objectForKey:@"displayName"];
     PFFile *avatar = [u objectForKey:@"profilePicSmall"];
     
@@ -432,7 +249,7 @@
     } else {
         [customview setUserName:displayname andQuestion:text];
     }
-    [customview setTime:[obj createdAt]];
+    [customview setTime:[poll createdAt]];
     [customview setFile:avatar];
     customview.delegate = self;
     customview.section = section;
@@ -450,7 +267,10 @@
     
     PFObject *obj = [self.objects objectAtIndex:indexPath.section];
     if ( obj == nil ) return nil;
-    
+
+    PFObject *poll = [obj objectForKey:@"Poll"];
+    if ( poll == nil ) return nil;
+
 	// identifier
 	static NSString *FeedCellIdentifier = @"PollCell";
 	
@@ -466,11 +286,9 @@
     [cell resetCell];
     
     cell.contentView.hidden = NO;
-    [cell setPoll:obj];
+    [cell setPoll:poll];
     
-    PFObject *poll = obj;
     PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
-    //PFObject *photoRight = [poll objectForKey:@"PhotoRight"];
     
     NSDictionary *attributesForPoll = [[VLMCache sharedCache] attributesForPoll:poll];
     PFCachePolicy poly = kPFCachePolicyNetworkOnly;
@@ -650,52 +468,8 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)followButtonAction:(id)sender {
-    UIActivityIndicatorView *loadingActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [loadingActivityIndicatorView startAnimating];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:loadingActivityIndicatorView];
-    
-    [self configureUnfollowButton];
-    
-    [VLMUtility followUserEventually:self.user block:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            [self configureFollowButton];
-        } else {
-            [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
-        }
-    }];
-    
-}
-
-- (void)unfollowButtonAction:(id)sender {
-    UIActivityIndicatorView *loadingActivityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [loadingActivityIndicatorView startAnimating];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:loadingActivityIndicatorView];
-    
-    [self configureFollowButton];
-    
-    [VLMUtility unfollowUserEventually:self.user block:^(BOOL succeeded, NSError *error) {
-        [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
-        if ( error ){
-            [self configureUnfollowButton];
-        }
-    }];
-}
-
 - (void)backButtonAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)configureFollowButton {
-
-    UIBarButtonItem *followbutton = [[UIBarButtonItem alloc] initWithTitle:@"Follow" style:UIBarButtonItemStylePlain target:self action:@selector(followButtonAction:)];
-    [self.navigationItem setRightBarButtonItem:followbutton];
-    [[VLMCache sharedCache] setFollowStatus:NO user:self.user];
-}
-
-- (void)configureUnfollowButton {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Unfollow" style:UIBarButtonItemStylePlain target:self action:@selector(unfollowButtonAction:)];
-    [[VLMCache sharedCache] setFollowStatus:YES user:self.user];
 }
 
 // lightweight analysis on detected pan gestures
@@ -774,11 +548,11 @@
             //NSLog(@"recognized vertical pan");
             
             /*
-            // do some optimization here for scrolling perf
-            if ( self.selectedCell != nil ){
-                VLMCell *c = (VLMCell *) self.selectedCell;
-                c.contentView.clipsToBounds = YES;
-            }*/
+             // do some optimization here for scrolling perf
+             if ( self.selectedCell != nil ){
+             VLMCell *c = (VLMCell *) self.selectedCell;
+             c.contentView.clipsToBounds = YES;
+             }*/
             
         } 
         else if ( p.x > deadzone.width/2 || p.x < -deadzone.width/2 ) {
@@ -820,26 +594,6 @@
     }
 }
 
-- (void)profilePollsTapped:(id)sender{
-    NSLog(@"a");
-    if (self.objects.count == 0 ) return;
-    NSIndexPath* ipath = [NSIndexPath indexPathForRow: 0 inSection: 0];
-    [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: YES];
-}
-- (void)profileVotesTapped:(id)sender{
-    VotesViewController *v = [[VotesViewController alloc] initWithObject:user isRoot:NO];
-    [self.navigationController pushViewController:v animated:YES];
-}
-- (void)profileFollowingTapped:(id)sender{
-    NSLog(@"c");
-    FollowerController *fc = [[FollowerController alloc] initWithObject:self.user isRoot:NO modeFollowing:YES];
-    [self.navigationController pushViewController:fc animated:YES];
-}
-- (void)profileFollowersTapped:(id)sender{
-    NSLog(@"d");
-    FollowerController *fc = [[FollowerController alloc] initWithObject:self.user isRoot:NO modeFollowing:NO];
-    [self.navigationController pushViewController:fc animated:YES];
-}
 
 #pragma mark - UIGestureRecognizerDelegate
 
@@ -858,18 +612,27 @@
 #pragma mark - VLMFeedHeaderDelegate
 
 - (void)didTapPoll:(NSInteger)section{
-    PFObject *poll = [self.objects objectAtIndex:section];
+    
+    PFObject *obj = [self.objects objectAtIndex:section];
+    if ( obj == nil ) return;
+    
+    PFObject *poll = [obj objectForKey:@"Poll"];
     if ( poll == nil ) return;
+    
     if ( [[VLMCache sharedCache] attributesForPoll:poll] == nil ) return;
-
+    
     VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll isRoot:NO];
     [self.navigationController pushViewController:polldetail animated:YES];
 }
 
 - (void)didTapUser:(NSInteger)section{
-    PFObject *poll = [self.objects objectAtIndex:section];
+    PFObject *obj = [self.objects objectAtIndex:section];
+    if ( obj == nil ) return;
+    
+    PFObject *poll = [obj objectForKey:@"Poll"];
     if ( poll == nil ) return;
-    PFUser *u = [poll objectForKey:@"User"];
+
+    PFUser *u = [obj objectForKey:@"ToUser"];
     if ( u == nil ) return;
     
     VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:u isRoot:NO];
