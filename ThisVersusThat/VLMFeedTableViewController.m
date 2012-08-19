@@ -266,19 +266,19 @@
 	} 
     //[cell setInitialPage:YES];
     [cell resetCell];
+    cell.contentView.hidden = YES;
 
     if ( self.objects.count > 0 ){
         if ( indexPath.section == 0 && indexPath.row == 0 ){
-            cell.contentView.hidden = YES;
             return cell;
         } 
     }
     cell.contentView.hidden = NO;
+    [cell setContentVisible:NO];
     [cell setPoll:obj];
 
     PFObject *poll = obj;
     PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
-    //PFObject *photoRight = [poll objectForKey:@"PhotoRight"];
 
     NSDictionary *attributesForPoll = [[VLMCache sharedCache] attributesForPoll:poll];
     PFCachePolicy poly = kPFCachePolicyNetworkOnly;
@@ -292,7 +292,8 @@
         BOOL isLikedByCurrentUserL = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:poll];
         BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
         [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
-        
+        [cell setContentVisible:YES];
+
 
     // if not, stuff query results in the cache
     } else {
@@ -366,6 +367,9 @@
 
                             [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
 
+                            [cell setContentVisible:YES];
+
+
                         }//end if (!error)
 
                     }// end @synchronized
@@ -382,7 +386,6 @@
     [cell setTv:self];
     BOOL isLeft = [[VLMCache sharedCache] directionForPoll:poll];
     [cell setInitialPage:isLeft];
-    [cell setTime:[poll createdAt]];
 	return cell;
 }
 

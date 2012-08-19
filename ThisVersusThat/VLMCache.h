@@ -14,6 +14,7 @@
 + (id)sharedCache;
 
 - (void)clear;
+- (void)removeAttributesForPoll:(PFObject *)poll;
 
 - (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight;
 

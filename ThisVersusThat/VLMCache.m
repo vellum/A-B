@@ -127,6 +127,10 @@
     return NO;
 }
 
+- (void)removeAttributesForPoll:(PFObject *)poll{
+    NSString *key = [self keyForPoll:poll];
+    [self.cache removeObjectForKey:key];
+}
 
 - (NSDictionary *)attributesForPoll:(PFObject *)poll{
     NSString *key = [self keyForPoll:poll];

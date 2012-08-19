@@ -34,6 +34,7 @@
 @property (nonatomic) NSInteger recognizedPanDirection;
 @property (unsafe_unretained, nonatomic) UITableViewCell *selectedCell;
 @property (nonatomic, strong) UIPanGestureRecognizer *localPGR;
+@property (nonatomic) int lastknowncount;
 
 - (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy;
 @end
@@ -51,7 +52,7 @@
 @synthesize recognizedPanDirection;
 @synthesize selectedCell;
 @synthesize localPGR;
-
+@synthesize lastknowncount;
 #pragma mark - NSObject
 
 - (id)initWithObject:(PFUser *)obj isRoot:(BOOL)isRoot{
@@ -66,11 +67,11 @@
         self.objectsPerPage = 10;
         self.reusableSectionHeaderViews = [NSMutableSet setWithCapacity:3];
         self.resultcount = 0;
+        self.lastknowncount = 0;
         self.isRootController = isRoot;
         [self.view setAutoresizesSubviews:NO];        
         [self.view setBackgroundColor:[UIColor clearColor]];
         [self.tableView setBackgroundColor:[UIColor clearColor]];
-        
     }
     
     return self;
@@ -328,11 +329,8 @@
 
 - (void)loadObjects{
 
-    // FIXME: clear the cache of objects in the view already
-    //[[VLMCache sharedCache] clear]; // this nukes EVERYTHING which is bad
-
     [super loadObjects];
-    
+    lastknowncount = 0;
     PFQuery *q = [self queryForTable];
     [q countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
@@ -346,13 +344,26 @@
     }];
 }
 
+- (void)objectsDidLoad:(NSError *)error{
+    [super objectsDidLoad:error];
+    
+    // iterate through and wipe the cache
+    for( int i = lastknowncount; i < self.objects.count; i++){
+        PFObject *o = [self.objects objectAtIndex:i];
+        [[VLMCache sharedCache] removeAttributesForPoll:o];
+    }
+    lastknowncount = self.objects.count;
+    
+}
+
+
 - (PFQuery *)queryForTable {
     PFQuery *polls = [PFQuery queryWithClassName:self.className];
     [polls whereKey:@"User" equalTo:self.user];
     [polls includeKey:@"User"];
     [polls includeKey:@"PhotoLeft"];
     [polls includeKey:@"PhotoRight"];
-    [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [polls setCachePolicy:kPFCachePolicyNetworkOnly];
     [polls setLimit:1000];
     [polls orderByDescending:@"createdAt"];
     return polls;
@@ -472,6 +483,7 @@
     [cell resetCell];
     
     cell.contentView.hidden = NO;
+    [cell setContentVisible:NO];
     [cell setPoll:obj];
     
     PFObject *poll = obj;
@@ -490,7 +502,8 @@
         BOOL isLikedByCurrentUserL = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:poll];
         BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
         [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
-        
+        [cell setContentVisible:YES];
+
         
         // if not, stuff query results in the cache
     } else {
@@ -562,6 +575,9 @@
                             
                             [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
                             [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
+
+                            [cell setContentVisible:YES];
+
                             
                         }//end if (!error)
                         

@@ -30,17 +30,18 @@ static TTTTimeIntervalFormatter *timeFormatter;
 @synthesize originalRect;
 
 @synthesize objPoll;
+
 @synthesize imageviewLeft;
 @synthesize imageviewRight;
-
 @synthesize captionlabelLeft;
 @synthesize captionLabelRight;
 @synthesize votecountlabelLeft;
 @synthesize votecountlabelRight;
-@synthesize leftvotecount;
-@synthesize rightvotecount;
 @synthesize leftcheck;
 @synthesize rightcheck;
+
+@synthesize leftvotecount;
+@synthesize rightvotecount;
 @synthesize personalvotecountleft;
 @synthesize personalvotecountright;
 @synthesize outstandingQueries;
@@ -460,16 +461,25 @@ static TTTTimeIntervalFormatter *timeFormatter;
 }
 
 - (void)resetCell{
-    [self setInitialPage:YES];
+    [self.votecountlabelLeft setText:@"..."];
+    [self.votecountlabelRight setText:@"..."];
     [self setLeftCaptionText:@"" andRightCaptionText:@""];
     [self setLeftCount:-1 andRightCount:-1];
     [self setPersonalLeftCount:-1 andPersonalRightCount:-1];
+    [self setInitialPage:YES];
 }
 
+- (void)setContentVisible:(BOOL)isVisible{
+    self.imageviewLeft.hidden = !isVisible;
+    self.imageviewRight.hidden = !isVisible;
+    self.captionlabelLeft.hidden = !isVisible;
+    self.captionLabelRight.hidden = !isVisible;
+    self.votecountlabelLeft.hidden = !isVisible;
+    self.votecountlabelRight.hidden = !isVisible;
+    self.leftcheck.hidden = !isVisible;
+    self.rightcheck.hidden = !isVisible;
 
-
--(void)setTime:(NSDate*)d{
-   // [timestamp setText:[timeFormatter stringForTimeIntervalFromDate:[NSDate date] toDate:d]];
 }
+
 
 @end
