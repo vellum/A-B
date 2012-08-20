@@ -457,7 +457,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     self.containerView.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height);
     self.containerView.frame = CGRectOffset(self.containerView.frame, self.originalOffsetX, 0);
     self.contentView.clipsToBounds = YES;
-    [self setNeedsLayout];
+    //[self setNeedsLayout];
 }
 
 - (void)resetCell{
@@ -470,15 +470,15 @@ static TTTTimeIntervalFormatter *timeFormatter;
 }
 
 - (void)setContentVisible:(BOOL)isVisible{
-    self.imageviewLeft.hidden = !isVisible;
-    self.imageviewRight.hidden = !isVisible;
-    self.captionlabelLeft.hidden = !isVisible;
-    self.captionLabelRight.hidden = !isVisible;
+    //self.imageviewLeft.hidden = !isVisible;
+    //self.imageviewRight.hidden = !isVisible;
+    //self.captionlabelLeft.hidden = !isVisible;
+    //self.captionLabelRight.hidden = !isVisible;
     self.votecountlabelLeft.hidden = !isVisible;
     self.votecountlabelRight.hidden = !isVisible;
     self.leftcheck.hidden = !isVisible;
     self.rightcheck.hidden = !isVisible;
-
+    if ( isVisible ) [self setNeedsDisplay];
 }
 
 
