@@ -303,6 +303,16 @@
 			children = (
 				BD4D507115BDE19C007D6E3A /* VLMFeedTableViewController.h */,
 				BD4D507215BDE19C007D6E3A /* VLMFeedTableViewController.m */,
+				BDAC93D715D1CFE0008B820F /* VLMPollDetailController.h */,
+				BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */,
+				BDAC93DA15D1CFFB008B820F /* VLMUserDetailController.h */,
+				BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */,
+				BD7998E315D6DB3F0070D759 /* ActivityViewController.h */,
+				BD7998E415D6DB400070D759 /* ActivityViewController.m */,
+				BD5E12EE15E028F8004D557E /* VotesViewController.h */,
+				BD5E12EF15E028F8004D557E /* VotesViewController.m */,
+				BD92EF4615E04D5700FAC490 /* FollowerController.h */,
+				BD92EF4715E04D5700FAC490 /* FollowerController.m */,
 			);
 			name = TableView;
 			sourceTree = "<group>";
@@ -415,16 +425,6 @@
 				BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */,
 				BDC09F3615BF632F00349761 /* VLMAddViewController.h */,
 				BDC09F3715BF633000349761 /* VLMAddViewController.m */,
-				BDAC93D715D1CFE0008B820F /* VLMPollDetailController.h */,
-				BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */,
-				BDAC93DA15D1CFFB008B820F /* VLMUserDetailController.h */,
-				BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */,
-				BD7998E315D6DB3F0070D759 /* ActivityViewController.h */,
-				BD7998E415D6DB400070D759 /* ActivityViewController.m */,
-				BD5E12EE15E028F8004D557E /* VotesViewController.h */,
-				BD5E12EF15E028F8004D557E /* VotesViewController.m */,
-				BD92EF4615E04D5700FAC490 /* FollowerController.h */,
-				BD92EF4715E04D5700FAC490 /* FollowerController.m */,
 				BDC09F2315BF2EFD00349761 /* Feed */,
 			);
 			name = Controllers;

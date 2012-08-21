@@ -191,6 +191,27 @@
 }
 
 
+
+- (NSNumber *)commentCountForPoll:(PFObject *)poll {
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [attributes objectForKey:@"CommenterCount"];
+    }
+    
+    return [NSNumber numberWithInt:0];
+}
+
+
+- (NSArray *)commentsForPoll:(PFObject *)poll {
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [attributes objectForKey:@"Commenters"];
+    }
+    
+    return [NSArray array];
+}
+
+
 /*
 - (void)setAttributesForPhoto:(PFObject *)photo likers:(NSArray *)likers commenters:(NSArray *)commenters likedByCurrentUser:(BOOL)likedByCurrentUser {
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:

@@ -14,6 +14,7 @@
 + (id)sharedCache;
 
 - (void)clear;
+
 - (void)removeAttributesForPoll:(PFObject *)poll;
 
 - (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight;
@@ -40,13 +41,17 @@
 
 - (BOOL)isPollLikedByCurrentUserRight:(PFObject *)poll;
 
+- (BOOL)followStatusForUser:(PFUser *)user;
+
+- (NSDictionary *)attributesForUser:(PFUser *)user;
 
 - (BOOL)followStatusForUser:(PFUser *)user;
-- (NSDictionary *)attributesForUser:(PFUser *)user;
-//- (NSNumber *)photoCountForUser:(PFUser *)user;
-- (BOOL)followStatusForUser:(PFUser *)user;
-//- (void)setPhotoCount:(NSNumber *)count user:(PFUser *)user;
+
 - (void)setFollowStatus:(BOOL)following user:(PFUser *)user;
+
+- (NSNumber *)commentCountForPoll:(PFObject *)poll;
+
+- (NSArray *)commentsForPoll:(PFObject *)poll;
 
 /*
 - (void)setAttributesForPhoto:(PFObject *)photo likers:(NSArray *)likers commenters:(NSArray *)commenters likedByCurrentUser:(BOOL)likedByCurrentUser;

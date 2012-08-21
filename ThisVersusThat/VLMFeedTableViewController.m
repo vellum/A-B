@@ -273,9 +273,10 @@
             return cell;
         } 
     }
-    cell.contentView.hidden = NO;
+    
     [cell setContentVisible:NO];
     [cell setPoll:obj];
+    cell.contentView.hidden = NO;
 
     PFObject *poll = obj;
     PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
@@ -293,6 +294,8 @@
         BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
         [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
         [cell setContentVisible:YES];
+        
+        NSLog(@"comments: %d", [[[VLMCache sharedCache] commentCountForPoll:poll] intValue]);
 
 
     // if not, stuff query results in the cache
@@ -316,7 +319,7 @@
                         if ( !error ){
                             NSMutableArray *likersL = [NSMutableArray array];
                             NSMutableArray *likersR = [NSMutableArray array];
-                            NSMutableArray *commenters = [NSMutableArray array];
+                            NSMutableArray *comments = [NSMutableArray array];
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
                             
@@ -353,12 +356,13 @@
 
                                 // test for comments    
                                 } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
-                                    
+                                    NSLog(@"adding a comment");
+                                    [comments addObject:activity];
                                 }
                             }
                             
                             
-                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
                             
                             NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
                             NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
