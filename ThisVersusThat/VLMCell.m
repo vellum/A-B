@@ -7,19 +7,15 @@
 //
 
 #import "VLMCell.h"
+#import "VLMCache.h"
 #import "VLMConstants.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Parse/Parse.h"
 #import "VLMUtility.h"
 #import "VLMFeedTableViewController.h"
-#import "TTTTimeIntervalFormatter.h"
-
-
-static TTTTimeIntervalFormatter *timeFormatter;
 
 @interface VLMCell()
 @property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
-@property (nonatomic, strong) UILabel *timestamp;
 @end
 
 @implementation VLMCell
@@ -45,7 +41,6 @@ static TTTTimeIntervalFormatter *timeFormatter;
 @synthesize personalvotecountleft;
 @synthesize personalvotecountright;
 @synthesize outstandingQueries;
-@synthesize timestamp;
 @synthesize tv;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -53,9 +48,6 @@ static TTTTimeIntervalFormatter *timeFormatter;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self setAutoresizesSubviews:NO];
-        if (!timeFormatter) {
-            timeFormatter = [[TTTTimeIntervalFormatter alloc] init];
-        }
 
         // Initialization code
         self.originalOffsetX = 0.0f;
@@ -161,13 +153,11 @@ static TTTTimeIntervalFormatter *timeFormatter;
         self.personalvotecountleft = -1;
         self.personalvotecountright = -1;
         
-        self.timestamp = [[UILabel alloc] initWithFrame:CGRectMake(20, 14+2, 275-2, 28)];
-        [timestamp setTextAlignment:UITextAlignmentRight];
-        [timestamp setBackgroundColor:[UIColor clearColor]];
-        [timestamp setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
-        [timestamp setTextColor:[UIColor colorWithWhite:1.0 alpha:0.25]];
-        [self.contentView addSubview:timestamp];
-            
+        /*
+        UIImageView *commentballoon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"balloon@2x.png"]];
+        [commentballoon setFrame:CGRectMake(25+1, 25, 9.5, 10.5)];
+        [self.contentView addSubview:commentballoon];
+         */
     }
 
     return self;
@@ -189,7 +179,16 @@ static TTTTimeIntervalFormatter *timeFormatter;
             
             [VLMUtility likePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
                 if ( error ){
+                    NSLog(@"error. attempting to roll back");
                     // TBD: roll back to previous state (this means we should keep track of the last known state)
+                    NSNumber *ll = [[VLMCache sharedCache] likeCountForPollLeft:self.objPoll];
+                    NSNumber *rr = [[VLMCache sharedCache] likeCountForPollRight:self.objPoll];
+                    BOOL llv = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:self.objPoll];
+                    BOOL rrv = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:self.objPoll];
+                    int newpersonalcountleft = (llv) ? 1:0;
+                    int newpersonalcountright = (rrv) ? 1:0;
+                    [self setLeftCount:[ll intValue] andRightCount:[rr intValue]];
+                    [self setPersonalLeftCount:newpersonalcountleft andPersonalRightCount:newpersonalcountright];
                 }
             }];
         } else {
@@ -197,7 +196,16 @@ static TTTTimeIntervalFormatter *timeFormatter;
 
             [VLMUtility unlikePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
                 if ( error ){
+                    NSLog(@"error. attempting to roll back");
                     // TBD: roll back to previous state (this means we should keep track of the last known state)
+                    NSNumber *ll = [[VLMCache sharedCache] likeCountForPollLeft:self.objPoll];
+                    NSNumber *rr = [[VLMCache sharedCache] likeCountForPollRight:self.objPoll];
+                    BOOL llv = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:self.objPoll];
+                    BOOL rrv = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:self.objPoll];
+                    int newpersonalcountleft = (llv) ? 1:0;
+                    int newpersonalcountright = (rrv) ? 1:0;
+                    [self setLeftCount:[ll intValue] andRightCount:[rr intValue]];
+                    [self setPersonalLeftCount:newpersonalcountleft andPersonalRightCount:newpersonalcountright];
                 }
             }];
 

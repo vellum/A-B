@@ -114,6 +114,12 @@
                 [activity delete];
             }
         }
+        else {
+            NSLog(@"error here");
+            if ( completionBlock ) {
+                completionBlock(NO, error);
+            }
+        }
         
         // proceed to creating new like
         PFObject *likeActivity = [PFObject objectWithClassName:@"Activity"];
