@@ -16,7 +16,6 @@
 #import "AppDelegate.h"
 
 @interface VLMCell()
-@property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
 @end
 
 @implementation VLMCell
@@ -41,7 +40,6 @@
 @synthesize rightvotecount;
 @synthesize personalvotecountleft;
 @synthesize personalvotecountright;
-@synthesize outstandingQueries;
 @synthesize tv;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -58,7 +56,6 @@
         self.velocity = 0;
         self.leftvotecount = 0;
         self.rightvotecount = 0;
-        self.outstandingQueries = [NSMutableDictionary dictionary];        
         
         UIView *left = [[UIView alloc] initWithFrame:CGRectMake(20-5, 14, 286, 286)];
         left.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0];
@@ -164,6 +161,7 @@
     return self;
 }
 - (void)rollback{
+    if (!self.objPoll)return;
     NSNumber *ll = [[VLMCache sharedCache] likeCountForPollLeft:self.objPoll];
     NSNumber *rr = [[VLMCache sharedCache] likeCountForPollRight:self.objPoll];
     BOOL llv = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:self.objPoll];
@@ -177,6 +175,8 @@
 -(void)buttonTapped:(id)sender{
     
     if ( ![PFUser currentUser] ) return;
+    if (!self.objPoll)return;
+
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     BOOL isParseReachable = [del isParseReachable];
 
