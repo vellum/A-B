@@ -247,7 +247,7 @@
 
             }
         }
-        self.votecountlabelRig gi ht.text = [NSString stringWithFormat: @"%d vote%@", rightvotecount, rightvotecount != 1 ? @"s" : @""];
+        self.votecountlabelRight.text = [NSString stringWithFormat: @"%d vote%@", rightvotecount, rightvotecount != 1 ? @"s" : @""];
 
         NSLog(@"%d", self.rightvotecount);
     }
