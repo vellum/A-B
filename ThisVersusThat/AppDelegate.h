@@ -15,6 +15,8 @@
 - (void)subscribeFinished:(NSNumber *)result error:(NSError *)error;
 - (void)showHUD:(NSString *)text animated:(BOOL)animated;
 - (void)showHUD:(NSString *)text;
+- (void)showHUDPosting;
+- (void)hideHUDPosting;
 - (void)updateHUD:(NSString *)text;
 - (void)hideHUD;
 @end

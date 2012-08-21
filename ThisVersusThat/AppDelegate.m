@@ -14,6 +14,7 @@
 
 @interface AppDelegate()
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) MBProgressHUD *hudp;
 @property (nonatomic, strong) UIView *hudlayer;
 @end
 
@@ -22,6 +23,7 @@
 @synthesize window=_window;
 @synthesize mainViewController;
 @synthesize hud;
+@synthesize hudp;
 @synthesize hudlayer;
 
 #pragma mark -
@@ -289,9 +291,26 @@
     [hud show:animated];
     [self.hud setLabelText:text];
     [self.hud setDimBackground:YES];
-    
 }
+- (void)showHUDPosting{
+    if ( !self.hudp ){
+        
+        hudp = [MBProgressHUD showHUDAddedTo:hudlayer animated:YES];
+        hudp.square = YES;
+        
+    }   
+    
+    [hudp show:YES];
+    [self.hud setLabelText:@""];
+    [self.hud setDimBackground:NO];
+}
+- (void)hideHUDPosting{
+    if ( self.hudp ){
+        [self.hudp hide:YES];
+        
+        [mainViewController refreshfeed];
+    }
 
-
+}
 
 @end

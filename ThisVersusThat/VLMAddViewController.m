@@ -576,13 +576,13 @@
     }];
 
     AppDelegate *ad =  (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [ad showHUD:@"posting..."];
+    [ad showHUDPosting];
     
     [poll saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded){
             
             NSLog(@"Poll uploaded");
-            [ad hideHUD];
+            [ad hideHUDPosting];
             //
             
             
@@ -590,7 +590,7 @@
             NSLog(@"Poll failed to save: %@", error);
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't post your poll" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
             [alert show];
-            [ad hideHUD];
+            [ad hideHUDPosting];
         }
         [[UIApplication sharedApplication] endBackgroundTask:self.pollPostBackgroundTaskId];
     }];
