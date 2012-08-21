@@ -19,4 +19,6 @@
 - (void)hideHUDPosting;
 - (void)updateHUD:(NSString *)text;
 - (void)hideHUD;
+
+- (BOOL)isParseReachable;
 @end

@@ -29,6 +29,7 @@
 		BD19859215D60EFE00AE9590 /* 3lines.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19859015D60EFE00AE9590 /* 3lines.png */; };
 		BD19FDCC15D9F3A60083E65D /* ActivityNavButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD19FDCB15D9F3A60083E65D /* ActivityNavButton.m */; };
 		BD19FDD315DA1D3D0083E65D /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD19FDD215DA1D3D0083E65D /* TTTTimeIntervalFormatter.m */; };
+		BD3C1D2B15E4309D001EF030 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3C1D2A15E4309D001EF030 /* Reachability.m */; };
 		BD48B60715C1B5060019C3A2 /* photo_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = BD48B60615C1B5060019C3A2 /* photo_placeholder.png */; };
 		BD4D507B15BDE19C007D6E3A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D506015BDE19C007D6E3A /* AppDelegate.m */; };
 		BD4D507C15BDE19C007D6E3A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BD4D506115BDE19C007D6E3A /* InfoPlist.strings */; };
@@ -106,6 +107,8 @@
 		BD19FDCB15D9F3A60083E65D /* ActivityNavButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityNavButton.m; sourceTree = "<group>"; };
 		BD19FDD115DA1D3D0083E65D /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTTimeIntervalFormatter.h; path = ThisVersusThat/TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
 		BD19FDD215DA1D3D0083E65D /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTTimeIntervalFormatter.m; path = ThisVersusThat/TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
+		BD3C1D2915E4309D001EF030 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		BD3C1D2A15E4309D001EF030 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		BD48B60615C1B5060019C3A2 /* photo_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_placeholder.png; sourceTree = "<group>"; };
 		BD4D505F15BDE19C007D6E3A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BD4D506015BDE19C007D6E3A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -255,6 +258,16 @@
 			);
 			name = MBProgressHUD;
 			path = ThisVersusThat/MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		BD3C1D2815E4309D001EF030 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				BD3C1D2915E4309D001EF030 /* Reachability.h */,
+				BD3C1D2A15E4309D001EF030 /* Reachability.m */,
+			);
+			name = Reachability;
+			path = ThisVersusThat/Reachability;
 			sourceTree = "<group>";
 		};
 		BD4D505E15BDE19C007D6E3A /* ThisVersusThat */ = {
@@ -420,6 +433,7 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BD3C1D2815E4309D001EF030 /* Reachability */,
 				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
 				BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */,
 				BD01955C15CADE1B00D58D19 /* MBProgressHUD */,
@@ -592,6 +606,7 @@
 				BD5E12F015E028F8004D557E /* VotesViewController.m in Sources */,
 				BD92EF4815E04D5700FAC490 /* FollowerController.m in Sources */,
 				BD92EF5015E061D900FAC490 /* FollowCell.m in Sources */,
+				BD3C1D2B15E4309D001EF030 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

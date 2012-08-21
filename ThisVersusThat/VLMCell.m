@@ -13,6 +13,7 @@
 #import "Parse/Parse.h"
 #import "VLMUtility.h"
 #import "VLMFeedTableViewController.h"
+#import "AppDelegate.h"
 
 @interface VLMCell()
 @property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
@@ -162,10 +163,22 @@
 
     return self;
 }
+- (void)rollback{
+    NSNumber *ll = [[VLMCache sharedCache] likeCountForPollLeft:self.objPoll];
+    NSNumber *rr = [[VLMCache sharedCache] likeCountForPollRight:self.objPoll];
+    BOOL llv = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:self.objPoll];
+    BOOL rrv = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:self.objPoll];
+    int newpersonalcountleft = (llv) ? 1:0;
+    int newpersonalcountright = (rrv) ? 1:0;
+    [self setLeftCount:[ll intValue] andRightCount:[rr intValue]];
+    [self setPersonalLeftCount:newpersonalcountleft andPersonalRightCount:newpersonalcountright];
 
+}
 -(void)buttonTapped:(id)sender{
     
     if ( ![PFUser currentUser] ) return;
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    BOOL isParseReachable = [del isParseReachable];
 
     if ( sender == self.leftcheck ){
         NSLog(@"left");
@@ -176,38 +189,29 @@
 
         if ( self.leftcheck.selected ){
             self.leftvotecount++;
-            
-            [VLMUtility likePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
-                if ( error ){
-                    NSLog(@"error. attempting to roll back");
-                    // TBD: roll back to previous state (this means we should keep track of the last known state)
-                    NSNumber *ll = [[VLMCache sharedCache] likeCountForPollLeft:self.objPoll];
-                    NSNumber *rr = [[VLMCache sharedCache] likeCountForPollRight:self.objPoll];
-                    BOOL llv = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:self.objPoll];
-                    BOOL rrv = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:self.objPoll];
-                    int newpersonalcountleft = (llv) ? 1:0;
-                    int newpersonalcountright = (rrv) ? 1:0;
-                    [self setLeftCount:[ll intValue] andRightCount:[rr intValue]];
-                    [self setPersonalLeftCount:newpersonalcountleft andPersonalRightCount:newpersonalcountright];
-                }
-            }];
+            if ( isParseReachable ){
+                
+                [VLMUtility likePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
+                    if ( error ){
+                        NSLog(@"error. attempting to roll back");
+                        // TBD: roll back to previous state (this means we should keep track of the last known state)
+                        [self rollback];
+                    }
+                }];
+            }
         } else {
             self.leftvotecount--;
+            if ( isParseReachable ){
 
-            [VLMUtility unlikePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
-                if ( error ){
-                    NSLog(@"error. attempting to roll back");
-                    // TBD: roll back to previous state (this means we should keep track of the last known state)
-                    NSNumber *ll = [[VLMCache sharedCache] likeCountForPollLeft:self.objPoll];
-                    NSNumber *rr = [[VLMCache sharedCache] likeCountForPollRight:self.objPoll];
-                    BOOL llv = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:self.objPoll];
-                    BOOL rrv = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:self.objPoll];
-                    int newpersonalcountleft = (llv) ? 1:0;
-                    int newpersonalcountright = (rrv) ? 1:0;
-                    [self setLeftCount:[ll intValue] andRightCount:[rr intValue]];
-                    [self setPersonalLeftCount:newpersonalcountleft andPersonalRightCount:newpersonalcountright];
-                }
-            }];
+                [VLMUtility unlikePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
+                    if ( error ){
+                        NSLog(@"error. attempting to roll back");
+                        // TBD: roll back to previous state (this means we should keep track of the last known state)
+                        [self rollback];
+                    }
+                }];
+                
+            }
 
         }
         self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d vote%@", leftvotecount, leftvotecount != 1 ? @"s" : @""];
@@ -222,24 +226,35 @@
         if ( self.rightcheck.selected ){
             self.rightvotecount++;
             
-            [VLMUtility likePhotoInBackground:photoRight forPoll:self.objPoll isLeft:NO block:^(BOOL succeeded, NSError *error){
-                if ( error ){
-                    // TBD: roll back to previous state (this means we should keep track of the last known state)
-                }
-            }];
+            if ( isParseReachable ){
+                [VLMUtility likePhotoInBackground:photoRight forPoll:self.objPoll isLeft:NO block:^(BOOL succeeded, NSError *error){
+                    if ( error ){
+                        // TBD: roll back to previous state (this means we should keep track of the last known state)
+                        [self rollback];
+                    }
+                }];
+            }
 
         } else {
             self.rightvotecount--;
-            [VLMUtility unlikePhotoInBackground:photoRight forPoll:self.objPoll isLeft:NO block:^(BOOL succeeded, NSError *error){
-                if ( error ){
-                    // TBD: roll back to previous state (this means we should keep track of the last known state)
-                }
-            }];
-            
+            if ( isParseReachable ){
+                [VLMUtility unlikePhotoInBackground:photoRight forPoll:self.objPoll isLeft:NO block:^(BOOL succeeded, NSError *error){
+                    if ( error ){
+                        // TBD: roll back to previous state (this means we should keep track of the last known state)
+                        [self rollback];
+                    }
+                }];
+
+            }
         }
-        self.votecountlabelRight.text = [NSString stringWithFormat: @"%d vote%@", rightvotecount, rightvotecount != 1 ? @"s" : @""];
+        self.votecountlabelRig gi ht.text = [NSString stringWithFormat: @"%d vote%@", rightvotecount, rightvotecount != 1 ? @"s" : @""];
 
         NSLog(@"%d", self.rightvotecount);
+    }
+    
+
+    if ( !isParseReachable ){
+        [self performSelector:@selector(rollback) withObject:self afterDelay:1.0f];
     }
     
 }
