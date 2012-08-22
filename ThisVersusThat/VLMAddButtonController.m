@@ -41,6 +41,7 @@
     [self.view setAutoresizesSubviews:NO];
 
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
+    /*
     CGFloat BUTTON_WIDTH = 55;
     CGFloat BUTTON_HEIGHT = 55;
     CGFloat MARGIN_BOTTOM = 6;
@@ -68,8 +69,17 @@
     [self.view setFrame:CGRectMake(MARGIN_LEFT, winh-BUTTON_HEIGHT-STATUSBAR_HEIGHT-MARGIN_BOTTOM, BUTTON_WIDTH, BUTTON_HEIGHT)];
     [self.view addSubview:circle];
     [self.view addSubview:fb];
-
+    */
+    CGFloat BUTTON_WIDTH = 59;
+    CGFloat BUTTON_HEIGHT = 59;
+    CGFloat MARGIN_BOTTOM = 6;
+    CGFloat MARGIN_LEFT = 7;
+    [self.view setFrame:CGRectMake(MARGIN_LEFT, winh-BUTTON_HEIGHT-STATUSBAR_HEIGHT-MARGIN_BOTTOM, BUTTON_WIDTH, BUTTON_HEIGHT)];
+    self.button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT)];
+    [self.button setBackgroundImage:[UIImage imageNamed:@"plus.png"] forState:UIControlStateNormal];
+    [self.button setShowsTouchWhenHighlighted:YES];
     [self.button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.button];
     [self show];
     //[self hide];
 }
