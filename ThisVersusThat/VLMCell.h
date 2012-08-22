@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
+
 @class VLMFeedTableViewController;
+@protocol VLMPopModalDelegate;
+
 
 @interface VLMCell : PFTableViewCell{
     UIView *containerView;
@@ -34,6 +37,8 @@
     
     int personalvotecountleft;
     int personalvotecountright;
+    
+    id <VLMPopModalDelegate> delegate;
 }
 
 @property (strong, nonatomic) UIView *containerView;
@@ -57,7 +62,7 @@
 @property (nonatomic) int rightvotecount;
 @property (nonatomic) int personalvotecountleft;
 @property (nonatomic) int personalvotecountright;
-
+@property (nonatomic, strong) id<VLMPopModalDelegate> delegate;
 
 - (void)translateByX: (CGFloat) offsetval withVelocity: (CGFloat) velocityval;
 - (void)resetAnimated:(BOOL)anim;

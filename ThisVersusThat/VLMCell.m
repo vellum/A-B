@@ -14,10 +14,12 @@
 #import "VLMUtility.h"
 #import "VLMFeedTableViewController.h"
 #import "AppDelegate.h"
+#import "VLMPopModalDelegate.h"
 
 @interface VLMCell()
 @property (nonatomic, strong) UIView *commentholder;
 @property (nonatomic, strong) UILabel *commentcountlabel;
+@property (nonatomic, strong) UIButton *commentbutton;
 @end
 
 @implementation VLMCell
@@ -46,6 +48,8 @@
 
 @synthesize commentholder;
 @synthesize commentcountlabel;
+@synthesize commentbutton;
+@synthesize delegate;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -159,6 +163,7 @@
         self.commentholder = [[UIView alloc] initWithFrame:CGRectMake(15, 286+15+7, 55.0f, 28.0f)];
         //[commentholder setBackgroundColor:[UIColor colorWithRed:139.0f/255.0f green:197.0f/255.0f blue:62.0f/255.0f alpha:1.0f]];
         [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
+        //[commentholder.layer setCornerRadius:2.0f];
         [self.contentView addSubview:commentholder];
         
         UIImageView *commentballoon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"balloon@2x.png"]];
@@ -173,6 +178,15 @@
         [self.commentcountlabel setBackgroundColor:[UIColor clearColor]];
         [self.commentcountlabel setText:@"0"];
         [commentholder addSubview:commentcountlabel];
+        
+        self.commentbutton = [[UIButton alloc] initWithFrame:commentholder.frame];
+        [commentbutton.layer setCornerRadius:3.0f];
+        [commentbutton.layer setMasksToBounds:YES];
+        [self.commentbutton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+        [self.commentbutton setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
+        [self.contentView addSubview:commentbutton];
+        
+        [self.commentbutton addTarget:self action:@selector(commentbuttonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
     }
 
@@ -551,10 +565,11 @@
     if ( self.leftcheck.selected || self.rightcheck.selected ){
         if ( isCommentedByCurrentUser ){
             s = [NSString stringWithFormat:@"%d",val];
+            [commentholder setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
         } else {
             s = [NSString stringWithFormat:@"%d / tell us why",val];
+            [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
         }
-        [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
         
     } else {
         s = [NSString stringWithFormat:@"%d",val];
@@ -572,6 +587,15 @@
     if ( measuredwidth < 45 ) measuredwidth = 45;
     [self.commentholder setAutoresizesSubviews:NO];
     [self.commentholder setFrame:CGRectMake(15 + 286 - measuredwidth, f.origin.y, measuredwidth, f.size.height)];
+    [self.commentbutton setFrame:CGRectMake(commentholder.frame.origin.x-3, commentholder.frame.origin.y-3, commentholder.frame.size.width+6, commentholder.frame.size.height+6)];
+}
+
+- (void)commentbuttonTapped:(id)sender {
+
+    if ( self.delegate && self.objPoll ) {
+        [delegate popPollDetailAndScrollToComments:self.objPoll];
+    }
+
 }
 
 @end

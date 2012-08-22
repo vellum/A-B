@@ -12,4 +12,5 @@
 @protocol VLMTapDelegate <NSObject>
 - (void)didTapPoll:(PFObject *)poll;
 - (void)didTapUser:(PFObject *)user;
+- (void)didTapPollAndComment:(PFObject *)poll;
 @end

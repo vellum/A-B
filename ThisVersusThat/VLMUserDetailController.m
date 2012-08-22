@@ -477,6 +477,7 @@
 	// if no cell is available create a new one
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
+        [cell setDelegate:self];
 	} else {
         //[cell setInitialPage:YES];
     }
@@ -918,6 +919,18 @@
 
 - (void)didTap:(id)sender{
     [self loadNextPage];
+}
+
+
+#pragma mark - VLMPopModalDelegate
+
+- (void)popPollDetail:(PFObject *)poll{}
+- (void)popUserDetail:(PFUser *)user{}
+- (void)popPollDetailAndScrollToComments:(PFObject *)poll{
+    if (!poll) return;
+    VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll isRoot:NO];
+    [polldetail scrollToComments];
+    [self.navigationController pushViewController:polldetail animated:YES];
 }
 
 @end

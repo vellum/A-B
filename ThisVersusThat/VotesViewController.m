@@ -299,6 +299,7 @@
 	// if no cell is available create a new one
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
+        [cell setDelegate:self];
 	} else {
         //[cell setInitialPage:YES];
     }
@@ -323,8 +324,10 @@
         BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
         BOOL isVotedByCurrentUser = [[VLMCache sharedCache] isPollCommentedByCurrentUser:poll];
         NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
+
         [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
         [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isVotedByCurrentUser];  
+        
         [cell setContentVisible:YES];
 
         
@@ -401,10 +404,16 @@
                             
                             NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
                             NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
+                            BOOL isVotedByCurrentUser = [[VLMCache sharedCache] isPollCommentedByCurrentUser:poll];
+                            NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
                             
                             [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
                             [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
+                            [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isVotedByCurrentUser];  
                             [cell setContentVisible:YES];
+
+                            
+                            
 
                             
                         }//end if (!error)
@@ -675,6 +684,18 @@
 
 - (void)didTap:(id)sender{
     [self loadNextPage];
+}
+
+
+#pragma mark - VLMPopModalDelegate
+
+- (void)popPollDetail:(PFObject *)poll{}
+- (void)popUserDetail:(PFUser *)user{}
+- (void)popPollDetailAndScrollToComments:(PFObject *)poll{
+    if (!poll) return;
+    VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll isRoot:NO];
+    [polldetail scrollToComments];
+    [self.navigationController pushViewController:polldetail animated:YES];
 }
 
 @end

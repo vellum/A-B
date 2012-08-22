@@ -30,6 +30,7 @@
 		BD19FDCC15D9F3A60083E65D /* ActivityNavButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD19FDCB15D9F3A60083E65D /* ActivityNavButton.m */; };
 		BD19FDD315DA1D3D0083E65D /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD19FDD215DA1D3D0083E65D /* TTTTimeIntervalFormatter.m */; };
 		BD3C1D2B15E4309D001EF030 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3C1D2A15E4309D001EF030 /* Reachability.m */; };
+		BD3C1D2D15E47172001EF030 /* clear50.png in Resources */ = {isa = PBXBuildFile; fileRef = BD3C1D2C15E47172001EF030 /* clear50.png */; };
 		BD48B60715C1B5060019C3A2 /* photo_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = BD48B60615C1B5060019C3A2 /* photo_placeholder.png */; };
 		BD4D507B15BDE19C007D6E3A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D506015BDE19C007D6E3A /* AppDelegate.m */; };
 		BD4D507C15BDE19C007D6E3A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BD4D506115BDE19C007D6E3A /* InfoPlist.strings */; };
@@ -109,6 +110,7 @@
 		BD19FDD215DA1D3D0083E65D /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTTimeIntervalFormatter.m; path = ThisVersusThat/TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
 		BD3C1D2915E4309D001EF030 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		BD3C1D2A15E4309D001EF030 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		BD3C1D2C15E47172001EF030 /* clear50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear50.png; sourceTree = "<group>"; };
 		BD48B60615C1B5060019C3A2 /* photo_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_placeholder.png; sourceTree = "<group>"; };
 		BD4D505F15BDE19C007D6E3A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BD4D506015BDE19C007D6E3A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 				BD031C4615E345AF003A3F67 /* balloon.png */,
 				BD031C4715E345B0003A3F67 /* balloon@2x.png */,
 				BDCFED3415C3845D0089A77E /* clear.png */,
+				BD3C1D2C15E47172001EF030 /* clear50.png */,
 				BDAC93E715D2030F008B820F /* debuggrid.png */,
 				BD19857F15D5C9F400AE9590 /* facebook.png */,
 				BD19858015D5C9F400AE9590 /* facebook@2x.png */,
@@ -564,6 +567,7 @@
 				BD031C4515E32790003A3F67 /* 3lines@2x.png in Resources */,
 				BD031C4815E345B2003A3F67 /* balloon.png in Resources */,
 				BD031C4915E345B2003A3F67 /* balloon@2x.png in Resources */,
+				BD3C1D2D15E47172001EF030 /* clear50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

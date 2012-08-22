@@ -17,6 +17,7 @@
 #import "VLMFeedHeaderDelegate.h"
 #import "VLMTapDelegate.h"
 #import "VLMGenericTapDelegate.h"
+#import "VLMPopModalDelegate.h"
 
 @interface VLMFeedTableViewController()
 
@@ -49,6 +50,7 @@
 -(id) initWithHeader:(VLMFeedHeaderController *) headerController {
     self = [super initWithStyle:UITableViewStylePlain];
     if ( headerController ) {
+
         self.loadingViewEnabled = NO;
         
         self.headerViewController = headerController;
@@ -264,6 +266,7 @@
 	// if no cell is available create a new one
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
+        [cell setDelegate:self];
 	} 
     //[cell setInitialPage:YES];
     [cell resetCell];
@@ -585,9 +588,20 @@
     }
 }
 
-#pragma mark - VLMGenericTapDelegate
-- (void)didTap:(id)sender{
-    [self loadNextPage];
-}
+#pragma mark - VLMTapDelegate
+- (void)didTapPollAndComment:(PFObject *)poll{}
 
+
+#pragma mark - VLMPopModalDelegate
+
+- (void)popPollDetail:(PFObject *)poll{}
+- (void)popUserDetail:(PFUser *)user{}
+- (void)popPollDetailAndScrollToComments:(PFObject *)poll{
+
+    if ( !delegate || !poll ) return;
+    
+    if ( [delegate respondsToSelector:@selector(didTapPollAndComment:)] ){
+        [delegate didTapPollAndComment:poll];
+    }
+}
 @end

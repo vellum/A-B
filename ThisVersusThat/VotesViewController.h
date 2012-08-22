@@ -10,8 +10,9 @@
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
 #import "VLMGenericTapDelegate.h"
+#import "VLMPopModalDelegate.h"
 
-@interface VotesViewController : PFQueryTableViewController<VLMFeedHeaderDelegate, UIGestureRecognizerDelegate, VLMGenericTapDelegate>{
+@interface VotesViewController : PFQueryTableViewController<VLMFeedHeaderDelegate, UIGestureRecognizerDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
     PFUser *user;
 }
 

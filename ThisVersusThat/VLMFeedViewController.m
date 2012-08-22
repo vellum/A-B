@@ -10,6 +10,7 @@
 #import "VLMConstants.h"
 #import "VLMCell.h"
 #import "VLMMainViewController.h"
+#import "VLMTapDelegate.h"
 
 @interface VLMFeedViewController ()
 @property (nonatomic, strong) id <VLMGenericTapDelegate> tapdelegate;
@@ -267,6 +268,10 @@
         [tapdelegate didTap:self];
     }
 }
-
+- (void)didTapPollAndComment:(PFObject *)poll{
+    if ( !self.popDelegate ) return;
+    if ( !poll ) return;
+    [popDelegate popPollDetailAndScrollToComments:poll];
+}
 
 @end
