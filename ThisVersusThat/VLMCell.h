@@ -81,4 +81,5 @@
 - (void)setContentVisible:(BOOL)isVisible;
 
 - (void)setCommentCount:(int)val commentedByCurrentUser:(BOOL)isCommentedByCurrentUser;
+- (NSString *)pollID;
 @end

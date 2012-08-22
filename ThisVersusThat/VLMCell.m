@@ -555,6 +555,10 @@
     self.commentholder.hidden = !isVisible;
     if ( isVisible ) [self setNeedsDisplay];
 }
+- (NSString *)pollID{
+    if ( !self.objPoll ) return nil;
+    return [objPoll objectId];
+}
 
 - (void)setCommentCount:(int)val commentedByCurrentUser:(BOOL)isCommentedByCurrentUser{
     
@@ -589,7 +593,7 @@
     //if ( measuredwidth < 45 ) measuredwidth = 45;
     [self.commentholder setAutoresizesSubviews:NO];
     [self.commentholder setFrame:CGRectMake(15 + 286 - measuredwidth, f.origin.y, measuredwidth, f.size.height)];
-    [self.commentbutton setFrame:CGRectMake(commentholder.frame.origin.x-3, commentholder.frame.origin.y-3, commentholder.frame.size.width+6, commentholder.frame.size.height+6)];
+    [self.commentbutton setFrame:CGRectMake(commentholder.frame.origin.x-4, commentholder.frame.origin.y-3, commentholder.frame.size.width+8, commentholder.frame.size.height+6)];
 }
 
 - (void)commentbuttonTapped:(id)sender {

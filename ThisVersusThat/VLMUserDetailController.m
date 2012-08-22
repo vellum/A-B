@@ -482,10 +482,9 @@
         //[cell setInitialPage:YES];
     }
     [cell resetCell];
-    
-    cell.contentView.hidden = NO;
-    [cell setContentVisible:NO];
     [cell setPoll:obj];
+    [cell setContentVisible:NO];
+    cell.contentView.hidden = NO;
     
     PFObject *poll = obj;
     PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
@@ -583,18 +582,20 @@
                             [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
                             
 
-                            
-                            NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
-                            NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
-                            
-                            [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
-                            [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
-                            NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
-                            [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isCommentedByCurrentUser];
-                            
+                            // when fast scrolling, the current (presumably recycled) cell will fall out of sync
+                            // so only update content if the cell's poll matches the current one
+                            if ( [[poll objectId] isEqualToString:[cell pollID]] ){
 
-                            [cell setContentVisible:YES];
+                                NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
+                                NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
+                                
+                                [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
+                                [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
+                                NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
+                                [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isCommentedByCurrentUser];
 
+                                [cell setContentVisible:YES];
+                            }
                             
                         }//end if (!error)
                         
