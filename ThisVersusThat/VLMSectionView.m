@@ -215,6 +215,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
 //    [timestamp setText:];
 }
 
+
 - (void)showUserHitState:(id)sender{
     NSLog(@"hit");
     self.profilehitview.hidden = NO;

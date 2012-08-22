@@ -180,7 +180,7 @@
         [commentholder addSubview:commentcountlabel];
         
         self.commentbutton = [[UIButton alloc] initWithFrame:commentholder.frame];
-        [commentbutton.layer setCornerRadius:3.0f];
+        [commentbutton.layer setCornerRadius:2.0f];
         [commentbutton.layer setMasksToBounds:YES];
         [self.commentbutton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
         [self.commentbutton setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
@@ -571,7 +571,7 @@
             s = [NSString stringWithFormat:@"%d  \u2192",val];
             [commentholder setBackgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]];
         } else {
-            s = [NSString stringWithFormat:@"%d  say why  \u2192",val];
+            s = [NSString stringWithFormat:@"%d    say why  \u2192",val];
             [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
             //[commentholder setBackgroundColor:[UIColor colorWithRed:139.0f/255.0f green:197.0f/255.0f blue:62.0f/255.0f alpha:1.0f]];
 
@@ -593,7 +593,7 @@
     //if ( measuredwidth < 45 ) measuredwidth = 45;
     [self.commentholder setAutoresizesSubviews:NO];
     [self.commentholder setFrame:CGRectMake(15 + 286 - measuredwidth, f.origin.y, measuredwidth, f.size.height)];
-    [self.commentbutton setFrame:CGRectMake(commentholder.frame.origin.x-4, commentholder.frame.origin.y-3, commentholder.frame.size.width+8, commentholder.frame.size.height+6)];
+    [self.commentbutton setFrame:CGRectMake(commentholder.frame.origin.x-3, commentholder.frame.origin.y-3, commentholder.frame.size.width+6, commentholder.frame.size.height+6)];
 }
 
 - (void)commentbuttonTapped:(id)sender {

@@ -408,6 +408,8 @@
             [nada setBackgroundColor:[UIColor clearColor]];
             [nada setTextColor:TEXT_COLOR];
             [nada setText:@"No comments yet."];
+            
+            
             [cell.contentView addSubview:nada];
         }
         return cell;
@@ -420,6 +422,10 @@
     if ( cell == nil ){
         cell = [[VLMCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CommentIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //UIView *BG = [[UIView alloc] initWithFrame:CGRectZero];
+        //[BG setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.2f]];
+        //[cell setSelectedBackgroundView:BG];
+
     }
     PFObject *row = [self objectAtIndex:indexPath];
     PFUser *u = [row objectForKey:@"FromUser"];
@@ -549,11 +555,15 @@
             }];
              */
             
-            UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(left.frame.origin.x+cx, left.frame.origin.y + cy, 25, 25)];
+            UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(left.frame.origin.x+cx-3, left.frame.origin.y + cy - 3, 25 + 6, 25 + 6)];
             [clearbutton setBackgroundColor:[UIColor clearColor]];
+            [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+            [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
             [clearbutton setTag:i];
             [clearbutton addTarget:self action:@selector(handleTapLikerL:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:clearbutton];
+            [clearbutton.layer setCornerRadius:2.0f];
+            [clearbutton.layer setMasksToBounds:YES];
             
             cx += 30;
             if ( cx > wwww ){
@@ -604,11 +614,15 @@
             PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(cx, cy, 25, 25)];
             [iv setBackgroundColor:[UIColor lightGrayColor]];
             [right addSubview:iv];
-            UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(right.frame.origin.x+cx, right.frame.origin.y + cy, 25, 25)];
+            UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(right.frame.origin.x+cx-3, right.frame.origin.y + cy-3, 25 + 6, 25 + 6)];
             [clearbutton setBackgroundColor:[UIColor clearColor]];
+            [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+            [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
             [clearbutton setTag:i];
             [clearbutton addTarget:self action:@selector(handleTapLikerR:) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:clearbutton];
+            [clearbutton.layer setCornerRadius:2.0f];
+            [clearbutton.layer setMasksToBounds:YES];
 
             PFUser *u = [likersR objectAtIndex:i];
             [u fetchIfNeeded];

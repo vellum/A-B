@@ -226,23 +226,31 @@
     [head addSubview:self.numFollowersLabel];
 
     UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(col1.frame.origin.x, col1.frame.origin.y, col1.frame.size.width, 14*4)];
+    [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+    [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
     //[clearbutton setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [clearbutton addTarget:self action:@selector(profilePollsTapped:) forControlEvents:UIControlEventTouchUpInside];
     [head addSubview:clearbutton];
     
 
     UIButton *clearbutton2 = [[UIButton alloc] initWithFrame:CGRectMake(col2.frame.origin.x, col2.frame.origin.y, col2.frame.size.width, 14*4)];
+    [clearbutton2 setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+    [clearbutton2 setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
     //[clearbutton2 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [clearbutton2 addTarget:self action:@selector(profileVotesTapped:) forControlEvents:UIControlEventTouchUpInside];
     [head addSubview:clearbutton2];
     
     UIButton *clearbutton3 = [[UIButton alloc] initWithFrame:CGRectMake(col3.frame.origin.x, col3.frame.origin.y, col3.frame.size.width, 14*4)];
+    [clearbutton3 setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+    [clearbutton3 setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
     //[clearbutton3 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [clearbutton3 addTarget:self action:@selector(profileFollowingTapped:) forControlEvents:UIControlEventTouchUpInside];
 
     [head addSubview:clearbutton3];
 
     UIButton *clearbutton4 = [[UIButton alloc] initWithFrame:CGRectMake(col4.frame.origin.x, col4.frame.origin.y, col4.frame.size.width, 14*4)];
+    [clearbutton4 setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+    [clearbutton4 setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
     //[clearbutton4 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [clearbutton4 addTarget:self action:@selector(profileFollowersTapped:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -478,6 +486,10 @@
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
         [cell setDelegate:self];
+        
+        UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
+        [bg setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
+        [cell setSelectedBackgroundView:bg];
 	} else {
         //[cell setInitialPage:YES];
     }
