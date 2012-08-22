@@ -75,6 +75,8 @@
 		BDCBDC8315E4A7C000608D76 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCBDC8115E4A7C000608D76 /* plus@2x.png */; };
 		BDCFED3515C3845D0089A77E /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCFED3415C3845D0089A77E /* clear.png */; };
 		BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD0F8C915CB723A00ACAB23 /* VLMCache.m */; };
+		BDE469CD15E4D04800DFF0CC /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CB15E4D04800DFF0CC /* triangle.png */; };
+		BDE469CE15E4D04800DFF0CC /* triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CC15E4D04800DFF0CC /* triangle@2x.png */; };
 		BDEB7A1615D09D51003BC4E3 /* LoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */; };
 		BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */; };
 		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
@@ -188,6 +190,8 @@
 		BDCFED3415C3845D0089A77E /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear.png; sourceTree = "<group>"; };
 		BDD0F8C815CB723900ACAB23 /* VLMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMCache.h; sourceTree = "<group>"; };
 		BDD0F8C915CB723A00ACAB23 /* VLMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCache.m; sourceTree = "<group>"; };
+		BDE469CB15E4D04800DFF0CC /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
+		BDE469CC15E4D04800DFF0CC /* triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle@2x.png"; sourceTree = "<group>"; };
 		BDEB7A1415D09D51003BC4E3 /* LoadMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreCell.h; sourceTree = "<group>"; };
 		BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreCell.m; sourceTree = "<group>"; };
 		BDEB7A1E15D0F222003BC4E3 /* UIViewController+Transitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Transitions.h"; path = "ThisVersusThat/UIViewController+Transitions.h"; sourceTree = "<group>"; };
@@ -403,6 +407,8 @@
 				BD7998E015D654670070D759 /* skewed_print.png */,
 				BD90FFF115BE7B6D004621E8 /* subtlenet.png */,
 				BD84D24315DDF85700F8D007 /* subtlenet@2X.png */,
+				BDE469CB15E4D04800DFF0CC /* triangle.png */,
+				BDE469CC15E4D04800DFF0CC /* triangle@2x.png */,
 				BDFE7FD815D4B00B00D577E2 /* vote_button_disabled@2x.png */,
 				BDFE7FD915D4B00B00D577E2 /* vote_button_disabled.png */,
 				BD8891DB15C0605400C1615C /* vote_button_normal.png */,
@@ -576,6 +582,8 @@
 				BD3C1D2D15E47172001EF030 /* clear50.png in Resources */,
 				BDCBDC8215E4A7C000608D76 /* plus.png in Resources */,
 				BDCBDC8315E4A7C000608D76 /* plus@2x.png in Resources */,
+				BDE469CD15E4D04800DFF0CC /* triangle.png in Resources */,
+				BDE469CE15E4D04800DFF0CC /* triangle@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
