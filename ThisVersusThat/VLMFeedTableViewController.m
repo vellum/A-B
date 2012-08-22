@@ -268,20 +268,19 @@
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
         [cell setDelegate:self];
 	} 
-    //[cell setInitialPage:YES];
-    [cell resetCell];
     cell.contentView.hidden = YES;
+    //[cell setInitialPage:YES];
 
     if ( self.objects.count > 0 ){
         if ( indexPath.section == 0 && indexPath.row == 0 ){
             return cell;
         } 
     }
-    
-    [cell setContentVisible:NO];
+    [cell resetCell];
     [cell setPoll:obj];
+    [cell setContentVisible:NO];
     cell.contentView.hidden = NO;
-
+ 
     PFObject *poll = obj;
     PFObject *photoLeft = [poll objectForKey:@"PhotoLeft"];
 
