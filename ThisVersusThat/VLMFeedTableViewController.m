@@ -74,8 +74,9 @@
         self.resultcount = 0;
 
         [self.view setAutoresizesSubviews:NO];        
-        //[self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
+        
         [self.view setBackgroundColor:[UIColor clearColor]];
+        //[self.view setBackgroundColor:DEBUG_BACKGROUND_GRID];
         [self updatelayout];
         
         
@@ -292,7 +293,10 @@
 
         BOOL isLikedByCurrentUserL = [[VLMCache sharedCache] isPollLikedByCurrentUserLeft:poll];
         BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
+        BOOL isVotedByCurrentUser = [[VLMCache sharedCache] isPollCommentedByCurrentUser:poll];
+        NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
         [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
+        [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isVotedByCurrentUser];
         [cell setContentVisible:YES];
         
         NSLog(@"comments: %d", [[[VLMCache sharedCache] commentCountForPoll:poll] intValue]);
@@ -322,6 +326,7 @@
                             NSMutableArray *comments = [NSMutableArray array];
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
+                            BOOL isCommentedByCurrentUser = NO;
                             
                             // loop through these mixed results
                             for (PFObject *activity in objects) {
@@ -358,11 +363,15 @@
                                 } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
                                     NSLog(@"adding a comment");
                                     [comments addObject:activity];
+                                    
+                                    if ( [userID isEqualToString:cur] ){
+                                        isCommentedByCurrentUser = YES;
+                                    }
                                 }
                             }
                             
                             
-                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
                             
                             NSNumber *leftcount = [[VLMCache sharedCache] likeCountForPollLeft:poll];
                             NSNumber *rightcount = [[VLMCache sharedCache] likeCountForPollRight:poll];
@@ -370,6 +379,9 @@
                             [cell setLeftCount:[leftcount integerValue] andRightCount:[rightcount integerValue]];
 
                             [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
+                            
+                            NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
+                            [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isCommentedByCurrentUser];
 
                             [cell setContentVisible:YES];
 
@@ -412,7 +424,7 @@
     }
     
     // otherwise, row heights are fixed
-    return 321.0f + 0;
+    return 321.0f + 28 + 14;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {

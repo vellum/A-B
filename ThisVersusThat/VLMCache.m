@@ -60,17 +60,19 @@
     [self.cache removeAllObjects];
 }
 
-- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight{
+- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight isCommentedByCurrentUser:(BOOL)isCommentedByCurrentUser{
     
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSNumber numberWithBool:likedByCurrentUserLeft], @"LikedByCurrentUserLeft",
                                 [NSNumber numberWithBool:likedByCurrentUserRight], @"LikedByCurrentUserRight",
+                                [NSNumber numberWithBool:isCommentedByCurrentUser], @"CommentedByCurrentUser",
                                 [NSNumber numberWithInt:[likersLeft count]], @"LikerCountLeft",
                                 [NSNumber numberWithInt:[likersRight count]], @"LikerCountRight",
                                 likersLeft, @"LikersLeft",
                                 likersRight, @"LikersRight",
                                 [NSNumber numberWithInt:[commenters count]], @"CommenterCount",
                                 commenters, @"Commenters",
+                                
                                 nil];
     
     //NSLog(@"%d  %d", [likersLeft count], [likersRight count]);
@@ -122,6 +124,14 @@
     NSDictionary *attributes = [self attributesForPoll:poll];
     if (attributes) {
         return [[attributes objectForKey:@"LikedByCurrentUserRight"] boolValue];
+    }
+    
+    return NO;
+}
+- (BOOL)isPollCommentedByCurrentUser:(PFObject *)poll{
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [[attributes objectForKey:@"CommentedByCurrentUser"] boolValue];
     }
     
     return NO;

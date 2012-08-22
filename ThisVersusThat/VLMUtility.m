@@ -152,9 +152,10 @@
                         if ( !error ){
                             NSMutableArray *likersL = [NSMutableArray array];
                             NSMutableArray *likersR = [NSMutableArray array];
-                            NSMutableArray *commenters = [NSMutableArray array];
+                            NSMutableArray *comments = [NSMutableArray array];
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
+                            BOOL isCommentedByCurrentUser = NO;
                             
                             //NSLog(@"%d activities",[objects count]);
                             
@@ -193,12 +194,18 @@
                                     
                                     // test for comments    
                                 } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
+                                    NSLog(@"adding a comment");
+                                    [comments addObject:activity];
                                     
+                                    if ( [userID isEqualToString:cur] ){
+                                        isCommentedByCurrentUser = YES;
+                                    }
                                 }
+
                             }
                             
                             NSLog(@"[likersL: %d, likersR: %d]", likersL.count, likersR.count);
-                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
                         }
                         
                         
@@ -235,9 +242,10 @@
                         if ( !error ){
                             NSMutableArray *likersL = [NSMutableArray array];
                             NSMutableArray *likersR = [NSMutableArray array];
-                            NSMutableArray *commenters = [NSMutableArray array];
+                            NSMutableArray *comments = [NSMutableArray array];
                             BOOL isLikedByCurrentUserL = NO;
                             BOOL isLikedByCurrentUserR = NO;
+                            BOOL isCommentedByCurrentUser = NO;
                             
                             PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];
                             NSString *theleftphotoobjectid = [theleftphoto objectId];
@@ -280,12 +288,18 @@
                                     
                                     // test for comments    
                                 } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
+                                    NSLog(@"adding a comment");
+                                    [comments addObject:activity];
                                     
+                                    if ( [userID isEqualToString:cur] ){
+                                        isCommentedByCurrentUser = YES;
+                                    }
                                 }
+
                             }
                             
                             
-                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+                             [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
                         }
                         
                         

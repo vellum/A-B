@@ -144,9 +144,10 @@
                 if ( !error ){
                     NSMutableArray *alikersL = [NSMutableArray array];
                     NSMutableArray *alikersR = [NSMutableArray array];
-                    NSMutableArray *commenters = [NSMutableArray array];
+                    NSMutableArray *comments = [NSMutableArray array];
                     BOOL isLikedByCurrentUserL = NO;
                     BOOL isLikedByCurrentUserR = NO;
+                    BOOL isCommentedByCurrentUser = NO;
                     PFObject *photoLeft = [self.poll objectForKey:@"LeftPhoto"];
                     [photoLeft fetchIfNeeded];
                     NSLog(@"%@", photoLeft);
@@ -184,12 +185,18 @@
                             
                             // test for comments    
                         } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
+                            NSLog(@"adding a comment");
+                            [comments addObject:activity];
                             
+                            if ( [userID isEqualToString:cur] ){
+                                isCommentedByCurrentUser = YES;
+                            }
                         }
+
                     }
                     
                     
-                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:alikersL likersR:alikersR commenters:commenters isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR];
+                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
                     
                     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
                     cell.autoresizesSubviews = NO;

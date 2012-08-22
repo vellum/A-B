@@ -16,6 +16,8 @@
 #import "AppDelegate.h"
 
 @interface VLMCell()
+@property (nonatomic, strong) UIView *commentholder;
+@property (nonatomic, strong) UILabel *commentcountlabel;
 @end
 
 @implementation VLMCell
@@ -41,6 +43,9 @@
 @synthesize personalvotecountleft;
 @synthesize personalvotecountright;
 @synthesize tv;
+
+@synthesize commentholder;
+@synthesize commentcountlabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -150,12 +155,25 @@
         
         self.personalvotecountleft = -1;
         self.personalvotecountright = -1;
+
+        self.commentholder = [[UIView alloc] initWithFrame:CGRectMake(15, 286+15+7, 55.0f, 28.0f)];
+        //[commentholder setBackgroundColor:[UIColor colorWithRed:139.0f/255.0f green:197.0f/255.0f blue:62.0f/255.0f alpha:1.0f]];
+        [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
+        [self.contentView addSubview:commentholder];
         
-        /*
         UIImageView *commentballoon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"balloon@2x.png"]];
-        [commentballoon setFrame:CGRectMake(25+1, 25, 9.5, 10.5)];
-        [self.contentView addSubview:commentballoon];
-         */
+        [commentballoon setFrame:CGRectMake(10, commentholder.frame.size.height/2.0f - 5, 10, 11)];
+        [commentholder addSubview:commentballoon];
+        
+        //[commentholder.layer setCornerRadius:3.0f];
+
+        self.commentcountlabel = [[UILabel alloc] initWithFrame:CGRectMake(23, 0, 55-19, 28)];
+        [self.commentcountlabel setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
+        [self.commentcountlabel setTextColor:[UIColor whiteColor]];
+        [self.commentcountlabel setBackgroundColor:[UIColor clearColor]];
+        [self.commentcountlabel setText:@"0"];
+        [commentholder addSubview:commentcountlabel];
+
     }
 
     return self;
@@ -170,6 +188,7 @@
     int newpersonalcountright = (rrv) ? 1:0;
     [self setLeftCount:[ll intValue] andRightCount:[rr intValue]];
     [self setPersonalLeftCount:newpersonalcountleft andPersonalRightCount:newpersonalcountright];
+    [self updatecommentfield];
 
 }
 -(void)buttonTapped:(id)sender{
@@ -196,6 +215,8 @@
                         NSLog(@"error. attempting to roll back");
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
+                    } else {
+                        [self updatecommentfield];
                     }
                 }];
             }
@@ -208,6 +229,8 @@
                         NSLog(@"error. attempting to roll back");
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
+                    } else {
+                        [self updatecommentfield];
                     }
                 }];
                 
@@ -231,6 +254,8 @@
                     if ( error ){
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
+                    } else {
+                        [self updatecommentfield];
                     }
                 }];
             }
@@ -242,6 +267,8 @@
                     if ( error ){
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
+                    } else {
+                        [self updatecommentfield];
                     }
                 }];
 
@@ -257,6 +284,16 @@
         [self performSelector:@selector(rollback) withObject:self afterDelay:1.0f];
     }
     
+    
+    [self updatecommentfield];
+}
+
+- (void)updatecommentfield{
+    if (!self.objPoll) return;
+    int commentcount = [[[VLMCache sharedCache] commentCountForPoll:self.objPoll] intValue];
+    BOOL isvoted = [[VLMCache sharedCache] isPollCommentedByCurrentUser:self.objPoll];
+    
+    [self setCommentCount:commentcount commentedByCurrentUser:isvoted];
 }
 
 -(void)translateByX: (CGFloat) offsetval withVelocity:(CGFloat)velocityval{
@@ -501,8 +538,40 @@
     self.votecountlabelRight.hidden = !isVisible;
     self.leftcheck.hidden = !isVisible;
     self.rightcheck.hidden = !isVisible;
+    self.commentholder.hidden = !isVisible;
     if ( isVisible ) [self setNeedsDisplay];
 }
 
+- (void)setCommentCount:(int)val commentedByCurrentUser:(BOOL)isCommentedByCurrentUser{
+    
+    NSLog(@"setcommentcount: %d, %d", val, isCommentedByCurrentUser?1:0);
+    
+    CGRect f = self.commentcountlabel.frame;
+    NSString *s;
+    if ( self.leftcheck.selected || self.rightcheck.selected ){
+        if ( isCommentedByCurrentUser ){
+            s = [NSString stringWithFormat:@"%d",val];
+        } else {
+            s = [NSString stringWithFormat:@"%d / tell us why",val];
+        }
+        [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
+        
+    } else {
+        s = [NSString stringWithFormat:@"%d",val];
+        [commentholder setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
+    }
+        
+    [self.commentcountlabel setNumberOfLines:0];
+    [self.commentcountlabel setFrame:CGRectZero];
+    [self.commentcountlabel setText:s];
+    [self.commentcountlabel sizeToFit];
+    [self.commentcountlabel setFrame:CGRectMake(f.origin.x, f.origin.y, self.commentcountlabel.frame.size.width, f.size.height)];
+        
+    f = self.commentholder.frame;
+    CGFloat measuredwidth = 32 + commentcountlabel.frame.size.width;
+    if ( measuredwidth < 45 ) measuredwidth = 45;
+    [self.commentholder setAutoresizesSubviews:NO];
+    [self.commentholder setFrame:CGRectMake(15 + 286 - measuredwidth, f.origin.y, measuredwidth, f.size.height)];
+}
 
 @end
