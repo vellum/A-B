@@ -247,7 +247,7 @@
 // cell
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //NSLog(@"section: %d", indexPath.section);
+    ////NSLog(@"section: %d", indexPath.section);
     if ( indexPath.section >= [self.objects count] ){
         
         UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
@@ -302,7 +302,7 @@
         [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isVotedByCurrentUser];
         [cell setContentVisible:YES];
         
-        NSLog(@"comments: %d", [[[VLMCache sharedCache] commentCountForPoll:poll] intValue]);
+        //NSLog(@"comments: %d", [[[VLMCache sharedCache] commentCountForPoll:poll] intValue]);
 
 
     // if not, stuff query results in the cache
@@ -364,7 +364,7 @@
 
                                 // test for comments    
                                 } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
-                                    NSLog(@"adding a comment");
+                                    //NSLog(@"adding a comment");
                                     [comments addObject:activity];
                                     
                                     if ( [userID isEqualToString:cur] ){
@@ -508,7 +508,7 @@
     CGFloat tvOffsetY = HEADER_HEIGHT + headerOffsetY;
     if ( tvOffsetY != self.contentOffsetY )
     {
-        //NSLog(@"%f", tvOffsetY);
+        ////NSLog(@"%f", tvOffsetY);
         CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
         CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
         
@@ -568,9 +568,9 @@
 - (void)didTapPoll:(NSInteger)section{
     
     if ( delegate ){
-        //NSLog(@"tapped section: %d", section);
+        ////NSLog(@"tapped section: %d", section);
         PFObject *poll = [self.objects objectAtIndex:section];
-        //NSLog(@"tapped poll: %@", poll);
+        ////NSLog(@"tapped poll: %@", poll);
         if ( poll == nil ) return;
         //if ( [[VLMCache sharedCache] attributesForPoll:poll] == nil ) return;
 
@@ -587,6 +587,8 @@
         [delegate didTapUser:user];
     }
 }
+
+- (void)didTap:(id)sender{}
 
 #pragma mark - VLMTapDelegate
 - (void)didTapPollAndComment:(PFObject *)poll{}

@@ -170,7 +170,7 @@
         [commentballoon setFrame:CGRectMake(10, commentholder.frame.size.height/2.0f - 5, 10, 11)];
         [commentholder addSubview:commentballoon];
         
-        //[commentholder.layer setCornerRadius:3.0f];
+        [commentholder.layer setCornerRadius:3.0f];
 
         self.commentcountlabel = [[UILabel alloc] initWithFrame:CGRectMake(23, 0, 55-19, 28)];
         [self.commentcountlabel setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
@@ -214,7 +214,7 @@
     BOOL isParseReachable = [del isParseReachable];
 
     if ( sender == self.leftcheck ){
-        NSLog(@"left");
+        //NSLog(@"left");
         self.leftcheck.selected = !self.leftcheck.selected;
         self.rightcheck.enabled = !self.leftcheck.selected;
         
@@ -226,7 +226,7 @@
                 
                 [VLMUtility likePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
                     if ( error ){
-                        NSLog(@"error. attempting to roll back");
+                        //NSLog(@"error. attempting to roll back");
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
                     } else {
@@ -240,7 +240,7 @@
 
                 [VLMUtility unlikePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
                     if ( error ){
-                        NSLog(@"error. attempting to roll back");
+                        //NSLog(@"error. attempting to roll back");
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
                     } else {
@@ -254,7 +254,7 @@
         self.votecountlabelLeft.text = [NSString stringWithFormat: @"%d vote%@", leftvotecount, leftvotecount != 1 ? @"s" : @""];
         
     } else if ( sender == self.rightcheck ){
-        NSLog(@"right");
+        //NSLog(@"right");
         self.rightcheck.selected = !self.rightcheck.selected;
         self.leftcheck.enabled = !self.rightcheck.selected;
         
@@ -290,7 +290,7 @@
         }
         self.votecountlabelRight.text = [NSString stringWithFormat: @"%d vote%@", rightvotecount, rightvotecount != 1 ? @"s" : @""];
 
-        NSLog(@"%d", self.rightvotecount);
+        //NSLog(@"%d", self.rightvotecount);
     }
     
 
@@ -349,7 +349,7 @@
     
     // if we're panning turn off user input for this cell
     self.userInteractionEnabled = NO;
-    //NSLog(@"%f", val);
+    ////NSLog(@"%f", val);
 }
 
 -(void)resetAnimated:(BOOL)anim{
@@ -558,22 +558,24 @@
 
 - (void)setCommentCount:(int)val commentedByCurrentUser:(BOOL)isCommentedByCurrentUser{
     
-    NSLog(@"setcommentcount: %d, %d", val, isCommentedByCurrentUser?1:0);
+    //NSLog(@"setcommentcount: %d, %d", val, isCommentedByCurrentUser?1:0);
     
     CGRect f = self.commentcountlabel.frame;
     NSString *s;
     if ( self.leftcheck.selected || self.rightcheck.selected ){
         if ( isCommentedByCurrentUser ){
-            s = [NSString stringWithFormat:@"%d",val];
-            [commentholder setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
+            s = [NSString stringWithFormat:@"%d  \u2192",val];
+            [commentholder setBackgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]];
         } else {
-            s = [NSString stringWithFormat:@"%d / tell us why",val];
+            s = [NSString stringWithFormat:@"%d  say why  \u2192",val];
             [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
+            //[commentholder setBackgroundColor:[UIColor colorWithRed:139.0f/255.0f green:197.0f/255.0f blue:62.0f/255.0f alpha:1.0f]];
+
         }
         
     } else {
-        s = [NSString stringWithFormat:@"%d",val];
-        [commentholder setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
+        s = [NSString stringWithFormat:@"%d  \u2192",val];
+        [commentholder setBackgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]];
     }
         
     [self.commentcountlabel setNumberOfLines:0];
@@ -583,8 +585,8 @@
     [self.commentcountlabel setFrame:CGRectMake(f.origin.x, f.origin.y, self.commentcountlabel.frame.size.width, f.size.height)];
         
     f = self.commentholder.frame;
-    CGFloat measuredwidth = 32 + commentcountlabel.frame.size.width;
-    if ( measuredwidth < 45 ) measuredwidth = 45;
+    CGFloat measuredwidth = 32 + commentcountlabel.frame.size.width - 5;
+    //if ( measuredwidth < 45 ) measuredwidth = 45;
     [self.commentholder setAutoresizesSubviews:NO];
     [self.commentholder setFrame:CGRectMake(15 + 286 - measuredwidth, f.origin.y, measuredwidth, f.size.height)];
     [self.commentbutton setFrame:CGRectMake(commentholder.frame.origin.x-3, commentholder.frame.origin.y-3, commentholder.frame.size.width+6, commentholder.frame.size.height+6)];
@@ -592,6 +594,8 @@
 
 - (void)commentbuttonTapped:(id)sender {
 
+    if ( ![PFUser currentUser] ) return;
+    
     if ( self.delegate && self.objPoll ) {
         [delegate popPollDetailAndScrollToComments:self.objPoll];
     }
