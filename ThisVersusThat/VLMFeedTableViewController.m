@@ -93,19 +93,31 @@
 - (void)viewDidLoad {
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone]; 
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidPublishPoll:) name:@"cc.vellum.thisversusthat.notification.userdidpublishpoll" object:nil];
+    /*
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userFollowingChanged:) name:@"cc.vellum.thisversusthat.notification.userfollowingdidchange" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLikeOrUnlikePhoto:) name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidCommentOnPhoto:) name:@"cc.vellum.thisversusthat.notification.userdidcomment" object:nil];
+     */
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    //[super viewDidAppear:animated];
+    [super viewDidAppear:animated];
     
-    /*
+    
     if (self.shouldReloadOnAppear) {
         self.shouldReloadOnAppear = NO;
         [self loadObjects];
-    }*/
+    }
 }
 
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidpublishpoll" object:nil];
 
+}
 
 
 #pragma mark - PFQueryTableViewController
@@ -537,9 +549,9 @@
         // trigger a row height computation on our rows
         //[tv beginUpdates];
         //[tv endUpdates];
-        
+
         // alternatively we can do
-        [tv reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        [tv reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], [NSIndexPath indexPathForRow:1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationNone];
         
         // restore the previous animation state
         [UIView setAnimationsEnabled:animationsEnabled];
@@ -610,4 +622,36 @@
         [delegate didTapPollAndComment:poll];
     }
 }
+
+#pragma mark - NOTIFICATIONS
+
+- (void)userDidPublishPoll:(NSNotification *)note {
+    if (self.objects.count > 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+    [self loadObjects];
+}
+
+- (void)userDidLikeOrUnlikePhoto:(NSNotification *)note {
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+}
+
+- (void)userDidCommentOnPhoto:(NSNotification *)note {
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+}
+
+- (void)userDidDeletePhoto:(NSNotification *)note {
+    // refresh timeline after a delay
+    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
+}
+
+
+- (void)userFollowingChanged:(NSNotification *)note {
+    NSLog(@"User following changed.");
+    self.shouldReloadOnAppear = YES;
+}
+
+
 @end

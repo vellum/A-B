@@ -292,7 +292,7 @@
     if ( self.hud ){
         [self.hud hide:YES];
         
-        //[mainViewController refreshfeed];
+        [mainViewController refreshfeed];
     }
 }
 - (void)showHUD:(NSString *)text animated:(BOOL)animated{
@@ -307,6 +307,8 @@
     [self.hud setLabelText:text];
     [self.hud setDimBackground:YES];
 }
+
+
 - (void)showHUDPosting{
     if ( !self.hudp ){
         
@@ -323,7 +325,7 @@
     if ( self.hudp ){
         [self.hudp hide:YES];
         
-        [mainViewController refreshfeed];
+        //[mainViewController refreshfeed];
     }
 
 }
@@ -352,12 +354,23 @@
     NSParameterAssert([curReach isKindOfClass: [Reachability class]]);
     NSLog(@"Reachability changed: %@", curReach);
     networkStatus = [curReach currentReachabilityStatus];
-    
+    if ([self isParseReachable] && [PFUser currentUser]){
+        NSLog(@"/////////// try to force a refresh");
+        [mainViewController refreshfeed];
+    }
     /*
-    if ([self isParseReachable] && [PFUser currentUser] && self.homeViewController.objects.count == 0) {
-        // Refresh home timeline on network restoration. Takes care of a freshly installed app that failed to load the main timeline under bad network conditions.
-        // In this case, they'd see the empty timeline placeholder and have no way of refreshing the timeline unless they followed someone.
-        [self.homeViewController loadObjects];
+    UIViewController *currentViewContoller = mainViewController.navigationController.visibleViewController;
+    if ( !currentViewContoller ){
+        currentViewContoller = mainViewController;
+    } 
+    PFQueryTableViewController *qtvc = nil;
+    if ( [currentViewContoller isMemberOfClass:NSClassFromString(@"PFQueryTableViewController")] ){
+        qtvc = (PFQueryTableViewController *)currentViewContoller;
+    }
+    
+    // Refresh timeline on network restoration. 
+    if ([self isParseReachable] && [PFUser currentUser] && qtvc && qtvc.objects.count == 0){
+        [qtvc loadObjects];
     }
      */
 }

@@ -583,8 +583,7 @@
             
             NSLog(@"Poll uploaded");
             [ad hideHUDPosting];
-            //
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidpublishpoll" object:nil];
             
         } else {
             NSLog(@"Poll failed to save: %@", error);
