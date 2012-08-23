@@ -84,6 +84,14 @@
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     [self.tableView setFrame:CGRectMake(0, 0, winw, winh-STATUSBAR_HEIGHT)];
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    
 }
 
 - (void)viewDidUnload
@@ -463,5 +471,14 @@
         [UIView setAnimationsEnabled:animationsEnabled];
     }
 }
+
+
+
+- (void)userDidDeletePhoto:(NSNotification *)note {
+    NSLog(@"userdiddeletephoto");
+    // refresh timeline after a delay
+    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
+}
+
 
 @end
