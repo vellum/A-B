@@ -102,218 +102,248 @@
 }
 
 + (void)likePhotoInBackground:(id)photo forPoll:(id)poll isLeft:(BOOL)isphotoleft block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
-    PFQuery *queryExistingLikes = [PFQuery queryWithClassName:@"Activity"];
-    [queryExistingLikes whereKey:@"Poll" equalTo:poll];
-    [queryExistingLikes whereKey:@"Type" equalTo:@"like"];
-    [queryExistingLikes whereKey:@"FromUser" equalTo:[PFUser currentUser]];
-    [queryExistingLikes setCachePolicy:kPFCachePolicyNetworkOnly];
-
-    [queryExistingLikes findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
-        if (!error) {
-            for (PFObject *activity in activities) {
-                [activity delete];
-            }
+    
+    PFQuery *queryPollExists = [PFQuery queryWithClassName:@"Poll"];
+    PFObject *p = (PFObject *)poll;
+    [queryPollExists whereKey:@"objectId" equalTo:p.objectId];
+    [queryPollExists countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        NSLog(@"count polls matching id: %d", number) ;
+        if ( number == 0 && completionBlock) { 
+            completionBlock( NO, [NSError errorWithDomain:@"cc.vellum" code:-1000 userInfo:nil] );
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:p.objectId];
         }
-        else {
-            NSLog(@"error here");
-            if ( completionBlock ) {
-                completionBlock(NO, error);
-            }
-        }
-        
-        // proceed to creating new like
-        PFObject *likeActivity = [PFObject objectWithClassName:@"Activity"];
-        [likeActivity setObject:@"like" forKey:@"Type"];
-        [likeActivity setObject:[PFUser currentUser] forKey:@"FromUser"];
-        [likeActivity setObject:[poll objectForKey:@"User"] forKey:@"ToUser"];
-        [likeActivity setObject:photo forKey:@"Photo"];
-        [likeActivity setObject:poll forKey:@"Poll"];
-        
-        PFACL *likeACL = [PFACL ACLWithUser:[PFUser currentUser]];
-        [likeACL setPublicReadAccess:YES];
-        [likeACL setWriteAccess:YES forUser:[poll objectForKey:@"User"]]; // important! allows poll owner to delete the poll and remove activity
-        likeActivity.ACL = likeACL;
-        
-        PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];
-        NSString *theleftphotoobjectid = [theleftphoto objectId];
-        
-        [likeActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (completionBlock) {
-                completionBlock(succeeded,error);
-
-                PFCachePolicy poly = kPFCachePolicyNetworkOnly;
-                PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
-                [query whereKey:@"Poll" equalTo:poll];
-                [query includeKey:@"FromUser"];
-                [query includeKey:@"ToUser"];
-                [query setCachePolicy:poly];
-                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    @synchronized(self){
+        if ( number == 1 ){
+            PFQuery *queryExistingLikes = [PFQuery queryWithClassName:@"Activity"];
+            [queryExistingLikes whereKey:@"Poll" equalTo:poll];
+            [queryExistingLikes whereKey:@"Type" equalTo:@"like"];
+            [queryExistingLikes whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+            [queryExistingLikes setCachePolicy:kPFCachePolicyNetworkOnly];
+            
+            [queryExistingLikes findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+                if (!error) {
+                    for (PFObject *activity in activities) {
+                        [activity delete];
+                    }
+                }
+                else {
+                    NSLog(@"error here");
+                    if ( completionBlock ) {
+                        completionBlock(NO, error);
+                    }
+                }
+                
+                // proceed to creating new like
+                PFObject *likeActivity = [PFObject objectWithClassName:@"Activity"];
+                [likeActivity setObject:@"like" forKey:@"Type"];
+                [likeActivity setObject:[PFUser currentUser] forKey:@"FromUser"];
+                [likeActivity setObject:[poll objectForKey:@"User"] forKey:@"ToUser"];
+                [likeActivity setObject:photo forKey:@"Photo"];
+                [likeActivity setObject:poll forKey:@"Poll"];
+                
+                PFACL *likeACL = [PFACL ACLWithUser:[PFUser currentUser]];
+                [likeACL setPublicReadAccess:YES];
+                [likeACL setWriteAccess:YES forUser:[poll objectForKey:@"User"]]; // important! allows poll owner to delete the poll and remove activity
+                likeActivity.ACL = likeACL;
+                
+                PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];
+                NSString *theleftphotoobjectid = [theleftphoto objectId];
+                
+                [likeActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (completionBlock) {
+                        completionBlock(succeeded,error);
                         
-                        if ( !error ){
-                            NSMutableArray *likersL = [NSMutableArray array];
-                            NSMutableArray *likersR = [NSMutableArray array];
-                            NSMutableArray *comments = [NSMutableArray array];
-                            BOOL isLikedByCurrentUserL = NO;
-                            BOOL isLikedByCurrentUserR = NO;
-                            BOOL isCommentedByCurrentUser = NO;
-                            
-                            //NSLog(@"%d activities",[objects count]);
-                            
-                            // loop through these mixed results
-                            for (PFObject *activity in objects) {
+                        PFCachePolicy poly = kPFCachePolicyNetworkOnly;
+                        PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+                        [query whereKey:@"Poll" equalTo:poll];
+                        [query includeKey:@"FromUser"];
+                        [query includeKey:@"ToUser"];
+                        [query setCachePolicy:poly];
+                        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                            @synchronized(self){
                                 
-                                //NSLog(@"here");
-                                NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
-                                NSString *cur = [[PFUser currentUser] objectId];
-                                // NSLog(@"%@ / %@", userID, cur);
-                                
-                                // test for likes
-                                if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
+                                if ( !error ){
+                                    NSMutableArray *likersL = [NSMutableArray array];
+                                    NSMutableArray *likersR = [NSMutableArray array];
+                                    NSMutableArray *comments = [NSMutableArray array];
+                                    BOOL isLikedByCurrentUserL = NO;
+                                    BOOL isLikedByCurrentUserR = NO;
+                                    BOOL isCommentedByCurrentUser = NO;
                                     
-                                    // left photo likes
-                                    if ( [theleftphotoobjectid isEqualToString:[[activity objectForKey:@"Photo"] objectId]] ){
-                                        // add userid to array
-                                        [likersL addObject:[activity objectForKey:@"FromUser"]];
+                                    //NSLog(@"%d activities",[objects count]);
+                                    
+                                    // loop through these mixed results
+                                    for (PFObject *activity in objects) {
                                         
-                                        if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
-                                            isLikedByCurrentUserL = YES;
-                                        }
+                                        //NSLog(@"here");
+                                        NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
+                                        NSString *cur = [[PFUser currentUser] objectId];
+                                        // NSLog(@"%@ / %@", userID, cur);
                                         
-                                        // right photo likes
-                                    } else {
-                                        
-                                        // add userid to array
-                                        [likersR addObject:[activity objectForKey:@"FromUser"]];
-                                        
-                                        if ( [userID isEqualToString: cur] ){
-                                            isLikedByCurrentUserR = YES;
+                                        // test for likes
+                                        if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
+                                            
+                                            // left photo likes
+                                            if ( [theleftphotoobjectid isEqualToString:[[activity objectForKey:@"Photo"] objectId]] ){
+                                                // add userid to array
+                                                [likersL addObject:[activity objectForKey:@"FromUser"]];
+                                                
+                                                if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
+                                                    isLikedByCurrentUserL = YES;
+                                                }
+                                                
+                                                // right photo likes
+                                            } else {
+                                                
+                                                // add userid to array
+                                                [likersR addObject:[activity objectForKey:@"FromUser"]];
+                                                
+                                                if ( [userID isEqualToString: cur] ){
+                                                    isLikedByCurrentUserR = YES;
+                                                }
+                                                
+                                            }
+                                            
+                                            
+                                            // test for comments    
+                                        } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
+                                            NSLog(@"adding a comment");
+                                            [comments addObject:activity];
+                                            
+                                            if ( [userID isEqualToString:cur] ){
+                                                isCommentedByCurrentUser = YES;
+                                            }
                                         }
                                         
                                     }
                                     
-                                    
-                                    // test for comments    
-                                } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
-                                    NSLog(@"adding a comment");
-                                    [comments addObject:activity];
-                                    
-                                    if ( [userID isEqualToString:cur] ){
-                                        isCommentedByCurrentUser = YES;
-                                    }
+                                    NSLog(@"[likersL: %d, likersR: %d]", likersL.count, likersR.count);
+                                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
                                 }
-
+                                
+                                
                             }
-                            
-                            NSLog(@"[likersL: %d, likersR: %d]", likersL.count, likersR.count);
-                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
-                        }
-                        
-                        
-					}
+                        }];
+                    }
                 }];
-            }
-        }];
-     }];
+            }];
+        }
+    }];
+    
 }
 
 + (void)unlikePhotoInBackground:(id)photo forPoll:(id)poll isLeft:(BOOL)isleftphoto block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
 
-    PFQuery *queryExistingLikes = [PFQuery queryWithClassName:@"Activity"];
-    [queryExistingLikes whereKey:@"Photo" equalTo:photo];
-    [queryExistingLikes whereKey:@"Type" equalTo:@"like"];
-    [queryExistingLikes whereKey:@"FromUser" equalTo:[PFUser currentUser]];
-    [queryExistingLikes setCachePolicy:kPFCachePolicyNetworkOnly];
-    [queryExistingLikes findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
-        if (!error) {
-            for (PFObject *activity in activities) {
-                [activity delete];
-            }
-            
-            if (completionBlock) {
-                completionBlock(YES,nil);
-                
-                PFCachePolicy poly = kPFCachePolicyNetworkOnly;
-                PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
-                [query whereKey:@"Poll" equalTo:poll];
-                [query setCachePolicy:poly];
-                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    @synchronized(self){
-                        
-                        if ( !error ){
-                            NSMutableArray *likersL = [NSMutableArray array];
-                            NSMutableArray *likersR = [NSMutableArray array];
-                            NSMutableArray *comments = [NSMutableArray array];
-                            BOOL isLikedByCurrentUserL = NO;
-                            BOOL isLikedByCurrentUserR = NO;
-                            BOOL isCommentedByCurrentUser = NO;
-                            
-                            PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];
-                            NSString *theleftphotoobjectid = [theleftphoto objectId];
+    PFQuery *queryPollExists = [PFQuery queryWithClassName:@"Poll"];
+    PFObject *p = (PFObject *)poll;
+    
+    [queryPollExists whereKey:@"objectId" equalTo:p.objectId];
+    [queryPollExists countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        NSLog(@"count polls matching id: %d", number) ;
+        if ( number == 0 && completionBlock) { 
+            completionBlock( NO, [NSError errorWithDomain:@"cc.vellum" code:-1000 userInfo:nil] );
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:p.objectId];
 
-                            
-                            //NSLog(@"%d activities",[objects count]);
-                            
-                            // loop through these mixed results
-                            for (PFObject *activity in objects) {
-                                
-                                //NSLog(@"here");
-                                NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
-                                NSString *cur = [[PFUser currentUser] objectId];
-                                // NSLog(@"%@ / %@", userID, cur);
-                                
-                                // test for likes
-                                if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
-                                    
-                                    // left photo likes
-                                    if ( [theleftphotoobjectid isEqualToString:[[activity objectForKey:@"Photo"] objectId]] ){
-                                        // add userid to array
-                                        [likersL addObject:[activity objectForKey:@"FromUser"]];
-                                        
-                                        if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
-                                            isLikedByCurrentUserL = YES;
-                                        }
-                                        
-                                        // right photo likes
-                                    } else {
-                                        
-                                        // add userid to array
-                                        [likersR addObject:[activity objectForKey:@"FromUser"]];
-                                        
-                                        if ( [userID isEqualToString: cur] ){
-                                            isLikedByCurrentUserR = YES;
-                                        }
-                                        
-                                    }
-                                    
-                                    
-                                    // test for comments    
-                                } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
-                                    NSLog(@"adding a comment");
-                                    [comments addObject:activity];
-                                    
-                                    if ( [userID isEqualToString:cur] ){
-                                        isCommentedByCurrentUser = YES;
-                                    }
-                                }
-
-                            }
-                            
-                            
-                             [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
-                        }
-                        
-                        
-					}
-                }];
-                 
-            }
-        } else {
-            if (completionBlock) {
-                completionBlock(NO,error);
-            }
         }
-    }];  
+        if ( number == 1 ){
+            PFQuery *queryExistingLikes = [PFQuery queryWithClassName:@"Activity"];
+            [queryExistingLikes whereKey:@"Photo" equalTo:photo];
+            [queryExistingLikes whereKey:@"Type" equalTo:@"like"];
+            [queryExistingLikes whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+            [queryExistingLikes setCachePolicy:kPFCachePolicyNetworkOnly];
+            [queryExistingLikes findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+                if (!error) {
+                    for (PFObject *activity in activities) {
+                        [activity delete];
+                    }
+                    
+                    if (completionBlock) {
+                        completionBlock(YES,nil);
+                        
+                        PFCachePolicy poly = kPFCachePolicyNetworkOnly;
+                        PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+                        [query whereKey:@"Poll" equalTo:poll];
+                        [query setCachePolicy:poly];
+                        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                            @synchronized(self){
+                                
+                                if ( !error ){
+                                    NSMutableArray *likersL = [NSMutableArray array];
+                                    NSMutableArray *likersR = [NSMutableArray array];
+                                    NSMutableArray *comments = [NSMutableArray array];
+                                    BOOL isLikedByCurrentUserL = NO;
+                                    BOOL isLikedByCurrentUserR = NO;
+                                    BOOL isCommentedByCurrentUser = NO;
+                                    
+                                    PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];
+                                    NSString *theleftphotoobjectid = [theleftphoto objectId];
+                                    
+                                    
+                                    //NSLog(@"%d activities",[objects count]);
+                                    
+                                    // loop through these mixed results
+                                    for (PFObject *activity in objects) {
+                                        
+                                        //NSLog(@"here");
+                                        NSString *userID = [[activity objectForKey:@"FromUser"] objectId];
+                                        NSString *cur = [[PFUser currentUser] objectId];
+                                        // NSLog(@"%@ / %@", userID, cur);
+                                        
+                                        // test for likes
+                                        if ([[activity objectForKey:@"Type"] isEqualToString:@"like"]){
+                                            
+                                            // left photo likes
+                                            if ( [theleftphotoobjectid isEqualToString:[[activity objectForKey:@"Photo"] objectId]] ){
+                                                // add userid to array
+                                                [likersL addObject:[activity objectForKey:@"FromUser"]];
+                                                
+                                                if ( [userID isEqualToString:[[PFUser currentUser] objectId]] ){
+                                                    isLikedByCurrentUserL = YES;
+                                                }
+                                                
+                                                // right photo likes
+                                            } else {
+                                                
+                                                // add userid to array
+                                                [likersR addObject:[activity objectForKey:@"FromUser"]];
+                                                
+                                                if ( [userID isEqualToString: cur] ){
+                                                    isLikedByCurrentUserR = YES;
+                                                }
+                                                
+                                            }
+                                            
+                                            
+                                            // test for comments    
+                                        } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
+                                            NSLog(@"adding a comment");
+                                            [comments addObject:activity];
+                                            
+                                            if ( [userID isEqualToString:cur] ){
+                                                isCommentedByCurrentUser = YES;
+                                            }
+                                        }
+                                        
+                                    }
+                                    
+                                    
+                                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
+                                }
+                                
+                                
+                            }
+                        }];
+                        
+                    }
+                } else {
+                    if (completionBlock) {
+                        completionBlock(NO,error);
+                    }
+                }
+            }];  
+        }
+    }];
+    
+
 }
 
 
