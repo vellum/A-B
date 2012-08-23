@@ -118,9 +118,14 @@
         [self.navigationItem setHidesBackButton:YES];
     }
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+
 }
 
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+
+}
 - (void)viewDidUnload{
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -695,6 +700,12 @@
     VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll isRoot:NO];
     [polldetail scrollToComments];
     [self.navigationController pushViewController:polldetail animated:YES];
+}
+
+
+- (void)userDidDeletePhoto:(NSNotification *)note {
+    // refresh timeline after a delay
+    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
 }
 
 @end

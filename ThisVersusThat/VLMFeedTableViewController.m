@@ -95,27 +95,29 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidPublishPoll:) name:@"cc.vellum.thisversusthat.notification.userdidpublishpoll" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
     /*
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userFollowingChanged:) name:@"cc.vellum.thisversusthat.notification.userfollowingdidchange" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLikeOrUnlikePhoto:) name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidCommentOnPhoto:) name:@"cc.vellum.thisversusthat.notification.userdidcomment" object:nil];
      */
+    self.shouldReloadOnAppear = NO;
     
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    
+    /*
     if (self.shouldReloadOnAppear) {
+        [super viewDidAppear:animated];
         self.shouldReloadOnAppear = NO;
         [self loadObjects];
     }
+     */
 }
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidpublishpoll" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
 
 }
 
@@ -626,6 +628,7 @@
 #pragma mark - NOTIFICATIONS
 
 - (void)userDidPublishPoll:(NSNotification *)note {
+    NSLog(@"userdidpublishpoll");
     if (self.objects.count > 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
@@ -643,6 +646,7 @@
 }
 
 - (void)userDidDeletePhoto:(NSNotification *)note {
+    NSLog(@"userdiddeletephoto");
     // refresh timeline after a delay
     [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
 }

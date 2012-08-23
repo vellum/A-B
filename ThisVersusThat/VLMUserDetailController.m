@@ -296,7 +296,14 @@
         }
     }];
 
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
 }
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    
+}
+
 - (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy{
     
     PFQuery *queryFolloweesCount = [PFQuery queryWithClassName:@"Activity"];
@@ -945,5 +952,13 @@
     [polldetail scrollToComments];
     [self.navigationController pushViewController:polldetail animated:YES];
 }
+
+
+
+- (void)userDidDeletePhoto:(NSNotification *)note {
+    // refresh timeline after a delay
+    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
+}
+
 
 @end

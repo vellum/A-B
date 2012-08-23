@@ -17,6 +17,7 @@
 #import "UIPlaceholderTextView.h"
 #import "MBProgressHUD.h"
 #import "VLMFeedHeaderDelegate.h"
+#import "AppDelegate.h"
 
 @interface VLMPollDetailController ()
 @property (nonatomic, strong) NSArray *likersL;
@@ -693,7 +694,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        NSLog(@"pppp");
+        [self removePoll];
     } else if (buttonIndex == 1) {
     }
 }
@@ -821,4 +822,36 @@
     self.shouldScrollToCommentsAndPopKeyboard = YES;
 }
 
+- (void)removePoll{
+    AppDelegate *ad = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [ad showHUDPosting];
+
+    // Delete all activites related to this photo
+    PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+    [query whereKey:@"Poll" equalTo:self.poll];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
+        if (!error) {
+            for (PFObject *activity in activities) {
+                [activity deleteEventually];
+            }
+        }
+        PFObject *left = [poll objectForKey:@"PhotoLeft"];
+        [left deleteEventually];
+        
+        PFObject *right = [poll objectForKey:@"PhotoRight"];
+        [right deleteEventually];
+        
+        //[self.poll deleteEventually];
+        [self.poll deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+            [ad hideHUDPosting];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:[self.poll objectId]];
+        }];
+    }];
+
+    if ( self.isRootController ){
+        [self cancel:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 @end

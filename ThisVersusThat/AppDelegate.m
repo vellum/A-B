@@ -292,7 +292,7 @@
     if ( self.hud ){
         [self.hud hide:YES];
         
-        [mainViewController refreshfeed];
+        //[mainViewController refreshfeed];
     }
 }
 - (void)showHUD:(NSString *)text animated:(BOOL)animated{
