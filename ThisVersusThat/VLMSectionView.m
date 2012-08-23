@@ -211,6 +211,10 @@ static TTTTimeIntervalFormatter *timeFormatter;
     f = [f stringByReplacingOccurrencesOfString:@" minute ago" withString:@"m"];
     f = [f stringByReplacingOccurrencesOfString:@" seconds ago" withString:@"s"];
     f = [f stringByReplacingOccurrencesOfString:@" second ago" withString:@"s"];
+
+    // this is a lame fix: i got '1 second from now' once
+    f = [f stringByReplacingOccurrencesOfString:@" second from now" withString:@"s"];
+
     [timestamp setText:f];
 //    [timestamp setText:];
 }

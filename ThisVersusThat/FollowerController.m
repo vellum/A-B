@@ -60,19 +60,21 @@
 }
 
 - (PFQuery *)queryForTable{
-    PFQuery *q = [[PFQuery alloc] initWithClassName:@"Activity"];
-    [q setLimit:1000];
-    [q orderByDescending:@"createdAt"];
-    [q setCachePolicy:kPFCachePolicyNetworkOnly];
+    PFQuery *q = [PFQuery queryWithClassName:@"Activity"];//[[PFQuery alloc] initWithClassName:@"Activity"];
     [q whereKey:@"Type" equalTo:@"follow"];
 
     if ( self.useFollowingQuery ){
-        [q whereKey:@"FromUser" equalTo:self.user];
         [q includeKey:@"ToUser"];
+        [q whereKeyExists:@"ToUser"];
+        [q whereKey:@"FromUser" equalTo:self.user];
     } else {
-        [q whereKey:@"ToUser" equalTo:self.user];
         [q includeKey:@"FromUser"];
+        [q whereKeyExists:@"FromUser"];
+        [q whereKey:@"ToUser" equalTo:self.user];
     }
+    [q setLimit:1000];
+    [q orderByDescending:@"createdAt"];
+    [q setCachePolicy:kPFCachePolicyNetworkOnly];
     return q;
 }
 
@@ -85,6 +87,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ( ![self objectAtIndex:indexPath] ) return 0;
     return 4*14+1;
 }
 

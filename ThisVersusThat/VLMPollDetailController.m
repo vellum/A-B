@@ -126,6 +126,9 @@
     
     return self;
 }
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+}
 - (void)loadVotingData{
     NSLog(@"poll: %@", poll);
     NSLog(@"photoleft: %@", [poll objectForKey:@"PhotoLeft"]);
@@ -314,12 +317,19 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+    if ( !self.poll ){
+        [query setLimit:0];
+        return query;
+    }
+    [query includeKey:@"FromUser"];
+    [query whereKeyExists:@"FromUser"];
+
     [query whereKey:@"Poll" equalTo:poll];
     [query whereKey:@"Type" equalTo:@"comment"];
+
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
     [query orderByAscending:@"createdAt"];
     [query setLimit:1000];
-    [query includeKey:@"FromUser"];
-    [query setCachePolicy:kPFCachePolicyNetworkOnly];
     return query;
 }
 
@@ -373,7 +383,8 @@
     if ( indexPath.row == 0 && self.objects.count == 0 ) return 56;
     
     PFObject *row = [self objectAtIndex:indexPath];
-
+    if (!row) return 0;
+        
     NSString *text = [row objectForKey:@"Description"];
 
     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(40*7-3-20-5-5, 49) lineBreakMode:UILineBreakModeWordWrap];
@@ -526,6 +537,7 @@
     [left addSubview:countL];
     
     PFObject *leftphoto = [poll objectForKey:@"PhotoLeft"];
+    [leftphoto fetchIfNeeded];
     PFFile *leftthumb = [leftphoto objectForKey:@"Original"];
     [leftimage setFile:leftthumb];
     [leftimage loadInBackground];
@@ -603,6 +615,7 @@
     [right addSubview:countR];
     
     PFObject *rightphoto = [poll objectForKey:@"PhotoRight"];
+    [rightphoto fetchIfNeeded];
     [rightimage setFile:[rightphoto objectForKey:@"Original"]];
     [rightimage loadInBackground];
     [labelR setText:[rightphoto objectForKey:@"Caption"]];
@@ -738,27 +751,95 @@
 
         // Show HUD view
         [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+        
+        // store poll id in case this poll was deleted since this view was constructed
+        NSString *pollid = [poll objectId];
+        NSString *username;
+        PFUser *u = [poll objectForKey:@"User"];
+        if ( u ){
+            if ( [u objectForKey:@"displayName"] ){
+                username = [u objectForKey:@"displayName"];
+            }
+        }
 
         // If more than 5 seconds pass since we post a comment, stop waiting for the server to respond
         NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(handleCommentTimeout:) userInfo:[NSDictionary dictionaryWithObject:comment forKey:@"comment"] repeats:NO];
 
-        [comment saveEventually:^(BOOL succeeded, NSError *error) {
-            [timer invalidate];
+        // check if the poll was deleted while we weren't looking
+        [poll fetchInBackgroundWithBlock:^(PFObject *object, NSError *error){
             
-            if (error && [error code] == kPFErrorObjectNotFound) {
+            // error
+            if ( error ){
                 
-                //[[PAPCache sharedCache] decrementCommentCountForPhoto:self.photo];
+                
+                // deleted
+                if ( [error code] == kPFErrorObjectNotFound ){
+                    [timer invalidate];
+                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    
+                    NSString *message;
+                    if ( username ){
+                        message = [NSString stringWithFormat:@"%@ deleted this poll while you were writing.", username];
+                    } else {
+                        message = @"User deleted this poll while you were writing.";
+                    }
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    [alert show];
+                    if ( self.isRootController ){
+                        [self cancel:nil];
+                    } else {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                    // IDEALLY: we should do something to the state of this view to indicate that the poll was deleted
 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:@"This poll was deleted by its owner" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [alert show];
-                [self.navigationController popViewControllerAnimated:YES];
+                    // post a notification, so any views that refer to this poll update themselves
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:pollid];
+
+                // ...
+                } else {
+                    // hide the hud and do nothing
+                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    /*
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:@"There was an error" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    [alert show];
+                    */
+                }
+                
+                
+                
+            // no error, attempt to post comment    
             } else {
-                // refresh cache
+                [comment saveEventually:^(BOOL succeeded, NSError *error) {
+                    [timer invalidate];
+                    
+                    if (error && [error code] == kPFErrorObjectNotFound) {
+                        
+                        //[[PAPCache sharedCache] decrementCommentCountForPhoto:self.photo];
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:@"This poll was deleted by its owner" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                        [alert show];
+                        
+                        if ( self.isRootController ){
+                            [self cancel:nil];
+                        } else {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }
+                        
+                    } else {
+                        // refresh cache
+                    }
+                    
+                    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    [self scrollToComments];
+                    [self loadObjects];
+                }];
             }
-            
-            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-            [self loadObjects];
         }];
+        
+        
+        
+        
+        
     }
     [textView setText:@""];
     self.isEditing = NO;
@@ -839,10 +920,10 @@
             }
         }
         PFObject *left = [poll objectForKey:@"PhotoLeft"];
-        [left deleteEventually];
+        [left deleteInBackground];
         
         PFObject *right = [poll objectForKey:@"PhotoRight"];
-        [right deleteEventually];
+        [right deleteInBackground];
         
         [self.poll deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
             [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:[self.poll objectId]];

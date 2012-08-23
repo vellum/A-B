@@ -134,19 +134,22 @@
         return query;
 
     }
-    
-    [query whereKeyExists:@"FromUser"];
-    [query whereKey:@"ToUser" equalTo:[PFUser currentUser]];
-    [query whereKey:@"FromUser" notEqualTo:[PFUser currentUser]];
-    [query orderByDescending:@"createdAt"];
-    [query setLimit:1000];
+
     [query includeKey:@"FromUser"];
+    [query whereKeyExists:@"FromUser"];
+    [query whereKey:@"FromUser" notEqualTo:[PFUser currentUser]];
+    [query whereKey:@"ToUser" equalTo:[PFUser currentUser]];
+    
     [query includeKey:@"Poll"];
-    [query includeKey:@"Poll.User"];
+    [query whereKeyExists:@"Poll"];
+    
     [query includeKey:@"Poll.PhotoLeft"];
     [query includeKey:@"Poll.PhotoRight"];
     
     [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    [query setLimit:1000];
+    [query orderByDescending:@"createdAt"];
+    
     return query;
 }
 
@@ -251,8 +254,10 @@
         //NSLog(@"just returning 56");
         return 56;
     }
+    
     PFObject *row = [self objectAtIndex:indexPath];
-
+    if (!row) return 0;
+    
     NSString *text;
     NSString *type = [row objectForKey:@"Type"];
     if ( [type isEqualToString:@"like"] ){

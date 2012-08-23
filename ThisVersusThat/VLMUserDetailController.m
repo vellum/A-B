@@ -374,8 +374,11 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *polls = [PFQuery queryWithClassName:self.className];
-    [polls whereKey:@"User" equalTo:self.user];
+
     [polls includeKey:@"User"];
+    [polls whereKeyExists:@"User"];
+    [polls whereKey:@"User" equalTo:self.user];
+    
     [polls includeKey:@"PhotoLeft"];
     [polls includeKey:@"PhotoRight"];
     [polls setCachePolicy:kPFCachePolicyNetworkOnly];
@@ -481,7 +484,11 @@
     }
     
     PFObject *obj = [self.objects objectAtIndex:indexPath.section];
-    if ( obj == nil ) return nil;
+    if ( obj == nil ) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CGRectZero];
+        cell.contentView.hidden = YES;
+        return cell;
+    }
     
 	// identifier
 	static NSString *FeedCellIdentifier = @"PollCell";
@@ -641,6 +648,9 @@
         // Load More Section
         return 74.0f;
     }
+    
+    if ( ![self objectAtIndex:indexPath] ) return 0;
+    
     // otherwise, row heights are fixed
     return 321.0f + 28 + 14;
 }

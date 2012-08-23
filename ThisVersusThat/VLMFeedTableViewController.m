@@ -145,6 +145,8 @@
     // just get everything (not limited to followees)
     PFQuery *polls = [PFQuery queryWithClassName:self.className];
     [polls includeKey:@"User"];
+    [polls whereKeyExists:@"User"];
+
     [polls includeKey:@"PhotoLeft"];
     [polls includeKey:@"PhotoRight"];
     [polls setLimit:1000];
@@ -269,7 +271,11 @@
     }
     
     PFObject *obj = [self.objects objectAtIndex:indexPath.section];
-    if ( obj == nil ) return nil;
+    if ( obj == nil ) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CGRectZero];
+        cell.contentView.hidden = YES;
+        return cell;
+    }
     
 	// identifier
 	static NSString *FeedCellIdentifier = @"PollCell";  
@@ -443,6 +449,8 @@
         if ( scrollval > HEADER_HEIGHT ) scrollval = HEADER_HEIGHT;
         return scrollval;
     }
+    
+    if ( ![self objectAtIndex:indexPath] ) return 0;
     
     // otherwise, row heights are fixed
     return 321.0f + 28 + 14;
@@ -647,6 +655,13 @@
 
 - (void)userDidDeletePhoto:(NSNotification *)note {
     NSLog(@"userdiddeletephoto");
+    
+    // it's possible that the header has been pushed off screen
+    // if this the one and only item has been removed, fix the scroll position (and hence the header position)
+    if (self.objects.count == 1) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+
     // refresh timeline after a delay
     [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
 }

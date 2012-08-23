@@ -166,6 +166,7 @@
         PFObject *poll = [o objectForKey:@"Poll"];
         if ( poll ) {
             [[VLMCache sharedCache] removeAttributesForPoll:poll];    
+        } else {
         }
     }
     lastknowncount = self.objects.count;
@@ -174,14 +175,20 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *polls = [PFQuery queryWithClassName:self.className];
+
     [polls whereKey:@"FromUser" equalTo:self.user];
-    [polls whereKeyExists:@"Poll"];
     [polls whereKey:@"Type" equalTo:@"like"];
+
     [polls includeKey:@"ToUser"];
+    [polls whereKeyExists:@"ToUser"];
+    
     [polls includeKey:@"Poll"];
+    [polls whereKeyExists:@"Poll"];
+    
     [polls includeKey:@"Poll.PhotoLeft"];
     [polls includeKey:@"Poll.PhotoRight"];
     [polls includeKey:@"Poll.createdAt"];
+    
     [polls setCachePolicy:kPFCachePolicyNetworkOnly];
     [polls setLimit:1000];
     [polls orderByDescending:@"createdAt"];
@@ -254,10 +261,10 @@
     }
     
     PFObject *obj = [self.objects objectAtIndex:section];
-    if ( obj == nil ) return nil;
+    if ( obj == nil ) return [[UIView alloc] initWithFrame:CGRectZero];
 
     PFObject *poll = [obj objectForKey:@"Poll"];
-    if ( poll == nil ) return nil;
+    if ( poll == nil ) return [[UIView alloc] initWithFrame:CGRectZero];
 
     NSString *text = [poll objectForKey:@"Question"];
     PFUser *u = [obj objectForKey:@"ToUser"];
@@ -290,10 +297,18 @@
     }
     
     PFObject *obj = [self.objects objectAtIndex:indexPath.section];
-    if ( obj == nil ) return nil;
+    if ( obj == nil ) {
+        UITableViewCell *c = [[UITableViewCell alloc] initWithFrame:CGRectZero];
+        c.contentView.hidden = YES;
+        return c;
+    }
 
     PFObject *poll = [obj objectForKey:@"Poll"];
-    if ( poll == nil ) return nil;
+    if ( poll == nil ) {
+        UITableViewCell *c = [[UITableViewCell alloc] initWithFrame:CGRectZero];
+        c.contentView.hidden = YES;
+        return c;
+    }
 
 	// identifier
 	static NSString *FeedCellIdentifier = @"PollCell";
@@ -445,6 +460,9 @@
         // Load More Section
         return 74.0f;
     }
+
+    if ( ![self objectAtIndex:indexPath] ) return 0;
+    
     // otherwise, row heights are fixed
     return 321.0f + 28 + 14;
 }
