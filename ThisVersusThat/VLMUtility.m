@@ -131,6 +131,7 @@
         
         PFACL *likeACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [likeACL setPublicReadAccess:YES];
+        [likeACL setWriteAccess:YES forUser:[poll objectForKey:@"User"]]; // important! allows poll owner to delete the poll and remove activity
         likeActivity.ACL = likeACL;
         
         PFObject *theleftphoto = [poll objectForKey:@"PhotoLeft"];

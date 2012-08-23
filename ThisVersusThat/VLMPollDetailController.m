@@ -731,6 +731,7 @@
 
         PFACL *ACL = [PFACL ACLWithUser:[PFUser currentUser]];
         [ACL setPublicReadAccess:YES];
+        [ACL setWriteAccess:YES forUser:[self.poll objectForKey:@"User"]];
         comment.ACL = ACL;
 
         //[[PAPCache sharedCache] incrementCommentCountForPhoto:self.photo];
@@ -832,7 +833,9 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
         if (!error) {
             for (PFObject *activity in activities) {
-                [activity deleteEventually];
+               // [activity deleteEventually];
+                NSLog(@"Deleting: %@", [activity objectId]);
+                [activity delete];
             }
         }
         PFObject *left = [poll objectForKey:@"PhotoLeft"];
@@ -841,10 +844,9 @@
         PFObject *right = [poll objectForKey:@"PhotoRight"];
         [right deleteEventually];
         
-        //[self.poll deleteEventually];
         [self.poll deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
-            [ad hideHUDPosting];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:[self.poll objectId]];
+            [ad hideHUDPosting];
         }];
     }];
 

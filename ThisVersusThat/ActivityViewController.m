@@ -119,10 +119,17 @@
 
 - (PFQuery *)queryForTable {
     
-    if ( ![PFUser currentUser] ) return nil;
-    
     PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+    if ( ![PFUser currentUser] ) {
+        
+        [query setLimit:0];
+        return query;
+
+    }
+    
+    [query whereKeyExists:@"FromUser"];
     [query whereKey:@"ToUser" equalTo:[PFUser currentUser]];
+    [query whereKey:@"FromUser" notEqualTo:[PFUser currentUser]];
     [query orderByDescending:@"createdAt"];
     [query setLimit:1000];
     [query includeKey:@"FromUser"];
@@ -303,7 +310,6 @@
         UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
         return cell;
     }
-
     // - - - - - - - - - - - - - - - - - - - - - - - - -
 
     VLMActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentIdentifier];
@@ -379,19 +385,19 @@
     if ( [type isEqualToString:@"follow"] ){
         // open user page
         PFUser *u = [row objectForKey:@"FromUser"];
-        if ( self.popdelegate ){
+        if ( self.popdelegate && u ){
             [popdelegate popUserDetail:u];
         }
         
     } else if ( [type isEqualToString:@"like"] ){
         // open poll
         PFObject *poll = [row objectForKey:@"Poll"];
-        if ( self.popdelegate ){
+        if ( self.popdelegate && poll ){
             [popdelegate popPollDetail:poll];
         }
     } else if ( [type isEqualToString:@"comment"] ){
         PFObject *poll = [row objectForKey:@"Poll"];
-        if ( self.popdelegate ){
+        if ( self.popdelegate && poll ){
             [popdelegate popPollDetailAndScrollToComments:poll];
         }
     }
