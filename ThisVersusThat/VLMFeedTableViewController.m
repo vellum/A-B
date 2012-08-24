@@ -674,6 +674,8 @@
     // case 1: deletion was discovered during like/unlike
     if ( [obj isKindOfClass:[NSDictionary class]] ){
 
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
         //[self performSelector:@selector(loadObjects) withObject:nil afterDelay:3.0f];
 
         // case 2: we performed the deletion ourselves via "remove" button

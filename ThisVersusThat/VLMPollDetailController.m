@@ -28,6 +28,7 @@
 @property (nonatomic) BOOL shouldScrollToComments;
 @property (nonatomic) BOOL shouldScrollToCommentsAndPopKeyboard;
 @property (nonatomic) BOOL shouldRefreshVotes;
+@property (nonatomic, strong) UILabel *deletednote;
 
 @end
 
@@ -41,6 +42,7 @@
 @synthesize shouldScrollToComments;
 @synthesize shouldScrollToCommentsAndPopKeyboard;
 @synthesize shouldRefreshVotes;
+@synthesize deletednote;
 
 - (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot{
     self = [super init];
@@ -301,10 +303,25 @@
         UIBarButtonItem *dotdotdot = [[UIBarButtonItem alloc] initWithTitle:@"Remove" style:UIBarButtonItemStylePlain target:self action:@selector(dotdotdot:)];
         [self.navigationItem setRightBarButtonItem:dotdotdot];
     }
-
-
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (!self.poll) return;
+    
+    PFQuery *q = [PFQuery queryWithClassName:@"Poll"];
+    [q whereKey:@"objectId" equalTo:[self.poll objectId]];
+    [q countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        if ( number == 0 && !error ){
+            self.deletednote.hidden = NO;
+            NSMutableArray *empty = [NSMutableArray arrayWithCapacity:0];
+            [[VLMCache sharedCache] setAttributesForPoll:self.poll likersL:empty likersR:empty commenters:empty isLikedByCurrentUserL:NO isLikedByCurrentUserR:NO isCommentedByCurrentUser:NO isDeleted:YES];
+        }
+    }];
+    
+    
+    
+}
 - (void)viewDidUnload{
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -344,7 +361,7 @@
 
 - (void)loadObjects{
     [super loadObjects];
-    if ( self.shouldRefreshVotes )
+    //if ( self.shouldRefreshVotes )
         [self loadVotingData];
     self.shouldRefreshVotes = YES;
 }
@@ -675,6 +692,17 @@
     [recentcomments setBackgroundColor:TEXT_COLOR];
     [recentcomments setTextColor:[UIColor whiteColor]];
     [cell addSubview:recentcomments];
+    
+    UILabel *gah = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 42)];
+    [gah setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
+    [gah setTextAlignment:UITextAlignmentCenter];
+    [gah setBackgroundColor:[UIColor yellowColor]];
+    [gah setTextColor:TEXT_COLOR];
+    [gah setText:@"This item was deleted by its user."];
+    [gah setUserInteractionEnabled:NO];
+    [gah setHidden:YES];
+    [cell addSubview:gah];
+    self.deletednote = gah;
 }
 
 - (void)cancel:(id)sender{
