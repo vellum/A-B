@@ -82,4 +82,6 @@
 
 - (void)setCommentCount:(int)val commentedByCurrentUser:(BOOL)isCommentedByCurrentUser;
 - (NSString *)pollID;
+
+- (void)setPollDeleted;
 @end

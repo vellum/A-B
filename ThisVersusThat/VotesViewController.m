@@ -343,11 +343,15 @@
         BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
         BOOL isVotedByCurrentUser = [[VLMCache sharedCache] isPollCommentedByCurrentUser:poll];
         NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
-
+        
+        BOOL isDeleted = [[VLMCache sharedCache] isPollDeleted:poll];
         [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
         [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isVotedByCurrentUser];  
-        
-        [cell setContentVisible:YES];
+        if ( isDeleted ) {
+            [cell setPollDeleted];   
+        } else {
+            [cell setContentVisible:YES];
+        }
 
         
         // if not, stuff query results in the cache
@@ -419,7 +423,7 @@
                             }
                             
                             
-                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
+                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
                             
                             // when fast scrolling, the current (presumably recycled) cell will fall out of sync
                             // so only update content if the cell's poll matches the current one
@@ -722,8 +726,12 @@
 
 
 - (void)userDidDeletePhoto:(NSNotification *)note {
+    
+    // I'm not convinced this is necessary to respond to. 
+    
+    
     // refresh timeline after a delay
-    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
+    //[self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
 }
 
 @end

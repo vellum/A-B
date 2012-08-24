@@ -481,6 +481,7 @@
 
 - (void)userDidDeletePhoto:(NSNotification *)note {
     NSLog(@"userdiddeletephoto");
+    
     // refresh timeline after a delay
     [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
 }

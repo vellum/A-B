@@ -110,6 +110,14 @@
         NSLog(@"count polls matching id: %d", number) ;
         if ( number == 0 && completionBlock) { 
             completionBlock( NO, [NSError errorWithDomain:@"cc.vellum" code:-1000 userInfo:nil] );
+            NSArray *keys = [NSArray arrayWithObjects:@"pollid", @"ownerid", nil];
+            NSArray *vals = [NSArray arrayWithObjects:p.objectId, [poll objectForKey:@"User"], nil];
+            NSDictionary *payload = [NSDictionary dictionaryWithObjects:vals forKeys:keys];
+            NSMutableArray *empty = [NSMutableArray arrayWithCapacity:0];
+            [[VLMCache sharedCache] setAttributesForPoll:p likersL:empty likersR:empty commenters:empty isLikedByCurrentUserL:NO isLikedByCurrentUserR:NO isCommentedByCurrentUser:NO isDeleted:YES];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:payload];
+
         }
         if ( number == 1 ){
             PFQuery *queryExistingLikes = [PFQuery queryWithClassName:@"Activity"];
@@ -216,7 +224,7 @@
                                     }
                                     
                                     NSLog(@"[likersL: %d, likersR: %d]", likersL.count, likersR.count);
-                                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
+                                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
 
                                     NSArray *keys = [NSArray arrayWithObjects:@"pollid", @"ownerid", nil];
                                     NSArray *vals = [NSArray arrayWithObjects:p.objectId, [poll objectForKey:@"User"], nil];
@@ -245,8 +253,18 @@
     [queryPollExists countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         NSLog(@"count polls matching id: %d", number) ;
         if ( number == 0 && completionBlock) { 
+            
             completionBlock( NO, [NSError errorWithDomain:@"cc.vellum" code:-1000 userInfo:nil] );
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:p.objectId];
+
+            NSMutableArray *empty = [NSMutableArray arrayWithCapacity:0];
+            [[VLMCache sharedCache] setAttributesForPoll:p likersL:empty likersR:empty commenters:empty isLikedByCurrentUserL:NO isLikedByCurrentUserR:NO isCommentedByCurrentUser:NO isDeleted:YES];
+
+            
+            NSArray *keys = [NSArray arrayWithObjects:@"pollid", @"ownerid", nil];
+            NSArray *vals = [NSArray arrayWithObjects:p.objectId, [poll objectForKey:@"User"], nil];
+            NSDictionary *payload = [NSDictionary dictionaryWithObjects:vals forKeys:keys];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:payload];
 
         }
         if ( number == 1 ){
@@ -331,7 +349,7 @@
                                     }
                                     
                                     
-                                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
+                                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
                                     
                                     
                                     NSArray *keys = [NSArray arrayWithObjects:@"pollid", @"ownerid", nil];

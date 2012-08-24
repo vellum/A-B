@@ -60,18 +60,20 @@
     [self.cache removeAllObjects];
 }
 
-- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight isCommentedByCurrentUser:(BOOL)isCommentedByCurrentUser{
+- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight isCommentedByCurrentUser:(BOOL)isCommentedByCurrentUser isDeleted:(BOOL)isDeleted{
     
     NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSNumber numberWithBool:likedByCurrentUserLeft], @"LikedByCurrentUserLeft",
                                 [NSNumber numberWithBool:likedByCurrentUserRight], @"LikedByCurrentUserRight",
                                 [NSNumber numberWithBool:isCommentedByCurrentUser], @"CommentedByCurrentUser",
+                                [NSNumber numberWithBool:isDeleted], @"Deleted",
                                 [NSNumber numberWithInt:[likersLeft count]], @"LikerCountLeft",
                                 [NSNumber numberWithInt:[likersRight count]], @"LikerCountRight",
                                 likersLeft, @"LikersLeft",
                                 likersRight, @"LikersRight",
                                 [NSNumber numberWithInt:[commenters count]], @"CommenterCount",
                                 commenters, @"Commenters",
+                                
                                 
                                 nil];
     
@@ -134,6 +136,13 @@
         return [[attributes objectForKey:@"CommentedByCurrentUser"] boolValue];
     }
     
+    return NO;
+}
+- (BOOL)isPollDeleted:(PFObject *)poll{
+    NSDictionary *attributes = [self attributesForPoll:poll];
+    if (attributes) {
+        return [[attributes objectForKey:@"Deleted"] boolValue];
+    }
     return NO;
 }
 

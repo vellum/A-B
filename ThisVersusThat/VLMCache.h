@@ -17,7 +17,7 @@
 
 - (void)removeAttributesForPoll:(PFObject *)poll;
 
-- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight isCommentedByCurrentUser:(BOOL)isCommentedByCurrentUser;
+- (void)setAttributesForPoll:(PFObject *)poll likersL:(NSArray *)likersLeft likersR:(NSArray *)likersRight commenters:(NSArray *)commenters isLikedByCurrentUserL:(BOOL)likedByCurrentUserLeft isLikedByCurrentUserR:(BOOL)likedByCurrentUserRight isCommentedByCurrentUser:(BOOL)isCommentedByCurrentUser isDeleted:(BOOL)isDeleted;
 
 - (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll;
    
@@ -42,6 +42,8 @@
 - (BOOL)isPollLikedByCurrentUserRight:(PFObject *)poll;
 
 - (BOOL)isPollCommentedByCurrentUser:(PFObject *)poll;
+
+- (BOOL)isPollDeleted:(PFObject *)poll;
 
 - (BOOL)followStatusForUser:(PFUser *)user;
 

@@ -541,11 +541,15 @@
         BOOL isLikedByCurrentUserR = [[VLMCache sharedCache] isPollLikedByCurrentUserRight:poll];
         BOOL isVotedByCurrentUser = [[VLMCache sharedCache] isPollCommentedByCurrentUser:poll];
         NSNumber *commentcount = [[VLMCache sharedCache] commentCountForPoll:poll];
-        
+        BOOL isDeleted = [[VLMCache sharedCache] isPollDeleted:poll];
+
         [cell setPersonalLeftCount:isLikedByCurrentUserL ? 1 : 0 andPersonalRightCount:isLikedByCurrentUserR ? 1: 0];
         [cell setCommentCount:[commentcount integerValue] commentedByCurrentUser:isVotedByCurrentUser];
-        [cell setContentVisible:YES];
-
+        if ( isDeleted ) {
+            [cell setPollDeleted];   
+        } else {
+            [cell setContentVisible:YES];
+        }
         
         // if not, stuff query results in the cache
     } else {
@@ -617,7 +621,7 @@
                             }
                             
                             
-                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
+                            [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
                             
 
                             // when fast scrolling, the current (presumably recycled) cell will fall out of sync
@@ -978,17 +982,30 @@
 
 
 - (void)userDidDeletePhoto:(NSNotification *)note {
-    // refresh timeline after a delay
-    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
+    NSObject *obj = [note object];
     
-    PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
-    [queryPollCount whereKey:@"User" equalTo:self.user];
-    [queryPollCount setCachePolicy:kPFCachePolicyNetworkOnly];
-    [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-        if (!error) {
-            [self.numPollsLabel setText:[NSString stringWithFormat:@"%d", number]];
-        }
-    }];
+    // case 1: deletion was discovered during like/unlike
+    if ( [obj isKindOfClass:[NSDictionary class]] ){
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        
+    // case 2: we performed the deletion ourselves via "remove" button
+    } else {
+        // refresh timeline after a delay
+        [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
+
+        
+        PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
+        [queryPollCount whereKey:@"User" equalTo:self.user];
+        [queryPollCount setCachePolicy:kPFCachePolicyNetworkOnly];
+        [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+            if (!error) {
+                [self.numPollsLabel setText:[NSString stringWithFormat:@"%d", number]];
+            }
+        }];
+    }
+
+    
 }
 
 - (void)userDidLikeOrUnlikePhoto:(NSNotification *)note {

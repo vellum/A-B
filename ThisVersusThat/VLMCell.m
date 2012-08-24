@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UIView *commentholder;
 @property (nonatomic, strong) UILabel *commentcountlabel;
 @property (nonatomic, strong) UIButton *commentbutton;
+@property (nonatomic, strong) UILabel *deletionfound;
 @end
 
 @implementation VLMCell
@@ -50,6 +51,8 @@
 @synthesize commentcountlabel;
 @synthesize commentbutton;
 @synthesize delegate;
+
+@synthesize deletionfound;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -187,6 +190,19 @@
         [self.contentView addSubview:commentbutton];
         
         [self.commentbutton addTarget:self action:@selector(commentbuttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UILabel *gah = [[UILabel alloc] initWithFrame:CGRectMake(15, 14, 286, 42)];
+        [gah setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
+        [gah setTextAlignment:UITextAlignmentCenter];
+        [gah setBackgroundColor:[UIColor yellowColor]];
+        [gah setTextColor:TEXT_COLOR];
+        [gah setText:@"This item was deleted by its user."];
+        [gah setUserInteractionEnabled:NO];
+        [gah setHidden:YES];
+        [self.contentView addSubview:gah];
+        self.deletionfound = gah;
+        
+
 
     }
 
@@ -226,6 +242,10 @@
                 
                 [VLMUtility likePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
                     if ( error ){
+                        if ( [[error domain] isEqualToString:@"cc.vellum"] )
+                        {
+                            [self setPollDeleted];
+                        }
                         //NSLog(@"error. attempting to roll back");
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
@@ -240,6 +260,10 @@
 
                 [VLMUtility unlikePhotoInBackground:photoLeft forPoll:self.objPoll isLeft:YES block:^(BOOL succeeded, NSError *error){
                     if ( error ){
+                        if ( [[error domain] isEqualToString:@"cc.vellum"] )
+                        {
+                            [self setPollDeleted];
+                        }
                         //NSLog(@"error. attempting to roll back");
                         // TBD: roll back to previous state (this means we should keep track of the last known state)
                         [self rollback];
@@ -535,6 +559,7 @@
 }
 
 - (void)resetCell{
+    [self.deletionfound setHidden: YES];
     [self.votecountlabelLeft setText:@"..."];
     [self.votecountlabelRight setText:@"..."];
     [self setLeftCaptionText:@"" andRightCaptionText:@""];
@@ -607,4 +632,12 @@
 
 }
 
+- (void)setPollDeleted{
+    [self.deletionfound setHidden: NO];
+    self.leftcheck.enabled = NO;
+    self.leftcheck.selected = NO;
+    self.rightcheck.enabled = NO;
+    self.rightcheck.selected = NO;
+    [self setContentVisible:NO];
+}
 @end
