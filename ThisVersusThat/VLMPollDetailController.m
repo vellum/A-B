@@ -783,13 +783,6 @@
         
         // store poll id in case this poll was deleted since this view was constructed
         NSString *pollid = [poll objectId];
-        NSString *username;
-        PFUser *u = [poll objectForKey:@"User"];
-        if ( u ){
-            if ( [u objectForKey:@"displayName"] ){
-                username = [u objectForKey:@"displayName"];
-            }
-        }
 
         // If more than 5 seconds pass since we post a comment, stop waiting for the server to respond
         NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(handleCommentTimeout:) userInfo:[NSDictionary dictionaryWithObject:comment forKey:@"comment"] repeats:NO];
@@ -806,20 +799,23 @@
                     [timer invalidate];
                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                     
-                    NSString *message;
-                    if ( username ){
-                        message = [NSString stringWithFormat:@"%@ deleted this poll while you were writing.", username];
-                    } else {
-                        message = @"User deleted this poll while you were writing.";
-                    }
+                    NSString *message = @"User deleted this poll while you were writing.";
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                     [alert show];
+                    
+                    /*
                     if ( self.isRootController ){
                         [self cancel:nil];
                     } else {
                         [self.navigationController popViewControllerAnimated:YES];
                     }
+                     */
                     // IDEALLY: we should do something to the state of this view to indicate that the poll was deleted
+                    self.deletednote.hidden = NO;
+                    NSMutableArray *empty = [NSMutableArray arrayWithCapacity:0];
+                    [[VLMCache sharedCache] setAttributesForPoll:self.poll likersL:empty likersR:empty commenters:empty isLikedByCurrentUserL:NO isLikedByCurrentUserR:NO isCommentedByCurrentUser:NO isDeleted:YES];
+                    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+
 
                     // post a notification, so any views that refer to this poll update themselves
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:pollid];
