@@ -121,13 +121,14 @@
         
         // Register to be notified when the keyboard will be shown to scroll the view
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];     
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLikeOrUnlikePhoto:) name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
     }
     
     return self;
 }
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
 }
 - (void)loadVotingData{
     NSLog(@"poll: %@", poll);
@@ -936,5 +937,16 @@
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+
+// FIXME: should cache subviews
+- (void)userDidLikeOrUnlikePhoto:(NSNotification *)note {
+    //self.shouldRefreshVotes = YES;
+    
+    UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
+    cell.autoresizesSubviews = NO;
+    [self setupFirstCell:cell];
+    self.tableView.tableHeaderView = cell;
 }
 @end
