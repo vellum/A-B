@@ -260,9 +260,24 @@
     
     self.tableView.tableHeaderView = header;
     
+    [self loadHeaderData];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLikeOrUnlikePhoto:) name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
+    
+    
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
+    
+}
+
+- (void)loadHeaderData{
     PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
     [queryPollCount whereKey:@"User" equalTo:self.user];
-    [queryPollCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryPollCount setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         if (!error) {
             [self.numPollsLabel setText:[NSString stringWithFormat:@"%d", number]];
@@ -272,20 +287,20 @@
     PFQuery *queryVoteCount = [PFQuery queryWithClassName:@"Activity"];
     [queryVoteCount whereKey:@"FromUser" equalTo:self.user];
     [queryVoteCount whereKey:@"Type" equalTo:@"like"];
-    [queryVoteCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryVoteCount setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryVoteCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if (!error) {
             [self.numVotesLabel setText:[NSString stringWithFormat:@"%d", number]];
         }
     }];
     
-    [self loadFollowerDataWithPolicy:kPFCachePolicyCacheThenNetwork];
+    [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
     
     PFQuery *queryF = [[PFQuery alloc] initWithClassName:@"Activity"];
     [queryF whereKey:@"FromUser" equalTo:[PFUser currentUser]];
     [queryF whereKey:@"ToUser" equalTo:self.user];
     [queryF whereKey:@"Type" equalTo:@"follow"];
-    [queryF setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryF setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryF countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
             if ( number == 0 ){
@@ -295,12 +310,6 @@
             }
         }
     }];
-
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
-}
-
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
     
 }
 
@@ -319,7 +328,7 @@
     PFQuery *queryFollowersCount = [PFQuery queryWithClassName:@"Activity"];
     [queryFollowersCount whereKey:@"FromUser" equalTo:self.user];
     [queryFollowersCount whereKey:@"Type" equalTo:@"follow"];
-    [queryFollowersCount setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [queryFollowersCount setCachePolicy:kPFCachePolicyNetworkOnly];
     [queryFollowersCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
             [self.numFollowingLabel setText:[NSString stringWithFormat:@"%d", number]];
@@ -357,6 +366,9 @@
 
         }
     }];
+    
+    
+    
 }
 
 - (void)objectsDidLoad:(NSError *)error{
@@ -968,7 +980,38 @@
 - (void)userDidDeletePhoto:(NSNotification *)note {
     // refresh timeline after a delay
     [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
+    
+    PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
+    [queryPollCount whereKey:@"User" equalTo:self.user];
+    [queryPollCount setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        if (!error) {
+            [self.numPollsLabel setText:[NSString stringWithFormat:@"%d", number]];
+        }
+    }];
 }
 
+- (void)userDidLikeOrUnlikePhoto:(NSNotification *)note {
+
+    // only respond to notification if it affects this view
+    
+    if ( [self.user.objectId isEqualToString:[PFUser currentUser].objectId] ){
+
+            // requery header
+        PFQuery *queryVoteCount = [PFQuery queryWithClassName:@"Activity"];
+        [queryVoteCount whereKey:@"FromUser" equalTo:self.user];
+        [queryVoteCount whereKey:@"Type" equalTo:@"like"];
+        [queryVoteCount setCachePolicy:kPFCachePolicyNetworkOnly];
+        [queryVoteCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+            if (!error) {
+                [self.numVotesLabel setText:[NSString stringWithFormat:@"%d", number]];
+            }
+        }];
+        
+        // refresh tableview
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+    }
+}
 
 @end

@@ -128,7 +128,7 @@
 }
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
 }
 - (void)loadVotingData{
     NSLog(@"poll: %@", poll);
@@ -943,6 +943,18 @@
 // FIXME: should cache subviews
 - (void)userDidLikeOrUnlikePhoto:(NSNotification *)note {
     //self.shouldRefreshVotes = YES;
+    NSObject *obj = [note object];
+    BOOL shouldRespondToNote = NO;
+    if ( [obj isKindOfClass:[NSDictionary class]] ){
+        NSDictionary *payload = (NSDictionary *)obj;
+        NSString *pollid = [payload objectForKey:@"pollid"];
+        NSLog(@"like or unliked poll: %@", pollid);
+        //NSStream *ownerid = [payload objectForKey:@"ownerid"];
+        if ( [pollid isEqualToString:self.poll.objectId] ){
+            shouldRespondToNote = YES;
+        }
+    }
+    if (!shouldRespondToNote) return;
     
     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
     cell.autoresizesSubviews = NO;

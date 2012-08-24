@@ -110,7 +110,6 @@
         NSLog(@"count polls matching id: %d", number) ;
         if ( number == 0 && completionBlock) { 
             completionBlock( NO, [NSError errorWithDomain:@"cc.vellum" code:-1000 userInfo:nil] );
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:p.objectId];
         }
         if ( number == 1 ){
             PFQuery *queryExistingLikes = [PFQuery queryWithClassName:@"Activity"];
@@ -219,7 +218,11 @@
                                     NSLog(@"[likersL: %d, likersR: %d]", likersL.count, likersR.count);
                                     [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
 
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:p.objectId];
+                                    NSArray *keys = [NSArray arrayWithObjects:@"pollid", @"ownerid", nil];
+                                    NSArray *vals = [NSArray arrayWithObjects:p.objectId, [poll objectForKey:@"User"], nil];
+                                    NSDictionary *payload = [NSDictionary dictionaryWithObjects:vals forKeys:keys];
+                                    
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:payload];
                                 }
                                 
                                 
@@ -329,8 +332,13 @@
                                     
                                     
                                     [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:p.objectId];
-                                }
+                                    
+                                    
+                                    NSArray *keys = [NSArray arrayWithObjects:@"pollid", @"ownerid", nil];
+                                    NSArray *vals = [NSArray arrayWithObjects:p.objectId, [poll objectForKey:@"User"], nil];
+                                    NSDictionary *payload = [NSDictionary dictionaryWithObjects:vals forKeys:keys];
+                                    
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:payload];                                }
                                 
                                 
                             }
