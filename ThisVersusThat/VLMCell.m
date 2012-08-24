@@ -571,7 +571,7 @@
             s = [NSString stringWithFormat:@"%d  \u2192",val];
             [commentholder setBackgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]];
         } else {
-            s = [NSString stringWithFormat:@"%d    say why  \u2192",val];
+            s = [NSString stringWithFormat:@"%d    Care to say why?  \u2192",val];
             [commentholder setBackgroundColor:[UIColor colorWithRed:51.0f/255.0f green:153.0f/255.0f blue:0.0f alpha:1.0f]];
             //[commentholder setBackgroundColor:[UIColor colorWithRed:139.0f/255.0f green:197.0f/255.0f blue:62.0f/255.0f alpha:1.0f]];
 

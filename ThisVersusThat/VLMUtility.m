@@ -218,6 +218,8 @@
                                     
                                     NSLog(@"[likersL: %d, likersR: %d]", likersL.count, likersR.count);
                                     [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
+
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:p.objectId];
                                 }
                                 
                                 
@@ -327,6 +329,7 @@
                                     
                                     
                                     [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:p.objectId];
                                 }
                                 
                                 
