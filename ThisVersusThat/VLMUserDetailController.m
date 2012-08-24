@@ -750,8 +750,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:loadingActivityIndicatorView];
     
     [self configureUnfollowButton];
-    
-    [VLMUtility followUserEventually:self.user block:^(BOOL succeeded, NSError *error) {
+    [VLMUtility followUserInBackground:self.user block:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self configureFollowButton];
         } else {
@@ -772,6 +771,8 @@
         [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
         if ( error ){
             [self configureUnfollowButton];
+        } else {
+            [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
         }
     }];
 }

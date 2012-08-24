@@ -510,10 +510,14 @@
         
         if (!error) {
             for (PFObject *followActivity in followActivities) {
-                [followActivity deleteEventually];
+                //[followActivity deleteEventually];
+                [followActivity deleteInBackgroundWithBlock:completionBlock];// this may get called more than once but it's worth it to have accurate data
             }
-        }
-     completionBlock(error==nil,error);
+         } else {
+            completionBlock(error==nil,error);
+         }
+            
+
     }];
     [[VLMCache sharedCache] setFollowStatus:NO user:user];
 }
