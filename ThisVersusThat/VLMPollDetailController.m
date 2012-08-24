@@ -133,9 +133,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
 }
 - (void)loadVotingData{
-    NSLog(@"poll: %@", poll);
-    NSLog(@"photoleft: %@", [poll objectForKey:@"PhotoLeft"]);
-    NSLog(@"photoleftif: %@", [[poll objectForKey:@"PhotoLeft"] objectId]);
+    NSLog(@"loadvotingdata");
+    //NSLog(@"poll: %@", poll);
+    //NSLog(@"photoleft: %@", [poll objectForKey:@"PhotoLeft"]);
+    //NSLog(@"photoleftif: %@", [[poll objectForKey:@"PhotoLeft"] objectId]);
     
     NSString *leftPhotoID = [[poll objectForKey:@"PhotoLeft"] objectId];
     @synchronized(self) {
@@ -203,8 +204,10 @@
                     }
                     
                     //FIXME: test if this thing is alive first
-                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:likersL likersR:likersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
-                    
+                    [[VLMCache sharedCache] setAttributesForPoll:poll likersL:alikersL likersR:alikersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
+
+                    NSLog(@"counts: %d, %d", [alikersL count], [alikersR count]);
+                    self.tableView.tableHeaderView = nil;
                     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
                     cell.autoresizesSubviews = NO;
                     [self setupFirstCell:cell];
