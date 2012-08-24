@@ -569,7 +569,7 @@
         //[tv endUpdates];
 
         // alternatively we can do
-        [tv reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], [NSIndexPath indexPathForRow:1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationNone];
+        [tv reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil] withRowAnimation:UITableViewRowAnimationNone];
         
         // restore the previous animation state
         [UIView setAnimationsEnabled:animationsEnabled];

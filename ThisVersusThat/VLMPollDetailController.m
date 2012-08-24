@@ -374,9 +374,11 @@
     if ( !shouldScrollToComments ) return;
     shouldScrollToComments = NO;
 
-    NSIndexPath* ipath = [NSIndexPath indexPathForRow: self.objects.count-1 inSection: 0];
-    [self.tableView scrollToRowAtIndexPath: ipath atScrollPosition: UITableViewScrollPositionTop animated: YES];
-
+    [self performSelector:@selector(doScrollToBottom) withObject:nil afterDelay:0.25f];
+}
+    
+- (void)doScrollToBottom{
+    [self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
 }
 #pragma mark - UITableViewDataSource
 
