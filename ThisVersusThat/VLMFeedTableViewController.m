@@ -96,8 +96,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidPublishPoll:) name:@"cc.vellum.thisversusthat.notification.userdidpublishpoll" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
-    /*
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userFollowingChanged:) name:@"cc.vellum.thisversusthat.notification.userfollowingdidchange" object:nil];
+    /*
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLikeOrUnlikePhoto:) name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidCommentOnPhoto:) name:@"cc.vellum.thisversusthat.notification.userdidcomment" object:nil];
      */
@@ -118,6 +118,7 @@
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidpublishpoll" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userfollowingdidchange" object:nil];
 
 }
 

@@ -407,13 +407,20 @@
     
     PFACL *followACL = [PFACL ACLWithUser:[PFUser currentUser]];
     [followACL setPublicReadAccess:YES];
+    [followACL setWriteAccess:YES forUser:user];
     followActivity.ACL = followACL;
     
     [followActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        // roll back the change in the cache (cache will issue an nsnotification to update any views looking at this)
+        if ( !succeeded || error ){
+            [[VLMCache sharedCache] setFollowStatus:NO user:user];
+        }
+
         if (completionBlock) {
             completionBlock(succeeded, error);
         }
-        
+
         if (succeeded) {
             //[PAPUtility sendFollowingPushNotification:user];
         }
@@ -433,9 +440,22 @@
     
     PFACL *followACL = [PFACL ACLWithUser:[PFUser currentUser]];
     [followACL setPublicReadAccess:YES];
+    [followACL setWriteAccess:YES forUser:user];
     followActivity.ACL = followACL;
     
-    [followActivity saveEventually:completionBlock];
+    [followActivity saveEventually:^(BOOL succeeded, NSError *error) {// roll back the change in the cache (cache will issue an nsnotification to update any views looking at this)
+        if ( !succeeded || error ){
+            [[VLMCache sharedCache] setFollowStatus:NO user:user];
+        }
+        
+        if (completionBlock) {
+            completionBlock(succeeded, error);
+        }
+        
+        if (succeeded) {
+            //[PAPUtility sendFollowingPushNotification:user];
+        }
+    }];
     [[VLMCache sharedCache] setFollowStatus:YES user:user];
 }
 
@@ -458,16 +478,18 @@
             for (PFObject *followActivity in followActivities) {
                 [followActivity deleteEventually];
             }
+        } else {
+            [[VLMCache sharedCache] setFollowStatus:YES user:user];
         }
     }];
     [[VLMCache sharedCache] setFollowStatus:NO user:user];
 }
 
 + (void)unfollowUsersEventually:(NSArray *)users {
-    PFQuery *query = [PFQuery queryWithClassName:kPAPActivityClassKey];
-    [query whereKey:kPAPActivityFromUserKey equalTo:[PFUser currentUser]];
-    [query whereKey:kPAPActivityToUserKey containedIn:users];
-    [query whereKey:kPAPActivityTypeKey equalTo:kPAPActivityTypeFollow];
+    PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
+    [query whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+    [query whereKey:@"ToUser" containedIn:users];
+    [query whereKey:@"Type" equalTo:@"follow"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *activities, NSError *error) {
         for (PFObject *activity in activities) {
             [activity deleteEventually];

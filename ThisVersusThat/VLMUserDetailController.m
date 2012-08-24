@@ -35,7 +35,7 @@
 @property (unsafe_unretained, nonatomic) UITableViewCell *selectedCell;
 @property (nonatomic, strong) UIPanGestureRecognizer *localPGR;
 @property (nonatomic) int lastknowncount;
-
+@property (nonatomic) BOOL shouldRefreshOnAppear;
 - (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy;
 @end
 
@@ -53,6 +53,7 @@
 @synthesize selectedCell;
 @synthesize localPGR;
 @synthesize lastknowncount;
+@synthesize shouldRefreshOnAppear;
 #pragma mark - NSObject
 
 - (id)initWithObject:(PFUser *)obj isRoot:(BOOL)isRoot{
@@ -260,12 +261,20 @@
     
     self.tableView.tableHeaderView = header;
     
+    self.shouldRefreshOnAppear = NO;
     [self loadHeaderData];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLikeOrUnlikePhoto:) name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
     
     
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if ( self.shouldRefreshOnAppear )
+        [self loadHeaderData];
+    self.shouldRefreshOnAppear = YES;
 }
 
 - (void)dealloc{
