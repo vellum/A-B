@@ -438,8 +438,6 @@
             [nada setBackgroundColor:[UIColor clearColor]];
             [nada setTextColor:TEXT_COLOR];
             [nada setText:@"No comments yet."];
-            
-            
             [cell.contentView addSubview:nada];
         }
         return cell;
