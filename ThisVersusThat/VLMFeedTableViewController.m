@@ -645,7 +645,7 @@
 - (void)userDidPublishPoll:(NSNotification *)note {
     NSLog(@"userdidpublishpoll");
     if (self.objects.count > 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     }
     [self loadObjects];
 }
@@ -666,7 +666,7 @@
     // it's possible that the header has been pushed off screen
     // if this the one and only item has been removed, fix the scroll position (and hence the header position)
     if (self.objects.count == 1) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     }
 
     NSObject *obj = [note object];
