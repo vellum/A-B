@@ -195,7 +195,7 @@
     [left addSubview:captionLeft];
 
     // left camera button
-    UIButton *leftcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
+    UIButton *leftcam = [[UIButton alloc] initWithFrame:CGRectMake(10, 276-59, 59, 59)];
     [leftcam setShowsTouchWhenHighlighted:YES];
     [leftcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
     [leftcam addTarget:self action:@selector(handleCameraButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -230,7 +230,7 @@
     [right addSubview:captionRight];
     
     // right camera button
-    UIButton *rightcam = [[UIButton alloc] initWithFrame:CGRectMake(15, 276-55-5, 55, 55)];;
+    UIButton *rightcam = [[UIButton alloc] initWithFrame:CGRectMake(10, 276-59, 59, 59)];
     [rightcam setShowsTouchWhenHighlighted:YES];
     [rightcam setImage:[UIImage imageNamed:@"leica.png"] forState:UIControlStateNormal];
     [rightcam addTarget:self action:@selector(handleCameraButton:) forControlEvents:UIControlEventTouchUpInside];
