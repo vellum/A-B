@@ -130,6 +130,7 @@
     [titleView addSubview:label];
 
     UIButton *fb = [[UIButton alloc] initWithFrame:f];    
+    [fb addTarget:self action:@selector(handleGenericTap:) forControlEvents:UIControlEventTouchDown];
     [titleView addSubview:fb];
     
     [self.navigationItem setTitleView:titleView];
