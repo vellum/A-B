@@ -110,19 +110,16 @@
 
     CGRect f = CGRectMake(0, 0, 150, HEADER_HEIGHT);
     UIView *titleView = [[UIView alloc] initWithFrame:f];
-    UIButton *fb = [[UIButton alloc] initWithFrame:f];    
 
-    [fb.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:15.0f]];
-    [fb setTitleColor:[UIColor colorWithWhite:0.2f alpha:1.0f] forState:UIControlStateNormal];
-    [fb setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
-    [fb setShowsTouchWhenHighlighted:NO];
-    [fb setTitle:self.title forState:UIControlStateNormal];
-    [titleView addSubview:fb];
-    [fb addTarget:self action:@selector(handleGenericTap:) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:15.0f]];
+    [titleLabel setTextColor:[UIColor colorWithWhite:0.2f alpha:1.0f]];
+    [titleLabel setBackgroundColor:[UIColor clearColor]];
+    [titleLabel setText:self.title];
+    [titleLabel setTextAlignment:UITextAlignmentCenter];
+    [titleLabel setFrame:CGRectMake(0, 0 + HEADER_TITLE_VERTICAL_OFFSET, 150, HEADER_HEIGHT)];
+    [titleView addSubview:titleLabel];
     
-    CGRect ff = fb.titleLabel.frame;
-    ff.origin.y += HEADER_TITLE_VERTICAL_OFFSET;
-    [fb.titleLabel setFrame:ff];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, HEADER_HEIGHT*0.5, 150, HEADER_HEIGHT/2)];
     [label setBackgroundColor:[UIColor clearColor]];
     [label setTextColor:[UIColor colorWithWhite:0.2f alpha:1.0f]];
@@ -130,8 +127,11 @@
     [label setNumberOfLines:0];
     [label setText:@""];
     [label setTextAlignment:UITextAlignmentCenter];
-    
     [titleView addSubview:label];
+
+    UIButton *fb = [[UIButton alloc] initWithFrame:f];    
+    [titleView addSubview:fb];
+    
     [self.navigationItem setTitleView:titleView];
     self.charsremaining = label;
 }

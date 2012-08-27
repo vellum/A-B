@@ -521,14 +521,14 @@
     [self.captionlabelLeft setNumberOfLines:0];
     [self.captionlabelLeft setText:left];
     [self.captionlabelLeft sizeToFit];
-    [self.captionlabelLeft setFrame:CGRectMake(15, 286/2 - (self.captionlabelLeft.frame.size.height + 28 )/2, 286-30, self.captionlabelLeft.frame.size.height)];
+    [self.captionlabelLeft setFrame:CGRectMake(15, 286/2 - (self.captionlabelLeft.frame.size.height + 28 )/2+14, 286-30, self.captionlabelLeft.frame.size.height)];
     [self.votecountlabelLeft setFrame:CGRectMake(15, self.captionlabelLeft.frame.origin.y + self.captionlabelLeft.frame.size.height+7, 286-30, 28)];
     [self.votecountlabelLeft setText:@"..."];
 
     [self.captionLabelRight setNumberOfLines:0];
     [self.captionLabelRight setText:right];
     [self.captionLabelRight sizeToFit];
-    [self.captionLabelRight setFrame:CGRectMake(15, 286/2 - (self.captionLabelRight.frame.size.height + 28 )/2, 286-30, self.captionLabelRight.frame.size.height)];
+    [self.captionLabelRight setFrame:CGRectMake(15, 286/2 - (self.captionLabelRight.frame.size.height + 28 )/2+14, 286-30, self.captionLabelRight.frame.size.height)];
     [self.votecountlabelRight setFrame:CGRectMake(15, self.captionLabelRight.frame.origin.y + self.captionLabelRight.frame.size.height+7, 286-30, 28)];
     [self.votecountlabelRight setText:@"..."];
 }

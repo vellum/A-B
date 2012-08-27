@@ -213,8 +213,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
     f = [f stringByReplacingOccurrencesOfString:@" second ago" withString:@"s"];
 
     // this is an inaccurate fix: i got '1 second from now' once
-    f = [f stringByReplacingOccurrencesOfString:@" second from now" withString:@"s"];
-    f = [f stringByReplacingOccurrencesOfString:@" seconds from now" withString:@"s"];
+    //f = [f stringByReplacingOccurrencesOfString:@" second from now" withString:@"s"];
+    //f = [f stringByReplacingOccurrencesOfString:@" seconds from now" withString:@"s"];
+    NSRange textRange = [f rangeOfString:@"from now"];
+    if(textRange.location != NSNotFound)
+    {
+        f = @"just now";
+    }
 
     [timestamp setText:f];
 //    [timestamp setText:];
