@@ -14,12 +14,15 @@
 @property (nonatomic) BOOL isRootContoller;
 @property (nonatomic) BOOL useFollowingQuery;
 @property (nonatomic, strong) PFUser *user;
+@property (nonatomic, strong) NSMutableDictionary *outstandingQueries;
+
 @end
 
 @implementation FollowerController
 @synthesize isRootContoller;
 @synthesize useFollowingQuery;
 @synthesize user;
+@synthesize outstandingQueries;
 
 - (id)initWithObject:(PFUser *)obj isRoot:(BOOL)isRoot modeFollowing:(BOOL)isFollowingMode{
     self = [super initWithClassName:@"User"];
@@ -37,6 +40,7 @@
         [self.tableView setAllowsSelection:YES];
         [self.tableView setDelegate:self];
         NSLog(@"here");
+        self.outstandingQueries = [NSMutableDictionary dictionary]; 
     }
     return self;
 }

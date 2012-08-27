@@ -77,6 +77,8 @@
 		BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD0F8C915CB723A00ACAB23 /* VLMCache.m */; };
 		BDE469CD15E4D04800DFF0CC /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CB15E4D04800DFF0CC /* triangle.png */; };
 		BDE469CE15E4D04800DFF0CC /* triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CC15E4D04800DFF0CC /* triangle@2x.png */; };
+		BDEA531515EB1BB900F1A8E2 /* plus_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = BDEA531315EB1BB900F1A8E2 /* plus_highlight.png */; };
+		BDEA531615EB1BB900F1A8E2 /* plus_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDEA531415EB1BB900F1A8E2 /* plus_highlight@2x.png */; };
 		BDEB7A1615D09D51003BC4E3 /* LoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */; };
 		BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */; };
 		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
@@ -192,6 +194,8 @@
 		BDD0F8C915CB723A00ACAB23 /* VLMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCache.m; sourceTree = "<group>"; };
 		BDE469CB15E4D04800DFF0CC /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		BDE469CC15E4D04800DFF0CC /* triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle@2x.png"; sourceTree = "<group>"; };
+		BDEA531315EB1BB900F1A8E2 /* plus_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus_highlight.png; sourceTree = "<group>"; };
+		BDEA531415EB1BB900F1A8E2 /* plus_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus_highlight@2x.png"; sourceTree = "<group>"; };
 		BDEB7A1415D09D51003BC4E3 /* LoadMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreCell.h; sourceTree = "<group>"; };
 		BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreCell.m; sourceTree = "<group>"; };
 		BDEB7A1E15D0F222003BC4E3 /* UIViewController+Transitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Transitions.h"; path = "ThisVersusThat/UIViewController+Transitions.h"; sourceTree = "<group>"; };
@@ -402,6 +406,8 @@
 				BDC29A3415C1FFBE00596546 /* leica@2x.png */,
 				BDCBDC8015E4A7C000608D76 /* plus.png */,
 				BDCBDC8115E4A7C000608D76 /* plus@2x.png */,
+				BDEA531315EB1BB900F1A8E2 /* plus_highlight.png */,
+				BDEA531415EB1BB900F1A8E2 /* plus_highlight@2x.png */,
 				BD48B60615C1B5060019C3A2 /* photo_placeholder.png */,
 				BDC29A2E15C1EC0B00596546 /* photo_placeholder@2x.png */,
 				BD7998E015D654670070D759 /* skewed_print.png */,
@@ -584,6 +590,8 @@
 				BDCBDC8315E4A7C000608D76 /* plus@2x.png in Resources */,
 				BDE469CD15E4D04800DFF0CC /* triangle.png in Resources */,
 				BDE469CE15E4D04800DFF0CC /* triangle@2x.png in Resources */,
+				BDEA531515EB1BB900F1A8E2 /* plus_highlight.png in Resources */,
+				BDEA531615EB1BB900F1A8E2 /* plus_highlight@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
