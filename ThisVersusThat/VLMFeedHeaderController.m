@@ -59,15 +59,11 @@
     
     
     UIButton *t = [self makeTextButtonWithFrame:CGRectMake(winw/2-75.0f, 0, 150.0f, HEADER_HEIGHT)];
-    //[t setEnabled:NO];
     [t setTitle:self.title forState:UIControlStateNormal];
     [t setShowsTouchWhenHighlighted:NO];
     [t.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
     [t setTitleColor:TEXT_COLOR forState:UIControlStateNormal];
     [t setTitleShadowColor:[UIColor colorWithWhite:0.1f alpha:1.0f] forState:UIControlStateNormal];
-    //[t setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
-    //[t setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
-    //[t setBackgroundColor:[UIColor blueColor]];
     [t addTarget:self action:@selector(toggleHeader:) forControlEvents:UIControlEventTouchUpInside];
     
     UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(toggleHeader:)];
@@ -110,7 +106,7 @@
     } else {
         [self.pagecontrol setCurrentPage:1];
         [self setFeedtype:VLMFeedTypeFollowing];
-        [self.titlebutton setTitle:@"Polls I Follow" forState:UIControlStateNormal];
+        [self.titlebutton setTitle:@"Friends' Polls" forState:UIControlStateNormal];
     }
     if ( self.delegate )
         if ( [self.delegate respondsToSelector:@selector(didToggleFeedType:)] )

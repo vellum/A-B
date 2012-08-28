@@ -167,9 +167,9 @@
         //
         // If there is no network connection, we will hit the cache first.
         if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
-            //[polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
+            [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
         } else if (!self.shouldWipeCache) {
-            //[polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
+            [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
         }
         return polls;
     }
@@ -207,10 +207,10 @@
     //
     // If there is no network connection, we will hit the cache first.
     if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
-        //[query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+        [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     } else {
         if (!self.shouldWipeCache) {
-            //[query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+            [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
         }
     }
     
@@ -755,15 +755,16 @@
 
 - (void)userFollowingChanged:(NSNotification *)note {
     NSLog(@"User following changed.");
-    if ( currentFeedType == VLMFeedTypeFollowing )
+    if ( currentFeedType == VLMFeedTypeFollowing ){
         self.shouldReloadOnAppear = YES;
+    }
 }
 
 #pragma mark - ()
 - (void)setFeedType:(int)feedtype{
     self.currentFeedType = feedtype;
     NSLog(@"newfeedtype: %d", feedtype);
-    //self.shouldWipeCache = NO;
+    self.shouldWipeCache = NO;
 
     [self loadObjects];
 }
