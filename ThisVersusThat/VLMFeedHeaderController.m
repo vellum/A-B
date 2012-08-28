@@ -112,7 +112,10 @@
     [left setFrame:CGRectMake(0, 0, 80, 60)];
     [self.view addSubview:left];
     [left addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchUpInside];
-    [left addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchCancel];
+    //[left addTarget:self action:@selector(tap:) forControlEvents:UIControlEventTouchCancel];
+    UISwipeGestureRecognizer *leftbuttonswipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+    [leftbuttonswipe setDirection:UISwipeGestureRecognizerDirectionRight];
+    [left addGestureRecognizer:leftbuttonswipe];
 }
 
 - (void)toggleHeader:(id)sender{
@@ -126,7 +129,7 @@
     
     if ( current == 1 ){
         if ( sgr && sgr.direction == UISwipeGestureRecognizerDirectionLeft ) return;
-        [UIView animateWithDuration:0.5f
+        [UIView animateWithDuration:0.325f
                               delay:0.0f 
                             options:UIViewAnimationCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
@@ -140,7 +143,7 @@
 
     } else {
         if ( sgr && sgr.direction == UISwipeGestureRecognizerDirectionRight ) return;
-        [UIView animateWithDuration:0.5f
+        [UIView animateWithDuration:0.325f
                               delay:0.0f 
                             options:UIViewAnimationCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
