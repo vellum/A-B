@@ -279,7 +279,7 @@
     
     [hud show:YES];
     [self.hud setLabelText:text];
-    [self.hud setDimBackground:YES];
+    [self.hud setDimBackground:NO];
 }
 
 - (void)updateHUD:(NSString *)text{
@@ -305,7 +305,7 @@
     
     [hud show:animated];
     [self.hud setLabelText:text];
-    [self.hud setDimBackground:YES];
+    [self.hud setDimBackground:NO];
 }
 
 

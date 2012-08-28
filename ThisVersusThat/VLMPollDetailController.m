@@ -129,6 +129,10 @@
     return self;
 }
 - (void)dealloc{
+    // hide HUD if we've left the screen while it's loading
+    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [dellie hideHUD];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
 }
@@ -362,22 +366,30 @@
     return nil;
 }
 
+
 - (void)loadObjects{
     [super loadObjects];
     //if ( self.shouldRefreshVotes )
         [self loadVotingData];
     self.shouldRefreshVotes = YES;
+    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [dellie showHUD:@""];
 }
 
 - (void)objectsDidLoad:(NSError *)error{
     [super objectsDidLoad:error];
+
+    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [dellie hideHUD];
+
     if ( !shouldScrollToComments ) return;
     shouldScrollToComments = NO;
 
-    [self performSelector:@selector(doScrollToBottom) withObject:nil afterDelay:0.25f];
+    [self performSelector:@selector(doScrollToBottom) withObject:nil afterDelay:0.5f];
 }
     
 - (void)doScrollToBottom{
+    
     [self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
 }
 #pragma mark - UITableViewDataSource
