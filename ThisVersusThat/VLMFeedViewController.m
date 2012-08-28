@@ -11,6 +11,7 @@
 #import "VLMCell.h"
 #import "VLMMainViewController.h"
 #import "VLMTapDelegate.h"
+#import "VLMMainHeaderDelegate.h"
 
 @interface VLMFeedViewController ()
 @property (nonatomic, strong) id <VLMGenericTapDelegate> tapdelegate;
@@ -59,7 +60,7 @@
     // - - - - - C O N T R O L L E R S - - - - - 
     
     // header view controller
-    VLMFeedHeaderController *hc = [[VLMFeedHeaderController alloc] initWithTitle:@"All Polls" andTapDelegate:self];
+    VLMFeedHeaderController *hc = [[VLMFeedHeaderController alloc] initWithTitle:@"All Polls" andHeaderDelegate:self];
     self.headerViewController = hc;
     
     // feed view controller
@@ -262,16 +263,21 @@
     }
 }
 
-- (void)didTap:(id)sender{
-    NSLog(@"tapped header");
-    if (self.tapdelegate) {
-        [tapdelegate didTap:self];
-    }
-}
 - (void)didTapPollAndComment:(PFObject *)poll{
     if ( !self.popDelegate ) return;
     if ( !poll ) return;
     [popDelegate popPollDetailAndScrollToComments:poll];
+}
+
+#pragma mark - VLMMainHeaderDelegate
+- (void)didTapLeftButton:(id)sender{
+    if (self.tapdelegate) {
+        [tapdelegate didTap:self];
+    }
+}
+- (void)didToggleFeedType:(int)feedtype{
+    NSLog(@"toggled feed: %d", feedtype);
+    [self.tableViewController setFeedType:feedtype];
 }
 
 @end

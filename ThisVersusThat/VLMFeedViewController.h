@@ -12,10 +12,11 @@
 #import "VLMTapDelegate.h"
 #import "VLMMainViewController.h"
 #import "VLMGenericTapDelegate.h"
+#import "VLMMainHeaderDelegate.h"
 
 @protocol VLMPopModalDelegate;
 
-@interface VLMFeedViewController : UIViewController<UIGestureRecognizerDelegate, VLMTapDelegate, VLMGenericTapDelegate> {
+@interface VLMFeedViewController : UIViewController<UIGestureRecognizerDelegate, VLMTapDelegate, VLMMainHeaderDelegate> {
     VLMFeedHeaderController *headerViewController;
     VLMFeedTableViewController *tableViewController;
     NSInteger recognizedPanDirection;

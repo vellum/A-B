@@ -12,7 +12,7 @@
 #import "VLMGenericTapDelegate.h"
 #import "VLMPopModalDelegate.h"
 
-@interface VotesViewController : PFQueryTableViewController<VLMFeedHeaderDelegate, UIGestureRecognizerDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
+@interface VotesViewController : PFQueryTableViewController<VLMSectionDelegate, UIGestureRecognizerDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
     PFUser *user;
 }
 

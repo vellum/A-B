@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol VLMFeedHeaderDelegate <NSObject>
+@protocol VLMSectionDelegate <NSObject>
 - (void)didTapUser:(NSInteger)section;
 - (void)didTapPoll:(NSInteger)section; 
 @end

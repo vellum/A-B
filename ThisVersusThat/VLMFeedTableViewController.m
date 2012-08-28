@@ -28,7 +28,8 @@
 @property (nonatomic) CGRect contentRect;
 @property (nonatomic) CGFloat contentOffsetY;
 @property (nonatomic) NSInteger resultcount;
-
+@property (nonatomic) VLMFeedType currentFeedType;
+@property (nonatomic) BOOL shouldWipeCache;
 @end
 
 
@@ -43,8 +44,8 @@
 @synthesize outstandingQueries;
 @synthesize delegate;
 @synthesize resultcount;
-
-
+@synthesize currentFeedType;
+@synthesize shouldWipeCache;
 #pragma mark - NSObject
 
 -(id) initWithHeader:(VLMFeedHeaderController *) headerController {
@@ -80,7 +81,9 @@
         [self.view setBackgroundColor:[UIColor clearColor]];
         //[self.view setBackgroundColor:DEBUG_BACKGROUND_GRID];
         [self updatelayout];
-        
+
+        self.currentFeedType = VLMFeedTypeAll;
+        self.shouldWipeCache = YES;
         
     }
     return self;
@@ -126,7 +129,11 @@
 #pragma mark - PFQueryTableViewController
 
 - (void)loadObjects{
-    [[VLMCache sharedCache] clear];
+    if ( shouldWipeCache ){
+        [[VLMCache sharedCache] clear];
+    } else {
+        shouldWipeCache = YES;
+    }
     [super loadObjects];
     
     PFQuery *q = [self queryForTable];
@@ -143,17 +150,73 @@
 }
 
 - (PFQuery *)queryForTable {
-    // just get everything (not limited to followees)
-    PFQuery *polls = [PFQuery queryWithClassName:self.className];
-    [polls includeKey:@"User"];
-    [polls whereKeyExists:@"User"];
+    if ( self.currentFeedType == VLMFeedTypeAll || ![PFUser currentUser]){
+        // just get everything (not limited to followees)
+        PFQuery *polls = [PFQuery queryWithClassName:self.className];
+        [polls includeKey:@"User"];
+        [polls whereKeyExists:@"User"];
+        
+        [polls includeKey:@"PhotoLeft"];
+        [polls includeKey:@"PhotoRight"];
+        [polls setLimit:1000];
+        [polls setCachePolicy:kPFCachePolicyNetworkOnly];
+        [polls orderByDescending:@"createdAt"];
 
-    [polls includeKey:@"PhotoLeft"];
-    [polls includeKey:@"PhotoRight"];
-    [polls setLimit:1000];
-    [polls setCachePolicy:kPFCachePolicyNetworkOnly];
-    [polls orderByDescending:@"createdAt"];
-    return polls;
+        // If no objects are loaded in memory, we look to the cache first to fill the table
+        // and then subsequently do a query against the network.
+        //
+        // If there is no network connection, we will hit the cache first.
+        if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
+            //[polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
+        } else if (!self.shouldWipeCache) {
+            //[polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
+        }
+        return polls;
+    }
+    
+    // get people i follow
+    PFQuery *followingActivitiesQuery = [PFQuery queryWithClassName:@"Activity"];
+    [followingActivitiesQuery whereKey:@"Type" equalTo:@"follow"];
+    [followingActivitiesQuery whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+    followingActivitiesQuery.limit = 1000;
+    
+    // get the polls for people i follow
+    PFQuery *pollsFromFollowedUsersQuery = [PFQuery queryWithClassName:@"Poll"];
+    [pollsFromFollowedUsersQuery whereKey:@"User" matchesKey:@"ToUser" inQuery:followingActivitiesQuery];
+    [pollsFromFollowedUsersQuery whereKeyExists:@"PhotoLeft"];
+    [pollsFromFollowedUsersQuery whereKeyExists:@"PhotoRight"];
+    
+    // get polls i've authored
+    PFQuery *pollsFromCurrentUserQuery = [PFQuery queryWithClassName:@"Poll"];
+    [pollsFromCurrentUserQuery whereKey:@"User" equalTo:[PFUser currentUser]];
+    [pollsFromCurrentUserQuery whereKeyExists:@"PhotoLeft"];
+    [pollsFromCurrentUserQuery whereKeyExists:@"PhotoRight"];
+    
+    // join these queries
+    PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:pollsFromFollowedUsersQuery, pollsFromCurrentUserQuery, nil]];
+    [query includeKey:@"User"];
+    [query includeKey:@"PhotoLeft"];
+    [query includeKey:@"PhotoRight"];
+    [query orderByDescending:@"createdAt"];
+    
+    // A pull-to-refresh should always trigger a network request.
+    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    //
+    // If there is no network connection, we will hit the cache first.
+    if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
+        //[query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    } else {
+        if (!self.shouldWipeCache) {
+            //[query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+        }
+    }
+    
+    return query;
+
+    
 }
 
 - (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
@@ -692,8 +755,17 @@
 
 - (void)userFollowingChanged:(NSNotification *)note {
     NSLog(@"User following changed.");
-    self.shouldReloadOnAppear = YES;
+    if ( currentFeedType == VLMFeedTypeFollowing )
+        self.shouldReloadOnAppear = YES;
 }
 
+#pragma mark - ()
+- (void)setFeedType:(int)feedtype{
+    self.currentFeedType = feedtype;
+    NSLog(@"newfeedtype: %d", feedtype);
+    //self.shouldWipeCache = NO;
+
+    [self loadObjects];
+}
 
 @end

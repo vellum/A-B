@@ -19,7 +19,7 @@
 @protocol VLMPopModalDelegate;
 
 
-@interface VLMFeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate, VLMFeedHeaderDelegate, VLMTapDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
+@interface VLMFeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate, VLMSectionDelegate, VLMTapDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
     id <VLMTapDelegate> delegate;
 }
 @property (nonatomic, strong) id <VLMTapDelegate> delegate;
@@ -27,4 +27,6 @@
 - (id)initWithHeader:(VLMFeedHeaderController *) headerController;
 - (void)updatelayout;
 - (void)setDirection:(BOOL)isLeft ForPoll:(PFObject *)poll;
+- (void)setFeedType:(int)feedtype;
+
 @end

@@ -79,6 +79,7 @@
 		BDE469CE15E4D04800DFF0CC /* triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CC15E4D04800DFF0CC /* triangle@2x.png */; };
 		BDEA531515EB1BB900F1A8E2 /* plus_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = BDEA531315EB1BB900F1A8E2 /* plus_highlight.png */; };
 		BDEA531615EB1BB900F1A8E2 /* plus_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDEA531415EB1BB900F1A8E2 /* plus_highlight@2x.png */; };
+		BDEA532015EC31A500F1A8E2 /* DDPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEA531F15EC31A500F1A8E2 /* DDPageControl.m */; };
 		BDEB7A1615D09D51003BC4E3 /* LoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */; };
 		BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */; };
 		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
@@ -196,6 +197,9 @@
 		BDE469CC15E4D04800DFF0CC /* triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle@2x.png"; sourceTree = "<group>"; };
 		BDEA531315EB1BB900F1A8E2 /* plus_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus_highlight.png; sourceTree = "<group>"; };
 		BDEA531415EB1BB900F1A8E2 /* plus_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus_highlight@2x.png"; sourceTree = "<group>"; };
+		BDEA531E15EC31A500F1A8E2 /* DDPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPageControl.h; sourceTree = "<group>"; };
+		BDEA531F15EC31A500F1A8E2 /* DDPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPageControl.m; sourceTree = "<group>"; };
+		BDEA532215EC4DD500F1A8E2 /* VLMMainHeaderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMMainHeaderDelegate.h; sourceTree = "<group>"; };
 		BDEB7A1415D09D51003BC4E3 /* LoadMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreCell.h; sourceTree = "<group>"; };
 		BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreCell.m; sourceTree = "<group>"; };
 		BDEB7A1E15D0F222003BC4E3 /* UIViewController+Transitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Transitions.h"; path = "ThisVersusThat/UIViewController+Transitions.h"; sourceTree = "<group>"; };
@@ -357,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */,
+				BDEA532215EC4DD500F1A8E2 /* VLMMainHeaderDelegate.h */,
 				BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */,
 				BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */,
 				BD7998D615D632C20070D759 /* VLMGenericTapDelegate.h */,
@@ -376,6 +381,15 @@
 				BD4D507615BDE19C007D6E3A /* VLMFooterController.m */,
 			);
 			name = Feed;
+			sourceTree = "<group>";
+		};
+		BDEA532115EC31AC00F1A8E2 /* DDPageControl */ = {
+			isa = PBXGroup;
+			children = (
+				BDEA531E15EC31A500F1A8E2 /* DDPageControl.h */,
+				BDEA531F15EC31A500F1A8E2 /* DDPageControl.m */,
+			);
+			name = DDPageControl;
 			sourceTree = "<group>";
 		};
 		BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */ = {
@@ -454,6 +468,7 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BDEA532115EC31AC00F1A8E2 /* DDPageControl */,
 				BD3C1D2815E4309D001EF030 /* Reachability */,
 				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
 				BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */,
@@ -635,6 +650,7 @@
 				BD92EF4815E04D5700FAC490 /* FollowerController.m in Sources */,
 				BD92EF5015E061D900FAC490 /* FollowCell.m in Sources */,
 				BD3C1D2B15E4309D001EF030 /* Reachability.m in Sources */,
+				BDEA532015EC31A500F1A8E2 /* DDPageControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

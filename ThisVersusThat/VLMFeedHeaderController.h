@@ -7,18 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol VLMGenericTapDelegate;
+@protocol VLMFeedHeaderDelegate;
 
 @interface VLMFeedHeaderController : UIViewController{
     CGFloat offsetY;
     CGRect rect;
 }
 
-- (id)initWithTitle:(NSString *)title andTapDelegate:(id)delegate;
+- (id)initWithTitle:(NSString *)title andHeaderDelegate:(id)headerdelegate;
 - (void)pushVerticallyBy:(CGFloat) offsetYVal;
 
 
 @property (nonatomic) CGFloat offsetY;
 @property (nonatomic) CGRect rect;
+
+typedef enum
+{
+	VLMFeedTypeAll       = 0,
+	VLMFeedTypeFollowing = 1,
+}
+VLMFeedType;
 
 @end

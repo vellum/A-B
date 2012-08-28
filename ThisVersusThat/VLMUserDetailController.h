@@ -12,7 +12,7 @@
 #import "VLMGenericTapDelegate.h"
 #import "VLMPopModalDelegate.h"
 
-@interface VLMUserDetailController : PFQueryTableViewController<VLMFeedHeaderDelegate, UIGestureRecognizerDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
+@interface VLMUserDetailController : PFQueryTableViewController<VLMSectionDelegate, UIGestureRecognizerDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
     PFUser *user;
 }
 

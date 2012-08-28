@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class PFImageView;
 @class PFFile;
-@protocol VLMFeedHeaderDelegate;
+@protocol VLMSectionDelegate;
 
 @interface VLMSectionView : UIView{
     UILabel *headerLabel;
@@ -19,11 +19,11 @@
     UIButton *clearbutton3;
     UILabel *timestamp;
     NSInteger section;
-    id <VLMFeedHeaderDelegate> delegate;
+    id <VLMSectionDelegate> delegate;
 }
 
 
-@property (nonatomic, strong) id <VLMFeedHeaderDelegate> delegate;
+@property (nonatomic, strong) id <VLMSectionDelegate> delegate;
 @property (nonatomic) NSInteger section;
 @property (nonatomic, strong) PFImageView *profileImageView;
 @property (nonatomic, strong) UILabel *headerLabel;

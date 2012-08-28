@@ -276,7 +276,8 @@
         [clearbutton setUserInteractionEnabled:YES];
         [clearbutton setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0]];
         [clearbutton setFrame:CGRectMake(self.view.frame.size.width-40, 0, 40, self.view.frame.size.height)];
-        [clearbutton addTarget:self action:@selector(hideLeftPanel:) forControlEvents:UIControlEventTouchUpInside|UIControlEventTouchDragOutside];
+        [clearbutton addTarget:self action:@selector(hideLeftPanel:) forControlEvents:UIControlEventTouchUpInside];
+        [clearbutton addTarget:self action:@selector(hideLeftPanel:) forControlEvents:UIControlEventTouchDragInside];
     }
     [self.view addSubview:clearbutton];
     
