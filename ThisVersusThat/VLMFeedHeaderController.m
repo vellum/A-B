@@ -69,6 +69,7 @@
     [titleviewmask addSubview:titleView];
     self.titleframe = titleView.frame;
 
+    
     UILabel *A = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, HEADER_HEIGHT)];
     [A setText:@"All Polls"];
     [A setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
@@ -76,14 +77,32 @@
     [A setTextAlignment:UITextAlignmentCenter];
     [A setBackgroundColor:[UIColor clearColor]];
     [titleView addSubview:A];
+    
+    CGRect f = A.frame;
+    [A sizeToFit];
+    CGFloat aw = A.frame.size.width;
+    CGFloat ah = A.frame.size.height;
+    [A setFrame:f];
+    UIView *underlineA = [[UIView alloc] initWithFrame:CGRectMake(75-aw/2, HEADER_HEIGHT/2 + ah/2-2, aw, 1)];
+    [underlineA setBackgroundColor:TEXT_COLOR];
+    //[titleView addSubview:underlineA];
 
     UILabel *B = [[UILabel alloc] initWithFrame:CGRectMake(150, 0, 150, HEADER_HEIGHT)];
-    [B setText:@"Friends' Polls"];
+    [B setText:@"Friends\u2019 Polls"];
     [B setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
     [B setTextColor:TEXT_COLOR];
     [B setTextAlignment:UITextAlignmentCenter];
     [B setBackgroundColor:[UIColor clearColor]];
     [titleView addSubview:B];
+
+    f = B.frame;
+    [B sizeToFit];
+    CGFloat bw = B.frame.size.width;
+    CGFloat bh = B.frame.size.height;
+    [B setFrame:f];
+    UIView *underlineB = [[UIView alloc] initWithFrame:CGRectMake(150 + 75-bw/2, HEADER_HEIGHT/2 + bh/2 -2, bw, 1)];
+    [underlineB setBackgroundColor:TEXT_COLOR];
+    //[titleView addSubview:underlineB];
 
     UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(toggleHeader:)];
     [sgr setDirection:UISwipeGestureRecognizerDirectionLeft];
