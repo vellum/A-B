@@ -18,7 +18,8 @@
 @property (nonatomic, strong) id <VLMMainHeaderDelegate> delegate;
 @property (nonatomic) VLMFeedType feedtype;
 @property (nonatomic, strong) DDPageControl *pagecontrol;
-@property (nonatomic, strong) UIButton *titlebutton;
+@property (nonatomic, strong) UIView *titleView;
+@property (nonatomic) CGRect titleframe;
 @end
 
 @implementation VLMFeedHeaderController
@@ -28,8 +29,8 @@
 @synthesize delegate;
 @synthesize feedtype;
 @synthesize pagecontrol;
-@synthesize titlebutton;
-
+@synthesize titleView;
+@synthesize titleframe;
 - (id)initWithTitle:(NSString *)title andHeaderDelegate:(id)headerdelegate
 {
     self = [super init];
@@ -57,26 +58,45 @@
     [self.view.layer setCornerRadius:HEADER_CORNER_RADIUS];
     [self.view.layer setMasksToBounds:YES];
     
+    UIView *titleviewmask = [[UIView alloc] initWithFrame:CGRectMake(winw/2-75.0f, 0, 150.0f, HEADER_HEIGHT)];
+    [titleviewmask setClipsToBounds:YES];
+    [titleviewmask setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:titleviewmask];
+
     
-    UIButton *t = [self makeTextButtonWithFrame:CGRectMake(winw/2-75.0f, 0, 150.0f, HEADER_HEIGHT)];
-    [t setTitle:self.title forState:UIControlStateNormal];
-    [t setShowsTouchWhenHighlighted:NO];
-    [t.titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
-    [t setTitleColor:TEXT_COLOR forState:UIControlStateNormal];
-    [t setTitleShadowColor:[UIColor colorWithWhite:0.1f alpha:1.0f] forState:UIControlStateNormal];
-    [t addTarget:self action:@selector(toggleHeader:) forControlEvents:UIControlEventTouchUpInside];
-    
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300.0f, HEADER_HEIGHT)];
+    [titleView setBackgroundColor:[UIColor clearColor]];
+    [titleviewmask addSubview:titleView];
+    self.titleframe = titleView.frame;
+
+    UILabel *A = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, HEADER_HEIGHT)];
+    [A setText:@"All Polls"];
+    [A setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
+    [A setTextColor:TEXT_COLOR];
+    [A setTextAlignment:UITextAlignmentCenter];
+    [A setBackgroundColor:[UIColor clearColor]];
+    [titleView addSubview:A];
+
+    UILabel *B = [[UILabel alloc] initWithFrame:CGRectMake(150, 0, 150, HEADER_HEIGHT)];
+    [B setText:@"Friends' Polls"];
+    [B setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
+    [B setTextColor:TEXT_COLOR];
+    [B setTextAlignment:UITextAlignmentCenter];
+    [B setBackgroundColor:[UIColor clearColor]];
+    [titleView addSubview:B];
+
     UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(toggleHeader:)];
     [sgr setDirection:UISwipeGestureRecognizerDirectionLeft];
     UISwipeGestureRecognizer *sgr2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(toggleHeader:)];
     [sgr2 setDirection:UISwipeGestureRecognizerDirectionRight];
-   
-    [t addGestureRecognizer:sgr];
-    [t addGestureRecognizer:sgr2];
-    self.titlebutton = t;
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleHeader:)];
+    [titleviewmask addGestureRecognizer:sgr];
+    [titleviewmask addGestureRecognizer:sgr2];
+    [titleviewmask addGestureRecognizer:tgr];
+    
     
     self.pagecontrol = [[DDPageControl alloc] init];
-    [pagecontrol setCenter:CGPointMake(t.center.x, HEADER_HEIGHT - 14 + 2)];
+    [pagecontrol setCenter:CGPointMake(winw/2, HEADER_HEIGHT - 14 + 2)];
     [pagecontrol setIndicatorDiameter:5.0f];
     [pagecontrol setIndicatorSpace:7.0f];
     [pagecontrol setNumberOfPages:2];
@@ -85,7 +105,6 @@
     [pagecontrol setOffColor:[UIColor colorWithWhite:0.2f alpha:0.2f]];
     [pagecontrol setUserInteractionEnabled:NO];
     [self.view addSubview:pagecontrol];
-    [self.view addSubview: t];
     
     UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
     [left setImage:[UIImage imageNamed:@"3lines.png"] forState:UIControlStateNormal];
@@ -99,14 +118,39 @@
 - (void)toggleHeader:(id)sender{
     //NSLog(@"kew");
     int current = self.pagecontrol.currentPage;
+    
+    UISwipeGestureRecognizer *sgr;
+    if ( [sender isMemberOfClass:[UISwipeGestureRecognizer class]] ){
+        sgr = (UISwipeGestureRecognizer *)sender;
+    }
+    
     if ( current == 1 ){
-        [self.pagecontrol setCurrentPage:0];
-        [self setFeedtype:VLMFeedTypeAll];
-        [self.titlebutton setTitle:@"All Polls" forState:UIControlStateNormal];
+        if ( sgr && sgr.direction == UISwipeGestureRecognizerDirectionLeft ) return;
+        [UIView animateWithDuration:0.5f
+                              delay:0.0f 
+                            options:UIViewAnimationCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             [titleView setFrame:CGRectOffset(titleframe, 0, 0)];
+                         }
+                         completion:^(BOOL finished){
+                             [self.pagecontrol setCurrentPage:0];
+                             [self setFeedtype:VLMFeedTypeAll];
+                         }
+         ];
+
     } else {
-        [self.pagecontrol setCurrentPage:1];
-        [self setFeedtype:VLMFeedTypeFollowing];
-        [self.titlebutton setTitle:@"Friends' Polls" forState:UIControlStateNormal];
+        if ( sgr && sgr.direction == UISwipeGestureRecognizerDirectionRight ) return;
+        [UIView animateWithDuration:0.5f
+                              delay:0.0f 
+                            options:UIViewAnimationCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             [titleView setFrame:CGRectOffset(titleframe, -150, 0)];
+                         }
+                         completion:^(BOOL finished){
+                             [self.pagecontrol setCurrentPage:1];
+                             [self setFeedtype:VLMFeedTypeFollowing];
+                         }
+         ];
     }
     if ( self.delegate )
         if ( [self.delegate respondsToSelector:@selector(didToggleFeedType:)] )

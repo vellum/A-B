@@ -281,7 +281,7 @@
     }
     [self.view addSubview:clearbutton];
     
-    [UIView animateWithDuration:0.325
+    [UIView animateWithDuration:0.5
                           delay:0 
                         options:UIViewAnimationCurveEaseInOut
                      animations:^{
@@ -302,7 +302,7 @@
     if ( [PFUser currentUser] ){
         [addButtonController show];
     }
-    [UIView animateWithDuration:0.325
+    [UIView animateWithDuration:0.5
                           delay:0 
                         options:UIViewAnimationCurveEaseInOut
                      animations:^{
