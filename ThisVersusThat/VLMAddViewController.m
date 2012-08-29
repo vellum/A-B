@@ -387,8 +387,10 @@
     [cameraUI.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
 
     [cameraUI setDelegate:self];
-    if ( cameraUI )
-        [self presentViewController:cameraUI animated:NO completion:nil];
+    if ( cameraUI ){
+        //[self presentViewController:cameraUI animated:NO completion:nil];
+        [self presentModalViewController:cameraUI animated:NO];
+    }
     /*
     [self presentViewController:cameraUI animated:NO completion:^(void){
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];

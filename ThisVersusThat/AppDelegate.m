@@ -335,6 +335,7 @@
 - (BOOL)isParseReachable {
     return self.networkStatus != NotReachable;
 }
+
 - (void)monitorReachability {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
@@ -374,5 +375,12 @@
     }
      */
 }
-
+- (void)showErrorHUD:(NSString *)text{
+    MBProgressHUD *h = [MBProgressHUD showHUDAddedTo:hudlayer animated:YES];
+    h.square = NO;
+    [h setLabelText:text];
+    [h show:YES];
+    [h setDimBackground:NO];
+    [h hide:YES afterDelay:2.0f];
+}
 @end

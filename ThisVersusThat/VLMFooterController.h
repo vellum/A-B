@@ -16,6 +16,13 @@
     VLMMainViewController *mainviewcontroller;
 }
 
+typedef enum {
+	VLMFacebookQueryUser,
+    VLMFacebookQueryLocation,
+    VLMFacebookQueryFriends,
+} VLMFacebookQueryType;
+
+
 @property (strong, nonatomic) UIButton *feedbutton;
 @property (strong, nonatomic) UIButton *addbutton;
 @property (strong, nonatomic) VLMMainViewController *mainviewcontroller;

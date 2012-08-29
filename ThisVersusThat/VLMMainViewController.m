@@ -174,6 +174,7 @@
 
 
 - (void)showLoggedInState{
+    [[PFUser currentUser] fetchInBackgroundWithBlock:nil];
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     [self.footerViewController.view removeFromSuperview];

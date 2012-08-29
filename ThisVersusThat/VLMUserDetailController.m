@@ -60,6 +60,8 @@
     self = [super init];
     if ( self ){
         self.user = obj;
+        [self.user fetchIfNeeded];
+        
         self.loadingViewEnabled = NO;
         self.outstandingQueries = [NSMutableDictionary dictionary];
         self.className = @"Poll";

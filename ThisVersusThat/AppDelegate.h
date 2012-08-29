@@ -20,5 +20,6 @@
 - (void)updateHUD:(NSString *)text;
 - (void)hideHUD;
 
+- (void)showErrorHUD:(NSString *)text;
 - (BOOL)isParseReachable;
 @end

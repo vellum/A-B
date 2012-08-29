@@ -15,7 +15,8 @@
 @interface VLMFooterController (){
     NSMutableData *_data;
 }
-
+@property (nonatomic) VLMFacebookQueryType currentFacebookQueryType;
+@property (nonatomic) BOOL shouldSaveUser;
 @end
 
 @implementation VLMFooterController
@@ -23,7 +24,8 @@
 @synthesize feedbutton;
 @synthesize addbutton;
 @synthesize mainviewcontroller;
-
+@synthesize currentFacebookQueryType;
+@synthesize shouldSaveUser;
 #pragma mark - NSObject
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,7 +50,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    shouldSaveUser = NO;
 
     // dimensions
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
@@ -97,7 +99,7 @@
     
     ///*
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = [NSArray arrayWithObjects:@"user_about_me", nil];
+    NSArray *permissionsArray = [NSArray arrayWithObjects:@"user_location", @"user_birthday", @"user_website", @"user_about_me", nil];
     
     // Login PFUser using facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -116,31 +118,25 @@
             }
         
             if (![self shouldProceedToMainInterface:user]) {
-                [[PFFacebookUtils facebook] requestWithGraphPath:@"me/?fields=name,picture"
-                                                     andDelegate:self];           
+                //[[PFFacebookUtils facebook] requestWithGraphPath:@"me/?fields=name,picture" andDelegate:self];           
+                self.currentFacebookQueryType = VLMFacebookQueryUser;
+
+                [[PFFacebookUtils facebook] requestWithGraphPath:@"me/?fields=name,picture,birthday,location,bio,gender,website" andDelegate:self];           
             }else{
             }
         }
     }];
-    //*/
-
-    /*
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"" 
-                                                    delegate:self 
-                                                    cancelButtonTitle:@"Cancel"
-                                                    destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"New Account", @"Sign In", nil];
-    [sheet showInView:self.view.superview];
-    //*/
 }
 
-
 - (BOOL)shouldProceedToMainInterface:(PFUser *)user {
+
     if ([VLMUtility userHasValidFacebookData:[PFUser currentUser]]) {
+
         AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [dell showHUD:@"" animated:YES];
         [self.mainviewcontroller showLoggedInState];
         return YES;
+
     }
     
     return NO;
@@ -149,117 +145,120 @@
 #pragma mark - PF_FBRequestDelegate
 - (void)request:(PF_FBRequest *)request didLoad:(id)result {
     // This method is called twice - once for the user's /me profile, and a second time when obtaining their friends. We will try and handle both scenarios in a single method.
+    AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSArray *data = [result objectForKey:@"data"];
-    
-    if (data) {
+    if (self.currentFacebookQueryType == VLMFacebookQueryUser) {
         
-        
-        /*
-        // we have friends data
-        NSMutableArray *facebookIds = [[NSMutableArray alloc] initWithCapacity:[data count]];
-        for (NSDictionary *friendData in data) {
-            [facebookIds addObject:[friendData objectForKey:@"id"]];
-        }
-        
-        // cache friend data
-        [[PAPCache sharedCache] setFacebookFriends:facebookIds];
-        
-        if (![[PFUser currentUser] objectForKey:kPAPUserAlreadyAutoFollowedFacebookFriendsKey]) {
-            [self.hud setLabelText:@"Following Friends"];
-            NSLog(@"Auto-following");
-            firstLaunch = YES;
-            
-            [[PFUser currentUser] setObject:[NSNumber numberWithBool:YES] forKey:kPAPUserAlreadyAutoFollowedFacebookFriendsKey];
-            NSError *error = nil;
-            
-            // find common Facebook friends already using Anypic
-            PFQuery *facebookFriendsQuery = [PFUser query];
-            [facebookFriendsQuery whereKey:kPAPUserFacebookIDKey containedIn:facebookIds];
-            
-            NSArray *anypicFriends = [facebookFriendsQuery findObjects:&error];
-            if (!error) {
-                [anypicFriends enumerateObjectsUsingBlock:^(PFUser *newFriend, NSUInteger idx, BOOL *stop) {
-                    NSLog(@"Join activity for %@", [newFriend objectForKey:kPAPUserDisplayNameKey]);
-                    PFObject *joinActivity = [PFObject objectWithClassName:kPAPActivityClassKey];
-                    [joinActivity setObject:[PFUser currentUser] forKey:kPAPActivityFromUserKey];
-                    [joinActivity setObject:newFriend forKey:kPAPActivityToUserKey];
-                    [joinActivity setObject:kPAPActivityTypeJoined forKey:kPAPActivityTypeKey];
-                    
-                    PFACL *joinACL = [PFACL ACL];
-                    [joinACL setPublicReadAccess:YES];
-                    joinActivity.ACL = joinACL;
-                    
-                    // make sure our join activity is always earlier than a follow
-                    [joinActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        if (succeeded) {
-                            NSLog(@"Followed %@", [newFriend objectForKey:kPAPUserDisplayNameKey]);
-                        }
-                        
-                        [PAPUtility followUserInBackground:newFriend block:^(BOOL succeeded, NSError *error) {
-                            // This block will be executed once for each friend that is followed.
-                            // We need to refresh the timeline when we are following at least a few friends
-                            // Use a timer to avoid refreshing innecessarily
-                            if (self.autoFollowTimer) {
-                                [self.autoFollowTimer invalidate];
-                            }
-                            
-                            self.autoFollowTimer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(autoFollowTimerFired:) userInfo:nil repeats:NO];
-                        }];
-                    }];
-                }];
-            }
-            
-            if (![self shouldProceedToMainInterface:[PFUser currentUser]]) {
-                [self logOut];
-                return;
-            }
-            
-            if (!error) {
-                [MBProgressHUD hideHUDForView:self.navController.presentedViewController.view animated:NO];
-                self.hud = [MBProgressHUD showHUDAddedTo:self.homeViewController.view animated:NO];
-                [self.hud setDimBackground:YES];
-                [self.hud setLabelText:@"Following Friends"];
-            }
-        }
-        
-        [[PFUser currentUser] saveEventually];
-         */
-    } else {
-        AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [dell showHUD:@"creating profile"];
-
+        
         NSString *facebookId = [result objectForKey:@"id"];
-        NSString *facebookName = [result objectForKey:@"name"];
-        
-        NSLog(@"here. facebookname: %@", facebookName);
-        if (facebookName && facebookName != 0) {
-            [[PFUser currentUser] setObject:facebookName forKey:kPAPUserDisplayNameKey];
-        }
-        
         if (facebookId && facebookId != 0) {
             [[PFUser currentUser] setObject:facebookId forKey:kPAPUserFacebookIDKey];
         }
         
-        [[PFUser currentUser] saveEventually];
-        [self.mainviewcontroller showLoggedInState];
-        //[[PFFacebookUtils facebook] requestWithGraphPath:@"me/friends" andDelegate:self];
+        NSString *facebookName = [result objectForKey:@"name"];
+        if (facebookName && facebookName != 0) {
+            [[PFUser currentUser] setObject:facebookName forKey:kPAPUserDisplayNameKey];
+        }
+        
+        NSString *birthday = [result objectForKey:@"birthday"];
+        if ( birthday && birthday != 0 ){
+            NSDateFormatter* myFormatter = [[NSDateFormatter alloc] init];
+            [myFormatter setDateFormat:@"MM/dd/yyyy"];
+            NSDate* myDate = [myFormatter dateFromString:birthday];
+            [[PFUser currentUser] setObject:myDate forKey:@"birthday"];
+        }
+        
+        NSDictionary *location = [result objectForKey:@"location"];
+        if (location && location !=0){
+            NSString *city = [location objectForKey:@"name"];
+            if (city && city != 0){
+                [[PFUser currentUser] setObject:city forKey:@"location"];
+            }
+        }
+        
+        NSString *bio = [result objectForKey:@"bio"];
+        if ( bio && bio != 0 ){
+            if ( [bio length] > 140 ){
+                bio = [bio substringToIndex:139];
+            }
+            [[PFUser currentUser] setObject:bio forKey:@"bio"];
+        }
+        
+        NSString *gender = [result objectForKey:@"gender"];
+        if ( gender && gender != 0 ){
+            [[PFUser currentUser] setObject:gender forKey:@"gender"];
+            NSLog(@"gender: %@", gender);
+        }
+        
+        NSString *website = [result objectForKey:@"website"];
+        if ( website && website != 0 ){
+            [[PFUser currentUser] setObject:website forKey:@"website"];
+        }
+        
+        
+        NSDictionary *locationdict = [result objectForKey:@"location"];
+        NSLog(@"%@", locationdict);
+        if ( locationdict ){
+            NSString *location = [locationdict objectForKey:@"name"];
+            NSString *locationid = [locationdict objectForKey:@"id"];
+
+            if (location && location != 0){
+                [[PFUser currentUser] setObject:location forKey:@"location"];
+                NSLog(@"location: %@", location);
+                
+                if ( locationid && locationid != 0 ){
+                    self.currentFacebookQueryType = VLMFacebookQueryLocation;
+                    NSString *path = [NSString stringWithFormat:@"%@/?fields=location", locationid];
+                    [[PFFacebookUtils facebook] requestWithGraphPath:path andDelegate:self]; 
+                    shouldSaveUser = NO;
+                } else {
+                    shouldSaveUser = YES;
+                }
+            }
+            
+        } else {
+            shouldSaveUser = YES;
+        }
+        if ( shouldSaveUser ){
+            [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                if ( !succeeded || error ){
+                    [self.mainviewcontroller logout];
+                    [dell showErrorHUD:@"Error creating profile"];
+                } else {
+                    [self.mainviewcontroller showLoggedInState];
+                }
+            }];
+        }
+        
+    } else if (self.currentFacebookQueryType == VLMFacebookQueryLocation ) {
+        
+        NSDictionary *latlng = [result objectForKey:@"location"];
+        if ( latlng && latlng != 0 ){
+            NSNumber *lat = [latlng objectForKey:@"latitude"];
+            NSNumber *lng = [latlng objectForKey:@"longitude"];
+            PFGeoPoint *geo = [PFGeoPoint geoPointWithLatitude:[lat doubleValue] longitude:[lng doubleValue]];
+            [[PFUser currentUser] setObject:geo forKey:@"latlng"];
+            [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                if ( !succeeded || error ){
+                    [self.mainviewcontroller logout];
+                    [dell showErrorHUD:@"Error creating profile"];
+                } else {
+                    [self.mainviewcontroller showLoggedInState];
+                }
+            }];
+        }
+        
+    } else if (self.currentFacebookQueryType == VLMFacebookQueryFriends){
+        
     }
 }
 
 - (void)request:(PF_FBRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"Facebook error: %@", error);
-    /*
-    [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
-    
-    if ([PFUser currentUser]) {
-        if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"] 
-             isEqualToString: @"OAuthException"]) {
-            NSLog(@"The facebook token was invalidated");
-            [self logOut];
-        }
-    }*/
     [self.mainviewcontroller logout];
+    AppDelegate *dell = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [dell showErrorHUD:@"Error creating profile"];
 }
 
 
