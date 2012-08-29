@@ -148,6 +148,7 @@
     
     if ( current == 1 ){
         if ( sgr && sgr.direction == UISwipeGestureRecognizerDirectionLeft ) return;
+        [self setFeedtype:VLMFeedTypeAll];
         [UIView animateWithDuration:0.325f
                               delay:0.0f 
                             options:UIViewAnimationCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
@@ -156,12 +157,12 @@
                          }
                          completion:^(BOOL finished){
                              [self.pagecontrol setCurrentPage:0];
-                             [self setFeedtype:VLMFeedTypeAll];
                          }
          ];
 
     } else {
         if ( sgr && sgr.direction == UISwipeGestureRecognizerDirectionRight ) return;
+        [self setFeedtype:VLMFeedTypeFollowing];
         [UIView animateWithDuration:0.325f
                               delay:0.0f 
                             options:UIViewAnimationCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
@@ -170,7 +171,6 @@
                          }
                          completion:^(BOOL finished){
                              [self.pagecontrol setCurrentPage:1];
-                             [self setFeedtype:VLMFeedTypeFollowing];
                          }
          ];
     }
