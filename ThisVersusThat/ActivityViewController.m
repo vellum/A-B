@@ -309,7 +309,7 @@
             [label setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
             [label setText:@"Activity"];
             [label setTextAlignment:UITextAlignmentCenter];
-            [label setBackgroundColor:TEXT_COLOR];
+            [label setBackgroundColor:[UIColor colorWithWhite:0.2f alpha:1.0f]];
             [label setTextColor:[UIColor whiteColor]];
             [head.contentView addSubview:label];
             head.selectionStyle = UITableViewCellSelectionStyleNone;

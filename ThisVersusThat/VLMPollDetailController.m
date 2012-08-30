@@ -19,7 +19,12 @@
 #import "VLMFeedHeaderDelegate.h"
 #import "AppDelegate.h"
 #import <MapKit/MapKit.h>
-#import "MapViewAnnotation.h"
+#import "REVClusterMap/REVClusterMapView.h"
+#import "REVClusterMap/REVClusterPin.h"
+#import "REVClusterMap/REVClusterMap.h"
+#import "REVClusterMap/REVClusterManager.h"
+#import "REVClusterMap/REVAnnotationsCollection.h"
+#import "REVClusterAnnotationView.h"
 
 #define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
 #define ANNOTATION_REGION_PAD_FACTOR 1.15
@@ -717,17 +722,16 @@
     [cell addSubview:where];
     y+= 14*4;
     
-    MKMapView *mapview = [[MKMapView alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*8)];
-    [mapview setUserInteractionEnabled:NO];
-    
+    NSMutableArray *pins = [NSMutableArray array];
     for (PFUser *liker in likersL){
         PFGeoPoint *geo = [liker objectForKey:@"latlng"];
         if ( geo ){
             CLLocationCoordinate2D location;
             location.latitude = geo.latitude;
             location.longitude = geo.longitude;
-            MapViewAnnotation *newAnnotation = [[MapViewAnnotation alloc] initWithTitle:@"" andCoordinate:location];
-            [mapview addAnnotation:newAnnotation];
+            REVClusterPin *pin = [[REVClusterPin alloc] init];
+            pin.coordinate = location;
+            [pins addObject:pin];
         }
     }
     for (PFUser *liker in likersR){
@@ -736,10 +740,15 @@
             CLLocationCoordinate2D location;
             location.latitude = geo.latitude;
             location.longitude = geo.longitude;
-            MapViewAnnotation *newAnnotation = [[MapViewAnnotation alloc] initWithTitle:@"" andCoordinate:location];
-            [mapview addAnnotation:newAnnotation];
+            REVClusterPin *pin = [[REVClusterPin alloc] init];
+            pin.coordinate = location;
+            [pins addObject:pin];
         }
     }
+    REVClusterMapView *mapview = [[REVClusterMapView alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*8)];
+    [mapview setUserInteractionEnabled:NO];
+    [mapview addAnnotations:pins];
+    [mapview setDelegate:self];
     [self zoomMapViewToFitAnnotations:mapview animated:NO];
     [cell addSubview:mapview];
     
@@ -1097,4 +1106,78 @@
     }
     [mapView setRegion:region animated:animated];
 }
+
+
+#pragma mark -
+#pragma mark Map view delegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    if([annotation class] == MKUserLocation.class) {
+		//userLocation = annotation;
+		return nil;
+	}
+    
+    REVClusterPin *pin = (REVClusterPin *)annotation;
+    
+    MKAnnotationView *annView;
+    if( [pin nodeCount] > 0 ){
+        pin.title = @"___";
+        
+        annView = (REVClusterAnnotationView*)
+        [mapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
+        
+        if( !annView )
+            annView = (REVClusterAnnotationView*)
+            [[REVClusterAnnotationView alloc] initWithAnnotation:annotation
+                                                  reuseIdentifier:@"cluster"];
+        
+        annView.image = [UIImage imageNamed:@"cluster.png"];
+        
+        [(REVClusterAnnotationView*)annView setClusterText:
+         [NSString stringWithFormat:@"%i",[pin nodeCount]]];
+        
+        annView.canShowCallout = NO;
+    } else {
+        pin.title = @"___";
+        
+        annView = (REVClusterAnnotationView*)
+        [mapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
+        
+        if( !annView )
+            annView = (REVClusterAnnotationView*)
+            [[REVClusterAnnotationView alloc] initWithAnnotation:annotation
+                                                 reuseIdentifier:@"cluster"];
+        
+        annView.image = [UIImage imageNamed:@"cluster.png"];
+        
+        [(REVClusterAnnotationView*)annView setClusterText:@"1"];
+        
+        annView.canShowCallout = NO;
+    }
+    return annView;
+}
+
+- (void)mapView:(MKMapView *)mapView
+didSelectAnnotationView:(MKAnnotationView *)view
+{
+    /*
+    NSLog(@"REVMapViewController mapView didSelectAnnotationView:");
+    
+    if (![view isKindOfClass:[REVClusterAnnotationView class]])
+        return;
+    
+    CLLocationCoordinate2D centerCoordinate = [(REVClusterPin *)view.annotation coordinate];
+    
+    MKCoordinateSpan newSpan =
+    MKCoordinateSpanMake(mapView.region.span.latitudeDelta/2.0,
+                         mapView.region.span.longitudeDelta/2.0);
+    
+    //mapView.region = MKCoordinateRegionMake(centerCoordinate, newSpan);
+    
+    [mapView setRegion:MKCoordinateRegionMake(centerCoordinate, newSpan)
+              animated:YES];
+     */
+}
+
 @end

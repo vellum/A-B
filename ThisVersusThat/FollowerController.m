@@ -116,6 +116,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.objects.count;
 }
+- (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
+    if (indexPath.row < self.objects.count) {
+        return [self.objects objectAtIndex:indexPath.row];
+    }
+    return nil;
+}
+
 
 
 @end

@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "Parse/Parse.h"
 #import "VLMFeedHeaderDelegate.h"
 
-@interface VLMPollDetailController : PFQueryTableViewController<UITextViewDelegate, VLMSectionDelegate, UIActionSheetDelegate>{
+@interface VLMPollDetailController : PFQueryTableViewController<UITextViewDelegate, VLMSectionDelegate, UIActionSheetDelegate, MKMapViewDelegate>{
     PFObject *poll;
 }
 

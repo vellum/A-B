@@ -43,7 +43,6 @@
 		BD4D508715BDE19D007D6E3A /* VLMFooterController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507615BDE19C007D6E3A /* VLMFooterController.m */; };
 		BD4D508815BDE19D007D6E3A /* VLMSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507815BDE19C007D6E3A /* VLMSectionView.m */; };
 		BD4D508915BDE19D007D6E3A /* VLMTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */; };
-		BD50201415EF2C3A00190869 /* MapViewAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD50201315EF2C3A00190869 /* MapViewAnnotation.m */; };
 		BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD54C2DA15D3568700B73984 /* VLMCommentCell.m */; };
 		BD5E12F015E028F8004D557E /* VotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5E12EF15E028F8004D557E /* VotesViewController.m */; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
@@ -95,6 +94,16 @@
 		BDEA532A15EC97A900F1A8E2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDEA532915EC97A900F1A8E2 /* Icon@2x.png */; };
 		BDEB7A1615D09D51003BC4E3 /* LoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */; };
 		BDEB7A2015D0F222003BC4E3 /* UIViewController+Transitions.m in Sources */ = {isa = PBXBuildFile; fileRef = BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */; };
+		BDF1375915EFD94E0026ED2C /* REVAnnotationsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF1374F15EFD94E0026ED2C /* REVAnnotationsCollection.m */; };
+		BDF1375A15EFD94E0026ED2C /* REVClusterBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF1375115EFD94E0026ED2C /* REVClusterBlock.m */; };
+		BDF1375B15EFD94E0026ED2C /* REVClusterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF1375315EFD94E0026ED2C /* REVClusterManager.m */; };
+		BDF1375C15EFD94E0026ED2C /* REVClusterMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF1375615EFD94E0026ED2C /* REVClusterMapView.m */; };
+		BDF1375D15EFD94E0026ED2C /* REVClusterPin.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF1375815EFD94E0026ED2C /* REVClusterPin.m */; };
+		BDF1376315EFE7080026ED2C /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = BDF1375F15EFE7080026ED2C /* cluster.png */; };
+		BDF1376415EFE7080026ED2C /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDF1376015EFE7080026ED2C /* cluster@2x.png */; };
+		BDF1376515EFE7080026ED2C /* pinpoint.png in Resources */ = {isa = PBXBuildFile; fileRef = BDF1376115EFE7080026ED2C /* pinpoint.png */; };
+		BDF1376615EFE7080026ED2C /* pinpoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDF1376215EFE7080026ED2C /* pinpoint@2x.png */; };
+		BDF1376915EFE8CA0026ED2C /* REVClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF1376815EFE8CA0026ED2C /* REVClusterAnnotationView.m */; };
 		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
 		BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */; };
 		BDFE7FDA15D4B00B00D577E2 /* vote_button_disabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDFE7FD815D4B00B00D577E2 /* vote_button_disabled@2x.png */; };
@@ -155,8 +164,6 @@
 		BD4D507815BDE19C007D6E3A /* VLMSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMSectionView.m; sourceTree = "<group>"; };
 		BD4D507915BDE19C007D6E3A /* VLMTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTextButton.h; sourceTree = "<group>"; };
 		BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMTextButton.m; sourceTree = "<group>"; };
-		BD50201215EF2C3A00190869 /* MapViewAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewAnnotation.h; sourceTree = "<group>"; };
-		BD50201315EF2C3A00190869 /* MapViewAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAnnotation.m; sourceTree = "<group>"; };
 		BD54C2D915D3568700B73984 /* VLMCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMCommentCell.h; sourceTree = "<group>"; };
 		BD54C2DA15D3568700B73984 /* VLMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCommentCell.m; sourceTree = "<group>"; };
 		BD5E12EE15E028F8004D557E /* VotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotesViewController.h; sourceTree = "<group>"; };
@@ -231,6 +238,23 @@
 		BDEB7A1515D09D51003BC4E3 /* LoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMoreCell.m; sourceTree = "<group>"; };
 		BDEB7A1E15D0F222003BC4E3 /* UIViewController+Transitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Transitions.h"; path = "ThisVersusThat/UIViewController+Transitions.h"; sourceTree = "<group>"; };
 		BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Transitions.m"; path = "ThisVersusThat/UIViewController+Transitions.m"; sourceTree = "<group>"; };
+		BDF1374E15EFD94E0026ED2C /* REVAnnotationsCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVAnnotationsCollection.h; sourceTree = "<group>"; };
+		BDF1374F15EFD94E0026ED2C /* REVAnnotationsCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVAnnotationsCollection.m; sourceTree = "<group>"; };
+		BDF1375015EFD94E0026ED2C /* REVClusterBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVClusterBlock.h; sourceTree = "<group>"; };
+		BDF1375115EFD94E0026ED2C /* REVClusterBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVClusterBlock.m; sourceTree = "<group>"; };
+		BDF1375215EFD94E0026ED2C /* REVClusterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVClusterManager.h; sourceTree = "<group>"; };
+		BDF1375315EFD94E0026ED2C /* REVClusterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVClusterManager.m; sourceTree = "<group>"; };
+		BDF1375415EFD94E0026ED2C /* REVClusterMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVClusterMap.h; sourceTree = "<group>"; };
+		BDF1375515EFD94E0026ED2C /* REVClusterMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVClusterMapView.h; sourceTree = "<group>"; };
+		BDF1375615EFD94E0026ED2C /* REVClusterMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVClusterMapView.m; sourceTree = "<group>"; };
+		BDF1375715EFD94E0026ED2C /* REVClusterPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REVClusterPin.h; sourceTree = "<group>"; };
+		BDF1375815EFD94E0026ED2C /* REVClusterPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REVClusterPin.m; sourceTree = "<group>"; };
+		BDF1375F15EFE7080026ED2C /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = "<group>"; };
+		BDF1376015EFE7080026ED2C /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = "<group>"; };
+		BDF1376115EFE7080026ED2C /* pinpoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pinpoint.png; sourceTree = "<group>"; };
+		BDF1376215EFE7080026ED2C /* pinpoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinpoint@2x.png"; sourceTree = "<group>"; };
+		BDF1376715EFE8CA0026ED2C /* REVClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REVClusterAnnotationView.h; path = REVClusterMap/REVClusterAnnotationView.h; sourceTree = "<group>"; };
+		BDF1376815EFE8CA0026ED2C /* REVClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = REVClusterAnnotationView.m; path = REVClusterMap/REVClusterAnnotationView.m; sourceTree = "<group>"; };
 		BDFAC8FB15C9F980001A15B5 /* VLMUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMUtility.h; sourceTree = "<group>"; };
 		BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMUtility.m; sourceTree = "<group>"; };
 		BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Fat.m"; path = "ThisVersusThat/UINavigationBar+Fat.m"; sourceTree = "<group>"; };
@@ -416,6 +440,8 @@
 				BD4D507015BDE19C007D6E3A /* VLMFeedHeaderController.m */,
 				BD4D507515BDE19C007D6E3A /* VLMFooterController.h */,
 				BD4D507615BDE19C007D6E3A /* VLMFooterController.m */,
+				BDF1376715EFE8CA0026ED2C /* REVClusterAnnotationView.h */,
+				BDF1376815EFE8CA0026ED2C /* REVClusterAnnotationView.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -436,6 +462,29 @@
 				BDEB7A1F15D0F222003BC4E3 /* UIViewController+Transitions.m */,
 			);
 			name = "UINavigationController Category";
+			sourceTree = "<group>";
+		};
+		BDF1374D15EFD94E0026ED2C /* REVClusterMap */ = {
+			isa = PBXGroup;
+			children = (
+				BDF1375F15EFE7080026ED2C /* cluster.png */,
+				BDF1376015EFE7080026ED2C /* cluster@2x.png */,
+				BDF1376115EFE7080026ED2C /* pinpoint.png */,
+				BDF1376215EFE7080026ED2C /* pinpoint@2x.png */,
+				BDF1374E15EFD94E0026ED2C /* REVAnnotationsCollection.h */,
+				BDF1374F15EFD94E0026ED2C /* REVAnnotationsCollection.m */,
+				BDF1375015EFD94E0026ED2C /* REVClusterBlock.h */,
+				BDF1375115EFD94E0026ED2C /* REVClusterBlock.m */,
+				BDF1375215EFD94E0026ED2C /* REVClusterManager.h */,
+				BDF1375315EFD94E0026ED2C /* REVClusterManager.m */,
+				BDF1375415EFD94E0026ED2C /* REVClusterMap.h */,
+				BDF1375515EFD94E0026ED2C /* REVClusterMapView.h */,
+				BDF1375615EFD94E0026ED2C /* REVClusterMapView.m */,
+				BDF1375715EFD94E0026ED2C /* REVClusterPin.h */,
+				BDF1375815EFD94E0026ED2C /* REVClusterPin.m */,
+			);
+			name = REVClusterMap;
+			path = ThisVersusThat/REVClusterMap;
 			sourceTree = "<group>";
 		};
 		BDFB949215C3049A001FF740 /* Images */ = {
@@ -492,8 +541,6 @@
 				BD19FDCA15D9F3A60083E65D /* ActivityNavButton.h */,
 				BD19FDCB15D9F3A60083E65D /* ActivityNavButton.m */,
 				BDFB949915C3073E001FF740 /* UITableViewCells */,
-				BD50201215EF2C3A00190869 /* MapViewAnnotation.h */,
-				BD50201315EF2C3A00190869 /* MapViewAnnotation.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -513,6 +560,7 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BDF1374D15EFD94E0026ED2C /* REVClusterMap */,
 				BDEA532115EC31AC00F1A8E2 /* DDPageControl */,
 				BD3C1D2815E4309D001EF030 /* Reachability */,
 				BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */,
@@ -660,6 +708,10 @@
 				BDB1486A15EF3E4B004C25BD /* connection@2x.png in Resources */,
 				BDB1486E15EF3F40004C25BD /* error.png in Resources */,
 				BDB1486F15EF3F40004C25BD /* error@2x.png in Resources */,
+				BDF1376315EFE7080026ED2C /* cluster.png in Resources */,
+				BDF1376415EFE7080026ED2C /* cluster@2x.png in Resources */,
+				BDF1376515EFE7080026ED2C /* pinpoint.png in Resources */,
+				BDF1376615EFE7080026ED2C /* pinpoint@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -704,7 +756,12 @@
 				BD92EF5015E061D900FAC490 /* FollowCell.m in Sources */,
 				BD3C1D2B15E4309D001EF030 /* Reachability.m in Sources */,
 				BDEA532015EC31A500F1A8E2 /* DDPageControl.m in Sources */,
-				BD50201415EF2C3A00190869 /* MapViewAnnotation.m in Sources */,
+				BDF1375915EFD94E0026ED2C /* REVAnnotationsCollection.m in Sources */,
+				BDF1375A15EFD94E0026ED2C /* REVClusterBlock.m in Sources */,
+				BDF1375B15EFD94E0026ED2C /* REVClusterManager.m in Sources */,
+				BDF1375C15EFD94E0026ED2C /* REVClusterMapView.m in Sources */,
+				BDF1375D15EFD94E0026ED2C /* REVClusterPin.m in Sources */,
+				BDF1376915EFE8CA0026ED2C /* REVClusterAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
