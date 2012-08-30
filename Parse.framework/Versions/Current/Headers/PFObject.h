@@ -9,13 +9,14 @@
  A Parse Framework Object that is a local representation of data persisted to the Parse cloud. This is the
  main class that is used to interact with objects in your app.
 */
-@class PFCommand;
+@class PFOperation;
 @class PFRelation;
+
 @interface PFObject : NSObject {
     BOOL dirty;
     BOOL hasBeenFetched;
     
-    PFCommand *currentCommand;
+    PFOperation *currentOperation;
     
     NSString *objectId;
     NSString *className;

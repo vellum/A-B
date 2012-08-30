@@ -10,7 +10,6 @@
 		092354B313A1D7EB00DA740F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092354B213A1D7EB00DA740F /* CFNetwork.framework */; };
 		092354B513A1D7F000DA740F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092354B413A1D7F000DA740F /* SystemConfiguration.framework */; };
 		092354B713A1D83C00DA740F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092354B613A1D83C00DA740F /* MobileCoreServices.framework */; };
-		094ACA0014367ACD008398F8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 094AC9FF14367ACD008398F8 /* Parse.framework */; };
 		095ACE8613C68EA300566243 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095ACE8513C68EA300566243 /* AudioToolbox.framework */; };
 		099CCEAD13F9E3760039A464 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 099CCEAC13F9E3760039A464 /* libz.1.1.3.dylib */; };
 		09ABC07213A1D52D009C3FCF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09ABC07113A1D52D009C3FCF /* UIKit.framework */; };
@@ -65,6 +64,8 @@
 		BD990D7615EF16E5007A5480 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = BD990D7415EF16E5007A5480 /* logout.png */; };
 		BD990D7715EF16E5007A5480 /* logout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD990D7515EF16E5007A5480 /* logout@2x.png */; };
 		BD990D8215EF222B007A5480 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD990D8115EF222B007A5480 /* MapKit.framework */; };
+		BD9FF75515EFD0A6000949D8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 094AC9FF14367ACD008398F8 /* Parse.framework */; };
+		BD9FF75715EFD0FB000949D8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD9FF75615EFD0FB000949D8 /* libsqlite3.dylib */; };
 		BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */; };
 		BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */; };
 		BDAC93E015D2009B008B820F /* gray_header_background.png in Resources */ = {isa = PBXBuildFile; fileRef = BDAC93DF15D2009B008B820F /* gray_header_background.png */; };
@@ -189,6 +190,7 @@
 		BD990D7415EF16E5007A5480 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		BD990D7515EF16E5007A5480 /* logout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout@2x.png"; sourceTree = "<group>"; };
 		BD990D8115EF222B007A5480 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BD9FF75615EFD0FB000949D8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VLMFeedHeaderDelegate.h; sourceTree = "<group>"; };
 		BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTapDelegate.h; sourceTree = "<group>"; };
 		BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMPopModalDelegate.h; sourceTree = "<group>"; };
@@ -242,6 +244,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD9FF75715EFD0FB000949D8 /* libsqlite3.dylib in Frameworks */,
+				BD9FF75515EFD0A6000949D8 /* Parse.framework in Frameworks */,
 				BD990D8215EF222B007A5480 /* MapKit.framework in Frameworks */,
 				743D7B6D157DA60100084B67 /* CoreGraphics.framework in Frameworks */,
 				2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */,
@@ -253,7 +257,6 @@
 				092354B313A1D7EB00DA740F /* CFNetwork.framework in Frameworks */,
 				09ABC07213A1D52D009C3FCF /* UIKit.framework in Frameworks */,
 				09ABC07413A1D52D009C3FCF /* Foundation.framework in Frameworks */,
-				094ACA0014367ACD008398F8 /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +288,9 @@
 		09ABC07013A1D52D009C3FCF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BD9FF75615EFD0FB000949D8 /* libsqlite3.dylib */,
+				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
+				094AC9FF14367ACD008398F8 /* Parse.framework */,
 				095ACE8513C68EA300566243 /* AudioToolbox.framework */,
 				743D7B6C157DA60100084B67 /* CoreGraphics.framework */,
 				09ABC07313A1D52D009C3FCF /* Foundation.framework */,
@@ -509,11 +515,9 @@
 			children = (
 				BDEA532115EC31AC00F1A8E2 /* DDPageControl */,
 				BD3C1D2815E4309D001EF030 /* Reachability */,
-				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
 				BDEB7A1815D0F0FC003BC4E3 /* UINavigationController Category */,
 				BD01955C15CADE1B00D58D19 /* MBProgressHUD */,
 				BD7F22C315C85F9C00598906 /* UIImage Category */,
-				094AC9FF14367ACD008398F8 /* Parse.framework */,
 				BD7F22C415C85FB000598906 /* UInavigationBar Category */,
 				BDFB949B15C307A1001FF740 /* UIPlaceholderTextView */,
 				BD19FDD115DA1D3D0083E65D /* TTTTimeIntervalFormatter.h */,

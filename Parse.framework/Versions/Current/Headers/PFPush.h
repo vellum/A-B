@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "PFConstants.h"
+#import "PFQuery.h"
 
 /*!
  A class which defines a push notification that can be sent from
@@ -35,6 +36,14 @@
  must start with a letter and contain only letters, numbers, dashes, and underscores.
  */
 - (void)setChannels:(NSArray *)channels;
+
+/*!
+ Sets an installation query to which this push notification will be sent. The
+ query should be created via [PFInstallation query] and should not specify a
+ skip, limit, or order.
+ @param query The installation query to set for this push.
+ */
+- (void)setQuery:(PFQuery *)query;
 
 /*!
  Sets an alert message for this push notification. This will overwrite
