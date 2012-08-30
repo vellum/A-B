@@ -25,24 +25,31 @@
 @synthesize enabledColor;
 @synthesize highlightColor;
 
-- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color highlightColor:(UIColor*)highlightcolor disabledColor:(UIColor*)disabledcolor andText:(NSString *)text
+- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color highlightColor:(UIColor*)highlightcolor disabledColor:(UIColor*)disabledcolor andText:(NSString *)text andImageView:(UIImageView *)iconview
 {
     self = [super initWithFrame:frame];
     if (self) {
         [self setAutoresizesSubviews:NO];
         
+        CGFloat xpos = 40;//( iconview ) ? 40 : 0;
+
         // Initialization code
-        self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        self.label = [[UILabel alloc] initWithFrame:CGRectMake(xpos, 0, frame.size.width, frame.size.height)];
         self.label.font = [UIFont fontWithName:@"AmericanTypewriter" size:size];
         self.label.textColor = color;
         [self.label setBackgroundColor:[UIColor clearColor]];
-
-
+        
         [self.label setText:text];
         [self addSubview:label];
         
+        if ( iconview ){
+            [self addSubview:iconview];
+            [iconview setBackgroundColor:[UIColor lightGrayColor]];
+            [iconview setFrame:CGRectMake(0, 14, 28, 28)];
+        }
+        
         CGRect r = self.label.frame;
-        CGRect t = CGRectMake(r.origin.x, r.origin.y + r.size.height, r.size.width, 1.0f);
+        CGRect t = CGRectMake(0, r.origin.y + r.size.height, r.size.width, 1.0f);
         UIView *line = [[UIView alloc] initWithFrame:t];
         [line setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.075f]];
         [line setUserInteractionEnabled:NO];

@@ -10,7 +10,7 @@
 
 @interface ActivityNavButton : UIButton
 
-- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color highlightColor:(UIColor*)highlightcolor disabledColor:(UIColor*)disabledcolor andText:(NSString *)text;
+- (id)initWithFrame:(CGRect)frame andTypeSize:(CGFloat)size andColor:(UIColor *)color highlightColor:(UIColor*)highlightcolor disabledColor:(UIColor*)disabledcolor andText:(NSString *)text andImageView:(UIImageView *)iconview;
 
 - (void)highlight:(id)sender;
 

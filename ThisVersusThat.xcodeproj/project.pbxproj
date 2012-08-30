@@ -61,6 +61,8 @@
 		BD92EF4815E04D5700FAC490 /* FollowerController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD92EF4715E04D5700FAC490 /* FollowerController.m */; };
 		BD92EF5015E061D900FAC490 /* FollowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD92EF4F15E061D900FAC490 /* FollowCell.m */; };
 		BD94B29715C0F73500DCC8DA /* UIPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */; };
+		BD990D7615EF16E5007A5480 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = BD990D7415EF16E5007A5480 /* logout.png */; };
+		BD990D7715EF16E5007A5480 /* logout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD990D7515EF16E5007A5480 /* logout@2x.png */; };
 		BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */; };
 		BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */; };
 		BDAC93E015D2009B008B820F /* gray_header_background.png in Resources */ = {isa = PBXBuildFile; fileRef = BDAC93DF15D2009B008B820F /* gray_header_background.png */; };
@@ -176,6 +178,8 @@
 		BD92EF4F15E061D900FAC490 /* FollowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowCell.m; sourceTree = "<group>"; };
 		BD94B29515C0F73400DCC8DA /* UIPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIPlaceholderTextView.h; path = ThisVersusThat/UIPlaceholderTextView.h; sourceTree = "<group>"; };
 		BD94B29615C0F73500DCC8DA /* UIPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIPlaceholderTextView.m; path = ThisVersusThat/UIPlaceholderTextView.m; sourceTree = "<group>"; };
+		BD990D7415EF16E5007A5480 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
+		BD990D7515EF16E5007A5480 /* logout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout@2x.png"; sourceTree = "<group>"; };
 		BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VLMFeedHeaderDelegate.h; sourceTree = "<group>"; };
 		BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTapDelegate.h; sourceTree = "<group>"; };
 		BDAC93D215D1AED2008B820F /* VLMPopModalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMPopModalDelegate.h; sourceTree = "<group>"; };
@@ -416,6 +420,8 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BD990D7415EF16E5007A5480 /* logout.png */,
+				BD990D7515EF16E5007A5480 /* logout@2x.png */,
 				BD19859015D60EFE00AE9590 /* 3lines.png */,
 				BD031C4315E32790003A3F67 /* 3lines@2x.png */,
 				BD19858F15D60EFE00AE9590 /* 3lines_highlighted.png */,
@@ -623,6 +629,8 @@
 				BDEA532A15EC97A900F1A8E2 /* Icon@2x.png in Resources */,
 				BDE975C015EDEBAA00FBA535 /* Default.png in Resources */,
 				BDE975C215EDEBAD00FBA535 /* Default@2x.png in Resources */,
+				BD990D7615EF16E5007A5480 /* logout.png in Resources */,
+				BD990D7715EF16E5007A5480 /* logout@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

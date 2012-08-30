@@ -31,6 +31,7 @@
 }
 @property (nonatomic, strong) UIButton *clearbutton;
 @property (nonatomic, strong) ActivityViewController *activityController;
+@property (nonatomic, strong) PFImageView *avatarview;
 @end
 
 @implementation VLMMainViewController
@@ -40,6 +41,7 @@
 @synthesize addButtonController;
 @synthesize clearbutton;
 @synthesize activityController;
+@synthesize avatarview;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -63,7 +65,8 @@
     
     self.view.frame = CGRectMake(0, STATUSBAR_HEIGHT, winw, winh-STATUSBAR_HEIGHT);
     
-    
+    self.avatarview = [[PFImageView alloc] initWithFrame:CGRectZero];
+    [self.avatarview setHidden:YES];
     
     CGFloat y = 0;
     CGFloat x = 20;
@@ -77,19 +80,19 @@
     UIColor *high = [UIColor colorWithWhite:0.9f alpha:0.5f];
     UIColor *dis = [UIColor colorWithWhite:0.9f alpha:0.25f];
                                 
-                                ActivityNavButton *profilebutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Profile"];
+                                ActivityNavButton *profilebutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Profile" andImageView:avatarview];
                                 [activityHeader addSubview:profilebutton];
                                 [profilebutton addTarget:self action:@selector(tappedProfile:) forControlEvents:UIControlEventTouchUpInside];
                                 y+= 28 + 28;
                                 /*
-                                ActivityNavButton *settingsbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Settings"];
+                                ActivityNavButton *settingsbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Settings" andImageView:nil];
                                 [activityHeader addSubview:settingsbutton];
                                 [settingsbutton addTarget:self action:@selector(tappedSettings:) forControlEvents:UIControlEventTouchUpInside];
                                 y+= 28 + 28;
                                 */
-                                ActivityNavButton *logoutbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Log out"];
+    
+                                ActivityNavButton *logoutbutton = [[ActivityNavButton alloc] initWithFrame:CGRectMake(x, y, 6*40, 28+28) andTypeSize:14 andColor:norm highlightColor:high disabledColor:dis andText:@"Log out" andImageView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logout.png"]]];
                                 [activityHeader addSubview:logoutbutton];
-                                //[logoutbutton showLine:NO];
                                 [logoutbutton addTarget:self action:@selector(tappedLogout:) forControlEvents:UIControlEventTouchUpInside];
                                 y+= 28 + 28;
                                 y+=14+7;
@@ -199,6 +202,11 @@
     
     [(AppDelegate *)[UIApplication sharedApplication].delegate hideHUD];
     
+    PFFile *file = [[PFUser currentUser] objectForKey:@"profilePicSmall"];
+    [self.avatarview setFile:file];
+    [self.avatarview loadInBackground];
+    [self.avatarview setHidden:NO];
+    
     
 }
 
@@ -264,6 +272,7 @@
 
 
 - (void)showLeftPanel{
+
     
     [activityController enable:YES];
     CGRect f = self.feedViewController.view.frame;
