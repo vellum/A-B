@@ -69,6 +69,10 @@
 		BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */; };
 		BDAC93E015D2009B008B820F /* gray_header_background.png in Resources */ = {isa = PBXBuildFile; fileRef = BDAC93DF15D2009B008B820F /* gray_header_background.png */; };
 		BDAC93E815D2030F008B820F /* debuggrid.png in Resources */ = {isa = PBXBuildFile; fileRef = BDAC93E715D2030F008B820F /* debuggrid.png */; };
+		BDB1486915EF3E4B004C25BD /* connection.png in Resources */ = {isa = PBXBuildFile; fileRef = BDB1486715EF3E4B004C25BD /* connection.png */; };
+		BDB1486A15EF3E4B004C25BD /* connection@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDB1486815EF3E4B004C25BD /* connection@2x.png */; };
+		BDB1486E15EF3F40004C25BD /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = BDB1486C15EF3F40004C25BD /* error.png */; };
+		BDB1486F15EF3F40004C25BD /* error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDB1486D15EF3F40004C25BD /* error@2x.png */; };
 		BDC09F3815BF633000349761 /* VLMAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDC09F3715BF633000349761 /* VLMAddViewController.m */; };
 		BDC29A2F15C1EC0B00596546 /* photo_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A2E15C1EC0B00596546 /* photo_placeholder@2x.png */; };
 		BDC29A3215C1EC6700596546 /* vote_button_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDC29A3015C1EC6700596546 /* vote_button_normal@2x.png */; };
@@ -194,6 +198,10 @@
 		BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMUserDetailController.m; sourceTree = "<group>"; };
 		BDAC93DF15D2009B008B820F /* gray_header_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray_header_background.png; sourceTree = "<group>"; };
 		BDAC93E715D2030F008B820F /* debuggrid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debuggrid.png; sourceTree = "<group>"; };
+		BDB1486715EF3E4B004C25BD /* connection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = connection.png; sourceTree = "<group>"; };
+		BDB1486815EF3E4B004C25BD /* connection@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "connection@2x.png"; sourceTree = "<group>"; };
+		BDB1486C15EF3F40004C25BD /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
+		BDB1486D15EF3F40004C25BD /* error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error@2x.png"; sourceTree = "<group>"; };
 		BDC09F3615BF632F00349761 /* VLMAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddViewController.h; sourceTree = "<group>"; };
 		BDC09F3715BF633000349761 /* VLMAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMAddViewController.m; sourceTree = "<group>"; };
 		BDC29A2E15C1EC0B00596546 /* photo_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo_placeholder@2x.png"; sourceTree = "<group>"; };
@@ -427,6 +435,10 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BDB1486C15EF3F40004C25BD /* error.png */,
+				BDB1486D15EF3F40004C25BD /* error@2x.png */,
+				BDB1486715EF3E4B004C25BD /* connection.png */,
+				BDB1486815EF3E4B004C25BD /* connection@2x.png */,
 				BD990D7415EF16E5007A5480 /* logout.png */,
 				BD990D7515EF16E5007A5480 /* logout@2x.png */,
 				BD19859015D60EFE00AE9590 /* 3lines.png */,
@@ -640,6 +652,10 @@
 				BDE975C215EDEBAD00FBA535 /* Default@2x.png in Resources */,
 				BD990D7615EF16E5007A5480 /* logout.png in Resources */,
 				BD990D7715EF16E5007A5480 /* logout@2x.png in Resources */,
+				BDB1486915EF3E4B004C25BD /* connection.png in Resources */,
+				BDB1486A15EF3E4B004C25BD /* connection@2x.png in Resources */,
+				BDB1486E15EF3F40004C25BD /* error.png in Resources */,
+				BDB1486F15EF3F40004C25BD /* error@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

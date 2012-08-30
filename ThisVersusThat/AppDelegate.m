@@ -22,6 +22,7 @@
 @property (nonatomic, strong) Reachability *hostReach;
 @property (nonatomic, strong) Reachability *internetReach;
 @property (nonatomic, strong) Reachability *wifiReach;
+@property (nonatomic) BOOL firsttimenetworkchange;
 
 @end
 
@@ -37,6 +38,7 @@
 @synthesize hostReach;
 @synthesize internetReach;
 @synthesize wifiReach;
+@synthesize firsttimenetworkchange;
 
 #pragma mark -
 #pragma mark Setup
@@ -44,6 +46,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+    firsttimenetworkchange = YES;
     // ****************************************************************************
     // Uncomment and fill in with your Parse credentials:
     [Parse setApplicationId:PARSE_APP_ID clientKey:PARSE_CLIENT_KEY];
@@ -109,7 +112,7 @@
 
     // Use Reachability to monitor connectivity
     [self monitorReachability];
-
+    
     return YES;
 }
 
@@ -351,14 +354,34 @@
 
 //Called by Reachability whenever status changes.
 - (void)reachabilityChanged:(NSNotification* )note {
+    
+    BOOL wasParseReachable = [self isParseReachable];
+    
     Reachability *curReach = (Reachability *)[note object];
     NSParameterAssert([curReach isKindOfClass: [Reachability class]]);
     NSLog(@"Reachability changed: %@", curReach);
     networkStatus = [curReach currentReachabilityStatus];
-    if ([self isParseReachable] && [PFUser currentUser]){
-        NSLog(@"/////////// try to force a refresh");
-        [mainViewController refreshfeed];
+    
+    if (self.firsttimenetworkchange){
+        self.firsttimenetworkchange = NO;
+        if (![self isParseReachable]) {
+            [self showConnectionChangedHUD:@"Cannot connect to network"];
+        }
+        return;
     }
+    
+    if ([self isParseReachable] == wasParseReachable) {
+        //return;
+    }
+
+    if ([self isParseReachable]){
+        //[self showConnectionChangedHUD:@"Connection Returned"];
+        [mainViewController refreshfeed];
+    } else {
+        [self showConnectionChangedHUD:@"Connection Lost"];
+    }
+
+    
     /*
     UIViewController *currentViewContoller = mainViewController.navigationController.visibleViewController;
     if ( !currentViewContoller ){
@@ -377,10 +400,30 @@
 }
 - (void)showErrorHUD:(NSString *)text{
     MBProgressHUD *h = [MBProgressHUD showHUDAddedTo:hudlayer animated:YES];
-    h.square = NO;
+    [h setSquare:NO];
+    UIImageView *custom = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [custom setImage:[UIImage imageNamed:@"error.png"]];
+    [h setCustomView:custom];
+    [h setMode:MBProgressHUDModeCustomView];
+    
     [h setLabelText:text];
     [h show:YES];
     [h setDimBackground:NO];
     [h hide:YES afterDelay:2.0f];
+}
+
+- (void)showConnectionChangedHUD:(NSString *)text{
+    MBProgressHUD *h = [MBProgressHUD showHUDAddedTo:hudlayer animated:YES];
+    [h setSquare:NO];
+    UIImageView *custom = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [custom setImage:[UIImage imageNamed:@"connection.png"]];
+    [h setCustomView:custom];
+    [h setMode:MBProgressHUDModeCustomView];
+    
+    [h setLabelText:text];
+    [h show:YES];
+    [h setDimBackground:NO];
+    [h hide:YES afterDelay:2.0f];
+    
 }
 @end

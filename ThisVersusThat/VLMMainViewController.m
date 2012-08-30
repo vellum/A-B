@@ -237,6 +237,7 @@
 }
 - (void)refreshfeed{
     [feedViewController refreshfeed];
+    [activityController loadObjects];
 }
 
 #pragma mark - VLMPopDelegate
