@@ -381,20 +381,23 @@
     
     [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
     
-    PFQuery *queryF = [[PFQuery alloc] initWithClassName:@"Activity"];
-    [queryF whereKey:@"FromUser" equalTo:[PFUser currentUser]];
-    [queryF whereKey:@"ToUser" equalTo:self.user];
-    [queryF whereKey:@"Type" equalTo:@"follow"];
-    [queryF setCachePolicy:kPFCachePolicyNetworkOnly];
-    [queryF countObjectsInBackgroundWithBlock:^(int number, NSError *error){
-        if ( !error ){
-            if ( number == 0 ){
-                [self configureFollowButton];
-            } else {
-                [self configureUnfollowButton];
+    if ( ![[self.user objectId] isEqualToString:[[PFUser currentUser] objectId]] ) {
+
+        PFQuery *queryF = [[PFQuery alloc] initWithClassName:@"Activity"];
+        [queryF whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+        [queryF whereKey:@"ToUser" equalTo:self.user];
+        [queryF whereKey:@"Type" equalTo:@"follow"];
+        [queryF setCachePolicy:kPFCachePolicyNetworkOnly];
+        [queryF countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+            if ( !error ){
+                if ( number == 0 ){
+                    [self configureFollowButton];
+                } else {
+                    [self configureUnfollowButton];
+                }
             }
-        }
-    }];
+        }];
+    }
     [self loadSamenessData];
 
 }

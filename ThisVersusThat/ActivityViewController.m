@@ -336,6 +336,11 @@
         [bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
         [cell setSelectedBackgroundView:bg];
     }
+    
+    if ( ![PFUser currentUser] ){
+        cell.contentView.hidden = YES;
+        return  cell;
+    }
     cell.contentView.hidden = NO;
     PFObject *row = [self objectAtIndex:indexPath];
     PFUser *u = [row objectForKey:@"FromUser"];
