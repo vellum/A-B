@@ -18,6 +18,13 @@
 #import "MBProgressHUD.h"
 #import "VLMFeedHeaderDelegate.h"
 #import "AppDelegate.h"
+#import <MapKit/MapKit.h>
+#import "MapViewAnnotation.h"
+
+#define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
+#define ANNOTATION_REGION_PAD_FACTOR 1.15
+#define MAX_DEGREES_ARC 360
+
 
 @interface VLMPollDetailController ()
 @property (nonatomic, strong) NSArray *likersL;
@@ -577,6 +584,7 @@
     [labelL setText:[leftphoto objectForKey:@"Caption"]];
     [countL setText:[NSString stringWithFormat:@"%d", (int)likesL]];
     
+    
     CGFloat cx = 3;
     CGFloat cy = h + m*2 +2;
     if ( likesL > 0 ){
@@ -699,6 +707,54 @@
     y += cy;
     y = ceilf(y/14)*14 + 14;
     
+    UILabel *where = [[UILabel alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*3)];
+    [where setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
+    [where setNumberOfLines:0.0f];
+    [where setText:@"Where Votes Are Coming From"];
+    [where setTextAlignment:UITextAlignmentCenter];
+    [where setBackgroundColor:TEXT_COLOR];
+    [where setTextColor:[UIColor whiteColor]];
+    [cell addSubview:where];
+    y+= 14*4;
+    
+    MKMapView *mapview = [[MKMapView alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*8)];
+    [mapview setUserInteractionEnabled:NO];
+    
+    for (PFUser *liker in likersL){
+        PFGeoPoint *geo = [liker objectForKey:@"latlng"];
+        if ( geo ){
+            CLLocationCoordinate2D location;
+            location.latitude = geo.latitude;
+            location.longitude = geo.longitude;
+            MapViewAnnotation *newAnnotation = [[MapViewAnnotation alloc] initWithTitle:@"" andCoordinate:location];
+            [mapview addAnnotation:newAnnotation];
+        }
+    }
+    for (PFUser *liker in likersR){
+        PFGeoPoint *geo = [liker objectForKey:@"latlng"];
+        if ( geo ){
+            CLLocationCoordinate2D location;
+            location.latitude = geo.latitude;
+            location.longitude = geo.longitude;
+            MapViewAnnotation *newAnnotation = [[MapViewAnnotation alloc] initWithTitle:@"" andCoordinate:location];
+            [mapview addAnnotation:newAnnotation];
+        }
+    }
+    [self zoomMapViewToFitAnnotations:mapview animated:NO];
+    [cell addSubview:mapview];
+    
+    y+= 14*8;
+    UILabel *note = [[UILabel alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*3)];
+    [note setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    [note setNumberOfLines:2];
+    [note setText:@"Only users who set a profile location will appear above."];
+    [note setTextAlignment:UITextAlignmentCenter];
+    [note setBackgroundColor:[UIColor clearColor]];
+    [note setTextColor:TEXT_COLOR];
+    [cell addSubview:note];
+
+
+    y+= 14*4;
     UILabel *recentcomments = [[UILabel alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*3)];
     [recentcomments setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
     [recentcomments setNumberOfLines:0.0f];
@@ -708,6 +764,7 @@
     [recentcomments setTextColor:[UIColor whiteColor]];
     [cell addSubview:recentcomments];
     
+    y+= 14*3;
     UILabel *gah = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 42)];
     [gah setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
     [gah setTextAlignment:UITextAlignmentCenter];
@@ -718,6 +775,10 @@
     [gah setHidden:YES];
     [cell addSubview:gah];
     self.deletednote = gah;
+    
+    [cell setAutoresizesSubviews:NO];
+    [cell setFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, y)];
+    //[cell setBackgroundColor:[UIColor grayColor]];
 }
 
 - (void)cancel:(id)sender{
@@ -876,10 +937,6 @@
             }
         }];
         
-        
-        
-        
-        
     }
     [textView setText:@""];
     self.isEditing = NO;
@@ -999,5 +1056,45 @@
     cell.autoresizesSubviews = NO;
     [self setupFirstCell:cell];
     self.tableView.tableHeaderView = cell;
+}
+
+
+//size the mapView region to fit its annotations
+- (void)zoomMapViewToFitAnnotations:(MKMapView *)mapView animated:(BOOL)animated
+{
+    NSArray *annotations = mapView.annotations;
+    int count = [mapView.annotations count];
+    if ( count == 0) { return; } //bail if no annotations
+    
+    //convert NSArray of id <MKAnnotation> into an MKCoordinateRegion that can be used to set the map size
+    //can't use NSArray with MKMapPoint because MKMapPoint is not an id
+    MKMapPoint points[count]; //C array of MKMapPoint struct
+    for( int i=0; i<count; i++ ) //load points C array by converting coordinates to points
+    {
+        CLLocationCoordinate2D coordinate = [(id <MKAnnotation>)[annotations objectAtIndex:i] coordinate];
+        points[i] = MKMapPointForCoordinate(coordinate);
+    }
+    //create MKMapRect from array of MKMapPoint
+    MKMapRect mapRect = [[MKPolygon polygonWithPoints:points count:count] boundingMapRect];
+    //convert MKCoordinateRegion from MKMapRect
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
+    
+    //add padding so pins aren't scrunched on the edges
+    region.span.latitudeDelta  *= ANNOTATION_REGION_PAD_FACTOR;
+    region.span.longitudeDelta *= ANNOTATION_REGION_PAD_FACTOR;
+    //but padding can't be bigger than the world
+    if( region.span.latitudeDelta > MAX_DEGREES_ARC ) { region.span.latitudeDelta  = MAX_DEGREES_ARC; }
+    if( region.span.longitudeDelta > MAX_DEGREES_ARC ){ region.span.longitudeDelta = MAX_DEGREES_ARC; }
+    
+    //and don't zoom in stupid-close on small samples
+    if( region.span.latitudeDelta  < MINIMUM_ZOOM_ARC ) { region.span.latitudeDelta  = MINIMUM_ZOOM_ARC; }
+    if( region.span.longitudeDelta < MINIMUM_ZOOM_ARC ) { region.span.longitudeDelta = MINIMUM_ZOOM_ARC; }
+    //and if there is a sample of 1 we want the max zoom-in instead of max zoom-out
+    if( count == 1 )
+    {
+        region.span.latitudeDelta = MINIMUM_ZOOM_ARC;
+        region.span.longitudeDelta = MINIMUM_ZOOM_ARC;
+    }
+    [mapView setRegion:region animated:animated];
 }
 @end

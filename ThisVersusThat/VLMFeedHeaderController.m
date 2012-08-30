@@ -88,7 +88,8 @@
     //[titleView addSubview:underlineA];
 
     UILabel *B = [[UILabel alloc] initWithFrame:CGRectMake(150, 0, 150, HEADER_HEIGHT)];
-    [B setText:@"Friends\u2019 Polls"];
+    //[B setText:@"Friends\u2019 Polls"];
+    [B setText:@"Polls I Follow"];
     [B setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:NAVIGATION_HEADER_TITLE_SIZE]];
     [B setTextColor:TEXT_COLOR];
     [B setTextAlignment:UITextAlignmentCenter];
