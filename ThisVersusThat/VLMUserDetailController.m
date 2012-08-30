@@ -36,6 +36,12 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *localPGR;
 @property (nonatomic) int lastknowncount;
 @property (nonatomic) BOOL shouldRefreshOnAppear;
+
+@property (nonatomic, strong) UILabel *samenessHeading;
+@property (nonatomic, strong) UILabel *samenessDescription;
+@property (nonatomic, strong) UIView *samenessBar;
+@property (nonatomic) CGFloat maxBarWidth;
+
 - (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy;
 @end
 
@@ -54,6 +60,12 @@
 @synthesize localPGR;
 @synthesize lastknowncount;
 @synthesize shouldRefreshOnAppear;
+
+@synthesize samenessHeading;
+@synthesize samenessDescription;
+@synthesize samenessBar;
+@synthesize maxBarWidth;
+
 #pragma mark - NSObject
 
 - (id)initWithObject:(PFUser *)obj isRoot:(BOOL)isRoot{
@@ -126,12 +138,14 @@
     
     
     
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*13)];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*18)];
     //[header setBackgroundColor:DEBUG_BACKGROUND_GRID];
     
     UIView *card = [[UIView alloc] initWithFrame:CGRectMake(15, 14, 40*6+45, 14*5)];
     [card setBackgroundColor:[UIColor whiteColor]];
     [header addSubview:card];
+    [header setAutoresizesSubviews:NO];
+    
     
     PFImageView *iv = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 14*4+4, 14*4+4)];
     [iv setBackgroundColor:[UIColor lightGrayColor]];
@@ -139,16 +153,76 @@
     [iv loadInBackground];
     [card addSubview:iv];
     
-    
+    NSString *displayname = [[user objectForKey:@"displayName"] uppercaseString];
     UILabel *a = [[UILabel alloc] initWithFrame:CGRectMake(90, 14, 5*40, 14*2)];
-    [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+    [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
     [a setBackgroundColor:[UIColor clearColor]];
     [a setTextColor:TEXT_COLOR];
-    [a setText:[user objectForKey:@"displayName"]];
+    [a setText:displayname];
     [header addSubview:a];
     
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(15, 14*7, self.view.frame.size.width-35, 14*4)];
-    //[head setBackgroundColor:TEXT_COLOR];
+    NSString *location = [user objectForKey:@"location"];
+    CGFloat yloc = 14 * 3;
+    if ( location ){
+        CGRect f = a.frame;
+        f.origin.y = yloc;
+        f.size.height = 14;
+        a = [[UILabel alloc] initWithFrame:f];
+        [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+        [a setBackgroundColor:[UIColor clearColor]];
+        [a setTextColor:TEXT_COLOR];
+        [a setText:location];
+        [header addSubview:a];
+        yloc += 14 + 7;
+    }
+    /*
+    NSString *website = [self.user objectForKey:@"website"];
+    if ( website ){
+        CGRect f = a.frame;
+        f.origin.y = yloc;
+        f.size.height = 14;
+        a = [[UILabel alloc] initWithFrame:f];
+        [a setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+        [a setBackgroundColor:[UIColor clearColor]];
+        [a setTextColor:TEXT_COLOR];
+        [a setText:website];
+        [header addSubview:a];
+    }*/
+    
+    CGRect newframe = CGRectMake(15, card.frame.origin.y + card.frame.size.height + 14, card.frame.size.width, 14*4);
+    card = [[UIView alloc] initWithFrame:newframe];
+    [card setBackgroundColor:[UIColor whiteColor]];
+    [header addSubview:card];
+
+    UIView *barfill = [[UIView alloc] initWithFrame:CGRectMake(0, 14*4-4, card.frame.size.width, 4)];
+    [barfill setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
+    [card addSubview:barfill];
+
+    barfill = [[UIView alloc] initWithFrame:CGRectMake(0, 14*4-4, card.frame.size.width, 4)];
+    [barfill setBackgroundColor:[UIColor colorWithWhite:0.8f alpha:1.0f]];
+    [card addSubview:barfill];
+    self.maxBarWidth = card.frame.size.width;
+    self.samenessBar = barfill;
+    
+    UILabel *thingie = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, card.frame.size.width, 14*2)];
+    [thingie setBackgroundColor:[UIColor clearColor]];
+    [thingie setTextColor:TEXT_COLOR];
+    [thingie setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    [thingie setTextAlignment:UITextAlignmentCenter];
+    [thingie setText:@"SAMENESS"];
+    [card addSubview:thingie];
+    self.samenessHeading = thingie;
+    
+    thingie = [[UILabel alloc] initWithFrame:CGRectMake(0, 14, card.frame.size.width, 14*3)];
+    [thingie setBackgroundColor:[UIColor clearColor]];
+    [thingie setTextColor:TEXT_COLOR];
+    [thingie setFont:[UIFont fontWithName:@"AmericanTypewriter" size:10.0f]];
+    [thingie setTextAlignment:UITextAlignmentCenter];
+    [thingie setText:@"..."];
+    [card addSubview:thingie];
+    self.samenessDescription = thingie;
+        
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(15, card.frame.origin.y + card.frame.size.height + 14, self.view.frame.size.width-35, 14*4)];
     [head setBackgroundColor:[UIColor whiteColor]];
     [header addSubview:head];
     
@@ -231,7 +305,6 @@
     UIButton *clearbutton = [[UIButton alloc] initWithFrame:CGRectMake(col1.frame.origin.x, col1.frame.origin.y, col1.frame.size.width, 14*4)];
     [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
     [clearbutton setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
-    //[clearbutton setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [clearbutton addTarget:self action:@selector(profilePollsTapped:) forControlEvents:UIControlEventTouchUpInside];
     [head addSubview:clearbutton];
     
@@ -239,14 +312,12 @@
     UIButton *clearbutton2 = [[UIButton alloc] initWithFrame:CGRectMake(col2.frame.origin.x, col2.frame.origin.y, col2.frame.size.width, 14*4)];
     [clearbutton2 setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
     [clearbutton2 setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
-    //[clearbutton2 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [clearbutton2 addTarget:self action:@selector(profileVotesTapped:) forControlEvents:UIControlEventTouchUpInside];
     [head addSubview:clearbutton2];
     
     UIButton *clearbutton3 = [[UIButton alloc] initWithFrame:CGRectMake(col3.frame.origin.x, col3.frame.origin.y, col3.frame.size.width, 14*4)];
     [clearbutton3 setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
     [clearbutton3 setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
-    //[clearbutton3 setBackgroundColor:[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f]];
     [clearbutton3 addTarget:self action:@selector(profileFollowingTapped:) forControlEvents:UIControlEventTouchUpInside];
 
     [head addSubview:clearbutton3];
@@ -259,6 +330,9 @@
 
     [head addSubview:clearbutton4];
     
+    
+
+
 
     
     self.tableView.tableHeaderView = header;
@@ -321,7 +395,8 @@
             }
         }
     }];
-    
+    [self loadSamenessData];
+
 }
 
 - (void)loadFollowerDataWithPolicy:(PFCachePolicy)policy{
@@ -345,6 +420,75 @@
             [self.numFollowingLabel setText:[NSString stringWithFormat:@"%d", number]];
         }
     }];
+}
+
+- (void)loadSamenessData{
+    
+    // count polls in which i and user have both voted on
+    [self.samenessHeading setText:@"SAMENESS"];
+    
+    // polls i've voted on
+    PFQuery *pollsIhaveVotedOn = [PFQuery queryWithClassName:@"Activity"];
+    [pollsIhaveVotedOn whereKey:@"Type" equalTo:@"like"];
+    [pollsIhaveVotedOn whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+    pollsIhaveVotedOn.limit = 1000;
+    
+    // polls user has voted on
+    PFQuery *pollsUserHasVotedOn = [PFQuery queryWithClassName:@"Activity"];
+    [pollsUserHasVotedOn whereKey:@"Type" equalTo:@"like"];
+    [pollsUserHasVotedOn whereKey:@"FromUser" equalTo:self.user];
+    [pollsUserHasVotedOn whereKey:@"Poll" matchesKey:@"Poll" inQuery:pollsIhaveVotedOn];
+    
+    [pollsUserHasVotedOn countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        if ( number == 0 || error ){
+            CGRect f = self.samenessBar.frame;
+            f.size.width = 0;
+            [self.samenessBar setFrame:f];
+            [self.samenessDescription setText:@"You and this user haven't voted on the same polls."];
+        } else {
+            // now query for same votes
+            PFQuery *sameSameVotes = [PFQuery queryWithClassName:@"Activity"];
+            [sameSameVotes whereKey:@"Type" equalTo:@"like"];
+            [sameSameVotes whereKey:@"FromUser" equalTo:self.user];
+            [sameSameVotes whereKey:@"Photo" matchesKey:@"Photo" inQuery:pollsIhaveVotedOn];
+            [sameSameVotes countObjectsInBackgroundWithBlock:^(int samecount, NSError *error){
+                NSLog(@"%d / %d", samecount, number);
+                if ( number == 0 || error ){
+                    CGRect f = self.samenessBar.frame;
+                    f.size.width = 0;
+                    [self.samenessBar setFrame:f];
+                    [self.samenessDescription setText:@"You and this user haven't voted on the same polls."];
+                } else {
+                    CGFloat pct = (CGFloat)samecount/(CGFloat)number;
+                    int percent = round( pct*100 );
+                    CGRect f = self.samenessBar.frame;
+                    f.size.width = pct * self.maxBarWidth;
+                    [self.samenessDescription setText:[NSString stringWithFormat:@"You agree on %d%% of polls you have both taken.", percent]];
+                    [self.samenessBar setFrame:f];
+                    /*
+                    if ( pct >= 0.75 ){
+                        
+                        [self.samenessHeading setText:@"SAME SAME"];
+                        
+                    
+                    } else if ( pct >= 0.5 ){
+
+                        [self.samenessHeading setText:@"SAME SAME BUT DIFFERENT"];
+
+                    } else if ( pct >= 0.25 ){
+                        [self.samenessHeading setText:@"SAME SAME SOMETIMES"];
+                        
+                    } else {
+                        [self.samenessHeading setText:@"NOT AT ALL SAME SAME"];
+                    }*/
+                    
+                }
+            }];
+
+        }
+        NSLog(@"count  %d", number);
+    }];
+
 }
 
 - (void)viewDidUnload{
