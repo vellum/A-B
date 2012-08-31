@@ -434,21 +434,30 @@
     // count polls in which i and user have both voted on
     [self.samenessHeading setText:@"SAMENESS"];
     
+    if ( [[self.user objectId] isEqualToString:[[PFUser currentUser] objectId]] ){
+        CGRect f = self.samenessBar.frame;
+        f.size.width = self.maxBarWidth;
+        [self.samenessDescription setText:@"You agree on 100% of polls you have both taken."];
+        [self.samenessBar setFrame:f];
+        return;
+    }
+    
     PFCachePolicy policy = kPFCachePolicyNetworkOnly;
     
     // polls i've voted on
     PFQuery *pollsIhaveVotedOn = [PFQuery queryWithClassName:@"Activity"];
     [pollsIhaveVotedOn setCachePolicy:policy];
-    [pollsIhaveVotedOn whereKey:@"Type" equalTo:@"like"];
-    [pollsIhaveVotedOn whereKey:@"FromUser" equalTo:[PFUser currentUser]];
     pollsIhaveVotedOn.limit = 1000;
+    [pollsIhaveVotedOn whereKey:@"FromUser" equalTo:[PFUser currentUser]];
+    [pollsIhaveVotedOn whereKey:@"Type" equalTo:@"like"];
     
     // polls user has voted on
     PFQuery *pollsUserHasVotedOn = [PFQuery queryWithClassName:@"Activity"];
     [pollsUserHasVotedOn setCachePolicy:policy];
-    [pollsUserHasVotedOn whereKey:@"Type" equalTo:@"like"];
-    [pollsUserHasVotedOn whereKey:@"FromUser" equalTo:self.user];
+    pollsUserHasVotedOn.limit = 1000;
     [pollsUserHasVotedOn whereKey:@"Poll" matchesKey:@"Poll" inQuery:pollsIhaveVotedOn];
+    [pollsUserHasVotedOn whereKey:@"FromUser" equalTo:self.user];
+    [pollsUserHasVotedOn whereKey:@"Type" equalTo:@"like"];
     
     [pollsUserHasVotedOn countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( number == 0 || error ){
@@ -459,10 +468,11 @@
         } else {
             // now query for same votes
             PFQuery *sameSameVotes = [PFQuery queryWithClassName:@"Activity"];
+            sameSameVotes.limit = 1000;
             [sameSameVotes setCachePolicy:policy];
-            [sameSameVotes whereKey:@"Type" equalTo:@"like"];
-            [sameSameVotes whereKey:@"FromUser" equalTo:self.user];
             [sameSameVotes whereKey:@"Photo" matchesKey:@"Photo" inQuery:pollsIhaveVotedOn];
+            [sameSameVotes whereKey:@"FromUser" equalTo:self.user];
+            [sameSameVotes whereKey:@"Type" equalTo:@"like"];
             [sameSameVotes countObjectsInBackgroundWithBlock:^(int samecount, NSError *error){
                 NSLog(@"%d / %d", samecount, number);
                 if ( number == 0 || error ){
@@ -477,23 +487,6 @@
                     f.size.width = pct * self.maxBarWidth;
                     [self.samenessDescription setText:[NSString stringWithFormat:@"You agree on %d%% of polls you have both taken.", percent]];
                     [self.samenessBar setFrame:f];
-                    /*
-                    if ( pct >= 0.75 ){
-                        
-                        [self.samenessHeading setText:@"SAME SAME"];
-                        
-                    
-                    } else if ( pct >= 0.5 ){
-
-                        [self.samenessHeading setText:@"SAME SAME BUT DIFFERENT"];
-
-                    } else if ( pct >= 0.25 ){
-                        [self.samenessHeading setText:@"SAME SAME SOMETIMES"];
-                        
-                    } else {
-                        [self.samenessHeading setText:@"NOT AT ALL SAME SAME"];
-                    }*/
-                    
                 }
             }];
 

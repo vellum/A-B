@@ -140,8 +140,8 @@
     
     PFQuery *q = [self queryForTable];
     [q countObjectsInBackgroundWithBlock:^(int number, NSError *error){
+        self.resultcount = number;
         if ( !error ){
-            self.resultcount = number;
             NSInteger lastsection = [self numberOfSectionsInTableView:self.tableView] - 1;
             NSInteger lastrow = [self tableView:self.tableView numberOfRowsInSection:lastsection] - 1;
             NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:lastrow inSection:lastsection]];
@@ -752,8 +752,6 @@
         // refresh timeline after a delay
         [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
     }
-    
-    
 }
 
 
@@ -769,8 +767,12 @@
     self.currentFeedType = feedtype;
     NSLog(@"newfeedtype: %d", feedtype);
     self.shouldWipeCache = NO;
-    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-    
+    [self clear];
+    self.resultcount = 0;
+    [self setIsLoading:YES];
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
     [self performSelector:@selector(loadObjects) withObject:nil afterDelay:0.5];
     
     
