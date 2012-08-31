@@ -360,11 +360,11 @@
     }
     [query includeKey:@"FromUser"];
     [query whereKeyExists:@"FromUser"];
-
     [query whereKey:@"Poll" equalTo:poll];
     [query whereKey:@"Type" equalTo:@"comment"];
 
-    [query setCachePolicy:kPFCachePolicyNetworkOnly];
+    //[query setCachePolicy:kPFCachePolicyNetworkOnly];
+    [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [query orderByAscending:@"createdAt"];
     [query setLimit:1000];
     return query;
@@ -778,7 +778,7 @@
     [recentcomments setTextColor:[UIColor whiteColor]];
     [cell addSubview:recentcomments];
     
-    y+= 14*3;
+    y+= 14*4;
     UILabel *gah = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 42)];
     [gah setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
     [gah setTextAlignment:UITextAlignmentCenter];

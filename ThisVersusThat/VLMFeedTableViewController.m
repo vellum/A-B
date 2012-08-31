@@ -171,6 +171,7 @@
         } else if (!self.shouldWipeCache) {
             [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
         }
+        self.shouldWipeCache = YES;
         return polls;
     }
     
@@ -214,6 +215,7 @@
         }
     }
     
+    self.shouldWipeCache = YES;
     return query;
 
     

@@ -551,7 +551,8 @@
     
     [polls includeKey:@"PhotoLeft"];
     [polls includeKey:@"PhotoRight"];
-    [polls setCachePolicy:kPFCachePolicyNetworkOnly];
+    //[polls setCachePolicy:kPFCachePolicyNetworkOnly];
+    [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [polls setLimit:1000];
     [polls orderByDescending:@"createdAt"];
     return polls;
