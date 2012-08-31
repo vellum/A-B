@@ -348,8 +348,9 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if ( self.shouldRefreshOnAppear )
+    if ( self.shouldRefreshOnAppear ){
         [self loadHeaderData];
+    }
     self.shouldRefreshOnAppear = YES;
 }
 
@@ -360,9 +361,12 @@
 }
 
 - (void)loadHeaderData{
+    
+    PFCachePolicy policy = kPFCachePolicyCacheThenNetwork;
+    
     PFQuery *queryPollCount = [PFQuery queryWithClassName:@"Poll"];
     [queryPollCount whereKey:@"User" equalTo:self.user];
-    [queryPollCount setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryPollCount setCachePolicy:policy];
     [queryPollCount countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         if (!error) {
             [self.numPollsLabel setText:[NSString stringWithFormat:@"%d", number]];
@@ -372,14 +376,14 @@
     PFQuery *queryVoteCount = [PFQuery queryWithClassName:@"Activity"];
     [queryVoteCount whereKey:@"FromUser" equalTo:self.user];
     [queryVoteCount whereKey:@"Type" equalTo:@"like"];
-    [queryVoteCount setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryVoteCount setCachePolicy:policy];
     [queryVoteCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if (!error) {
             [self.numVotesLabel setText:[NSString stringWithFormat:@"%d", number]];
         }
     }];
     
-    [self loadFollowerDataWithPolicy:kPFCachePolicyNetworkOnly];
+    [self loadFollowerDataWithPolicy:policy];
     
     if ( ![[self.user objectId] isEqualToString:[[PFUser currentUser] objectId]] ) {
 
@@ -387,7 +391,7 @@
         [queryF whereKey:@"FromUser" equalTo:[PFUser currentUser]];
         [queryF whereKey:@"ToUser" equalTo:self.user];
         [queryF whereKey:@"Type" equalTo:@"follow"];
-        [queryF setCachePolicy:kPFCachePolicyNetworkOnly];
+        [queryF setCachePolicy:policy];
         [queryF countObjectsInBackgroundWithBlock:^(int number, NSError *error){
             if ( !error ){
                 if ( number == 0 ){
@@ -417,7 +421,7 @@
     PFQuery *queryFollowersCount = [PFQuery queryWithClassName:@"Activity"];
     [queryFollowersCount whereKey:@"FromUser" equalTo:self.user];
     [queryFollowersCount whereKey:@"Type" equalTo:@"follow"];
-    [queryFollowersCount setCachePolicy:kPFCachePolicyNetworkOnly];
+    [queryFollowersCount setCachePolicy:policy];
     [queryFollowersCount countObjectsInBackgroundWithBlock:^(int number, NSError *error){
         if ( !error ){
             [self.numFollowingLabel setText:[NSString stringWithFormat:@"%d", number]];
@@ -430,14 +434,18 @@
     // count polls in which i and user have both voted on
     [self.samenessHeading setText:@"SAMENESS"];
     
+    PFCachePolicy policy = kPFCachePolicyNetworkOnly;
+    
     // polls i've voted on
     PFQuery *pollsIhaveVotedOn = [PFQuery queryWithClassName:@"Activity"];
+    [pollsIhaveVotedOn setCachePolicy:policy];
     [pollsIhaveVotedOn whereKey:@"Type" equalTo:@"like"];
     [pollsIhaveVotedOn whereKey:@"FromUser" equalTo:[PFUser currentUser]];
     pollsIhaveVotedOn.limit = 1000;
     
     // polls user has voted on
     PFQuery *pollsUserHasVotedOn = [PFQuery queryWithClassName:@"Activity"];
+    [pollsUserHasVotedOn setCachePolicy:policy];
     [pollsUserHasVotedOn whereKey:@"Type" equalTo:@"like"];
     [pollsUserHasVotedOn whereKey:@"FromUser" equalTo:self.user];
     [pollsUserHasVotedOn whereKey:@"Poll" matchesKey:@"Poll" inQuery:pollsIhaveVotedOn];
@@ -451,6 +459,7 @@
         } else {
             // now query for same votes
             PFQuery *sameSameVotes = [PFQuery queryWithClassName:@"Activity"];
+            [sameSameVotes setCachePolicy:policy];
             [sameSameVotes whereKey:@"Type" equalTo:@"like"];
             [sameSameVotes whereKey:@"FromUser" equalTo:self.user];
             [sameSameVotes whereKey:@"Photo" matchesKey:@"Photo" inQuery:pollsIhaveVotedOn];
@@ -688,7 +697,8 @@
     //PFObject *photoRight = [poll objectForKey:@"PhotoRight"];
     
     NSDictionary *attributesForPoll = [[VLMCache sharedCache] attributesForPoll:poll];
-    PFCachePolicy poly = kPFCachePolicyNetworkOnly;
+    //PFCachePolicy poly = kPFCachePolicyNetworkOnly;
+    PFCachePolicy poly = kPFCachePolicyCacheThenNetwork;
     
     // check if we've stored metadata (likes, comments) for this poll
     if (attributesForPoll) {
