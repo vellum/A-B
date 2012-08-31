@@ -228,9 +228,10 @@
 
                     }
                     
+                    @synchronized(self){
                     //FIXME: test if this thing is alive first
                     [[VLMCache sharedCache] setAttributesForPoll:poll likersL:alikersL likersR:alikersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
-
+                    }
                     //NSLog(@"counts: %d, %d", [alikersL count], [alikersR count]);
                     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
                     cell.autoresizesSubviews = NO;
