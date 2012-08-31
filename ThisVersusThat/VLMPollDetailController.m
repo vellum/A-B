@@ -170,7 +170,9 @@
         [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
         [query includeKey:@"FromUser"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            @synchronized(self){
+            {
+                
+            //@synchronized(self){
                 
                 if ( !error ){
                     NSMutableArray *alikersL = [NSMutableArray array];
