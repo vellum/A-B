@@ -158,7 +158,8 @@
     //NSLog(@"photoleftif: %@", [[poll objectForKey:@"PhotoLeft"] objectId]);
     
     NSString *leftPhotoID = [[poll objectForKey:@"PhotoLeft"] objectId];
-    @synchronized(self) {
+    {
+    //@synchronized(self) {
         
         
         [self.poll fetchIfNeeded];
