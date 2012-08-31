@@ -573,8 +573,10 @@
     //self.imageviewRight.hidden = !isVisible;
     //self.captionlabelLeft.hidden = !isVisible;
     //self.captionLabelRight.hidden = !isVisible;
-    self.votecountlabelLeft.hidden = !isVisible;
-    self.votecountlabelRight.hidden = !isVisible;
+    
+    //self.votecountlabelLeft.hidden = !isVisible;
+    //self.votecountlabelRight.hidden = !isVisible;
+    
     self.leftcheck.hidden = !isVisible;
     self.rightcheck.hidden = !isVisible;
     self.commentholder.hidden = !isVisible;
