@@ -140,6 +140,7 @@
     // hide HUD if we've left the screen while it's loading
     AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [dellie hideHUD];
+    [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
@@ -380,15 +381,10 @@
     //if ( self.shouldRefreshVotes )
         [self loadVotingData];
     self.shouldRefreshVotes = YES;
-    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [dellie showHUD:@""];
 }
 
 - (void)objectsDidLoad:(NSError *)error{
     [super objectsDidLoad:error];
-
-    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [dellie hideHUD];
 
     if ( !shouldScrollToComments ) return;
     shouldScrollToComments = NO;
@@ -398,7 +394,7 @@
     
 - (void)doScrollToBottom{
     
-    [self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
+    //[self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
 }
 #pragma mark - UITableViewDataSource
 
@@ -886,8 +882,10 @@
                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                     
                     NSString *message = @"User deleted this poll while you were writing.";
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                    [alert show];
+                    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                    //[alert show];
+                    AppDelegate *ad = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [ad showErrorHUD:message];
                     
                     /*
                     if ( self.isRootController ){
