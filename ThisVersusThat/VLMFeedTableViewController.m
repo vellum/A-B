@@ -770,7 +770,10 @@
     NSLog(@"newfeedtype: %d", feedtype);
     self.shouldWipeCache = NO;
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    
     [self performSelector:@selector(loadObjects) withObject:nil afterDelay:0.5];
+    
+    
     //[self loadObjects];
 }
 
