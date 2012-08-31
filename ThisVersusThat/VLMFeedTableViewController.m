@@ -116,6 +116,8 @@
         [self loadObjects];
     }
      */
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 - (void)dealloc{

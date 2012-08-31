@@ -397,7 +397,7 @@
     if ( !shouldScrollToComments ) return;
     shouldScrollToComments = NO;
 
-    [self performSelector:@selector(doScrollToBottom) withObject:nil afterDelay:0.5f];
+    [self performSelector:@selector(doScrollToBottom) withObject:nil afterDelay:1.0f];
 }
     
 - (void)doScrollToBottom{
