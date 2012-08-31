@@ -340,6 +340,10 @@
 - (void)viewDidUnload{
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [dellie hideHUD];
+
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
@@ -380,15 +384,15 @@
     //if ( self.shouldRefreshVotes )
         [self loadVotingData];
     self.shouldRefreshVotes = YES;
-    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [dellie showHUD:@""];
+    //AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    //[dellie showHUD:@""];
 }
 
 - (void)objectsDidLoad:(NSError *)error{
     [super objectsDidLoad:error];
 
-    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [dellie hideHUD];
+    //AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    //[dellie hideHUD];
 
     if ( !shouldScrollToComments ) return;
     shouldScrollToComments = NO;
@@ -397,8 +401,8 @@
 }
     
 - (void)doScrollToBottom{
-    
-    [self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
+    // commenting out because behavior is unpredictable
+    //[self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
 }
 #pragma mark - UITableViewDataSource
 
@@ -886,9 +890,13 @@
                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                     
                     NSString *message = @"User deleted this poll while you were writing.";
+                    /*
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                     [alert show];
-                    
+                    */
+                    AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                    [dellie showErrorHUD:message];
+
                     /*
                     if ( self.isRootController ){
                         [self cancel:nil];
