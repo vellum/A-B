@@ -410,7 +410,7 @@
     
 - (void)doScrollToBottom{
     
-    //[self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
+    [self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
 }
 #pragma mark - UITableViewDataSource
 
