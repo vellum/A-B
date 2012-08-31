@@ -57,6 +57,9 @@
     if ( self ){
         self.isEditing = NO;
         self.poll = obj;
+        
+        NSLog(@"polldetail - initwithobject %@", obj);
+        
         self.shouldScrollToComments = NO;
         self.shouldScrollToCommentsAndPopKeyboard = NO;
         
@@ -123,10 +126,13 @@
             UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
             cell.autoresizesSubviews = NO;
             [self setupFirstCell:cell];
+            [self.tableView beginUpdates];
             self.tableView.tableHeaderView = cell;
+            [self.tableView endUpdates];
 
         } else {
-            [self loadVotingData];
+            [self performSelector:@selector(loadVotingData) withObject:self afterDelay:1.0f];
+            //[self loadVotingData];
         }
         
         // Register to be notified when the keyboard will be shown to scroll the view
@@ -153,11 +159,14 @@
     
     NSString *leftPhotoID = [[poll objectForKey:@"PhotoLeft"] objectId];
     @synchronized(self) {
+        
+        
         [self.poll fetchIfNeeded];
         
         PFQuery *query = [PFQuery queryWithClassName:@"Activity"];
         [query whereKey:@"Poll" equalTo:poll];
-        [query setCachePolicy:kPFCachePolicyNetworkOnly];
+        //[query setCachePolicy:kPFCachePolicyNetworkOnly];
+        [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
         [query includeKey:@"FromUser"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             @synchronized(self){
@@ -219,13 +228,16 @@
                     //FIXME: test if this thing is alive first
                     [[VLMCache sharedCache] setAttributesForPoll:poll likersL:alikersL likersR:alikersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
 
-                    NSLog(@"counts: %d, %d", [alikersL count], [alikersR count]);
-                    self.tableView.tableHeaderView = nil;
+                    //NSLog(@"counts: %d, %d", [alikersL count], [alikersR count]);
                     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
                     cell.autoresizesSubviews = NO;
                     [self setupFirstCell:cell];
+
+                    [self.tableView beginUpdates];
+                    self.tableView.tableHeaderView = nil;
                     self.tableView.tableHeaderView = cell;
-                    
+                    [self.tableView endUpdates];
+
                     
                 }//end if (!error)
                 
@@ -378,7 +390,7 @@
 
 - (void)loadObjects{
     [super loadObjects];
-    //if ( self.shouldRefreshVotes )
+    if ( self.shouldRefreshVotes )
         [self loadVotingData];
     self.shouldRefreshVotes = YES;
 }
@@ -882,48 +894,32 @@
                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
                     
                     NSString *message = @"User deleted this poll while you were writing.";
-                    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                    //[alert show];
                     AppDelegate *ad = (AppDelegate *)[UIApplication sharedApplication].delegate;
                     [ad showErrorHUD:message];
                     
-                    /*
-                    if ( self.isRootController ){
-                        [self cancel:nil];
-                    } else {
-                        [self.navigationController popViewControllerAnimated:YES];
-                    }
-                     */
                     // IDEALLY: we should do something to the state of this view to indicate that the poll was deleted
                     self.deletednote.hidden = NO;
                     NSMutableArray *empty = [NSMutableArray arrayWithCapacity:0];
                     [[VLMCache sharedCache] setAttributesForPoll:self.poll likersL:empty likersR:empty commenters:empty isLikedByCurrentUserL:NO isLikedByCurrentUserR:NO isCommentedByCurrentUser:NO isDeleted:YES];
                     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 
-
                     // post a notification, so any views that refer to this poll update themselves
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:pollid];
 
-                // ...
                 } else {
                     // hide the hud and do nothing
                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-                    /*
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:@"There was an error" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                    [alert show];
-                    */
+                    NSString *message = @"Could not post comment.";
+                    AppDelegate *ad = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [ad showErrorHUD:message];
                 }
                 
-                
-                
-            // no error, attempt to post comment    
+            // no error, attempt to post comment
             } else {
                 [comment saveEventually:^(BOOL succeeded, NSError *error) {
                     [timer invalidate];
                     
                     if (error && [error code] == kPFErrorObjectNotFound) {
-                        
-                        //[[PAPCache sharedCache] decrementCommentCountForPhoto:self.photo];
                         
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not post comment" message:@"This poll was deleted by its owner" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
                         [alert show];
@@ -1063,7 +1059,11 @@
     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
     cell.autoresizesSubviews = NO;
     [self setupFirstCell:cell];
+    
+    [self.tableView beginUpdates];
+    self.tableView.tableHeaderView = nil;
     self.tableView.tableHeaderView = cell;
+    [self.tableView endUpdates];
 }
 
 //http://brianreiter.org/2012/03/02/size-an-mkmapview-to-fit-its-annotations-in-ios-without-futzing-with-coordinate-systems/
