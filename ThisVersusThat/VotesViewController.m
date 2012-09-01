@@ -189,7 +189,7 @@
     [polls includeKey:@"Poll.PhotoRight"];
     [polls includeKey:@"Poll.createdAt"];
     
-    [polls setCachePolicy:kPFCachePolicyNetworkOnly];
+    [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [polls setLimit:1000];
     [polls orderByDescending:@"createdAt"];
     return polls;
@@ -236,21 +236,7 @@
     if ( poll == nil ) return 0;
           
     NSString *text = [poll objectForKey:@"Question"];
-    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:SECTION_FONT_REGULAR size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
-    CGFloat h = expectedLabelSize.height + 37.0f;
-    
-    // 1 line details
-    if ( h < 47.0f ) return 47.0f;   
-    
-    // 4 line
-    if ( h > 14*7 ) return 14*7.5;
-    
-    // 3 line
-    if ( h > 14*6 ) return 14*6.5;
-    
-    // 2 line
-    if ( h > 14*4 ) return 14*5;
-    
+    CGFloat h = [VLMSectionView expectedViewHeightForText:text];
     return h;
 }
 

@@ -58,7 +58,7 @@
         self.isEditing = NO;
         self.poll = obj;
         
-        NSLog(@"polldetail - initwithobject %@", obj);
+        //NSlog(@"polldetail - initwithobject %@", obj);
         
         self.shouldScrollToComments = NO;
         self.shouldScrollToCommentsAndPopKeyboard = NO;
@@ -121,17 +121,30 @@
         [fill addSubview:textview];
         self.tableView.tableFooterView = footer;
         
+        UILabel *label =  [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 42.0f)];
+        [label setText:@"..."];
+        [label setTextColor:[UIColor colorWithWhite:0.2f alpha:0.5f]];
+        [label setTextAlignment:UITextAlignmentCenter];
+        [label setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.0f]];
+        [label setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
+        
+        UIView *vvv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 56.0f)];
+        [vvv setBackgroundColor:[UIColor clearColor]];
+        [vvv addSubview:label];
+        [self.tableView beginUpdates];
+        [self.tableView setTableHeaderView: vvv];
+        [self.tableView endUpdates];
+
+        
         if ( [[VLMCache sharedCache] attributesForPoll:poll] ){
 
-            UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
-            cell.autoresizesSubviews = NO;
-            [self setupFirstCell:cell];
-            [self.tableView beginUpdates];
-            self.tableView.tableHeaderView = cell;
-            [self.tableView endUpdates];
+            //[self createHeaderView];
+            [self performSelector:@selector(createHeaderView) withObject:nil afterDelay:0.005f];
 
         } else {
-            [self performSelector:@selector(loadVotingData) withObject:self afterDelay:1.0f];
+
+
+            [self performSelector:@selector(loadVotingData) withObject:nil afterDelay:1.5f];
             //[self loadVotingData];
         }
         
@@ -151,11 +164,20 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
 }
+
+- (void)createHeaderView{
+    UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
+    cell.autoresizesSubviews = NO;
+    [self setupFirstCell:cell];
+    [self.tableView beginUpdates];
+    [self.tableView setTableHeaderView: cell];
+    [self.tableView endUpdates];
+}
 - (void)loadVotingData{
-    NSLog(@"loadvotingdata");
-    //NSLog(@"poll: %@", poll);
-    //NSLog(@"photoleft: %@", [poll objectForKey:@"PhotoLeft"]);
-    //NSLog(@"photoleftif: %@", [[poll objectForKey:@"PhotoLeft"] objectId]);
+    //NSlog(@"loadvotingdata");
+    ////NSlog(@"poll: %@", poll);
+    ////NSlog(@"photoleft: %@", [poll objectForKey:@"PhotoLeft"]);
+    ////NSlog(@"photoleftif: %@", [[poll objectForKey:@"PhotoLeft"] objectId]);
     
     NSString *leftPhotoID = [[poll objectForKey:@"PhotoLeft"] objectId];
     {
@@ -183,7 +205,7 @@
                     BOOL isCommentedByCurrentUser = NO;
                     PFObject *photoLeft = [self.poll objectForKey:@"LeftPhoto"];
                     [photoLeft fetchIfNeeded];
-                    NSLog(@"%@", photoLeft);
+                    //NSlog(@"%@", photoLeft);
                     
                     // loop through these mixed results
                     for (PFObject *activity in objects) {
@@ -218,7 +240,7 @@
                             
                             // test for comments    
                         } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
-                            NSLog(@"adding a comment");
+                            //NSlog(@"adding a comment");
                             [comments addObject:activity];
                             
                             if ( [userID isEqualToString:cur] ){
@@ -228,20 +250,20 @@
 
                     }
                     
-                    @synchronized(self){
                     //FIXME: test if this thing is alive first
                     [[VLMCache sharedCache] setAttributesForPoll:poll likersL:alikersL likersR:alikersR commenters:comments isLikedByCurrentUserL:isLikedByCurrentUserL isLikedByCurrentUserR:isLikedByCurrentUserR isCommentedByCurrentUser:isCommentedByCurrentUser isDeleted:NO];
-                    }
-                    //NSLog(@"counts: %d, %d", [alikersL count], [alikersR count]);
+                    
+                    ////NSlog(@"counts: %d, %d", [alikersL count], [alikersR count]);
                     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self heightfortableheader])];
                     cell.autoresizesSubviews = NO;
                     [self setupFirstCell:cell];
 
                     [self.tableView beginUpdates];
-                    self.tableView.tableHeaderView = nil;
-                    self.tableView.tableHeaderView = cell;
+                    [self.tableView setTableHeaderView: cell];
                     [self.tableView endUpdates];
 
+                    //if ( shouldScrollToComments )
+                     //   [self doScrollToBottom];
                     
                 }//end if (!error)
                 
@@ -410,7 +432,7 @@
     
 - (void)doScrollToBottom{
     
-    [self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
+    //[self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
 }
 #pragma mark - UITableViewDataSource
 
@@ -514,7 +536,10 @@
     [user fetchIfNeeded];
     NSString *question = [poll objectForKey:@"Question"];
     NSString *username = [user objectForKey:@"displayName"];
-    VLMSectionView *sectionhead = [[VLMSectionView alloc] initWithFrame:CGRectMake(0, 0, contentw, 0) andUserName:username andQuestion:question];
+    CGFloat expectedheight = [VLMSectionView expectedViewHeightForText:question];
+    VLMSectionView *sectionhead = [[VLMSectionView alloc] initWithFrame:CGRectMake(0, 0, contentw, expectedheight) andUserName:username andQuestion:question];
+    [sectionhead setFrame:CGRectMake(0, 0, contentw, expectedheight)];
+    //[sectionhead setUserName:username andQuestion:question];
     [sectionhead setDetailButtonEnabled:NO];
     [sectionhead setFile:[user objectForKey:@"profilePicSmall"]];
     [sectionhead setTime:[poll createdAt]];
@@ -757,7 +782,7 @@
         }
     }
     
-    //NSLog(@"pins contains: %d pins", [pins count]);
+    ////NSlog(@"pins contains: %d pins", [pins count]);
     [mapview setUserInteractionEnabled:NO];
     [self zoomMapViewToFitAnnotations:mapview animated:NO];
     [mapview removeAnnotations:mapview.annotations];
@@ -971,7 +996,7 @@
 #pragma mark - VLMFeedHeaderDelegate
 
 - (void)didTapPoll:(NSInteger)section{
-    NSLog(@"tapped poll");
+    //NSlog(@"tapped poll");
 }
 
 - (void)didTapUser:(NSInteger)section{
@@ -1020,7 +1045,7 @@
         if (!error) {
             for (PFObject *activity in activities) {
                // [activity deleteEventually];
-                NSLog(@"Deleting: %@", [activity objectId]);
+                //NSlog(@"Deleting: %@", [activity objectId]);
                 [activity delete];
             }
         }
@@ -1052,7 +1077,7 @@
     if ( [obj isKindOfClass:[NSDictionary class]] ){
         NSDictionary *payload = (NSDictionary *)obj;
         NSString *pollid = [payload objectForKey:@"pollid"];
-        NSLog(@"like or unliked poll: %@", pollid);
+        //NSlog(@"like or unliked poll: %@", pollid);
         //NSStream *ownerid = [payload objectForKey:@"ownerid"];
         if ( [pollid isEqualToString:self.poll.objectId] ){
             shouldRespondToNote = YES;
@@ -1065,8 +1090,7 @@
     [self setupFirstCell:cell];
     
     [self.tableView beginUpdates];
-    self.tableView.tableHeaderView = nil;
-    self.tableView.tableHeaderView = cell;
+    [self.tableView setTableHeaderView: cell];
     [self.tableView endUpdates];
 }
 
@@ -1168,7 +1192,7 @@
 didSelectAnnotationView:(MKAnnotationView *)view
 {
     /*
-    NSLog(@"REVMapViewController mapView didSelectAnnotationView:");
+    //NSlog(@"REVMapViewController mapView didSelectAnnotationView:");
     
     if (![view isKindOfClass:[REVClusterAnnotationView class]])
         return;

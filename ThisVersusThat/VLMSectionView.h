@@ -41,4 +41,6 @@
 - (void)setTime:(NSDate*)d;
 - (void)setDetailButtonEnabled:(BOOL)enabled;
 - (void)reset;
+
++ (CGFloat)expectedViewHeightForText:(NSString *)text;
 @end

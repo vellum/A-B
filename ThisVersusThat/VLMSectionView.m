@@ -121,8 +121,11 @@ static TTTTimeIntervalFormatter *timeFormatter;
         [self addSubview:clearbutton2];
         
         self.detaillabelenabled = YES;
+        
+        [self setUserName:username andQuestion:text];
     }
     
+//    [self setBackgroundColor:DEBUG_BACKGROUND_GRID];
     return self;
 }
 
@@ -136,7 +139,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
     [headerLabel setText:username];
     [headerLabel setTextColor:TEXT_COLOR];
     
-    [self.detailLabel setFrame:CGRectZero];
+    [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, 270.f, 70.0f )];
     [detailLabel setLineBreakMode:UILineBreakModeWordWrap];
     [detailLabel setMinimumFontSize:10.0f];
     [detailLabel setNumberOfLines:0];
@@ -144,20 +147,6 @@ static TTTTimeIntervalFormatter *timeFormatter;
     [detailLabel setBackgroundColor:[UIColor clearColor]];
     [detailLabel setTextColor:TEXT_COLOR];
     [detailLabel setText:text];
-    [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, 270.f, 0.0f )];
-    
-    // new size for label
-    CGSize maximumLabelSize = CGSizeMake(275,100);
-    CGSize expectedLabelSize = [text sizeWithFont:detailLabel.font constrainedToSize:maximumLabelSize lineBreakMode:detailLabel.lineBreakMode];   
-    CGRect newFrame = detailLabel.frame;
-    newFrame.size.height = expectedLabelSize.height;
-    [detailLabel setFrame:newFrame];
-    
-    // new size for view
-    CGRect f = self.frame;
-    f.size.height = newFrame.size.height + newFrame.origin.y + 5;
-    
-    [self setFrame:f];
     
     [headerLabel sizeToFit];
     [headerLabel setFrame:CGRectMake( 44.0f-3, 7.0f, headerLabel.frame.size.width, 22.0f )];
@@ -165,7 +154,12 @@ static TTTTimeIntervalFormatter *timeFormatter;
     [detailLabel sizeToFit];
     [detailLabel setFrame:CGRectMake( 44.0f-3, 27.0f, detailLabel.frame.size.width, detailLabel.frame.size.height )];
     
-    //[clearbutton3 setFrame:detailLabel.frame];
+    // new size for view
+    CGRect f = self.frame;
+    //CGFloat h = detailLabel.frame.origin.y + detailLabel.frame.size.height;
+    //h = round( h / 14.0f ) * 14.0f;
+    //f.size.height = h;
+    //[self setFrame:f];
     
     [clearbutton setFrame:CGRectMake(0, 0, 50, f.size.height)];
     [clearbutton2 setFrame:CGRectMake(50, 0, f.size.width-50, f.size.height)];
@@ -260,5 +254,13 @@ static TTTTimeIntervalFormatter *timeFormatter;
     // Drawing code
 }
 */
+
++ (CGFloat)expectedViewHeightForText:(NSString *)text{
+    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:SECTION_FONT_REGULAR size:14.0f] constrainedToSize:CGSizeMake(270, 120) lineBreakMode:UILineBreakModeWordWrap];
+    CGFloat h = expectedLabelSize.height + 14.0f * 2.0f;
+    
+    h = ceilf( h / 14.0f ) * 14.0f;
+    return h;
+}
 
 @end

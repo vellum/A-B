@@ -133,8 +133,7 @@
 - (void)loadObjects{
     if ( shouldWipeCache ){
         [[VLMCache sharedCache] clear];
-    } else {
-        shouldWipeCache = YES;
+
     }
     [super loadObjects];
     
@@ -149,6 +148,8 @@
 
         }
     }];
+    shouldWipeCache = YES;
+
 }
 
 - (PFQuery *)queryForTable {
@@ -171,7 +172,7 @@
         if (self.objects.count == 0 || ![[UIApplication sharedApplication].delegate performSelector:@selector(isParseReachable)]) {
             [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
         } else if (!self.shouldWipeCache) {
-            [polls setCachePolicy:kPFCachePolicyCacheThenNetwork];
+            [polls setCachePolicy:kPFCachePolicyNetworkOnly];
         }
         self.shouldWipeCache = YES;
         return polls;
@@ -213,7 +214,7 @@
         [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     } else {
         if (!self.shouldWipeCache) {
-            [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+            [query setCachePolicy:kPFCachePolicyNetworkOnly];
         }
     }
     
@@ -278,24 +279,8 @@
     
     if ( obj == nil ) return 0;
     
-    
     NSString *text = [obj objectForKey:@"Question"];
-    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:SECTION_FONT_REGULAR size:14] constrainedToSize:CGSizeMake(275, 120) lineBreakMode:UILineBreakModeWordWrap];
-    CGFloat h = expectedLabelSize.height + 37.0f;
-    
-    // 1 line details
-    if ( h < 47.0f ) return 47.0f;   
-    
-    // 4 line
-    if ( h > 14*7 ) return 14*7.5;
-    
-    // 3 line
-    if ( h > 14*6 ) return 14*6.5;
-    
-    // 2 line
-    if ( h > 14*4 ) return 14*5;
-    
-    return h;
+    return [VLMSectionView expectedViewHeightForText:text];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

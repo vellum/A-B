@@ -78,7 +78,7 @@
     }
     [q setLimit:1000];
     [q orderByDescending:@"createdAt"];
-    [q setCachePolicy:kPFCachePolicyNetworkOnly];
+    [q setCachePolicy:kPFCachePolicyCacheThenNetwork];
     return q;
 }
 
