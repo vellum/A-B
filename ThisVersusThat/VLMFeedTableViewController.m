@@ -157,7 +157,9 @@
 }
 
 - (PFQuery *)queryForTable {
-    if ( self.currentFeedType == VLMFeedTypeAll || ![PFUser currentUser]){
+    
+    // CASE 1: FEEDTYPE ALL
+    if ( self.currentFeedType == VLMFeedTypeAll ){
         // just get everything (not limited to followees)
         PFQuery *polls = [PFQuery queryWithClassName:self.className];
         [polls includeKey:@"User"];
@@ -182,6 +184,16 @@
         return polls;
     }
     
+    // CASE 2: FEEDTYPE FOLLOW (BUT NOT LOGGED IN)
+    if ( ![PFUser currentUser] ){
+         // force an empty query (merely setting limit to zero doesn't work)
+        PFQuery *polls = [PFQuery queryWithClassName:self.className];
+        [polls whereKey:@"objectId" equalTo:@""];
+        [polls setLimit:0];
+        return polls;
+    }
+
+    // CASE 3: FEEDTYPE FOLLOW (LOGGED IN)
     // get people i follow
     PFQuery *followingActivitiesQuery = [PFQuery queryWithClassName:@"Activity"];
     [followingActivitiesQuery whereKey:@"Type" equalTo:@"follow"];
