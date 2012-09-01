@@ -58,20 +58,22 @@
 - (void)reset:(BOOL)hasMoreItems isLoading:(BOOL)loading{
     if ( loading ){
         [button setTitle:@"loading..." forState:UIControlStateDisabled];
-        [[button underline] setHidden:YES];
         [button setEnabled:NO];
+        [[button underline] setHidden:YES];
+        [button setNeedsDisplay];
         return;
     }
     if ( hasMoreItems ){
+        //[button setSelected:YES];
         [button setTitle:@"load more..." forState:UIControlStateNormal];
-        [button setSelected:YES];
         [button setEnabled:YES];
         [[button underline] setHidden:NO];
     } else {
         [button setTitle:@"all items loaded." forState:UIControlStateDisabled];
-        [[button underline] setHidden:YES];
         [button setEnabled:NO];
+        [[button underline] setHidden:YES];
     }
+    [button setNeedsDisplay];
 }
 
 - (void)press:(id)sender{

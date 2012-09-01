@@ -542,6 +542,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setDelegate:self];
     }
+    NSLog(@"%d / %d", self.objects.count, self.resultcount);
+    
     if ( self.objects.count < self.resultcount ){
         [cell reset:YES isLoading:self.isLoading];
     }
