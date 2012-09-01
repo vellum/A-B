@@ -72,8 +72,10 @@
     // add button
     UIButton *ab = [self makeTextButtonWithFrame:CGRectMake(0.0f, 0.0f, winw, FOOTER_HEIGHT) andTypeSize:13.0f];
     [ab setTitle:@"Sign in via Facebook" forState:UIControlStateNormal];
-    [ab setShowsTouchWhenHighlighted:YES];
+    [ab setShowsTouchWhenHighlighted:NO];
     [ab setBackgroundColor:[UIColor clearColor]];
+    [ab setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+    [ab setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
     [[self view] addSubview:ab];
     self.addbutton = ab;
     [ab addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
