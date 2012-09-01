@@ -30,6 +30,7 @@
 @property (nonatomic) NSInteger resultcount;
 @property (nonatomic) VLMFeedType currentFeedType;
 @property (nonatomic) BOOL shouldWipeCache;
+@property (nonatomic) PFQuery *lastquery;
 @end
 
 
@@ -46,6 +47,7 @@
 @synthesize resultcount;
 @synthesize currentFeedType;
 @synthesize shouldWipeCache;
+@synthesize lastquery;
 #pragma mark - NSObject
 
 -(id) initWithHeader:(VLMFeedHeaderController *) headerController {
@@ -131,6 +133,7 @@
 #pragma mark - PFQueryTableViewController
 
 - (void)loadObjects{
+    
     if ( shouldWipeCache ){
         [[VLMCache sharedCache] clear];
 
@@ -148,6 +151,7 @@
 
         }
     }];
+    self.lastquery = q;
     shouldWipeCache = YES;
 
 }
@@ -751,17 +755,20 @@
 - (void)setFeedType:(int)feedtype{
     self.currentFeedType = feedtype;
     NSLog(@"newfeedtype: %d", feedtype);
+    
+    
+    if ( self.lastquery && self.isLoading ){
+        [self.lastquery cancel];
+    }
+
     self.shouldWipeCache = NO;
-    [self clear];
     self.resultcount = 0;
+    [self clear];
     [self setIsLoading:YES];
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
-    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:0.5];
-    
-    
-    //[self loadObjects];
+    [self loadObjects];
 }
 
 @end
