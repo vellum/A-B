@@ -37,6 +37,7 @@
 @property (nonatomic) BOOL shouldScrollToCommentsAndPopKeyboard;
 @property (nonatomic) BOOL shouldRefreshVotes;
 @property (nonatomic, strong) UILabel *deletednote;
+@property (nonatomic) PFCachePolicy policy;
 
 @end
 
@@ -51,6 +52,7 @@
 @synthesize shouldScrollToCommentsAndPopKeyboard;
 @synthesize shouldRefreshVotes;
 @synthesize deletednote;
+@synthesize policy;
 
 - (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot{
     self = [super init];
@@ -80,6 +82,8 @@
         self.isRootController = isRoot;
         
         self.shouldRefreshVotes = NO;
+        
+        self.policy = kPFCachePolicyCacheThenNetwork;
         
         [self.view setAutoresizesSubviews:NO];        
         //[self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
@@ -393,15 +397,22 @@
         [query setLimit:0];
         return query;
     }
+    
+    // check for empty policy
+    if ( !self.policy ){
+        self.policy = kPFCachePolicyCacheThenNetwork;
+    }
+    
     [query includeKey:@"FromUser"];
     [query whereKeyExists:@"FromUser"];
     [query whereKey:@"Poll" equalTo:poll];
     [query whereKey:@"Type" equalTo:@"comment"];
-
-    //[query setCachePolicy:kPFCachePolicyNetworkOnly];
-    [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    [query setCachePolicy:self.policy];
     [query orderByAscending:@"createdAt"];
     [query setLimit:1000];
+
+    // try to cache when possible
+    self.policy = kPFCachePolicyCacheThenNetwork;
     return query;
 }
 
@@ -964,6 +975,9 @@
                     }
                     
                     [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+                    
+                    // don't use the cache when refreshing the table
+                    self.policy = kPFCachePolicyNetworkOnly;
                     [self scrollToComments];
                     [self loadObjects];
                 }];
