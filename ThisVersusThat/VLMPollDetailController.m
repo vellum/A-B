@@ -125,14 +125,14 @@
         [fill addSubview:textview];
         self.tableView.tableFooterView = footer;
         
-        UILabel *label =  [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 42.0f)];
-        [label setText:@"..."];
+        UILabel *label =  [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-HEADER_HEIGHT - STATUSBAR_HEIGHT)];
+        [label setText:@"Loading..."];
         [label setTextColor:[UIColor colorWithWhite:0.2f alpha:0.5f]];
         [label setTextAlignment:UITextAlignmentCenter];
         [label setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.0f]];
         [label setFont:[UIFont fontWithName:@"AmericanTypewriter" size:13.0f]];
         
-        UIView *vvv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 56.0f)];
+        UIView *vvv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         [vvv setBackgroundColor:[UIColor clearColor]];
         [vvv addSubview:label];
         [self.tableView beginUpdates];
