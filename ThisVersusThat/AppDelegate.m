@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "VLMCache.h"
 #import "Reachability.h"
+#import "TestFlight.h"
 
 @interface AppDelegate()
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -113,10 +114,44 @@
     // Use Reachability to monitor connectivity
     [self monitorReachability];
     
+    
+    // TESTFLIGHT
+    // installs HandleExceptions as the Uncaught Exception Handler
+    NSSetUncaughtExceptionHandler(&HandleExceptions);
+    // create the signal action structure
+    struct sigaction newSignalAction;
+    // initialize the signal action structure
+    memset(&newSignalAction, 0, sizeof(newSignalAction));
+    // set SignalHandler as the handler in the signal action structure
+    newSignalAction.sa_handler = &SignalHandler;
+    // set SignalHandler as the handlers for SIGABRT, SIGILL and SIGBUS
+    sigaction(SIGABRT, &newSignalAction, NULL);
+    sigaction(SIGILL, &newSignalAction, NULL);
+    sigaction(SIGBUS, &newSignalAction, NULL);
+    // Call takeOff after install your own unhandled exception and signal handlers
+    [TestFlight takeOff:@"9e1e68fa893a729a18ba2c5022acc60b_MTI4NDkwMjAxMi0wOS0wNCAxMzoxMzo0MS44MjYyOTU"];
+    
     return YES;
 }
 
-#pragma mark - 
+#pragma mark - testflight exception handling
+/*
+ My Apps Custom uncaught exception catcher, we do special stuff here, and TestFlight takes care of the rest
+ **/
+void HandleExceptions(NSException *exception) {
+    NSLog(@"This is where we save the application data during a exception");
+    // Save application data on crash
+}
+/*
+ My Apps Custom signal catcher, we do special stuff here, and TestFlight takes care of the rest
+ **/
+void SignalHandler(int sig) {
+    NSLog(@"This is where we save the application data during a signal");
+    // Save application data on crash
+}
+
+
+#pragma mark -
 #pragma mark appearance
 
 - (void)establishAppearanceDefaults{

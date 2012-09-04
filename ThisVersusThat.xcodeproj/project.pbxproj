@@ -104,6 +104,7 @@
 		BDF1376515EFE7080026ED2C /* pinpoint.png in Resources */ = {isa = PBXBuildFile; fileRef = BDF1376115EFE7080026ED2C /* pinpoint.png */; };
 		BDF1376615EFE7080026ED2C /* pinpoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDF1376215EFE7080026ED2C /* pinpoint@2x.png */; };
 		BDF1376915EFE8CA0026ED2C /* REVClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF1376815EFE8CA0026ED2C /* REVClusterAnnotationView.m */; };
+		BDF8C33B15F67002002596EA /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF8C33A15F67002002596EA /* libTestFlight.a */; };
 		BDFAC8FD15C9F980001A15B5 /* VLMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */; };
 		BDFCDCE615C3972E0086DE95 /* UINavigationBar+Fat.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */; };
 		BDFE7FDA15D4B00B00D577E2 /* vote_button_disabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDFE7FD815D4B00B00D577E2 /* vote_button_disabled@2x.png */; };
@@ -255,6 +256,8 @@
 		BDF1376215EFE7080026ED2C /* pinpoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinpoint@2x.png"; sourceTree = "<group>"; };
 		BDF1376715EFE8CA0026ED2C /* REVClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = REVClusterAnnotationView.h; path = REVClusterMap/REVClusterAnnotationView.h; sourceTree = "<group>"; };
 		BDF1376815EFE8CA0026ED2C /* REVClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = REVClusterAnnotationView.m; path = REVClusterMap/REVClusterAnnotationView.m; sourceTree = "<group>"; };
+		BDF8C33A15F67002002596EA /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = TestFlightSDK1.0/libTestFlight.a; sourceTree = "<group>"; };
+		BDF8C33C15F67032002596EA /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = TestFlightSDK1.0/TestFlight.h; sourceTree = "<group>"; };
 		BDFAC8FB15C9F980001A15B5 /* VLMUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMUtility.h; sourceTree = "<group>"; };
 		BDFAC8FC15C9F980001A15B5 /* VLMUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMUtility.m; sourceTree = "<group>"; };
 		BDFCDCE415C3972E0086DE95 /* UINavigationBar+Fat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Fat.m"; path = "ThisVersusThat/UINavigationBar+Fat.m"; sourceTree = "<group>"; };
@@ -268,6 +271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDF8C33B15F67002002596EA /* libTestFlight.a in Frameworks */,
 				BD9FF75715EFD0FB000949D8 /* libsqlite3.dylib in Frameworks */,
 				BD9FF75515EFD0A6000949D8 /* Parse.framework in Frameworks */,
 				BD990D8215EF222B007A5480 /* MapKit.framework in Frameworks */,
@@ -487,6 +491,15 @@
 			path = ThisVersusThat/REVClusterMap;
 			sourceTree = "<group>";
 		};
+		BDF8C33D15F6707C002596EA /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				BDF8C33A15F67002002596EA /* libTestFlight.a */,
+				BDF8C33C15F67032002596EA /* TestFlight.h */,
+			);
+			name = TestFlight;
+			sourceTree = "<group>";
+		};
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +573,7 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BDF8C33D15F6707C002596EA /* TestFlight */,
 				BDF1374D15EFD94E0026ED2C /* REVClusterMap */,
 				BDEA532115EC31AC00F1A8E2 /* DDPageControl */,
 				BD3C1D2815E4309D001EF030 /* Reachability */,
@@ -793,6 +807,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: david lu (D6GE537VAV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -803,6 +818,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PROVISIONING_PROFILE = "5DE56040-AB9D-411F-A82C-CD6F492C5C56";
 				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -812,6 +828,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: david lu (D6GE537VAV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -820,6 +837,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "5DE56040-AB9D-411F-A82C-CD6F492C5C56";
 				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -829,6 +847,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -839,8 +858,13 @@
 				GCC_PREFIX_HEADER = "ThisVersusThat/ThisVersusThat-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "ThisVersusThat/ThisVersusThat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/TestFlightSDK1.0\"",
+				);
 				PRODUCT_NAME = "A or B";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -850,7 +874,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -860,8 +885,13 @@
 				GCC_PREFIX_HEADER = "ThisVersusThat/ThisVersusThat-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "ThisVersusThat/ThisVersusThat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/TestFlightSDK1.0\"",
+				);
 				PRODUCT_NAME = "A or B";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
