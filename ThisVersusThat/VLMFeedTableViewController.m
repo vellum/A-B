@@ -785,7 +785,7 @@
     [self.tableView endUpdates];
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:0.5f];
+    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
     //[self loadObjects];
 }
 
