@@ -163,7 +163,7 @@ static TTTTimeIntervalFormatter *timeFormatter;
 }
 
 + (CGFloat)heightForDescriptionText:(NSString *)text{
-    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(200, 49) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(200, 100) lineBreakMode:UILineBreakModeWordWrap];
     
     CGFloat cellh = expectedLabelSize.height + 18;
     cellh = ceilf(cellh/7)*7 + 28+7;

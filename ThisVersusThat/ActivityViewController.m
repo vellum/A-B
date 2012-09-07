@@ -120,9 +120,11 @@
     NSLog(@"enable: %@", (enabled)?@"YES":@"NO");
     [self.tableView setUserInteractionEnabled:enabled];
 }
+
 - (void)refresh{
     [self loadObjects];
 }
+
 #pragma mark - PFQueryTableViewController
 
 - (PFQuery *)queryForTable {
@@ -234,6 +236,7 @@
         for ( PFObject *row in self.objects ){
             NSString *text;
             NSString *type = [row objectForKey:@"Type"];
+
             if ( [type isEqualToString:@"like"] ){
                 text = @"voted on your poll.";
                 estimatedcontentheight += [VLMActivityCell heightForDescriptionText:text];
@@ -245,6 +248,7 @@
             if( [type isEqualToString:@"comment"] ){
                 text = [NSString stringWithFormat: @"commented on your poll.\n\n%@", [row objectForKey:@"Description"]];
                 estimatedcontentheight += [VLMActivityCell heightForDescriptionText:text] + 14;
+                
             }
         }
         //NSLog(@"computing estimatedcontentheight: %f", estimatedcontentheight);
