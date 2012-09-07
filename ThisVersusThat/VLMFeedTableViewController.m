@@ -771,18 +771,22 @@
     NSLog(@"newfeedtype: %d", feedtype);
     
     
-    if ( self.lastquery && self.isLoading ){
-        [self.lastquery cancel];
+    if ( self.lastquery ){
+        if ( self.isLoading ) [self.lastquery cancel];
+        if ( [self.lastquery hasCachedResult] ) [self.lastquery clearCachedResult];
     }
 
+    [self setIsLoading:YES];
     self.shouldWipeCache = NO;
     self.resultcount = 0;
     [self clear];
-    [self setIsLoading:YES];
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
-    [self loadObjects];
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self performSelector:@selector(loadObjects) withObject:nil afterDelay:0.5f];
+    //[self loadObjects];
 }
 
 @end

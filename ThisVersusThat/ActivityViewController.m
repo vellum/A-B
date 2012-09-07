@@ -248,7 +248,6 @@
             if( [type isEqualToString:@"comment"] ){
                 text = [NSString stringWithFormat: @"commented on your poll.\n\n%@", [row objectForKey:@"Description"]];
                 estimatedcontentheight += [VLMActivityCell heightForDescriptionText:text] + 14;
-                
             }
         }
         //NSLog(@"computing estimatedcontentheight: %f", estimatedcontentheight);
