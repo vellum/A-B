@@ -475,9 +475,9 @@
         
     NSString *text = [row objectForKey:@"Description"];
 
-    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(40*7-3-20-5-5, 49) lineBreakMode:UILineBreakModeWordWrap];
-
-    CGFloat cellh = expectedLabelSize.height + 18;
+    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:@"AmericanTypewriter" size:13] constrainedToSize:CGSizeMake(40*7-3-20-5-5, 120) lineBreakMode:UILineBreakModeWordWrap];
+    NSLog(@"%f", expectedLabelSize.height);
+    CGFloat cellh = expectedLabelSize.height > 16 ? expectedLabelSize.height + 18 + 14 : expectedLabelSize.height + 18;
     cellh = ceilf(cellh/7)*7 + 28;
     return cellh;
 }
