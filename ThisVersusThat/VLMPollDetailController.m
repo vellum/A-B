@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "VLMConstants.h"
+#import "VLMUtility.h"
 #import "VLMPollDetailController.h"
 #import "UIViewController+Transitions.h"
 #import "VLMSectionView.h"
@@ -980,6 +981,8 @@
                     self.policy = kPFCachePolicyNetworkOnly;
                     [self scrollToComments];
                     [self loadObjects];
+                    
+                    [VLMUtility sendCommentPushNotification:[self.poll objectForKey:@"User"] Poll:self.poll];
                 }];
             }
         }];

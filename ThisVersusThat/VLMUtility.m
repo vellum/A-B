@@ -232,8 +232,10 @@
                                     
                                     [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:payload];
                                 }
-                                
-                                
+                                if ( succeeded ){
+                                    [VLMUtility sendLikePushNotification:[poll objectForKey:@"User"] Poll:poll];
+                                }
+                            
                             }
                         }];
                     }
@@ -422,7 +424,7 @@
         }
 
         if (succeeded) {
-            //[PAPUtility sendFollowingPushNotification:user];
+            [VLMUtility sendFollowingPushNotification:user];
         }
     }];
     [[VLMCache sharedCache] setFollowStatus:YES user:user];
@@ -453,7 +455,7 @@
         }
         
         if (succeeded) {
-            //[PAPUtility sendFollowingPushNotification:user];
+            [VLMUtility sendFollowingPushNotification:user];
         }
     }];
     [[VLMCache sharedCache] setFollowStatus:YES user:user];
@@ -521,5 +523,64 @@
     }];
     [[VLMCache sharedCache] setFollowStatus:NO user:user];
 }
+
+#pragma mark Push
+
++ (void)sendFollowingPushNotification:(PFUser *)user {
+    NSString *privateChannelName = [user objectForKey:kPAPUserPrivateChannelKey];
+    if (privateChannelName && privateChannelName.length != 0) {
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSString stringWithFormat:@"%@ followed you on A/B.", [VLMUtility firstNameForDisplayName:[[PFUser currentUser] objectForKey:kPAPUserDisplayNameKey]]], kAPNSAlertKey,
+                              kPAPPushPayloadPayloadTypeActivityKey, kPAPPushPayloadPayloadTypeKey,
+                              kPAPPushPayloadActivityFollowKey, kPAPPushPayloadActivityTypeKey,
+                              [[PFUser currentUser] objectId], kPAPPushPayloadFromUserObjectIdKey,
+                              nil];
+        PFPush *push = [[PFPush alloc] init];
+        [push setChannel:privateChannelName];
+        [push setData:data];
+        [push sendPushInBackground];
+    }
+}
+
++ (void)sendLikePushNotification:(PFUser *)user Poll:(PFObject *)poll{
+    if (![[[poll objectForKey:@"User"] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
+        NSString *privateChannelName = [[poll objectForKey:@"User"] objectForKey:kPAPUserPrivateChannelKey];
+        if (privateChannelName && privateChannelName.length != 0) {
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [NSString stringWithFormat:@"%@ voted on your poll.", [VLMUtility firstNameForDisplayName:[[PFUser currentUser] objectForKey:kPAPUserDisplayNameKey]]], kAPNSAlertKey,
+                                  kPAPPushPayloadPayloadTypeActivityKey, kPAPPushPayloadPayloadTypeKey,
+                                  kPAPPushPayloadActivityLikeKey, kPAPPushPayloadActivityTypeKey,
+                                  [[PFUser currentUser] objectId], kPAPPushPayloadFromUserObjectIdKey,
+                                  [poll objectId], kPAPPushPayloadPhotoObjectIdKey,
+                                  nil];
+            PFPush *push = [[PFPush alloc] init];
+            [push setChannel:privateChannelName];
+            [push setData:data];
+            [push sendPushInBackground];
+        }
+    }
+}
+
+
++ (void)sendCommentPushNotification:(PFUser *)user Poll:(PFObject *)poll{
+    if (![[[poll objectForKey:@"User"] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
+        NSString *privateChannelName = [[poll objectForKey:@"User"] objectForKey:kPAPUserPrivateChannelKey];
+        if (privateChannelName && privateChannelName.length != 0) {
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [NSString stringWithFormat:@"%@ commented on your poll.", [VLMUtility firstNameForDisplayName:[[PFUser currentUser] objectForKey:kPAPUserDisplayNameKey]]], kAPNSAlertKey,
+                                  kPAPPushPayloadPayloadTypeActivityKey, kPAPPushPayloadPayloadTypeKey,
+                                  kPAPPushPayloadActivityCommentKey, kPAPPushPayloadActivityTypeKey,
+                                  [[PFUser currentUser] objectId], kPAPPushPayloadFromUserObjectIdKey,
+                                  [poll objectId], kPAPPushPayloadPhotoObjectIdKey,
+                                  nil];
+            PFPush *push = [[PFPush alloc] init];
+            [push setChannel:privateChannelName];
+            [push setData:data];
+            [push sendPushInBackground];
+        }
+    }
+    
+}
+
 
 @end

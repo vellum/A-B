@@ -125,7 +125,17 @@
 
                 [[PFFacebookUtils facebook] requestWithGraphPath:@"me/?fields=name,picture,birthday,location,bio,gender,website" andDelegate:self];           
             }else{
+                
+                
             }
+            
+            // Subscribe to private push channel
+            NSString *privateChannelName = [NSString stringWithFormat:@"user_%@", [user objectId]];
+            [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:kPAPInstallationUserKey];
+            [[PFInstallation currentInstallation] addUniqueObject:privateChannelName forKey:kPAPInstallationChannelsKey];
+            [[PFInstallation currentInstallation] saveEventually];
+            [user setObject:privateChannelName forKey:kPAPUserPrivateChannelKey];
+
         }
     }];
 }
@@ -264,6 +274,8 @@
 }
 
 
+
+// FIXME: not sure if this would ever get called, since we're logging out in a different viewcontroller
 - (void)logOut{
 
     /*

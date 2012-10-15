@@ -45,6 +45,7 @@
 		BD4D508915BDE19D007D6E3A /* VLMTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD4D507A15BDE19C007D6E3A /* VLMTextButton.m */; };
 		BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD54C2DA15D3568700B73984 /* VLMCommentCell.m */; };
 		BD5E12F015E028F8004D557E /* VotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5E12EF15E028F8004D557E /* VotesViewController.m */; };
+		BD647EF0162CA2CA00E93E24 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD647EEF162CA2CA00E93E24 /* Default-568h@2x.png */; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
 		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
 		BD7998E215D654670070D759 /* skewed_print.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998E015D654670070D759 /* skewed_print.png */; };
@@ -169,6 +170,7 @@
 		BD54C2DA15D3568700B73984 /* VLMCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCommentCell.m; sourceTree = "<group>"; };
 		BD5E12EE15E028F8004D557E /* VotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotesViewController.h; sourceTree = "<group>"; };
 		BD5E12EF15E028F8004D557E /* VotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotesViewController.m; sourceTree = "<group>"; };
+		BD647EEF162CA2CA00E93E24 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BD72B83715BE3AD20083CD4E /* VLMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMMainViewController.h; sourceTree = "<group>"; };
 		BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMMainViewController.m; sourceTree = "<group>"; };
 		BD72B83D15BE59670083CD4E /* VLMAddButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMAddButtonController.h; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 		09ABC06213A1D52D009C3FCF = {
 			isa = PBXGroup;
 			children = (
+				BD647EEF162CA2CA00E93E24 /* Default-568h@2x.png */,
 				BDE975C115EDEBAD00FBA535 /* Default@2x.png */,
 				BDE975BF15EDEBA900FBA535 /* Default.png */,
 				BDEA532915EC97A900F1A8E2 /* Icon@2x.png */,
@@ -726,6 +729,7 @@
 				BDF1376415EFE7080026ED2C /* cluster@2x.png in Resources */,
 				BDF1376515EFE7080026ED2C /* pinpoint.png in Resources */,
 				BDF1376615EFE7080026ED2C /* pinpoint@2x.png in Resources */,
+				BD647EF0162CA2CA00E93E24 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

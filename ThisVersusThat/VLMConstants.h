@@ -29,6 +29,13 @@
 #define POLL_RIGHT_PHOTO_CAPTION_KEY @"RightCaption"
 #define POLL_USER_KEY @"User"
 
+#pragma mark - Installation Class
+
+// Field keys
+#define kPAPInstallationUserKey @"user"
+#define kPAPInstallationChannelsKey @"channels"
+
+#pragma mark - ...
 
 // Field keys
 #define kPAPUserDisplayNameKey @"displayName"
@@ -38,6 +45,8 @@
 #define kPAPUserProfilePicMediumKey @"profilePictureMedium"
 #define kPAPUserAlreadyAutoFollowedFacebookFriendsKey @"userAlreadyAutoFollowedFacebookFriends"
 #define kPAPUserPrivateChannelKey @"channel"
+
+#pragma mark - ...
 
 // Class key
 #define kPAPActivityClassKey @"Activity"
@@ -54,6 +63,30 @@
 #define kPAPActivityTypeFollow @"follow"
 #define kPAPActivityTypeComment @"comment"
 #define kPAPActivityTypeJoined @"joined"
+
+
+#pragma mark - Push Notification Payload Keys
+
+#define kAPNSAlertKey @"alert"
+#define kAPNSBadgeKey @"badge"
+#define kAPNSSoundKey @"sound"
+
+// the following keys are intentionally kept short, APNS has a maximum payload limit
+#define kPAPPushPayloadPayloadTypeKey          @"p"
+#define kPAPPushPayloadPayloadTypeActivityKey  @"a"
+
+#define kPAPPushPayloadActivityTypeKey     @"t"
+#define kPAPPushPayloadActivityLikeKey     @"l"
+#define kPAPPushPayloadActivityCommentKey  @"c"
+#define kPAPPushPayloadActivityFollowKey   @"f"
+
+#define kPAPPushPayloadFromUserObjectIdKey @"fu"
+#define kPAPPushPayloadToUserObjectIdKey   @"tu"
+#define kPAPPushPayloadPhotoObjectIdKey    @"pid"
+
+
+
+
 
 #pragma mark -
 #pragma mark Touch and Gesture

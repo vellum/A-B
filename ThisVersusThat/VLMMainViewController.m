@@ -365,6 +365,11 @@
             [[NSFileManager defaultManager] removeItemAtPath:[profilePictureCacheURL path] error:nil];
         }
         
+        // Unsubscribe from push notifications by clearing the channels key (leaving only broadcast enabled).
+        [[PFInstallation currentInstallation] setObject:@[@""] forKey:kPAPInstallationChannelsKey];
+        [[PFInstallation currentInstallation] removeObjectForKey:kPAPInstallationUserKey];
+        [[PFInstallation currentInstallation] saveInBackground];
+        
         // Log out
         [PFUser logOut];
     }

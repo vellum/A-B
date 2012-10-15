@@ -103,11 +103,9 @@
     //self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     
-    /*
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|
                                                     UIRemoteNotificationTypeAlert|
                                                     UIRemoteNotificationTypeSound];
-    */
     
     //[self showHUD:@"test"];
 
@@ -239,8 +237,17 @@ void SignalHandler(int sig) {
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
     [PFPush storeDeviceToken:newDeviceToken];
-    [PFPush subscribeToChannelInBackground:@"" target:self selector:@selector(subscribeFinished:error:)];
-}
+    
+    [[PFInstallation currentInstallation] addUniqueObject:@"" forKey:kPAPInstallationChannelsKey];
+    if ([PFUser currentUser]) {
+        // Make sure they are subscribed to their private push channel
+        NSString *privateChannelName = [[PFUser currentUser] objectForKey:kPAPUserPrivateChannelKey];
+        if (privateChannelName && privateChannelName.length > 0) {
+            NSLog(@"Subscribing user to %@", privateChannelName);
+            [[PFInstallation currentInstallation] addUniqueObject:privateChannelName forKey:kPAPInstallationChannelsKey];
+        }
+    }
+    [[PFInstallation currentInstallation] saveEventually];}
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
@@ -248,11 +255,15 @@ void SignalHandler(int sig) {
 	if ([error code] != 3010) // 3010 is for the iPhone Simulator
     {
         // show some alert or otherwise handle the failure to register.
+        NSLog(@"Application failed to register for push notifications: %@", error);
 	}
 }
 
+// TODO: handle push notifications in app
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [PFPush handlePush:userInfo];
+    //[PFPush handlePush:userInfo];
+
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

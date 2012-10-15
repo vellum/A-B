@@ -25,4 +25,8 @@
 + (void)unfollowUserEventually:(PFUser *)user;
 + (void)unfollowUsersEventually:(NSArray *)users;
 + (void)unfollowUserEventually:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
+
++ (void)sendFollowingPushNotification:(PFUser *)user;
++ (void)sendCommentPushNotification:(PFUser *)user Poll:(PFObject *)poll;
+
 @end
