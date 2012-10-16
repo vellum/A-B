@@ -305,10 +305,6 @@
 		09ABC06213A1D52D009C3FCF = {
 			isa = PBXGroup;
 			children = (
-				BD648015162CDE5B00E93E24 /* Social.framework */,
-				BD648013162CDE5200E93E24 /* AdSupport.framework */,
-				BD648011162CDE4600E93E24 /* Accounts.framework */,
-				BD64800F162CDDA600E93E24 /* Parse.framework */,
 				BD647EEF162CA2CA00E93E24 /* Default-568h@2x.png */,
 				BDE975C115EDEBAD00FBA535 /* Default@2x.png */,
 				BDE975BF15EDEBA900FBA535 /* Default.png */,
@@ -333,6 +329,10 @@
 			isa = PBXGroup;
 			children = (
 				BD9FF75615EFD0FB000949D8 /* libsqlite3.dylib */,
+				BD648015162CDE5B00E93E24 /* Social.framework */,
+				BD648013162CDE5200E93E24 /* AdSupport.framework */,
+				BD648011162CDE4600E93E24 /* Accounts.framework */,
+				BD64800F162CDDA600E93E24 /* Parse.framework */,
 				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
 				095ACE8513C68EA300566243 /* AudioToolbox.framework */,
 				743D7B6C157DA60100084B67 /* CoreGraphics.framework */,
@@ -882,6 +882,7 @@
 				PRODUCT_NAME = "A or B";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -910,6 +911,7 @@
 				PRODUCT_NAME = "A or B";
 				PROVISIONING_PROFILE = "1A66A822-3EE0-4716-8ADB-34015ACB553C";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1A66A822-3EE0-4716-8ADB-34015ACB553C";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

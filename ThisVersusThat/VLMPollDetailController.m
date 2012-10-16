@@ -981,8 +981,9 @@
                     self.policy = kPFCachePolicyNetworkOnly;
                     [self scrollToComments];
                     [self loadObjects];
-                    
-                    [VLMUtility sendCommentPushNotification:[self.poll objectForKey:@"User"] Poll:self.poll];
+                    if ( succeeded ){
+                        [VLMUtility sendCommentPushNotification:self.poll];
+                    }
                 }];
             }
         }];

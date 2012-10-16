@@ -562,9 +562,16 @@
 }
 
 
-+ (void)sendCommentPushNotification:(PFUser *)user Poll:(PFObject *)poll{
-    if (![[[poll objectForKey:@"User"] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
-        NSString *privateChannelName = [[poll objectForKey:@"User"] objectForKey:kPAPUserPrivateChannelKey];
++ (void)sendCommentPushNotification:(PFObject *)poll{
+    [poll fetchIfNeeded];
+    
+    PFUser *u = [poll objectForKey:@"User"];
+    [u fetchIfNeeded];
+    
+    if (![[u objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
+
+        NSString *privateChannelName = [u objectForKey:kPAPUserPrivateChannelKey];
+        
         if (privateChannelName && privateChannelName.length != 0) {
             NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [NSString stringWithFormat:@"%@ commented on your poll.", [VLMUtility firstNameForDisplayName:[[PFUser currentUser] objectForKey:kPAPUserDisplayNameKey]]], kAPNSAlertKey,
