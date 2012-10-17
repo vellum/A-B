@@ -143,7 +143,10 @@
     [query whereKey:@"ToUser" equalTo:[PFUser currentUser]];
     
     [query includeKey:@"Poll"];
-    [query whereKeyExists:@"Poll"];
+    
+    //FIXME: commenting this out might let dead/deleted polls into the results
+    //       (however uncommenting prevents follows from being presented)
+    //[query whereKeyExists:@"Poll"];
     
     [query includeKey:@"Poll.PhotoLeft"];
     [query includeKey:@"Poll.PhotoRight"];
@@ -153,6 +156,42 @@
     [query orderByDescending:@"createdAt"];
     
     return query;
+    /*
+     PFQuery *queryA = [PFQuery queryWithClassName:@"Activity"];
+     if ( ![PFUser currentUser] ) {
+     
+     [queryA setLimit:0];
+     return queryA;
+     
+     }
+     
+     [queryA includeKey:@"FromUser"];
+     [queryA whereKeyExists:@"FromUser"];
+     [queryA whereKey:@"FromUser" notEqualTo:[PFUser currentUser]];
+     [queryA whereKey:@"ToUser" equalTo:[PFUser currentUser]];
+     
+     [queryA includeKey:@"Poll"];
+     [queryA whereKeyExists:@"Poll"];
+     
+     [queryA includeKey:@"Poll.PhotoLeft"];
+     [queryA includeKey:@"Poll.PhotoRight"];
+     
+     [queryA setCachePolicy:kPFCachePolicyNetworkOnly];
+     
+     PFQuery *queryB = [PFQuery queryWithClassName:@"Activity"];
+     [queryB whereKeyExists:@"FromUser"];
+     [queryB whereKey:@"FromUser" notEqualTo:[PFUser currentUser]];
+     [queryB whereKey:@"ToUser" equalTo:[PFUser currentUser]];
+     [queryB whereKey:@"Type" equalTo:@"follow"];
+     [queryB setCachePolicy:kPFCachePolicyNetworkOnly];
+     
+     PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:queryA, queryB, nil]];
+     [query setCachePolicy:kPFCachePolicyNetworkOnly];
+     [query setLimit:1000];
+     [query orderByDescending:@"createdAt"];
+     
+     return query;
+     */
 }
 
 - (PFObject *)objectAtIndex:(NSIndexPath *)indexPath {
