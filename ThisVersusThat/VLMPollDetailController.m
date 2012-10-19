@@ -98,11 +98,11 @@
             
         } else {
             self.shouldRefreshVotes = YES;
-            /*
+            ///*
+            [self.navigationItem setHidesBackButton:YES];
             UIBarButtonItem *backbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
             [self.navigationItem setLeftBarButtonItem:backbutton];
-            [self.navigationItem setHidesBackButton:YES];
-             */
+            // */
         }
 
         
@@ -800,7 +800,10 @@
     [mapview removeAnnotations:mapview.annotations];
     [mapview addAnnotations:pins];
     [mapview setDelegate:self];
+    //[mapview setCenterCoordinate:mapview.region.center animated:NO];
+    
     [cell addSubview:mapview];
+    
     
     y+= 14*8;
     UILabel *note = [[UILabel alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*3)];

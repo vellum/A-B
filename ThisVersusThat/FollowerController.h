@@ -10,5 +10,5 @@
 
 @interface FollowerController : PFQueryTableViewController<UITableViewDelegate>
 - (id)initWithObject:(PFUser *)obj isRoot:(BOOL)isRoot modeFollowing:(BOOL)isFollowingMode;
-
+- (void)back:(id)sender;
 @end

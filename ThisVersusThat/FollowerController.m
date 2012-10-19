@@ -50,6 +50,10 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone]; 
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    [self.navigationItem setHidesBackButton:YES];
+    UIBarButtonItem *backbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+    [self.navigationItem setLeftBarButtonItem:backbutton];
 }
 
 - (void)viewDidUnload
@@ -123,6 +127,9 @@
     return nil;
 }
 
+- (void)back:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 @end
