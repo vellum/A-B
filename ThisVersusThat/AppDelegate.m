@@ -24,6 +24,8 @@
 @property (nonatomic, strong) Reachability *internetReach;
 @property (nonatomic, strong) Reachability *wifiReach;
 @property (nonatomic) BOOL firsttimenetworkchange;
+@property (nonatomic) BOOL receivedPushNotificationInBackground;
+@property (nonatomic, strong) NSDictionary *lastknownpush;
 
 @end
 
@@ -40,6 +42,7 @@
 @synthesize internetReach;
 @synthesize wifiReach;
 @synthesize firsttimenetworkchange;
+@synthesize receivedPushNotificationInBackground;
 
 #pragma mark -
 #pragma mark Setup
@@ -48,6 +51,7 @@
 {
     
     firsttimenetworkchange = YES;
+    receivedPushNotificationInBackground = NO;
     // ****************************************************************************
     // Uncomment and fill in with your Parse credentials:
     [Parse setApplicationId:PARSE_APP_ID clientKey:PARSE_CLIENT_KEY];
@@ -128,6 +132,12 @@
     sigaction(SIGBUS, &newSignalAction, NULL);
     // Call takeOff after install your own unhandled exception and signal handlers
     [TestFlight takeOff:@"9e1e68fa893a729a18ba2c5022acc60b_MTI4NDkwMjAxMi0wOS0wNCAxMzoxMzo0MS44MjYyOTU"];
+    
+    
+    // PUSH
+    
+    [self handlePush:launchOptions];
+    
     
     return YES;
 }
@@ -261,9 +271,16 @@ void SignalHandler(int sig) {
 
 // TODO: handle push notifications in app
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    //[PFPush handlePush:userInfo];
 
     
+    if ( [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive ){
+        [PFPush handlePush:userInfo];
+    } else {
+        [self handlePush:userInfo];
+        self.receivedPushNotificationInBackground = YES;
+    }
+    
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -294,6 +311,12 @@ void SignalHandler(int sig) {
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    if (receivedPushNotificationInBackground) {
+        receivedPushNotificationInBackground = NO;
+        [mainViewController performSelector:@selector(showLeftPanel) withObject:nil afterDelay:1.0f];
+        
+    }
+    //[mainViewController showLeftPanel];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -471,5 +494,68 @@ void SignalHandler(int sig) {
     [h setDimBackground:NO];
     [h hide:YES afterDelay:2.0f];
     
+}
+
+
+- (void)handlePush:(NSDictionary *)launchOptions {
+    [self setLastknownpush:nil];
+    
+    NSLog(@"handlepush");
+    NSLog(@"%@", launchOptions);
+    // If the app was launched in response to a push notification, we'll handle the payload here
+    NSDictionary *remoteNotificationPayload = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if ([PFUser currentUser]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"cc.vellum.thisversusthat.notification.didreceivenotification" object:nil userInfo:nil];
+        
+    }
+    if (remoteNotificationPayload) {
+        
+        NSLog(@"payload found");
+        
+        // we may want to post an internal notification to update activity
+            /*        [[NSNotificationCenter defaultCenter] postNotificationName:PAPAppDelegateApplicationDidReceiveRemoteNotification object:nil userInfo:remoteNotificationPayload];
+            */
+        
+        
+        if ([PFUser currentUser]) {
+            
+            NSLog( @"here" );
+            
+            [self.mainViewController showLeftPanel];
+            
+            /*
+            // if the push notification payload references a photo, we will attempt to push this view controller into view
+            NSString *photoObjectId = [remoteNotificationPayload objectForKey:kPAPPushPayloadPhotoObjectIdKey];
+            NSString *fromObjectId = [remoteNotificationPayload objectForKey:kPAPPushPayloadFromUserObjectIdKey];
+            
+            
+            if (photoObjectId && photoObjectId.length > 0) {
+                
+                // check if this photo is already available locally.
+                
+                PFObject *targetPoll = [PFObject objectWithoutDataWithClassName:@"Poll" objectId:photoObjectId];
+                // if we have a local copy of this photo, this won't result in a network fetch
+                [targetPoll fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                    if (!error) {
+                        [mainViewController popPollDetail:targetPoll];
+                    }
+                }];
+            } else if (fromObjectId && fromObjectId.length > 0) {
+                // load fromUser's profile
+                
+                PFQuery *query = [PFUser query];
+                query.cachePolicy = kPFCachePolicyCacheElseNetwork;
+                [query getObjectInBackgroundWithId:fromObjectId block:^(PFObject *user, NSError *error) {
+                    if (!error) {
+                        PFUser *u = (PFUser *)user;
+                        [mainViewController popUserDetail:u];
+                    }
+                }];
+                
+            }
+            */
+        }
+    }
 }
 @end

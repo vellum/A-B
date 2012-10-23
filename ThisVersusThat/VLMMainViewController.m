@@ -245,17 +245,34 @@
 
 - (void)popPollDetail:(PFObject *)poll{
     NSLog(@"poppoll: %@", poll);
+    
+    UIViewController *vc = [self presentedViewController];
+
     VLMPollDetailController *polldetail = [[VLMPollDetailController alloc] initWithObject:poll isRoot:YES];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:polldetail];
-    [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
-    [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
+    UINavigationController *navigationController;
+    if ( vc ) {
+        navigationController = [vc navigationController];
+        [navigationController pushViewController:polldetail animated:YES];
+    } else {
+        navigationController = [[UINavigationController alloc] initWithRootViewController:polldetail];
+        [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+        [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
+    }
 }
 
 - (void)popUserDetail:(PFUser *)user{
+    
+    UIViewController *vc = [self presentedViewController];
     VLMUserDetailController *userdetail = [[VLMUserDetailController alloc] initWithObject:user isRoot:YES];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController: userdetail];
-    [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
-    [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
+    UINavigationController *navigationController;
+    if ( vc ) {
+        navigationController = [vc navigationController];
+        [navigationController pushViewController:userdetail animated:YES];
+    } else {
+        navigationController = [[UINavigationController alloc] initWithRootViewController: userdetail];
+        [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+        [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
+    }
 }
 
 - (void)popPollDetailAndScrollToComments:(PFObject *)poll{
@@ -264,14 +281,13 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:polldetail];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
     [self presentModalViewController:navigationController withPushDirection:kCATransitionFromRight];
-    
 }
+
 - (void)didTap:(id)sender{
     if ( [PFUser currentUser] ){
     [self showLeftPanel];
     }
 }
-
 
 - (void)showLeftPanel{
 

@@ -530,7 +530,7 @@
     NSString *privateChannelName = [user objectForKey:kPAPUserPrivateChannelKey];
     if (privateChannelName && privateChannelName.length != 0) {
         NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSString stringWithFormat:@"%@ followed you on A/B.", [VLMUtility firstNameForDisplayName:[[PFUser currentUser] objectForKey:kPAPUserDisplayNameKey]]], kAPNSAlertKey,
+                              [NSString stringWithFormat:@"%@ followed you.", [VLMUtility firstNameForDisplayName:[[PFUser currentUser] objectForKey:kPAPUserDisplayNameKey]]], kAPNSAlertKey,
                               kPAPPushPayloadPayloadTypeActivityKey, kPAPPushPayloadPayloadTypeKey,
                               kPAPPushPayloadActivityFollowKey, kPAPPushPayloadActivityTypeKey,
                               [[PFUser currentUser] objectId], kPAPPushPayloadFromUserObjectIdKey,

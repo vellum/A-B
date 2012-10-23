@@ -86,11 +86,14 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidDeletePhoto:) name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"cc.vellum.thisversusthat.notification.didreceivenotification" object:nil];
+    
 }
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.userdiddeletepoll" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"cc.vellum.thisversusthat.notification.didreceivenotification" object:nil];
     
 }
 
