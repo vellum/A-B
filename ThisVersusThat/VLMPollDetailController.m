@@ -631,7 +631,8 @@
     PFFile *leftthumb = [leftphoto objectForKey:@"Original"];
     [leftimage setFile:leftthumb];
     [leftimage loadInBackground];
-    [labelL setText:[leftphoto objectForKey:@"Caption"]];
+    
+    [labelL setText:[self getUpperCaseString:[leftphoto objectForKey:@"Caption"]]];
     [countL setText:[NSString stringWithFormat:@"%d", (int)likesL]];
     
     
@@ -709,7 +710,7 @@
     [rightphoto fetchIfNeeded];
     [rightimage setFile:[rightphoto objectForKey:@"Original"]];
     [rightimage loadInBackground];
-    [labelR setText:[rightphoto objectForKey:@"Caption"]];
+    [labelR setText:[self getUpperCaseString:[rightphoto objectForKey:@"Caption"]]];
     
     
     cx = 3;
@@ -1231,4 +1232,9 @@ didSelectAnnotationView:(MKAnnotationView *)view
      */
 }
 
+- (NSString*)getUpperCaseString:(NSString*)left{
+    NSString *uppercaseLeft = [left uppercaseString];
+    NSString *processedLeft = ([left isEqualToString:uppercaseLeft]) ? left : [left capitalizedString];
+    return processedLeft;
+}
 @end
