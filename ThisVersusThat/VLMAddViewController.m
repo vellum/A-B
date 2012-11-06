@@ -370,7 +370,7 @@
         
         cameraUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         cameraUI.mediaTypes = [NSArray arrayWithObject:(NSString *) kUTTypeImage];
-        
+
     } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]
                && [[UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum] containsObject:(NSString *)kUTTypeImage]) {
         

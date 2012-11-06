@@ -168,9 +168,10 @@ void SignalHandler(int sig) {
     UIImage *custombgd = NAVIGATION_HEADER_BACKGROUND_IMAGE;
     UIImage *clear = [[UIImage imageNamed:@"clear.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     
+    UIImage *clearfixed = [UIImage imageNamed:@"clear.png"];
+
     // set navbar background
     [[UINavigationBar appearance] setBackgroundImage:custombgd forBarMetrics:UIBarMetricsDefault];
- 
     // set navbar typography
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                         [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
@@ -183,7 +184,6 @@ void SignalHandler(int sig) {
     // bar button item background
     [[UIBarButtonItem appearance] setBackgroundImage:clear forState:UIControlStateNormal barMetrics:UIBarMetricsDefault]; 
     [[UIBarButtonItem appearance] setBackgroundImage:clear forState:UIControlStateSelected barMetrics:UIBarMetricsDefault]; 
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:clear forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     
     
     // set plain bar button item typography
@@ -217,8 +217,10 @@ void SignalHandler(int sig) {
      ];
     [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
 
-    // interestingly, backbutton needs its own adjustment
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:BAR_BUTTON_ITEM_VERTICAL_OFFSET-1 forBarMetrics:UIBarMetricsDefault];
+
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:clearfixed forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    // interestingly, backbutton needs its own adjustment
     
 }
 
