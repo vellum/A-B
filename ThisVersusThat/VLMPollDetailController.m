@@ -26,7 +26,7 @@
 #import "REVClusterMap/REVClusterManager.h"
 #import "REVClusterMap/REVAnnotationsCollection.h"
 #import "REVClusterAnnotationView.h"
-
+#import "MapViewController.h"
 
 @interface VLMPollDetailController ()
 @property (nonatomic, strong) NSArray *likersL;
@@ -39,6 +39,7 @@
 @property (nonatomic) BOOL shouldRefreshVotes;
 @property (nonatomic, strong) UILabel *deletednote;
 @property (nonatomic) PFCachePolicy policy;
+@property (nonatomic, strong) NSMutableArray *pins;
 
 @end
 
@@ -54,7 +55,7 @@
 @synthesize shouldRefreshVotes;
 @synthesize deletednote;
 @synthesize policy;
-
+@synthesize pins;
 - (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot{
     self = [super init];
     if ( self ){
@@ -768,8 +769,11 @@
     [cell addSubview:where];
     y+= 14*4;
     
-    REVClusterMapView *mapview = [[REVClusterMapView alloc] initWithFrame:CGRectMake(x, y, wwww + 40, 14*8)];
-    NSMutableArray *pins = [NSMutableArray array];
+    CGRect viewBounds = CGRectMake(x, y, wwww + 40, 14*8);
+    REVClusterMapView *mapview = [[REVClusterMapView alloc] initWithFrame:viewBounds];
+    mapview.delegate = self;
+
+    self.pins = [NSMutableArray array];
     for (PFUser *liker in likersL){
         PFGeoPoint *geo = [liker objectForKey:@"latlng"];
         if ( geo ){
@@ -802,8 +806,24 @@
     [mapview addAnnotations:pins];
     [mapview setDelegate:self];
     //[mapview setCenterCoordinate:mapview.region.center animated:NO];
-    
     [cell addSubview:mapview];
+    
+    /*
+    UIButton *mapbutton = [[UIButton alloc] initWithFrame:viewBounds];
+    [mapbutton setBackgroundColor:[UIColor clearColor]];
+    [mapbutton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+    [mapbutton setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
+    [mapbutton addTarget:self action:@selector(handleMapTap:) forControlEvents:UIControlEventTouchUpInside];
+    [cell addSubview:mapbutton];
+    [mapbutton.layer setCornerRadius:2.0f];
+    [mapbutton.layer setMasksToBounds:YES];
+     */
+    UIView *mapbutton = [[UIView alloc] initWithFrame:viewBounds];
+    [mapbutton setBackgroundColor:[UIColor clearColor]];
+    [cell addSubview:mapbutton];
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMapTap:)];
+    [mapbutton addGestureRecognizer:tgr];
+
     
     
     y+= 14*8;
@@ -871,6 +891,12 @@
     [actionSheet showInView:self.view];
     
 }
+
+
+- (void)handleGenericTap:(id)sender{
+    NSLog( @"hi" );
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -1236,5 +1262,12 @@ didSelectAnnotationView:(MKAnnotationView *)view
     NSString *uppercaseLeft = [left uppercaseString];
     NSString *processedLeft = ([left isEqualToString:uppercaseLeft]) ? left : [left capitalizedString];
     return processedLeft;
+}
+
+- (void)handleMapTap:(id)sender{
+    MapViewController *mvc = [[MapViewController alloc] initWithPins:self.pins];
+    UINavigationController *navigationController = self.navigationController;
+    [navigationController pushViewController:mvc animated:YES];
+
 }
 @end

@@ -87,6 +87,7 @@
 		BDCBDC8315E4A7C000608D76 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCBDC8115E4A7C000608D76 /* plus@2x.png */; };
 		BDCFED3515C3845D0089A77E /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCFED3415C3845D0089A77E /* clear.png */; };
 		BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD0F8C915CB723A00ACAB23 /* VLMCache.m */; };
+		BDDE1E4B164E3D47002E445A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDE1E4A164E3D47002E445A /* MapViewController.m */; };
 		BDE469CD15E4D04800DFF0CC /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CB15E4D04800DFF0CC /* triangle.png */; };
 		BDE469CE15E4D04800DFF0CC /* triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CC15E4D04800DFF0CC /* triangle@2x.png */; };
 		BDE975C015EDEBAA00FBA535 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE975BF15EDEBA900FBA535 /* Default.png */; };
@@ -232,6 +233,8 @@
 		BDCFED3415C3845D0089A77E /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear.png; sourceTree = "<group>"; };
 		BDD0F8C815CB723900ACAB23 /* VLMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMCache.h; sourceTree = "<group>"; };
 		BDD0F8C915CB723A00ACAB23 /* VLMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCache.m; sourceTree = "<group>"; };
+		BDDE1E49164E3D47002E445A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		BDDE1E4A164E3D47002E445A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		BDE469CB15E4D04800DFF0CC /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		BDE469CC15E4D04800DFF0CC /* triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle@2x.png"; sourceTree = "<group>"; };
 		BDE975BF15EDEBA900FBA535 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -461,6 +464,8 @@
 				BD4D507615BDE19C007D6E3A /* VLMFooterController.m */,
 				BDF1376715EFE8CA0026ED2C /* REVClusterAnnotationView.h */,
 				BDF1376815EFE8CA0026ED2C /* REVClusterAnnotationView.m */,
+				BDDE1E49164E3D47002E445A /* MapViewController.h */,
+				BDDE1E4A164E3D47002E445A /* MapViewController.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -792,6 +797,7 @@
 				BDF1375C15EFD94E0026ED2C /* REVClusterMapView.m in Sources */,
 				BDF1375D15EFD94E0026ED2C /* REVClusterPin.m in Sources */,
 				BDF1376915EFE8CA0026ED2C /* REVClusterAnnotationView.m in Sources */,
+				BDDE1E4B164E3D47002E445A /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

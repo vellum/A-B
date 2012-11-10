@@ -20,4 +20,5 @@
 - (id)initWithObject:(PFObject *)obj isRoot:(BOOL)isRoot;
 - (void)scrollToComments;
 - (void)scrollToCommentsAndPopKeyboard;
+- (void)handleMapTap:(id)sender;
 @end
