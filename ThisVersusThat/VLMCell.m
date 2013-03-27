@@ -424,7 +424,7 @@
 
     [UIView animateWithDuration:duration
             delay:0 
-            options:curve|UIViewAnimationOptionBeginFromCurrentState
+            options:curve|UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionAllowUserInteraction
             animations:^{
                 self.containerView.frame = CGRectOffset(self.originalRect, self.originalOffsetX, 0.0f);
             }
@@ -442,6 +442,10 @@
     // kill animations
     [UIView setAnimationsEnabled:NO];
     [self.containerView.layer removeAllAnimations];
+    CALayer *presentationLayer = self.containerView.layer.presentationLayer;
+    if ( [presentationLayer respondsToSelector:@selector(transform)] ){
+        self.containerView.layer.transform = presentationLayer.transform;
+    }
 
     // restore the previous animation state
     [UIView setAnimationsEnabled:animationsEnabled];
