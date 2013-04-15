@@ -36,6 +36,7 @@
         [titleLabel setFrame:CGRectMake(65, 0, 240-75, 60)];
         [self.contentView addSubview:titleLabel];
         label = titleLabel;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
 
     }
     return self;

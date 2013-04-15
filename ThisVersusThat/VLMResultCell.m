@@ -16,6 +16,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
 		imageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        [imageView setFrame:CGRectMake(0, 0, 59, 59)];
         [self.contentView setBackgroundColor:[UIColor whiteColor]];
 		[self.contentView addSubview:imageView];
         
@@ -26,6 +27,8 @@
         [titleLabel setText:@""];
         [titleLabel setFrame:CGRectMake(65, 0, self.contentView.frame.size.width-75, 60)];
         [self.contentView addSubview:titleLabel];
+        
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
         label = titleLabel;
 	}
 	
