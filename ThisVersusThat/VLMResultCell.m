@@ -6,19 +6,23 @@
 //  Copyright 2009 enormego. All rights reserved.
 //
 
+
 #import "VLMResultCell.h"
 #import "EGOImageView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "VLMConstants.h"
 
 @implementation VLMResultCell
+@synthesize egoImageView;
+@synthesize label;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-		imageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        [imageView setFrame:CGRectMake(0, 0, 59, 59)];
+		self.egoImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        [self.egoImageView setFrame:CGRectMake(0, 0, 59, 59)];
         [self.contentView setBackgroundColor:[UIColor whiteColor]];
-		[self.contentView addSubview:imageView];
+		[self.contentView addSubview:self.egoImageView];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [titleLabel setFont:[UIFont fontWithName:HEADER_TITLE_FONT size:13.0f]];
@@ -36,19 +40,19 @@
 }
 
 - (void)setItemPhoto:(NSString*)flickrPhoto {
-	imageView.imageURL = [NSURL URLWithString:flickrPhoto];
+	self.egoImageView.imageURL = [NSURL URLWithString:flickrPhoto];
 }
 
 - (void)setItemText:(NSString *)text{
-    [label setText:[text capitalizedString]];
-    [label setFrame:CGRectMake(65, 0, self.contentView.frame.size.width-75, 60)];
+    [self.label setText:[text capitalizedString]];
+    [self.label setFrame:CGRectMake(65, 0, self.contentView.frame.size.width-75, 60)];
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
 	[super willMoveToSuperview:newSuperview];
 	
 	if(!newSuperview) {
-		[imageView cancelImageLoad];
+		[self.egoImageView cancelImageLoad];
 	}
 }
 

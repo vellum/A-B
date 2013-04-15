@@ -10,10 +10,12 @@
 #import "Parse/PF_FBRequest.h"
 #import "PopoverView.h"
 #import "VLMSearchViewController.h"
+#import "EGOImageView.h"
 
-@class UIPlaceHolderTextView; 
+@class UIPlaceHolderTextView;
 
-@interface VLMAddViewController : UIViewController<UIGestureRecognizerDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VLMSearchViewControllerDelegate, PF_FBRequestDelegate>{
+
+@interface VLMAddViewController : UIViewController<UIGestureRecognizerDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VLMSearchViewControllerDelegate, EGOImageViewDelegate, PF_FBRequestDelegate>{
 
     id<VLMSearchViewControllerDelegate> mydelegate;
 

@@ -17,13 +17,16 @@
 #import "UIImage+ResizeAdditions.h"
 #import "PopoverView.h"
 #import "VLMSearchViewController.h"
+#import "EGOCache.h"
+#import "EGOImageView.h"
 
 @interface VLMAddViewController ()
 
+
 @property (strong, nonatomic) UIView *containerView;
 @property (strong, nonatomic) UITextView *questionfield;
-@property (strong, nonatomic) UIImageView *leftimage;
-@property (strong, nonatomic) UIImageView *rightimage;
+@property (strong, nonatomic) EGOImageView *leftimage;
+@property (strong, nonatomic) EGOImageView *rightimage;
 @property (strong, nonatomic) UITextField *leftcaption;
 @property (strong, nonatomic) UITextField *rightcaption;
 @property (strong, nonatomic) UILabel *charsremaining;
@@ -50,6 +53,7 @@
 
 @end
 
+
 @implementation VLMAddViewController
 
 @synthesize containerView;
@@ -75,10 +79,10 @@
 @synthesize photoPostBackgroundTaskIdR;
 @synthesize mydelegate;
 
+
 #pragma mark - UIViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     
     self.leftimageexists = NO;
@@ -96,9 +100,10 @@
     
 }
 
+
 #pragma mark - UI Setup
 
-- (void)setuptoolbar {
+- (void)setuptoolbar{
     [self setTitle:@"Add"];
 	
     [self.view setBackgroundColor:FEED_TABLEVIEW_BGCOLOR];
@@ -138,7 +143,7 @@
     self.charsremaining = label;
 }
 
-- (void)setuptaprecognizer {
+- (void)setuptaprecognizer{
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGenericTap:)];
     [tgr setDelegate:self];
     [self.view addGestureRecognizer:tgr];
@@ -174,9 +179,11 @@
     [self.containerView addSubview:left];
     
     // left image (placeholder)
-    self.leftimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
+    self.leftimage = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"photo_placeholder.png"]];
     [leftimage setFrame:CGRectMake(5, 5, 276, 276)];
+    [leftimage setDelegate:self];
     [left addSubview:leftimage];
+    
     
     // transparent black layer
     UIView *leftShade = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
@@ -209,8 +216,10 @@
     [self.containerView addSubview:right];
     
     // right image
-    self.rightimage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_placeholder.png"]];
+    self.rightimage = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"photo_placeholder.png"]];
+
     [rightimage setFrame:CGRectMake(5, 5, 276, 276)];
+    [rightimage setDelegate:self];
     [right addSubview:rightimage];
     
     // transparent black layer
@@ -243,6 +252,7 @@
     self.originalRect = self.containerView.frame;
 }
 
+
 #pragma mark - TextViewDelegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
@@ -267,6 +277,7 @@
     [self shouldEnableDone];
     return YES;
 }
+
 
 #pragma mark - TextFieldDelegate
 
@@ -293,9 +304,10 @@
     return YES;
 }
 
+
 #pragma mark - GestureDelegate
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     if ( [gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]] ){
         
         if ( [touch.view isKindOfClass:[PopoverView class]] ) {
@@ -325,20 +337,19 @@
     return YES; 
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UITapGestureRecognizer *)gestureRecognizer
-{
+- (BOOL)gestureRecognizerShouldBegin:(UITapGestureRecognizer *)gestureRecognizer{
     return YES;
 }
-
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return NO;
 }
 
+
 #pragma mark - Camera & ImagePicker
 
 // copied from AnyPic
-- (BOOL)shouldStartCameraController {
+- (BOOL)shouldStartCameraController{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
         return NO;
     }
@@ -373,7 +384,7 @@
     return YES;
 }
 
-- (BOOL)shouldPresentPhotoCaptureController {
+- (BOOL)shouldPresentPhotoCaptureController{
     BOOL presentedPhotoCaptureController = [self shouldStartCameraController];
     if (!presentedPhotoCaptureController) {
         presentedPhotoCaptureController = [self shouldStartPhotoLibraryPickerController];
@@ -381,7 +392,7 @@
     return presentedPhotoCaptureController;
 }
 
-- (BOOL)shouldStartPhotoLibraryPickerController {
+- (BOOL)shouldStartPhotoLibraryPickerController{
     if (([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] == NO 
          && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum] == NO)) {
         return NO;
@@ -416,13 +427,14 @@
     return YES;
 }
 
+
 #pragma mark - UIImagePickerDelegate
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [self dismissModalViewControllerAnimated:NO];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     [self dismissModalViewControllerAnimated:NO];
     
     NSLog(@"picker did finish");
@@ -451,6 +463,7 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
     }   
 }
+
 
 #pragma mark - UIActionSheetDelegate
 
@@ -503,10 +516,12 @@
 
     }
 }
-#pragma mark - vlmsearchviewdelegate
 
-- (void)searchViewControllerFinished:(VLMSearchViewController*)viewController
-{
+
+#pragma mark - VLMSearchViewDelegate
+
+- (void)searchViewControllerFinished:(VLMSearchViewController*)viewController{
+
     // popover version
     if ( viewController == nil ){
 
@@ -515,10 +530,44 @@
     } else {
         [self dismissViewControllerAnimated:NO completion:nil];
     }
+
+    //EGOCache *currentCache = [EGOCache currentCache];
+    //[currentCache clearCache];
 }
 
 - (void)didSelectItemWithTitle:(NSString *)title andImageURL:(NSString *)url{
     NSLog(@"didselectitem:%@, %@", title, url);
+    if ( self.originalOffsetX == 0 ) {
+        [self.leftimage setImageURL:[NSURL URLWithString:url]];
+        [self.leftcaption setText:title];
+    } else {
+        [self.rightimage setImageURL:[NSURL URLWithString:url]];
+        [self.rightcaption setText:title];
+    }
+
+    /*
+    EGOCache *currentCache = [EGOCache currentCache];
+    BOOL isImageCached = [currentCache hasCacheForKey:(NSString*)url];
+    if (isImageCached) {
+        NSLog(@"image IS cached");
+    } else {
+        NSLog(@"image NOT cached");
+    }
+     */
+}
+
+#pragma mark - EGOImageViewDelegate
+- (void)imageViewLoadedImage:(EGOImageView*)imageView{
+    UIImage *image = imageView.image;
+    if(imageView == self.leftimage ){
+        self.leftimageexists = YES;
+        [self.leftimage setImage:image];
+        [self shouldUploadImage:image isLeft:YES];
+    }else if (imageView == self.rightimage){
+        self.rightimageexists = YES;
+        [self.rightimage setImage:image];
+        [self shouldUploadImage:image isLeft:NO];
+    }
 }
 
 #pragma mark - ()
@@ -597,6 +646,7 @@
     }
     return YES;
 }
+
 
 #pragma mark - cancel and done
 
@@ -677,7 +727,6 @@
     }];
     [self dismissModalViewControllerAnimated:YES];
 }
-
 
 
 #pragma mark - event handlers
@@ -826,6 +875,7 @@
     
 }
 
+
 #pragma mark - Check if done
 
 - (BOOL)shouldEnableDoneButton {
@@ -843,17 +893,15 @@
     }
 }
 
-#pragma mark -
-#pragma mark Boilerplate
 
-- (void)viewDidUnload
-{
+#pragma mark - Boilerplate
+
+- (void)viewDidUnload{
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

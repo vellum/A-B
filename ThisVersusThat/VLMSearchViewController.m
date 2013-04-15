@@ -13,6 +13,7 @@
 #import "VLMResultCell.h"
 #import "VLMMessageCell.h"
 
+
 typedef enum {
     kQueryBeingStill,
     kQueryWaiting,
@@ -27,18 +28,20 @@ typedef enum {
 @property (nonatomic, strong) UITextField *tf;
 @property VLMQueryResponseState responseState;
 @property (nonatomic, strong) NSArray *productresults;
-
 @end
 
+
 @implementation VLMSearchViewController
+
+
 @synthesize tv;
 @synthesize tf;
 @synthesize responseState;
 @synthesize productresults;
 @synthesize mydelegate;
 
-- (id)init
-{
+
+- (id)init{
     self = [super init];
     if (self) {
         // Custom initialization
@@ -81,8 +84,7 @@ typedef enum {
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
      UIBarButtonItem *cancelbutton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
      [self.navigationItem setLeftBarButtonItem:cancelbutton];
@@ -95,51 +97,12 @@ typedef enum {
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 #pragma mark - TextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
@@ -152,7 +115,8 @@ typedef enum {
 }
 
 
-#pragma mark - actions
+#pragma mark - ()
+
 - (void)cancel:(id)sender{
     //[self dismissModalViewControllerAnimated:NO];
     [self.mydelegate searchViewControllerFinished:self];
@@ -162,10 +126,8 @@ typedef enum {
     
 }
 
-
 // Call this method somewhere in your view controller setup code.
-- (void)registerForKeyboardNotifications
-{
+- (void)registerForKeyboardNotifications{
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardDidShowNotification object:nil];
@@ -174,16 +136,13 @@ typedef enum {
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.
-- (void)keyboardWasShown:(NSNotification*)aNotification
-{
+- (void)keyboardWasShown:(NSNotification*)aNotification{
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
     [self.tv setFrame:CGRectMake(0, 61, 320, self.view.bounds.size.height - 61 - kbSize.height)];
     [self.tv reloadData];
 }
-
-
 
 
 #pragma mark - JSON
@@ -252,10 +211,10 @@ typedef enum {
     self.responseState = kQueryDownloadErrror;
 }
 
+
 #pragma mark - DEMO - UITableView Delegate Methods
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSLog(@"numrowsinsection");
     if ( self.responseState == kQueryFound){
         int ret = [self.productresults count];
@@ -267,13 +226,11 @@ typedef enum {
     return 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"cellforrow");
     static NSString *ResultCellIdentifier = @"ResultCell";
     static NSString *MessageCellIdentifier = @"MessageCell";
@@ -338,14 +295,18 @@ typedef enum {
         int count = [self.productresults count];
         if ( count > 0 ){
             NSLog(@"row selected: %d", indexPath.row);
-            
             NSDictionary *product = (NSDictionary *) [self.productresults objectAtIndex:indexPath.row];
             NSString *image = [product valueForKey:@"image"];
             NSString *pagetitle = [product valueForKey:@"page_title"];
-            
+
             [self.mydelegate didSelectItemWithTitle:pagetitle andImageURL:image];
             [self.mydelegate searchViewControllerFinished:self];
             
+            ///
+            
+            
+            
+            //VLMResultCell *cell = [self tableView:self cellForRowAtIndexPath:indexPath];
             //NSString *pageurl = [product valueForKey:@"page_url"];
             
             //NSLog(@"%@", pagetitle);
@@ -355,5 +316,6 @@ typedef enum {
     }
     
 }
+
 
 @end

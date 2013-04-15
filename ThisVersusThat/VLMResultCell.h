@@ -10,10 +10,12 @@
 
 @class EGOImageView;
 @interface VLMResultCell : UITableViewCell {
-@private
-	EGOImageView *imageView;
+	EGOImageView *egoImageView;
     UILabel *label;
 }
+@property (nonatomic, strong) EGOImageView *egoImageView;
+@property (nonatomic, strong) UILabel *label;
+
 - (void)setItemPhoto:(NSString*)flickrPhoto;
 - (void)setItemText:(NSString *)text;
 @end
