@@ -5,6 +5,8 @@
 //  Created by David Lu on 7/17/12.
 //  Copyright (c) 2012 NerdGypsy. All rights reserved.
 //
+#import <Foundation/Foundation.h>
+#import "JSONKit.h"
 
 #import "AppDelegate.h"
 #import "VLMConstants.h"
@@ -13,6 +15,18 @@
 #import "VLMCache.h"
 #import "Reachability.h"
 #import "TestFlight.h"
+#import "PopoverView.h"
+#import "VLMResultCell.h"
+#import "VLMMessageCell.h"
+#import "VLMSearchViewController.h"
+
+typedef enum {
+    kQueryWaiting,
+    kQueryFound,
+    kQueryTimedOut,
+    kQueryDownloadErrror
+} VLMQueryResponseState;
+
 
 @interface AppDelegate()
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -26,7 +40,10 @@
 @property (nonatomic) BOOL firsttimenetworkchange;
 @property (nonatomic) BOOL receivedPushNotificationInBackground;
 @property (nonatomic, strong) NSDictionary *lastknownpush;
-
+@property (nonatomic, weak) PopoverView *pop;
+@property VLMQueryResponseState responseState;
+@property (nonatomic, weak) UITableView *tableview;
+@property (nonatomic, strong) NSArray *productresults;
 @end
 
 @implementation AppDelegate
@@ -44,12 +61,18 @@
 @synthesize firsttimenetworkchange;
 @synthesize receivedPushNotificationInBackground;
 
+@synthesize pop;
+@synthesize responseState;
+@synthesize tableview;
+@synthesize searchDelegate;
+
 #pragma mark -
 #pragma mark Setup
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    responseState = kQueryWaiting;
+
     firsttimenetworkchange = YES;
     receivedPushNotificationInBackground = NO;
     // ****************************************************************************
@@ -102,6 +125,9 @@
     [self.window addSubview:layer];
     self.hudlayer = layer;
     
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backfieldTapped:)];
+    [self.hudlayer addGestureRecognizer:tgr];
+    
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
     //self.window.rootViewController = self.viewController;
@@ -137,7 +163,6 @@
     // PUSH
     
     [self handlePush:launchOptions];
-    
     
     return YES;
 }
@@ -369,6 +394,7 @@ void SignalHandler(int sig) {
         //[mainViewController refreshfeed];
     }
 }
+
 - (void)showHUD:(NSString *)text animated:(BOOL)animated{
     if ( !self.hud ){
         
@@ -382,7 +408,6 @@ void SignalHandler(int sig) {
     [self.hud setDimBackground:NO];
 }
 
-
 - (void)showHUDPosting{
     if ( !self.hudp ){
         
@@ -395,6 +420,7 @@ void SignalHandler(int sig) {
     [self.hud setLabelText:@""];
     [self.hud setDimBackground:NO];
 }
+
 - (void)hideHUDPosting{
     if ( self.hudp ){
         [self.hudp hide:YES];
@@ -469,6 +495,7 @@ void SignalHandler(int sig) {
     }
      */
 }
+
 - (void)showErrorHUD:(NSString *)text{
     MBProgressHUD *h = [MBProgressHUD showHUDAddedTo:hudlayer animated:YES];
     [h setSquare:NO];
@@ -497,7 +524,6 @@ void SignalHandler(int sig) {
     [h hide:YES afterDelay:2.0f];
     
 }
-
 
 - (void)handlePush:(NSDictionary *)launchOptions {
     [self setLastknownpush:nil];
@@ -535,7 +561,7 @@ void SignalHandler(int sig) {
             if (photoObjectId && photoObjectId.length > 0) {
                 
                 // check if this photo is already available locally.
-                
+             
                 PFObject *targetPoll = [PFObject objectWithoutDataWithClassName:@"Poll" objectId:photoObjectId];
                 // if we have a local copy of this photo, this won't result in a network fetch
                 [targetPoll fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -560,4 +586,247 @@ void SignalHandler(int sig) {
         }
     }
 }
+
+- (void)showPopover:(NSString *)query delegate:(id)mydelegate{
+    NSLog(@"showpopover");
+    self.searchDelegate = mydelegate;
+    UIView *layer = self.hudlayer;
+    [layer setUserInteractionEnabled:YES];
+
+    [UIView animateWithDuration:0.25f
+                          delay:0
+                        options:UIViewAnimationCurveEaseOut|UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         [layer setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f]];
+
+                     }
+                     completion:nil
+     ];
+
+    CGRect rect = CGRectMake(0, 0, 280, self.window.frame.size.height-220-60-20);
+
+    UITableView *tableView = [[UITableView alloc] initWithFrame:rect];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    self.tableview = tableView;
+    self.tableview.backgroundColor = [UIColor clearColor];
+    self.tableview.separatorColor = [UIColor clearColor];
+    [self querySvpplyFor:query];
+
+
+    self.pop = [PopoverView
+                
+                showPopoverAtPoint:CGPointMake(160, 215)
+                inView:self.window
+                withTitle:@"Choose Item"
+                withContentView:tableView
+                delegate:self];
+    
+}
+
+- (void)backfieldTapped:(id)sender{
+    
+    NSLog(@"backfield tapped");
+    UIView *layer = self.hudlayer;
+    
+    [UIView animateWithDuration:0.25f
+                          delay:0
+                        options:UIViewAnimationCurveEaseOut|UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                        [layer setBackgroundColor:[UIColor clearColor]];
+                     }
+                     completion:nil
+     ];
+
+    
+    [layer setUserInteractionEnabled:NO];
+
+}
+
+
+#pragma mark - popoverdelegate
+//Delegate receives this call once the popover has begun the dismissal animation
+- (void)popoverViewDidDismiss:(PopoverView *)popoverView{
+    self.pop = nil;
+    self.tableview = nil;
+    self.productresults = nil;
+    [self backfieldTapped:nil];
+    
+    if ( self.searchDelegate != nil ){
+        [self.searchDelegate searchViewControllerFinished:nil];
+    }
+}
+
+
+
+#pragma mark - DEMO - UITableView Delegate Methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSLog(@"numrowsinsection");
+    if ( self.responseState == kQueryFound){
+        int ret = [self.productresults count];
+        if ( ret > 25 ) ret = 25;
+        return ret;
+    }
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+    /*
+    if ( self.responseState == kQueryFound){
+        return 60;
+    }
+    return tableView.frame.size.height;
+     */
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *ResultCellIdentifier = @"ResultCell";
+    static NSString *MessageCellIdentifier = @"MessageCell";
+    
+    if (self.responseState != kQueryFound){
+        VLMMessageCell *cell = (VLMMessageCell*)[tableView dequeueReusableCellWithIdentifier:MessageCellIdentifier];
+        if (cell == nil) {
+            cell = [[VLMMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MessageCellIdentifier];
+        }
+        NSString *messaging = @"no results";
+        switch (self.responseState) {
+            case kQueryWaiting:
+                messaging = @"loading...";
+                [cell showSpinner];
+                break;
+            case kQueryTimedOut:
+                messaging = @"timed out";
+                [cell hideSpinner];
+                break;
+            case kQueryDownloadErrror:
+                messaging = @"download error";
+                [cell hideSpinner];
+                break;
+                
+            default:
+                break;
+        }
+
+        [cell setItemText:messaging];
+
+        //cell.textLabel.text = messaging;
+        return cell;
+    }else{
+        int ind = indexPath.row;
+        VLMResultCell *cell = (VLMResultCell*)[tableView dequeueReusableCellWithIdentifier:ResultCellIdentifier];
+        if (cell == nil) {
+            cell = [[VLMResultCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResultCellIdentifier];
+        }
+        if (self.productresults == nil){
+            NSLog(@"products is nil");
+        } else {
+            NSDictionary *product = (NSDictionary *) [self.productresults objectAtIndex:ind];
+            NSString *image = [product valueForKey:@"image"];
+            NSString *pagetitle = [product valueForKey:@"page_title"];
+            //NSString *pageurl = [product valueForKey:@"page_url"];
+
+            //NSLog(@"%@", pagetitle);
+            //cell.textLabel.text = pagetitle;
+            [cell setItemPhoto:image];
+            [cell setItemText:pagetitle];
+        }
+        return cell;
+
+    }
+    //cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.f];
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if ( self.responseState == kQueryFound){
+        int count = [self.productresults count];
+        if ( count > 0 ){
+            NSLog(@"row selected: %d", indexPath.row);
+            NSDictionary *product = (NSDictionary *) [self.productresults objectAtIndex:indexPath.row];
+            NSString *image = [product valueForKey:@"image"];
+            NSString *pagetitle = [product valueForKey:@"page_title"];
+            //NSString *pageurl = [product valueForKey:@"page_url"];
+            
+            [self.searchDelegate didSelectItemWithTitle:pagetitle andImageURL:image];
+            
+            NSLog(@"%@", pagetitle);
+            [self.pop dismiss];
+
+        }
+    }
+
+}
+
+#pragma mark - JSON
+
+- (void)querySvpplyFor:(NSString *)query{
+    self.responseState = kQueryWaiting;
+    
+    NSString *SEARCHTERM = [NSString stringWithFormat:@"%@", query];
+    NSLog(@"query svpply for: %@", SEARCHTERM );
+    
+    SEARCHTERM = [SEARCHTERM stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString* urlString = [NSString stringWithFormat:SERVER_STRING, SEARCHTERM];
+    
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if ([data length] > 0 && error == nil){
+             [self receivedData:data];
+         } else if ([data length] == 0 && error == nil){
+             [self emptyReply];
+         } else if (error != nil && error.code == NSURLErrorTimedOut){
+             [self timedOut];
+         } else if (error != nil){
+             [self downloadError:error];
+         }
+         [self performSelectorOnMainThread:@selector(updatetable) withObject:nil waitUntilDone:NO];
+
+     }];
+}
+
+- (void)receivedData:(NSData *)data {
+    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    //NSLog(@"Here is what we got %@", jsonString);
+    
+    NSDictionary *got = [jsonString objectFromJSONString];
+    NSDictionary *gotresponse = [got valueForKey:@"response"];
+    NSArray *gotproducts = [gotresponse valueForKey:@"products"];
+    self.productresults = [gotproducts copy];
+    self.responseState = kQueryFound;
+}
+
+- (void)updatetable{
+    if ( self.tableview != nil ){
+        [self.tableview reloadData];
+    }
+}
+
+- (void)emptyReply{
+    NSLog(@"emptyreply");
+    self.responseState = kQueryDownloadErrror;
+}
+
+- (void)timedOut{
+    NSLog(@"timedout");
+    self.responseState = kQueryTimedOut;
+}
+
+- (void)downloadError:(NSError *)error{
+    NSLog(@"downloaderror");
+    self.responseState = kQueryDownloadErrror;
+}
+
+
 @end

@@ -68,6 +68,18 @@
 		BD990D7615EF16E5007A5480 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = BD990D7415EF16E5007A5480 /* logout.png */; };
 		BD990D7715EF16E5007A5480 /* logout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD990D7515EF16E5007A5480 /* logout@2x.png */; };
 		BD990D8215EF222B007A5480 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD990D8115EF222B007A5480 /* MapKit.framework */; };
+		BD99DF4317177D3300A5ECAB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF4217177D3300A5ECAB /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BD99DF471717DE3200A5ECAB /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF461717DE3200A5ECAB /* PopoverView.m */; };
+		BD99DF5617193E5F00A5ECAB /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF4A17193E5F00A5ECAB /* EGOCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BD99DF5717193E5F00A5ECAB /* EGOImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF4D17193E5F00A5ECAB /* EGOImageButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BD99DF5817193E5F00A5ECAB /* EGOImageLoadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF5017193E5F00A5ECAB /* EGOImageLoadConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BD99DF5917193E5F00A5ECAB /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF5217193E5F00A5ECAB /* EGOImageLoader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BD99DF5A17193E5F00A5ECAB /* EGOImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF5517193E5F00A5ECAB /* EGOImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BD99DF5E17193F9600A5ECAB /* VLMResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF5D17193F9500A5ECAB /* VLMResultCell.m */; };
+		BD99DF6A171A098400A5ECAB /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = BD99DF68171A098400A5ECAB /* placeholder.png */; };
+		BD99DF6B171A098400A5ECAB /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD99DF69171A098400A5ECAB /* placeholder@2x.png */; };
+		BD99DF71171A0E7700A5ECAB /* VLMMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF70171A0E7700A5ECAB /* VLMMessageCell.m */; };
+		BD99DF74171A309600A5ECAB /* VLMSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD99DF73171A309600A5ECAB /* VLMSearchViewController.m */; };
 		BD9FF75715EFD0FB000949D8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD9FF75615EFD0FB000949D8 /* libsqlite3.dylib */; };
 		BDAC93D915D1CFE0008B820F /* VLMPollDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93D815D1CFE0008B820F /* VLMPollDetailController.m */; };
 		BDAC93DC15D1CFFC008B820F /* VLMUserDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC93DB15D1CFFB008B820F /* VLMUserDetailController.m */; };
@@ -207,6 +219,29 @@
 		BD990D7415EF16E5007A5480 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		BD990D7515EF16E5007A5480 /* logout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout@2x.png"; sourceTree = "<group>"; };
 		BD990D8115EF222B007A5480 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BD99DF4117177D3300A5ECAB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = ThisVersusThat/JSONKit.h; sourceTree = "<group>"; };
+		BD99DF4217177D3300A5ECAB /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = ThisVersusThat/JSONKit.m; sourceTree = "<group>"; };
+		BD99DF441717DE3200A5ECAB /* PopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopoverView.h; path = ThisVersusThat/PopoverView.h; sourceTree = "<group>"; };
+		BD99DF451717DE3200A5ECAB /* PopoverView_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopoverView_Configuration.h; path = ThisVersusThat/PopoverView_Configuration.h; sourceTree = "<group>"; };
+		BD99DF461717DE3200A5ECAB /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopoverView.m; path = ThisVersusThat/PopoverView.m; sourceTree = "<group>"; };
+		BD99DF4917193E5F00A5ECAB /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
+		BD99DF4A17193E5F00A5ECAB /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
+		BD99DF4C17193E5F00A5ECAB /* EGOImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageButton.h; sourceTree = "<group>"; };
+		BD99DF4D17193E5F00A5ECAB /* EGOImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageButton.m; sourceTree = "<group>"; };
+		BD99DF4F17193E5F00A5ECAB /* EGOImageLoadConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageLoadConnection.h; sourceTree = "<group>"; };
+		BD99DF5017193E5F00A5ECAB /* EGOImageLoadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageLoadConnection.m; sourceTree = "<group>"; };
+		BD99DF5117193E5F00A5ECAB /* EGOImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageLoader.h; sourceTree = "<group>"; };
+		BD99DF5217193E5F00A5ECAB /* EGOImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageLoader.m; sourceTree = "<group>"; };
+		BD99DF5417193E5F00A5ECAB /* EGOImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageView.h; sourceTree = "<group>"; };
+		BD99DF5517193E5F00A5ECAB /* EGOImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageView.m; sourceTree = "<group>"; };
+		BD99DF5C17193F9500A5ECAB /* VLMResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMResultCell.h; sourceTree = "<group>"; };
+		BD99DF5D17193F9500A5ECAB /* VLMResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMResultCell.m; sourceTree = "<group>"; };
+		BD99DF68171A098400A5ECAB /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		BD99DF69171A098400A5ECAB /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
+		BD99DF6F171A0E7700A5ECAB /* VLMMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMMessageCell.h; sourceTree = "<group>"; };
+		BD99DF70171A0E7700A5ECAB /* VLMMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMMessageCell.m; sourceTree = "<group>"; };
+		BD99DF72171A309600A5ECAB /* VLMSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMSearchViewController.h; sourceTree = "<group>"; };
+		BD99DF73171A309600A5ECAB /* VLMSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMSearchViewController.m; sourceTree = "<group>"; };
 		BD9FF75615EFD0FB000949D8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		BDAC93D015D193AC008B820F /* VLMFeedHeaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VLMFeedHeaderDelegate.h; sourceTree = "<group>"; };
 		BDAC93D115D1A1AC008B820F /* VLMTapDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMTapDelegate.h; sourceTree = "<group>"; };
@@ -440,6 +475,91 @@
 			name = "UInavigationBar Category";
 			sourceTree = "<group>";
 		};
+		BD99DF4017177D0A00A5ECAB /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF6F171A0E7700A5ECAB /* VLMMessageCell.h */,
+				BD99DF70171A0E7700A5ECAB /* VLMMessageCell.m */,
+				BD99DF5C17193F9500A5ECAB /* VLMResultCell.h */,
+				BD99DF5D17193F9500A5ECAB /* VLMResultCell.m */,
+				BD99DF72171A309600A5ECAB /* VLMSearchViewController.h */,
+				BD99DF73171A309600A5ECAB /* VLMSearchViewController.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		BD99DF4817193E5F00A5ECAB /* EGOCache */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF4917193E5F00A5ECAB /* EGOCache.h */,
+				BD99DF4A17193E5F00A5ECAB /* EGOCache.m */,
+			);
+			name = EGOCache;
+			sourceTree = "<group>";
+		};
+		BD99DF4B17193E5F00A5ECAB /* EGOImageButton */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF4C17193E5F00A5ECAB /* EGOImageButton.h */,
+				BD99DF4D17193E5F00A5ECAB /* EGOImageButton.m */,
+			);
+			name = EGOImageButton;
+			path = ../EGOImageButton;
+			sourceTree = "<group>";
+		};
+		BD99DF4E17193E5F00A5ECAB /* EGOImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF4F17193E5F00A5ECAB /* EGOImageLoadConnection.h */,
+				BD99DF5017193E5F00A5ECAB /* EGOImageLoadConnection.m */,
+				BD99DF5117193E5F00A5ECAB /* EGOImageLoader.h */,
+				BD99DF5217193E5F00A5ECAB /* EGOImageLoader.m */,
+			);
+			name = EGOImageLoader;
+			path = ../EGOImageLoader;
+			sourceTree = "<group>";
+		};
+		BD99DF5317193E5F00A5ECAB /* EGOImageView */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF5417193E5F00A5ECAB /* EGOImageView.h */,
+				BD99DF5517193E5F00A5ECAB /* EGOImageView.m */,
+			);
+			name = EGOImageView;
+			path = ../EGOImageView;
+			sourceTree = "<group>";
+		};
+		BD99DF5B17193E6E00A5ECAB /* EGOImageLoading */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF4817193E5F00A5ECAB /* EGOCache */,
+				BD99DF4B17193E5F00A5ECAB /* EGOImageButton */,
+				BD99DF4E17193E5F00A5ECAB /* EGOImageLoader */,
+				BD99DF5317193E5F00A5ECAB /* EGOImageView */,
+			);
+			name = EGOImageLoading;
+			path = EGOCache;
+			sourceTree = "<group>";
+		};
+		BD99DF5F1719498D00A5ECAB /* PopoverView */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF441717DE3200A5ECAB /* PopoverView.h */,
+				BD99DF461717DE3200A5ECAB /* PopoverView.m */,
+				BD99DF451717DE3200A5ECAB /* PopoverView_Configuration.h */,
+			);
+			name = PopoverView;
+			sourceTree = "<group>";
+		};
+		BD99DF6017194B2B00A5ECAB /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				BD99DF4117177D3300A5ECAB /* JSONKit.h */,
+				BD99DF4217177D3300A5ECAB /* JSONKit.m */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
 		BDAC93D315D1B418008B820F /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +643,8 @@
 		BDFB949215C3049A001FF740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BD99DF68171A098400A5ECAB /* placeholder.png */,
+				BD99DF69171A098400A5ECAB /* placeholder@2x.png */,
 				BDB1486C15EF3F40004C25BD /* error.png */,
 				BDB1486D15EF3F40004C25BD /* error@2x.png */,
 				BDB1486715EF3E4B004C25BD /* connection.png */,
@@ -585,6 +707,7 @@
 				BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */,
 				BDC09F3615BF632F00349761 /* VLMAddViewController.h */,
 				BDC09F3715BF633000349761 /* VLMAddViewController.m */,
+				BD99DF4017177D0A00A5ECAB /* Search */,
 				BDC09F2315BF2EFD00349761 /* Feed */,
 			);
 			name = Controllers;
@@ -593,6 +716,9 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BD99DF6017194B2B00A5ECAB /* JSONKit */,
+				BD99DF5F1719498D00A5ECAB /* PopoverView */,
+				BD99DF5B17193E6E00A5ECAB /* EGOImageLoading */,
 				BDF8C33D15F6707C002596EA /* TestFlight */,
 				BDF1374D15EFD94E0026ED2C /* REVClusterMap */,
 				BDEA532115EC31AC00F1A8E2 /* DDPageControl */,
@@ -747,6 +873,8 @@
 				BDF1376515EFE7080026ED2C /* pinpoint.png in Resources */,
 				BDF1376615EFE7080026ED2C /* pinpoint@2x.png in Resources */,
 				BD647EF0162CA2CA00E93E24 /* Default-568h@2x.png in Resources */,
+				BD99DF6A171A098400A5ECAB /* placeholder.png in Resources */,
+				BD99DF6B171A098400A5ECAB /* placeholder@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,6 +926,16 @@
 				BDF1375D15EFD94E0026ED2C /* REVClusterPin.m in Sources */,
 				BDF1376915EFE8CA0026ED2C /* REVClusterAnnotationView.m in Sources */,
 				BDDE1E4B164E3D47002E445A /* MapViewController.m in Sources */,
+				BD99DF4317177D3300A5ECAB /* JSONKit.m in Sources */,
+				BD99DF471717DE3200A5ECAB /* PopoverView.m in Sources */,
+				BD99DF5617193E5F00A5ECAB /* EGOCache.m in Sources */,
+				BD99DF5717193E5F00A5ECAB /* EGOImageButton.m in Sources */,
+				BD99DF5817193E5F00A5ECAB /* EGOImageLoadConnection.m in Sources */,
+				BD99DF5917193E5F00A5ECAB /* EGOImageLoader.m in Sources */,
+				BD99DF5A17193E5F00A5ECAB /* EGOImageView.m in Sources */,
+				BD99DF5E17193F9600A5ECAB /* VLMResultCell.m in Sources */,
+				BD99DF71171A0E7700A5ECAB /* VLMMessageCell.m in Sources */,
+				BD99DF74171A309600A5ECAB /* VLMSearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

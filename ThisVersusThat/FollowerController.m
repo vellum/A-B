@@ -42,14 +42,7 @@
         NSLog(@"here");
         self.outstandingQueries = [NSMutableDictionary dictionary]; 
     }
-    UISwipeGestureRecognizer *gestListenToYourSelf = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    [gestListenToYourSelf setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:gestListenToYourSelf];
     return self;
-}
-
-- (void)handleSwipe:(id)sender{
-    [self back:nil];
 }
 
 - (void)viewDidLoad

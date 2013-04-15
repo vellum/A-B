@@ -48,9 +48,8 @@
     [super viewDidLoad];
 
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
-    CGRect contentrect = CGRectMake(0.0f, 0.0f, winw, HEADER_HEIGHT);
-    self.view.frame = contentrect;
-    
+    CGRect contentrect = CGRectMake(0.0f, 0.0f, winw, HEADER_HEIGHT+HEADER_CORNER_RADIUS);
+
     [self.view setAutoresizesSubviews:NO];
     [self.view setBackgroundColor:FEED_HEADER_BGCOLOR];
     [self setRect:contentrect];

@@ -159,20 +159,8 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLikeOrUnlikePhoto:) name:@"cc.vellum.thisversusthat.notification.userdidlikeorunlike" object:nil];
     }
     
-    UISwipeGestureRecognizer *gestListenToYourSelf = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    [gestListenToYourSelf setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:gestListenToYourSelf];
     return self;
 }
-
-- (void)handleSwipe:(id)sender{
-    if ( self.isRootController ){
-        [self cancel:nil];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
-
 - (void)dealloc{
     // hide HUD if we've left the screen while it's loading
     AppDelegate *dellie = (AppDelegate *)[[UIApplication sharedApplication] delegate];

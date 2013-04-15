@@ -8,10 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/PF_FBRequest.h"
+#import "PopoverView.h"
+#import "VLMSearchViewController.h"
 
-@class UIPlaceHolderTextView;
+@class UIPlaceHolderTextView; 
 
-@interface VLMAddViewController : UIViewController<UIGestureRecognizerDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PF_FBRequestDelegate>
+@interface VLMAddViewController : UIViewController<UIGestureRecognizerDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VLMSearchViewControllerDelegate, PF_FBRequestDelegate>{
+
+    id<VLMSearchViewControllerDelegate> mydelegate;
+
+}
+@property (nonatomic, strong) id<VLMSearchViewControllerDelegate> mydelegate;
 
 - (void) translateByX: (CGFloat) offsetval withVelocity: (CGFloat) velocityval;
 - (void) resetAnimated:(BOOL)anim;

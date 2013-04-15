@@ -14,9 +14,9 @@
 #import "UIPlaceholderTextView.h"
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
-//#import "Parse/PFFile.h"
-//#import "Parse/PFObject.h"
 #import "UIImage+ResizeAdditions.h"
+#import "PopoverView.h"
+#import "VLMSearchViewController.h"
 
 @interface VLMAddViewController ()
 
@@ -73,6 +73,7 @@
 @synthesize pollPostBackgroundTaskId;
 @synthesize fileUploadBackgroundTaskIdR;
 @synthesize photoPostBackgroundTaskIdR;
+@synthesize mydelegate;
 
 #pragma mark - UIViewController
 
@@ -188,9 +189,9 @@
     [captionLeft setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [captionLeft setTextAlignment:UITextAlignmentCenter];
     [captionLeft setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8]];
-    [captionLeft setPlaceholder:@"Untitled"];
+    [captionLeft setPlaceholder:@"Bantam Sofa"];
     [captionLeft setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
-    [captionLeft setReturnKeyType: UIReturnKeyDone];
+    [captionLeft setReturnKeyType: UIReturnKeySearch];
     [captionLeft setDelegate:self];
     self.leftcaption = captionLeft;
     [left addSubview:captionLeft];
@@ -223,9 +224,9 @@
     [captionRight setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [captionRight setTextAlignment:UITextAlignmentCenter];
     [captionRight setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8]];
-    [captionRight setPlaceholder:@"Untitled"];
+    [captionRight setPlaceholder:@"Eames Couch"];
     [captionRight setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
-    [captionRight setReturnKeyType: UIReturnKeyDone];
+    [captionRight setReturnKeyType: UIReturnKeySearch];
     [captionRight setDelegate:self];
     self.rightcaption = captionRight;
     [right addSubview:captionRight];
@@ -245,7 +246,7 @@
 #pragma mark - TextViewDelegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    
+
     int newlen = [[textView text] length] - range.length + text.length;
     if ( newlen > 140 ) {
         [charsremaining setText:@"0 characters remaining"];
@@ -273,6 +274,20 @@
     if ( [[textField text] length] - range.length + string.length > 75 ) return NO;
     if([string isEqualToString:@"\n"]) {
         [self.view endEditing:YES];
+        
+        AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [ad showPopover:[textField text] delegate:self];
+        /*
+        [UIView animateWithDuration:0.25f
+                              delay:0
+                            options:UIViewAnimationCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             self.view.frame = CGRectOffset(self.view.frame, 0, -95);
+                         }
+                         completion:nil
+         ];
+
+        */
         return NO;
     }
     return YES;
@@ -282,9 +297,16 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ( [gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]] ){
+        
+        if ( [touch.view isKindOfClass:[PopoverView class]] ) {
+            NSLog(@"popover!");
+            return YES;
+        }
         if ( [touch.view isKindOfClass:[UITextField class]] ) {
             NSLog(@"textfield!");
             [charsremaining setText:@""];
+            UITextField *tf =  (UITextField *)touch.view;
+            [tf selectAll:nil];
             return NO;
         }
         if ( [touch.view isKindOfClass:[UITextView class]] ) {
@@ -345,7 +367,8 @@
     cameraUI.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:nil action:nil];
     cameraUI.navigationItem.hidesBackButton = YES;
 
-    [self presentModalViewController:cameraUI animated:NO];
+    [self setModalPresentationStyle:UIModalTransitionStyleCrossDissolve];
+    [self presentModalViewController:cameraUI animated:YES];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     return YES;
 }
@@ -388,14 +411,8 @@
 
     [cameraUI setDelegate:self];
     if ( cameraUI ){
-        //[self presentViewController:cameraUI animated:NO completion:nil];
         [self presentModalViewController:cameraUI animated:NO];
     }
-    /*
-    [self presentViewController:cameraUI animated:NO completion:^(void){
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-    }];
-     */
     return YES;
 }
 
@@ -438,11 +455,70 @@
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        [self shouldStartCameraController];
-    } else if (buttonIndex == 1) {
-        [self shouldStartPhotoLibraryPickerController];
+    
+    BOOL cameraDeviceAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+    
+    BOOL photoLibraryAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
+    
+    
+    BOOL shouldDoPopOver = NO;
+    if (cameraDeviceAvailable && photoLibraryAvailable) {
+
+        if (buttonIndex == 0) {
+            NSLog(@"popover");
+            shouldDoPopOver = YES;
+            //AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            //[ad showPopover:[textField text]];
+
+        } else if (buttonIndex == 1) {
+            [self shouldStartCameraController];
+        } else if ( buttonIndex == 2 ) {
+            [self shouldStartPhotoLibraryPickerController];
+        }
+
+    } else {
+        
+        if (buttonIndex == 0) {
+            NSLog(@"popover");
+            shouldDoPopOver = YES;
+        } else if (buttonIndex == 1) {
+            [self shouldStartPhotoLibraryPickerController];
+        }
     }
+
+    if (shouldDoPopOver){
+        UITextField *tf;
+        if ( self.containerView.frame.origin.x == 0 ){
+            tf = self.leftcaption;
+        } else {
+            tf = self.rightcaption;
+        }
+    
+        VLMSearchViewController *svc = [[VLMSearchViewController alloc] init];
+    
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:svc];
+        [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+        svc.mydelegate = self;
+        [self presentViewController:navigationController animated:NO completion:nil];
+
+    }
+}
+#pragma mark - vlmsearchviewdelegate
+
+- (void)searchViewControllerFinished:(VLMSearchViewController*)viewController
+{
+    // popover version
+    if ( viewController == nil ){
+
+        
+    // full screen version
+    } else {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
+}
+
+- (void)didSelectItemWithTitle:(NSString *)title andImageURL:(NSString *)url{
+    NSLog(@"didselectitem:%@, %@", title, url);
 }
 
 #pragma mark - ()
@@ -606,28 +682,32 @@
 
 #pragma mark - event handlers
 
-- (void)handleGenericTap:(id)sender{
+- (void) handleGenericTap:(id)sender{
+
     [self.view endEditing:YES];
     [charsremaining setText:@""];
 
 }
 
 - (void) handleCameraButton:(id)sender{
-        
+    
     BOOL cameraDeviceAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+
     BOOL photoLibraryAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
     
     if (cameraDeviceAvailable && photoLibraryAvailable) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take photo", @"Choose photo", nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Search for Product", @"Take Photo", @"Choose Photo", nil];
         [actionSheet showInView:self.view];
     } else {
         // if we don't have at least two options, we automatically show whichever is available (camera or roll)
-        [self shouldPresentPhotoCaptureController];
+        //[self shouldPresentPhotoCaptureController];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Search for Product", @"Choose Photo", nil];
+        [actionSheet showInView:self.view];
     }
 }
 
 -(void) handlePan:(id)sender{
-    
+
     // cast sender to uipangesturerecognizer
     UIPanGestureRecognizer *pgr = ( UIPanGestureRecognizer *)sender;
 
@@ -638,12 +718,15 @@
             
         case UIGestureRecognizerStateBegan:
             [pgr setTranslation:CGPointZero inView:self.view];
+            [self.view endEditing:YES];
+
             //[self killAnimations];
             registerDeltas = YES;
             break;
             
         case UIGestureRecognizerStateEnded:
             [self resetAnimated:YES];
+            
             break;
             
         case UIGestureRecognizerStateChanged:
