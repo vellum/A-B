@@ -44,13 +44,13 @@
     NSInteger diff = (NSUInteger)[touches count] - (NSInteger)[self.touchViews count];
     for (NSInteger i = 0; i < diff; i++)
     {
-        UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50.0f, 50.0f)];
+        UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60.0f, 60.0f)];
         v.layer.cornerRadius = v.frame.size.width/2.0f;
         v.layer.masksToBounds = YES;
-        v.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:0.9f].CGColor;
-        v.layer.borderWidth = 2.0f;
-        v.alpha = 0.75f;
-        v.backgroundColor = [UIColor grayColor];
+        //v.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:0.5f].CGColor;
+        //v.layer.borderWidth = 5.0f;
+        v.alpha = 0.5f;
+        v.backgroundColor = [UIColor colorWithHue:199.0f/360.0f saturation:0.94f brightness:0.99f alpha:1.0f];
         [self.touchViews addObject:v];
         [self addSubview:v];
     }
