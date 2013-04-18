@@ -28,6 +28,7 @@
 		BD19859215D60EFE00AE9590 /* 3lines.png in Resources */ = {isa = PBXBuildFile; fileRef = BD19859015D60EFE00AE9590 /* 3lines.png */; };
 		BD19FDCC15D9F3A60083E65D /* ActivityNavButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BD19FDCB15D9F3A60083E65D /* ActivityNavButton.m */; };
 		BD19FDD315DA1D3D0083E65D /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BD19FDD215DA1D3D0083E65D /* TTTTimeIntervalFormatter.m */; };
+		BD36592D172076F80095C6E6 /* OPPresentatorWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BD36592C172076F80095C6E6 /* OPPresentatorWindow.m */; };
 		BD3C1D2B15E4309D001EF030 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = BD3C1D2A15E4309D001EF030 /* Reachability.m */; };
 		BD3C1D2D15E47172001EF030 /* clear50.png in Resources */ = {isa = PBXBuildFile; fileRef = BD3C1D2C15E47172001EF030 /* clear50.png */; };
 		BD48B60715C1B5060019C3A2 /* photo_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = BD48B60615C1B5060019C3A2 /* photo_placeholder.png */; };
@@ -154,6 +155,8 @@
 		BD19FDCB15D9F3A60083E65D /* ActivityNavButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityNavButton.m; sourceTree = "<group>"; };
 		BD19FDD115DA1D3D0083E65D /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTTimeIntervalFormatter.h; path = ThisVersusThat/TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
 		BD19FDD215DA1D3D0083E65D /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTTimeIntervalFormatter.m; path = ThisVersusThat/TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
+		BD36592B172076F80095C6E6 /* OPPresentatorWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPPresentatorWindow.h; sourceTree = "<group>"; };
+		BD36592C172076F80095C6E6 /* OPPresentatorWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPPresentatorWindow.m; sourceTree = "<group>"; };
 		BD3C1D2915E4309D001EF030 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		BD3C1D2A15E4309D001EF030 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		BD3C1D2C15E47172001EF030 /* clear50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear50.png; sourceTree = "<group>"; };
@@ -716,6 +719,8 @@
 		BDFB949615C30607001FF740 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				BD36592B172076F80095C6E6 /* OPPresentatorWindow.h */,
+				BD36592C172076F80095C6E6 /* OPPresentatorWindow.m */,
 				BD99DF6017194B2B00A5ECAB /* JSONKit */,
 				BD99DF5F1719498D00A5ECAB /* PopoverView */,
 				BD99DF5B17193E6E00A5ECAB /* EGOImageLoading */,
@@ -936,6 +941,7 @@
 				BD99DF5E17193F9600A5ECAB /* VLMResultCell.m in Sources */,
 				BD99DF71171A0E7700A5ECAB /* VLMMessageCell.m in Sources */,
 				BD99DF74171A309600A5ECAB /* VLMSearchViewController.m in Sources */,
+				BD36592D172076F80095C6E6 /* OPPresentatorWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
