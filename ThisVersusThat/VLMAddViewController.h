@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Parse/PF_FBRequest.h"
+#import <Parse/Parse.h>
 #import "PopoverView.h"
 #import "VLMSearchViewController.h"
 #import "EGOImageView.h"

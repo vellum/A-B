@@ -47,7 +47,6 @@
 		BD54C2DB15D3568700B73984 /* VLMCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD54C2DA15D3568700B73984 /* VLMCommentCell.m */; };
 		BD5E12F015E028F8004D557E /* VotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5E12EF15E028F8004D557E /* VotesViewController.m */; };
 		BD647EF0162CA2CA00E93E24 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD647EEF162CA2CA00E93E24 /* Default-568h@2x.png */; };
-		BD648010162CDDA600E93E24 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD64800F162CDDA600E93E24 /* Parse.framework */; };
 		BD648012162CDE4600E93E24 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD648011162CDE4600E93E24 /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BD648014162CDE5200E93E24 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD648013162CDE5200E93E24 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BD648017162CDFB700E93E24 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD648015162CDE5B00E93E24 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -100,6 +99,7 @@
 		BDCBDC8315E4A7C000608D76 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCBDC8115E4A7C000608D76 /* plus@2x.png */; };
 		BDCFED3515C3845D0089A77E /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = BDCFED3415C3845D0089A77E /* clear.png */; };
 		BDD0F8CA15CB723A00ACAB23 /* VLMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD0F8C915CB723A00ACAB23 /* VLMCache.m */; };
+		BDDBD95B17266A0400196BCF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDDBD95A17266A0400196BCF /* Parse.framework */; };
 		BDDE1E4B164E3D47002E445A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDDE1E4A164E3D47002E445A /* MapViewController.m */; };
 		BDE469CD15E4D04800DFF0CC /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CB15E4D04800DFF0CC /* triangle.png */; };
 		BDE469CE15E4D04800DFF0CC /* triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BDE469CC15E4D04800DFF0CC /* triangle@2x.png */; };
@@ -189,7 +189,6 @@
 		BD5E12EE15E028F8004D557E /* VotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotesViewController.h; sourceTree = "<group>"; };
 		BD5E12EF15E028F8004D557E /* VotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotesViewController.m; sourceTree = "<group>"; };
 		BD647EEF162CA2CA00E93E24 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		BD64800F162CDDA600E93E24 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		BD648011162CDE4600E93E24 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BD648013162CDE5200E93E24 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		BD648015162CDE5B00E93E24 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -271,6 +270,7 @@
 		BDCFED3415C3845D0089A77E /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear.png; sourceTree = "<group>"; };
 		BDD0F8C815CB723900ACAB23 /* VLMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLMCache.h; sourceTree = "<group>"; };
 		BDD0F8C915CB723A00ACAB23 /* VLMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLMCache.m; sourceTree = "<group>"; };
+		BDDBD95A17266A0400196BCF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		BDDE1E49164E3D47002E445A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		BDDE1E4A164E3D47002E445A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		BDE469CB15E4D04800DFF0CC /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
@@ -320,7 +320,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD648010162CDDA600E93E24 /* Parse.framework in Frameworks */,
 				BD648014162CDE5200E93E24 /* AdSupport.framework in Frameworks */,
 				BD648017162CDFB700E93E24 /* Social.framework in Frameworks */,
 				BD648012162CDE4600E93E24 /* Accounts.framework in Frameworks */,
@@ -337,6 +336,7 @@
 				092354B313A1D7EB00DA740F /* CFNetwork.framework in Frameworks */,
 				09ABC07213A1D52D009C3FCF /* UIKit.framework in Frameworks */,
 				09ABC07413A1D52D009C3FCF /* Foundation.framework in Frameworks */,
+				BDDBD95B17266A0400196BCF /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,10 +370,10 @@
 			isa = PBXGroup;
 			children = (
 				BD9FF75615EFD0FB000949D8 /* libsqlite3.dylib */,
+				BDDBD95A17266A0400196BCF /* Parse.framework */,
 				BD648015162CDE5B00E93E24 /* Social.framework */,
 				BD648013162CDE5200E93E24 /* AdSupport.framework */,
 				BD648011162CDE4600E93E24 /* Accounts.framework */,
-				BD64800F162CDDA600E93E24 /* Parse.framework */,
 				092354B213A1D7EB00DA740F /* CFNetwork.framework */,
 				095ACE8513C68EA300566243 /* AudioToolbox.framework */,
 				743D7B6C157DA60100084B67 /* CoreGraphics.framework */,
