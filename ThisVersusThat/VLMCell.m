@@ -75,6 +75,7 @@
         
         PFImageView *leftimage = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [leftimage setBackgroundColor:[UIColor lightGrayColor]];
+        [leftimage setContentMode:UIViewContentModeScaleAspectFit];
         [left addSubview:leftimage];
         self.imageviewLeft = leftimage;
         
@@ -109,6 +110,7 @@
 
         PFImageView *rightimage = [[PFImageView alloc] initWithFrame:CGRectMake(5, 5, 276, 276)];
         [rightimage setBackgroundColor:[UIColor lightGrayColor]];
+        [rightimage setContentMode:UIViewContentModeScaleAspectFit];
         [right addSubview:rightimage];
         self.imageviewRight = rightimage;
 

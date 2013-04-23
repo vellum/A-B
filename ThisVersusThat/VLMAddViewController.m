@@ -19,6 +19,7 @@
 #import "VLMSearchViewController.h"
 #import "EGOCache.h"
 #import "EGOImageView.h"
+#import "UIImage+ResizeAdditions.h"
 
 @interface VLMAddViewController ()
 
@@ -181,6 +182,7 @@
     // left image (placeholder)
     self.leftimage = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"photo_placeholder.png"]];
     [leftimage setFrame:CGRectMake(5, 5, 276, 276)];
+    [leftimage setContentMode:UIViewContentModeScaleAspectFit];
     [leftimage setDelegate:self];
     [left addSubview:leftimage];
     
@@ -219,6 +221,7 @@
     self.rightimage = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"photo_placeholder.png"]];
 
     [rightimage setFrame:CGRectMake(5, 5, 276, 276)];
+    [rightimage setContentMode:UIViewContentModeScaleAspectFit];
     [rightimage setDelegate:self];
     [right addSubview:rightimage];
     
@@ -559,6 +562,20 @@
 #pragma mark - EGOImageViewDelegate
 - (void)imageViewLoadedImage:(EGOImageView*)imageView{
     UIImage *image = imageView.image;
+    
+    /*
+    CGSize s = image.size;
+    if ( s.width > s.height ){
+        CGFloat edge = s.height;
+        CGFloat dif = s.width-s.height;
+        image = [image croppedImage:CGRectMake(dif/2, 0, edge, edge)];
+    } else if ( s.height > s.width ){
+        CGFloat edge = s.width;
+        CGFloat dif = s.height-s.width;
+        image = [image croppedImage:CGRectMake(0, dif/2, edge, edge)];
+    }*/
+    
+    
     if(imageView == self.leftimage ){
         self.leftimageexists = YES;
         [self.leftimage setImage:image];

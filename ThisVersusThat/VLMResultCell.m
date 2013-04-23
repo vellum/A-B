@@ -40,6 +40,7 @@
 }
 
 - (void)setItemPhoto:(NSString*)flickrPhoto {
+    [self.egoImageView setContentMode:UIViewContentModeScaleAspectFit];
 	self.egoImageView.imageURL = [NSURL URLWithString:flickrPhoto];
 }
 
