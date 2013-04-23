@@ -29,7 +29,7 @@
 #define POLL_RIGHT_PHOTO_CAPTION_KEY @"RightCaption"
 #define POLL_USER_KEY @"User"
 
-#define SERVER_STRING @"http://192.168.0.19:3000/?q=%@"
+#define SERVER_STRING @"http://192.168.0.19:3000/search/?q=%@"
 
 #pragma mark - Installation Class
 

@@ -568,6 +568,7 @@
         [self.rightimage setImage:image];
         [self shouldUploadImage:image isLeft:NO];
     }
+    [self shouldEnableDone];
 }
 
 #pragma mark - ()
