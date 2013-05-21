@@ -6,8 +6,11 @@
 //  Copyright (c) 2012 NerdGypsy. All rights reserved.
 //
 
+
 #ifndef ThisVersusThat_VLMConstants_h
 #define ThisVersusThat_VLMConstants_h
+
+#define REFLECTOR_ENABLED 1
 
 #pragma mark -
 #pragma mark Credentials

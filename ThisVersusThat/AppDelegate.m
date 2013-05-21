@@ -20,6 +20,10 @@
 #import "VLMMessageCell.h"
 #import "VLMSearchViewController.h"
 
+#ifdef REFLECTOR_ENABLED
+#import "OPPresentatorWindow.h"
+#endif
+
 typedef enum {
     kQueryWaiting,
     kQueryFound,
@@ -72,9 +76,9 @@ typedef enum {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     responseState = kQueryWaiting;
-
     firsttimenetworkchange = YES;
     receivedPushNotificationInBackground = NO;
+
     // ****************************************************************************
     // Uncomment and fill in with your Parse credentials:
     [Parse setApplicationId:PARSE_APP_ID clientKey:PARSE_CLIENT_KEY];
@@ -112,6 +116,14 @@ typedef enum {
     [self establishAppearanceDefaults];
        
 	// Configure and display the window.
+#ifdef REFLECTOR_ENABLED
+
+    self.window = [[OPPresentatorWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+#else
+
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+#endif
+    
     [self.window setBackgroundColor: WINDOW_BGCOLOR];
     
     VLMMainViewController *mvc = [[VLMMainViewController alloc] init];

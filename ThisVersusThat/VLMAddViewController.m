@@ -183,6 +183,7 @@
     self.leftimage = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"photo_placeholder.png"]];
     [leftimage setFrame:CGRectMake(5, 5, 276, 276)];
     [leftimage setContentMode:UIViewContentModeScaleAspectFit];
+    [leftimage setBackgroundColor:[UIColor whiteColor]];
     [leftimage setDelegate:self];
     [left addSubview:leftimage];
     
@@ -223,6 +224,7 @@
     [rightimage setFrame:CGRectMake(5, 5, 276, 276)];
     [rightimage setContentMode:UIViewContentModeScaleAspectFit];
     [rightimage setDelegate:self];
+    [rightimage setBackgroundColor:[UIColor whiteColor]];
     [right addSubview:rightimage];
     
     // transparent black layer

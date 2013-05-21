@@ -3,7 +3,10 @@
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
 #import "PopoverView.h"
+
+#ifdef REFLECTOR_ENABLED
 #import "OPPresentatorWindow.h"
+#endif
 
 @class VLMMainViewController;
 @class VLMSearchViewController;
@@ -13,7 +16,15 @@
 @interface AppDelegate : NSObject <UIApplicationDelegate, PopoverViewDelegate, UITableViewDelegate, UITableViewDataSource> {
     VLMMainViewController *mainViewController;
 }
-@property (strong, nonatomic) IBOutlet OPPresentatorWindow *window;
+
+#ifdef REFLECTOR_ENABLED
+@property (strong, nonatomic) OPPresentatorWindow *window;
+
+#else
+@property (strong, nonatomic) UIWindow *window;
+
+#endif
+
 @property (strong, nonatomic) VLMMainViewController *mainViewController;
 @property (strong,nonatomic) id<VLMSearchViewControllerDelegate>searchDelegate;
 
