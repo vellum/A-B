@@ -1,0 +1,25 @@
+note: maybe look at way august does his talks
+
+ 01
+ About Me & How A/B came about 
+
+[ portrait ] 
+- I'm a designer and software developer
+
+[ courier, paper, video ]
+- In recent years, I've worked on products like Courier and Paper
+
+[ video ]
+- Perhaps less recently, I was very much INTO data and data visualization
+- When I was a young designer in the early 2000s i apprenticed under Lisa Strausfeld at Pentagram Design in NYC
+
+[ BIG DATA / URBAN DATA ]
+[ video, video, video ]
+- And as a slightly older designer in the late 2000s i was a research fellow at the Senseable City Lab at MIT, where I made visualizations of urban data, with the hope that visualizations can feed back into the operation of the city
+
+[ sadface ]	 
+ the sad reality is that these macro level visualizations frequently have little impact on real people
+ 
+[SMALL DATA]
+when i left my full time job at microsoft a year and a half ago, i started to think about ways to make data 
+

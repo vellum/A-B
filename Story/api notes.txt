@@ -1,0 +1,43 @@
+API KEY
+
+f5HiulmyBPRVQwvnOirblMrUAbGYiob4
+
+- - - - - - - - - - - - - - - - - - - - - - -
+
+Pass the accept header in the HTTP request:
+• Accept: application/xml (default)
+• Accept: application/json
+
+- - - - - - - - - - - - - - - - - - - - - - - 
+
+
+SEARCH 
+
+https://api.target.com/v2/items?Keywords=ipod&ResponseGroups=ItemAttributes,Images&key=
+f5HiulmyBPRVQwvnOirblMrUAbGYiob4
+
+
+- - - - - -
+
+
+AREAS OF FOCUS
+
+	SMS/email a poll
+	contact picker
+	vote on a poll without a login // requires a unique id
+		create a unique user for each unique id
+		
+	Notifications
+	
+	LOGIN
+		account for non facebook
+	
+	IDENTIFY EXPERTS IN THE SYSTEM
+	
+	SEARCH FOR A PRODUCT OR CATEGORY OF PRODUCT
+			POLL RESULTS
+			
+
+
+
+	
