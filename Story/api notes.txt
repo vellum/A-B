@@ -22,21 +22,26 @@ f5HiulmyBPRVQwvnOirblMrUAbGYiob4
 
 AREAS OF FOCUS
 
-	SMS/email a poll
-	contact picker
-	vote on a poll without a login // requires a unique id
+1	WIRE UP THE MVP
+
+2	SMS/email a poll
+3	contact picker
+4	vote on a poll without a login // requires a unique id
 		create a unique user for each unique id
 		
+5	LOGIN
+		account for non facebook
+
 	Notifications
 	
-	LOGIN
-		account for non facebook
-	
-	IDENTIFY EXPERTS IN THE SYSTEM
-	
-	SEARCH FOR A PRODUCT OR CATEGORY OF PRODUCT
+6	SEARCH FOR A PRODUCT OR CATEGORY OF PRODUCT
 			POLL RESULTS
 			
+	
+	IDENTIFY EXPERTS IN THE SYSTEM
+	This may change the ui in poll detail
+	and post poll
+	
 
 
 
