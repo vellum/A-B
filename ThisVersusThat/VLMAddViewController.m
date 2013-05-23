@@ -135,6 +135,7 @@
     [label setText:@""];
     [label setTextAlignment:UITextAlignmentCenter];
     [titleView addSubview:label];
+    
 
     UIButton *fb = [[UIButton alloc] initWithFrame:f];    
     [fb addTarget:self action:@selector(handleGenericTap:) forControlEvents:UIControlEventTouchDown];
@@ -158,10 +159,11 @@
     UIView *questionholder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 14*6)];
     UIPlaceHolderTextView *question = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(5, 5, self.view.frame.size.width-10, 14*6-10)];
     [question setKeyboardType:UIKeyboardTypeAlphabet];
+    [question setReturnKeyType:UIReturnKeyNext];
+
     [question setBackgroundColor:[UIColor whiteColor]];
     [question setPlaceholder:@"Which couch should I buy?"];
     [question setFont:[UIFont fontWithName:@"AmericanTypewriter" size:14.0f]];
-    [question setReturnKeyType: UIReturnKeyDone];
     [question setDelegate:self];
     [questionholder addSubview:question];
     [questionholder setBackgroundColor:[UIColor whiteColor]];
@@ -270,6 +272,7 @@
     if([text isEqualToString:@"\n"]) {
         [charsremaining setText:@""];
         [self.view endEditing:YES];
+        [self.leftcaption becomeFirstResponder];
         return NO;
     }
     if ( newlen == 0 ){
