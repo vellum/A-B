@@ -32,7 +32,9 @@
 #define POLL_RIGHT_PHOTO_CAPTION_KEY @"RightCaption"
 #define POLL_USER_KEY @"User"
 
-#define SERVER_STRING @"http://192.168.0.19:3000/search/?q=%@"
+//#define SERVER_STRING @"http://192.168.0.19:3000/search/?q=%@"
+#define SERVER_STRING @"https://api.target.com/v2/items?Keywords=%@&ResponseGroups=ItemAttributes,Images&count=20&key=f5HiulmyBPRVQwvnOirblMrUAbGYiob4"
+
 
 #pragma mark - Installation Class
 

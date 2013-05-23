@@ -623,7 +623,7 @@ void SignalHandler(int sig) {
     self.tableview = tableView;
     self.tableview.backgroundColor = [UIColor clearColor];
     self.tableview.separatorColor = [UIColor clearColor];
-    [self querySvpplyFor:query];
+    [self queryTargetDotComFor:query];
 
 
     self.pop = [PopoverView
@@ -725,7 +725,6 @@ void SignalHandler(int sig) {
         }
 
         [cell setItemText:messaging];
-
         //cell.textLabel.text = messaging;
         return cell;
     }else{
@@ -742,8 +741,6 @@ void SignalHandler(int sig) {
             NSString *pagetitle = [product valueForKey:@"page_title"];
             //NSString *pageurl = [product valueForKey:@"page_url"];
 
-            //NSLog(@"%@", pagetitle);
-            //cell.textLabel.text = pagetitle;
             [cell setItemPhoto:image];
             [cell setItemText:pagetitle];
         }
@@ -763,10 +760,8 @@ void SignalHandler(int sig) {
             NSDictionary *product = (NSDictionary *) [self.productresults objectAtIndex:indexPath.row];
             NSString *image = [product valueForKey:@"image"];
             NSString *pagetitle = [product valueForKey:@"page_title"];
-            //NSString *pageurl = [product valueForKey:@"page_url"];
-            
+            NSString *pageurl = [product valueForKey:@"page_url"];
             [self.searchDelegate didSelectItemWithTitle:pagetitle andImageURL:image];
-            
             NSLog(@"%@", pagetitle);
             [self.pop dismiss];
 
@@ -777,7 +772,7 @@ void SignalHandler(int sig) {
 
 #pragma mark - JSON
 
-- (void)querySvpplyFor:(NSString *)query{
+- (void)queryTargetDotComFor:(NSString *)query{
     self.responseState = kQueryWaiting;
     
     NSString *SEARCHTERM = [NSString stringWithFormat:@"%@", query];
@@ -785,11 +780,13 @@ void SignalHandler(int sig) {
     
     SEARCHTERM = [SEARCHTERM stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString* urlString = [NSString stringWithFormat:SERVER_STRING, SEARCHTERM];
-    
+    NSLog(@"url string: %@", urlString);
     
     NSURL *url = [NSURL URLWithString:urlString];
     
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"accept"];
+
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
@@ -809,13 +806,57 @@ void SignalHandler(int sig) {
 }
 
 - (void)receivedData:(NSData *)data {
-    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    //NSLog(@"Here is what we got %@", jsonString);
     
+    // turn data into a string
+    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+    // remove instances of @ character. target is using @ to denote key attributes --
+    // unfortunately NSDictionary errors out when you pass it a key with an @ symbol:
+    // "this class is not key value coding-compliant for the key name"
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    NSLog(@"Here is what we got %@", jsonString);
+    
+    // TARGET-specific JSON Parsing
     NSDictionary *got = [jsonString objectFromJSONString];
-    NSDictionary *gotresponse = [got valueForKey:@"response"];
-    NSArray *gotproducts = [gotresponse valueForKey:@"products"];
-    self.productresults = [gotproducts copy];
+    NSDictionary *gotresponse = [got valueForKey:@"ItemSearchResponse"];
+    NSDictionary *gotitemsobj = [gotresponse valueForKey:@"Items"];
+    NSArray *gotproducts = [gotitemsobj valueForKey:@"Item"]; // not intuitive, but "item" is an array
+    NSMutableArray *justproducts = [[NSMutableArray alloc] initWithCapacity:[gotproducts count]];
+    
+    // parse results
+    // loop through and make simplified copies of each product
+    // then add to collection
+    for (NSDictionary *product in gotproducts){
+
+        // image
+        NSDictionary *imageobj = (NSDictionary *) [product valueForKey:@"Images"];
+        NSString *image = [imageobj valueForKey:@"ImageURLPattern"];
+        
+        // url
+        NSString *url = [product valueForKey:@"DetailPageURL"];
+
+        // title
+        NSDictionary *attributesobj = (NSDictionary *)[product valueForKey:@"ItemAttributes"];
+        NSString *title = @"";
+        
+        // NOTE
+        // attributes are an array, which is counterintuitive for JSON
+        // ideally this should be a dictionary with named attributes
+        NSArray *attributes = [attributesobj valueForKey:@"Attribute"];
+        
+        // the title is first attribute (this could easily change but this is the easiest way to get it)
+        // the proper approach would be to loop through and see if attribute name matches "Title"
+        NSDictionary *firstattribute = [attributes objectAtIndex:0];
+        title = [firstattribute valueForKey:@"value"];
+        
+        // rewrite these keys to match the svpply api (to avoid having to rewire things)
+        NSMutableDictionary *toSave = [[NSMutableDictionary alloc] init];
+        [toSave setValue:image forKey:@"image"];
+        [toSave setValue:title forKey:@"page_title"];
+        [toSave setValue:url forKey:@"page_url"];
+        [justproducts addObject:toSave];
+    }
+    self.productresults = justproducts;
     self.responseState = kQueryFound;
 }
 

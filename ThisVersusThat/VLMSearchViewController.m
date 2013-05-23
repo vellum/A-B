@@ -146,22 +146,22 @@ typedef enum {
 
 
 #pragma mark - JSON
-
+// FIXME: not sure this being called. there's a duplicate method in appdelegate...
 - (void)querySvpplyFor:(NSString *)query{
     self.responseState = kQueryWaiting;
     
     NSString *SEARCHTERM = [NSString stringWithFormat:@"%@", query];
-    NSLog(@"query svpply for: %@", SEARCHTERM );
+    NSLog(@"query target.com for: %@", SEARCHTERM );
     
     SEARCHTERM = [SEARCHTERM stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString* urlString = [NSString stringWithFormat:SERVER_STRING, SEARCHTERM];
-    
-    
     NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    
+
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+    //[urlRequest setValue:@"application/json" forHTTPHeaderField:@"accept"];
+    //[urlRequest setValue:@"application/json" forHTTPHeaderField:@"content-type"];
+    NSLog(@"url: %@", url);
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
          if ([data length] > 0 && error == nil){
@@ -181,14 +181,19 @@ typedef enum {
 }
 
 - (void)receivedData:(NSData *)data {
+    
+    NSLog(@"received data %@", data);
+    /*
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"Here is what we got %@", jsonString);
-    
     NSDictionary *got = [jsonString objectFromJSONString];
     NSDictionary *gotresponse = [got valueForKey:@"response"];
     NSArray *gotproducts = [gotresponse valueForKey:@"products"];
     self.productresults = [gotproducts copy];
     self.responseState = kQueryFound;
+     */
+    
+    
 }
 
 - (void)updatetable{
