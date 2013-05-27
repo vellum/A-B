@@ -693,7 +693,10 @@
     }
 }
 
-- (void)didTap:(id)sender{}
+- (void)didTap:(id)sender{
+    NSLog(@"tapped loadmore");
+    [self loadNextPage];
+}
 
 #pragma mark - VLMTapDelegate
 - (void)didTapPollAndComment:(PFObject *)poll{}

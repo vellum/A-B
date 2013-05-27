@@ -77,7 +77,10 @@
 }
 
 - (void)press:(id)sender{
+    NSLog(@"pressed loadmore");
     if ( tapdelegate ){
+        
+        NSLog(@"tapdelegate exists");
         [button setTitle:@"loading..." forState:UIControlStateNormal];
         [button setSelected:NO];
         [button setEnabled:NO];
