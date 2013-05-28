@@ -11,7 +11,7 @@
 
 @class VLMFeedTableViewController;
 @protocol VLMPopModalDelegate;
-
+@protocol VLMFeedbackDelegate;
 
 @interface VLMCell : PFTableViewCell{
     UIView *containerView;
@@ -39,6 +39,7 @@
     int personalvotecountright;
     
     id <VLMPopModalDelegate> delegate;
+    id <VLMFeedbackDelegate> feedbackdelegate;
 }
 
 @property (strong, nonatomic) UIView *containerView;
@@ -63,6 +64,7 @@
 @property (nonatomic) int personalvotecountleft;
 @property (nonatomic) int personalvotecountright;
 @property (nonatomic, strong) id<VLMPopModalDelegate> delegate;
+@property (nonatomic, strong) id<VLMFeedbackDelegate> feedbackdelegate;
 
 - (void)translateByX: (CGFloat) offsetval withVelocity: (CGFloat) velocityval;
 - (void)resetAnimated:(BOOL)anim;

@@ -31,6 +31,7 @@
 @property (nonatomic) VLMFeedType currentFeedType;
 @property (nonatomic) BOOL shouldWipeCache;
 @property (nonatomic) PFQuery *lastquery;
+
 @end
 
 
@@ -357,6 +358,7 @@
 	if (cell == nil) {
         cell = [[VLMCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FeedCellIdentifier];
         [cell setDelegate:self];
+        [cell setFeedbackdelegate:self];
 	} 
     cell.contentView.hidden = YES;
     //[cell setInitialPage:YES];
@@ -790,6 +792,21 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self performSelector:@selector(loadObjects) withObject:nil afterDelay:1.0f];
     //[self loadObjects];
+}
+
+#pragma mark - FEEDBACK
+- (void)feedbackTapped:(PFObject *)obj{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Flag for Review", nil];
+    [actionSheet showInView:self.view];
+    
+    // ideally: store object or id in a persistent variable
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSLog(@"clicked %d", buttonIndex);
+    // ideally: do something with stored object or id 
 }
 
 @end

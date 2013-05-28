@@ -15,6 +15,7 @@
 #import "VLMFeedTableViewController.h"
 #import "AppDelegate.h"
 #import "VLMPopModalDelegate.h"
+#import "VLMFeedbackDelegate.h"
 
 @interface VLMCell()
 @property (nonatomic, strong) UIView *commentholder;
@@ -51,6 +52,7 @@
 @synthesize commentcountlabel;
 @synthesize commentbutton;
 @synthesize delegate;
+@synthesize feedbackdelegate;
 
 @synthesize deletionfound;
 
@@ -192,6 +194,27 @@
         [self.contentView addSubview:commentbutton];
         
         [self.commentbutton addTarget:self action:@selector(commentbuttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+        
+        UIView *feedbackholder = [[UIView alloc] initWithFrame:CGRectMake(16, 286+15+7, 35.0f, 28.0f)];
+        [feedbackholder setBackgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]];
+        [self.contentView addSubview:feedbackholder];
+        [feedbackholder.layer setCornerRadius:3.0f];
+        UILabel *dotdotdot = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, feedbackholder.frame.size.width, feedbackholder.frame.size.height)];
+        [dotdotdot setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
+        [dotdotdot setTextColor:[UIColor whiteColor]];
+        [dotdotdot setBackgroundColor:[UIColor clearColor]];
+        [dotdotdot setTextAlignment:NSTextAlignmentCenter];
+        [dotdotdot setText:@"..."];
+        [feedbackholder addSubview:dotdotdot];
+        UIButton *feedback = [[UIButton alloc] initWithFrame:feedbackholder.frame];
+        [feedback.layer setCornerRadius:2.0f];
+        [feedback.layer setMasksToBounds:YES];
+        [feedback setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal];
+        [feedback setBackgroundImage:[UIImage imageNamed:@"clear50.png"] forState:UIControlStateHighlighted];
+        [feedback addTarget:self action:@selector(dotdotdotTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:feedback];
+        
         
         UILabel *gah = [[UILabel alloc] initWithFrame:CGRectMake(15, 14, 286, 42)];
         [gah setFont:[UIFont fontWithName:PHOTO_LABEL size:13.0f]];
@@ -204,8 +227,6 @@
         [self.contentView addSubview:gah];
         self.deletionfound = gah;
         
-
-
     }
 
     return self;
@@ -379,7 +400,6 @@
 }
 
 -(void)resetAnimated:(BOOL)anim{
-
 
     CGFloat val = self.containerView.frame.origin.x;
     CGFloat delta = self.containerView.frame.origin.x - self.originalOffsetX;
@@ -652,4 +672,13 @@
     self.rightcheck.selected = NO;
     [self setContentVisible:NO];
 }
+
+
+- (void)dotdotdotTapped:(id)sender{
+    NSLog(@"dotdotdot");
+    if ( self.feedbackdelegate ){
+        [self.feedbackdelegate feedbackTapped:self.objPoll];
+    }
+}
+
 @end

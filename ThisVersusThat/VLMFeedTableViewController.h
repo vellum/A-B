@@ -13,13 +13,9 @@
 #import "VLMTapDelegate.h"
 #import "VLMGenericTapDelegate.h"
 #import "VLMPopModalDelegate.h"
+#import "VLMFeedbackDelegate.h"
 
-@protocol VLMTapDelegate;
-@protocol VLMGenericTapDelegate;
-@protocol VLMPopModalDelegate;
-
-
-@interface VLMFeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate, VLMSectionDelegate, VLMTapDelegate, VLMGenericTapDelegate, VLMPopModalDelegate>{
+@interface VLMFeedTableViewController : PFQueryTableViewController<UIScrollViewDelegate, VLMSectionDelegate, VLMTapDelegate, VLMGenericTapDelegate, VLMPopModalDelegate, VLMFeedbackDelegate, UIActionSheetDelegate>{
     id <VLMTapDelegate> delegate;
 }
 @property (nonatomic, strong) id <VLMTapDelegate> delegate;
