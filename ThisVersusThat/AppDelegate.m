@@ -28,7 +28,8 @@ typedef enum {
     kQueryWaiting,
     kQueryFound,
     kQueryTimedOut,
-    kQueryDownloadErrror
+    kQueryDownloadErrror,
+    kQueryNoResults
 } VLMQueryResponseState;
 
 
@@ -719,6 +720,10 @@ void SignalHandler(int sig) {
                 messaging = @"download error";
                 [cell hideSpinner];
                 break;
+            case kQueryNoResults:
+                messaging = @"no results";
+                [cell hideSpinner];
+                break;
                 
             default:
                 break;
@@ -809,7 +814,7 @@ void SignalHandler(int sig) {
     
     // turn data into a string
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
+    
     // remove instances of @ character. target is using @ to denote key attributes --
     // unfortunately NSDictionary errors out when you pass it a key with an @ symbol:
     // "this class is not key value coding-compliant for the key name"
@@ -820,21 +825,63 @@ void SignalHandler(int sig) {
     NSDictionary *got = [jsonString objectFromJSONString];
     NSDictionary *gotresponse = [got valueForKey:@"ItemSearchResponse"];
     NSDictionary *gotitemsobj = [gotresponse valueForKey:@"Items"];
-    NSArray *gotproducts = [gotitemsobj valueForKey:@"Item"]; // not intuitive, but "item" is an array
-    NSMutableArray *justproducts = [[NSMutableArray alloc] initWithCapacity:[gotproducts count]];
     
-    // parse results
-    // loop through and make simplified copies of each product
-    // then add to collection
-    for (NSDictionary *product in gotproducts){
-
+    // check for error
+    NSDictionary *gotrequest = [gotitemsobj valueForKey:@"Request"];
+    if ([[gotrequest allKeys] containsObject:@"Errors"]) {
+        [self emptyReply];
+        return;
+    }
+    
+    NSMutableArray *justproducts = [[NSMutableArray alloc] initWithCapacity:20];
+    NSObject *temp = [gotitemsobj valueForKey:@"Item"];
+    if ( [temp isKindOfClass:[NSArray class]]) {
+        NSArray *gotproducts = [gotitemsobj valueForKey:@"Item"]; // not intuitive, but "item" is an array
+        
+        // parse results
+        // loop through and make simplified copies of each product
+        // then add to collection
+        for (NSDictionary *product in gotproducts){
+            
+            // image
+            NSDictionary *imageobj = (NSDictionary *) [product valueForKey:@"Images"];
+            NSString *image = [imageobj valueForKey:@"ImageURLPattern"];
+            
+            // url
+            NSString *url = [product valueForKey:@"DetailPageURL"];
+            
+            // title
+            NSDictionary *attributesobj = (NSDictionary *)[product valueForKey:@"ItemAttributes"];
+            NSString *title = @"";
+            
+            // NOTE
+            // attributes are an array, which is counterintuitive for JSON
+            // ideally this should be a dictionary with named attributes
+            NSArray *attributes = [attributesobj valueForKey:@"Attribute"];
+            
+            // the title is first attribute (this could easily change but this is the easiest way to get it)
+            // the proper approach would be to loop through and see if attribute name matches "Title"
+            NSDictionary *firstattribute = [attributes objectAtIndex:0];
+            title = [firstattribute valueForKey:@"value"];
+            
+            // rewrite these keys to match the svpply api (to avoid having to rewire things)
+            NSMutableDictionary *toSave = [[NSMutableDictionary alloc] init];
+            [toSave setValue:image forKey:@"image"];
+            [toSave setValue:title forKey:@"page_title"];
+            [toSave setValue:url forKey:@"page_url"];
+            [justproducts addObject:toSave];
+        }
+    } else {
+        
+        NSDictionary *product = (NSDictionary*)temp;
+        
         // image
         NSDictionary *imageobj = (NSDictionary *) [product valueForKey:@"Images"];
         NSString *image = [imageobj valueForKey:@"ImageURLPattern"];
         
         // url
         NSString *url = [product valueForKey:@"DetailPageURL"];
-
+        
         // title
         NSDictionary *attributesobj = (NSDictionary *)[product valueForKey:@"ItemAttributes"];
         NSString *title = @"";
@@ -855,6 +902,8 @@ void SignalHandler(int sig) {
         [toSave setValue:title forKey:@"page_title"];
         [toSave setValue:url forKey:@"page_url"];
         [justproducts addObject:toSave];
+        
+        
     }
     self.productresults = justproducts;
     self.responseState = kQueryFound;
@@ -868,7 +917,7 @@ void SignalHandler(int sig) {
 
 - (void)emptyReply{
     NSLog(@"emptyreply");
-    self.responseState = kQueryDownloadErrror;
+    self.responseState = kQueryNoResults;
 }
 
 - (void)timedOut{

@@ -67,7 +67,9 @@
 }
 
 - (void)setItemText:(NSString *)text{
-    label.text = text;
+    NSLog(@"settingitemtext: %@", text);
+    [label setText:text];
+    [label setHidden:NO];
 }
 
 @end
