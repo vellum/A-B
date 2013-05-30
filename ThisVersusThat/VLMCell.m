@@ -196,7 +196,7 @@
         [self.commentbutton addTarget:self action:@selector(commentbuttonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
         
-        UIView *feedbackholder = [[UIView alloc] initWithFrame:CGRectMake(16, 286+15+7, 35.0f, 28.0f)];
+        UIView *feedbackholder = [[UIView alloc] initWithFrame:CGRectMake(16, 286+15+7, 50.0f, 28.0f)];
         [feedbackholder setBackgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]];
         [self.contentView addSubview:feedbackholder];
         [feedbackholder.layer setCornerRadius:3.0f];

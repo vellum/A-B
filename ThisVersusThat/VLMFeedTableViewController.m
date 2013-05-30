@@ -18,7 +18,7 @@
 #import "VLMTapDelegate.h"
 #import "VLMGenericTapDelegate.h"
 #import "VLMPopModalDelegate.h"
-
+#import "VLMUtility.h"
 @interface VLMFeedTableViewController()
 
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
@@ -31,6 +31,7 @@
 @property (nonatomic) VLMFeedType currentFeedType;
 @property (nonatomic) BOOL shouldWipeCache;
 @property (nonatomic) PFQuery *lastquery;
+@property (nonatomic) PFObject *selectedPoll;
 
 @end
 
@@ -49,6 +50,8 @@
 @synthesize currentFeedType;
 @synthesize shouldWipeCache;
 @synthesize lastquery;
+@synthesize selectedPoll;
+
 #pragma mark - NSObject
 
 -(id) initWithHeader:(VLMFeedHeaderController *) headerController {
@@ -775,7 +778,6 @@
     self.currentFeedType = feedtype;
     NSLog(@"newfeedtype: %d", feedtype);
     
-    
     if ( self.lastquery ){
         if ( self.isLoading ) [self.lastquery cancel];
         if ( [self.lastquery hasCachedResult] ) [self.lastquery clearCachedResult];
@@ -796,17 +798,27 @@
 
 #pragma mark - FEEDBACK
 - (void)feedbackTapped:(PFObject *)obj{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Flag for Review", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Flag for Review" otherButtonTitles:@"Copy Link", nil];
     [actionSheet showInView:self.view];
-    
-    // ideally: store object or id in a persistent variable
+    self.selectedPoll = obj;
 }
 
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSLog(@"clicked %d", buttonIndex);
-    // ideally: do something with stored object or id 
+    // ideally: do something with stored object or id
+    if ( buttonIndex == 0 ){
+        // flag
+        [VLMUtility flagPoll:self.selectedPoll];
+        
+    } else if (buttonIndex == 1 ){
+        // copy to pasteboard
+        NSString *url = [NSString stringWithFormat:SHARE_POLL_STRING, [self.selectedPoll objectId]];
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.string = url;
+    }
+    self.selectedPoll = nil;
 }
 
 @end

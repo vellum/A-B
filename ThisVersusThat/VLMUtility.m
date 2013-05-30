@@ -338,7 +338,7 @@
                                             }
                                             
                                             
-                                            // test for comments    
+                                            // test for comments
                                         } else if ([[activity objectForKey:@"Type"] isEqualToString:@"comment"]){
                                             NSLog(@"adding a comment");
                                             [comments addObject:activity];
@@ -589,5 +589,10 @@
     
 }
 
-
++ (void)flagPoll:(PFObject *)poll{
+    PFObject *flag = [PFObject objectWithClassName:@"Flag"];
+    [flag setObject:poll forKey:@"Poll"];
+    [flag setObject:[PFUser currentUser] forKey:@"User"];
+    [flag save];
+}
 @end

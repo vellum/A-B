@@ -33,7 +33,7 @@
 #define POLL_USER_KEY @"User"
 
 #define SERVER_STRING @"http://api.target.com/v2/items?Keywords=%@&ResponseGroups=ItemAttributes,Images&key=f5HiulmyBPRVQwvnOirblMrUAbGYiob4&Count=25"
-
+#define SHARE_POLL_STRING @"http://abpoll.parseapp.com/?id=%@"
 
 #pragma mark - Installation Class
 

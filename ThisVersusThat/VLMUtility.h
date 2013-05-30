@@ -30,4 +30,5 @@
 + (void)sendLikePushNotification:(PFUser *)user Poll:(PFObject *)poll;
 + (void)sendCommentPushNotification:(PFObject *)poll;
 
++ (void)flagPoll:(PFObject *)poll;
 @end
