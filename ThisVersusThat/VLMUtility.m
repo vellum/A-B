@@ -593,6 +593,6 @@
     PFObject *flag = [PFObject objectWithClassName:@"Flag"];
     [flag setObject:poll forKey:@"Poll"];
     [flag setObject:[PFUser currentUser] forKey:@"User"];
-    [flag save];
+    [flag saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){}];
 }
 @end
