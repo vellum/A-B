@@ -246,6 +246,8 @@
     VLMAddViewController *avc = [[VLMAddViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:avc];
     [navigationController.navigationBar setTitleVerticalPositionAdjustment:HEADER_TITLE_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+    navigationController.interactivePopGestureRecognizer.enabled = YES;
+
     
     [self presentModalViewController:navigationController animated:YES];
 }
