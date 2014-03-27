@@ -693,7 +693,9 @@
     }
 }
 
-- (void)didTap:(id)sender{}
+- (void)didTap:(id)sender{
+    [self loadNextPage];
+}
 
 #pragma mark - VLMTapDelegate
 - (void)didTapPollAndComment:(PFObject *)poll{}

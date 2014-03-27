@@ -193,16 +193,14 @@ void SignalHandler(int sig) {
     // background images
     UIImage *custombgd = NAVIGATION_HEADER_BACKGROUND_IMAGE;
     UIImage *clear = [[UIImage imageNamed:@"clear.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    
-    UIImage *clearfixed = [UIImage imageNamed:@"clear.png"];
 
     // set navbar background
     [[UINavigationBar appearance] setBackgroundImage:custombgd forBarMetrics:UIBarMetricsDefault];
+
     // set navbar typography
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                        [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
-                        [UIColor clearColor], UITextAttributeTextShadowColor, 
-                        [UIFont fontWithName:NAVIGATION_HEADER size:NAVIGATION_HEADER_TITLE_SIZE], UITextAttributeFont, 
+                        [UIColor colorWithWhite:0.2f alpha:1.0f], NSForegroundColorAttributeName,
+                        [UIFont fontWithName:NAVIGATION_HEADER size:NAVIGATION_HEADER_TITLE_SIZE], NSFontAttributeName,
                         nil
                         ]];
 
@@ -214,40 +212,46 @@ void SignalHandler(int sig) {
     
     // set plain bar button item typography
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                          [UIColor clearColor], UITextAttributeTextShadowColor,
-                                                          [UIColor colorWithWhite:0.2f alpha:1.0f], UITextAttributeTextColor, 
-                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], UITextAttributeFont, 
+                                                          [UIColor colorWithWhite:0.2f alpha:1.0f], NSForegroundColorAttributeName,
+                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], NSFontAttributeName,
                                                           nil] // end dictionary
                                                 forState:UIControlStateNormal
      ];
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                          [UIColor clearColor], UITextAttributeTextShadowColor,
-                                                          [UIColor colorWithWhite:1.0f alpha:1.0f], UITextAttributeTextColor, 
-                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], UITextAttributeFont, 
+                                                          [UIColor colorWithWhite:1.0f alpha:1.0f], NSForegroundColorAttributeName,
+                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], NSFontAttributeName,
                                                           nil] // end dictionary
                                                 forState:UIControlStateHighlighted
      ];
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                          [UIColor clearColor], UITextAttributeTextShadowColor,
-                                                          [UIColor colorWithWhite:1.0f alpha:1.0f], UITextAttributeTextColor, 
-                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], UITextAttributeFont, 
+                                                          [UIColor colorWithWhite:1.0f alpha:1.0f], NSForegroundColorAttributeName,
+                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], NSFontAttributeName,
                                                           nil] // end dictionary
                                                 forState:UIControlStateHighlighted
      ];
     [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                          [UIColor clearColor], UITextAttributeTextShadowColor,
-                                                          [UIColor colorWithWhite:0.2f alpha:0.2f], UITextAttributeTextColor, 
-                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], UITextAttributeFont, 
+                                                          [UIColor colorWithWhite:0.2f alpha:0.2f], NSForegroundColorAttributeName,
+                                                          [UIFont fontWithName:@"AmericanTypewriter" size:13.0f], NSFontAttributeName,
                                                           nil] // end dictionary
                                                 forState:UIControlStateDisabled
      ];
+    
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment: HEADER_TITLE_VERTICAL_OFFSET forBarMetrics: UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
+    
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundVerticalPositionAdjustment:BAR_BUTTON_ITEM_VERTICAL_OFFSET forBarMetrics:UIBarMetricsDefault];
+
+    
+    /*
     [[UIBarButtonItem appearance] setTitlePositionAdjustment:UIOffsetMake(0.0f, BAR_BUTTON_ITEM_VERTICAL_OFFSET) forBarMetrics:UIBarMetricsDefault];
 
     [[UIBarButtonItem appearance] setBackButtonBackgroundVerticalPositionAdjustment:BAR_BUTTON_ITEM_VERTICAL_OFFSET-1 forBarMetrics:UIBarMetricsDefault];
 
     [[UIBarButtonItem appearance] setBackButtonBackgroundImage:clearfixed forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     // interestingly, backbutton needs its own adjustment
-    
+    */
 }
 
 #pragma mark -
