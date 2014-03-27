@@ -108,6 +108,7 @@ typedef enum {
         [PFUser logOut];
     }
     //*/
+ [[UIView appearance] setTintColor:[UIColor whiteColor]];
     
     [self establishAppearanceDefaults];
        

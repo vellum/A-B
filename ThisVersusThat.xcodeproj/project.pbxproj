@@ -53,13 +53,13 @@
 		BD648017162CDFB700E93E24 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD648015162CDE5B00E93E24 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BD72B83915BE3AD20083CD4E /* VLMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83815BE3AD20083CD4E /* VLMMainViewController.m */; };
 		BD72B83F15BE59670083CD4E /* VLMAddButtonController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD72B83E15BE59670083CD4E /* VLMAddButtonController.m */; };
-		BD7998E215D654670070D759 /* skewed_print.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998E015D654670070D759 /* skewed_print.png */; };
 		BD7998E515D6DB400070D759 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7998E415D6DB400070D759 /* ActivityViewController.m */; };
 		BD7998EE15D89FA50070D759 /* VLMActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7998ED15D89FA50070D759 /* VLMActivityCell.m */; };
 		BD7F22C715C8718600598906 /* UIImage+ResizeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22C615C8718600598906 /* UIImage+ResizeAdditions.m */; };
 		BD7F22CC15C871D500598906 /* UIImage+AlphaAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22C915C871D500598906 /* UIImage+AlphaAdditions.m */; };
 		BD7F22CD15C871D500598906 /* UIImage+RoundedCornerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BD7F22CB15C871D500598906 /* UIImage+RoundedCornerAdditions.m */; };
 		BD84D24415DDF85700F8D007 /* subtlenet@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = BD84D24315DDF85700F8D007 /* subtlenet@2X.png */; };
+		BD8811BF18E09A7A0033A9F0 /* skewed_print.png in Resources */ = {isa = PBXBuildFile; fileRef = BD7998E015D654670070D759 /* skewed_print.png */; };
 		BD8891DC15C0605400C1615C /* vote_button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DA15C0605400C1615C /* vote_button_selected.png */; };
 		BD8891DD15C0605400C1615C /* vote_button_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = BD8891DB15C0605400C1615C /* vote_button_normal.png */; };
 		BD90FFF215BE7B6D004621E8 /* subtlenet.png in Resources */ = {isa = PBXBuildFile; fileRef = BD90FFF115BE7B6D004621E8 /* subtlenet.png */; };
@@ -838,6 +838,7 @@
 				BD48B60715C1B5060019C3A2 /* photo_placeholder.png in Resources */,
 				BDC29A2F15C1EC0B00596546 /* photo_placeholder@2x.png in Resources */,
 				BDC29A3215C1EC6700596546 /* vote_button_normal@2x.png in Resources */,
+				BD8811BF18E09A7A0033A9F0 /* skewed_print.png in Resources */,
 				BDC29A3315C1EC6700596546 /* vote_button_selected@2x.png in Resources */,
 				BDC29A3615C1FFBE00596546 /* leica@2x.png in Resources */,
 				BDC29A3715C1FFBE00596546 /* leica.png in Resources */,
@@ -850,7 +851,6 @@
 				BD19858215D5C9F400AE9590 /* facebook@2x.png in Resources */,
 				BD19859115D60EFE00AE9590 /* 3lines_highlighted.png in Resources */,
 				BD19859215D60EFE00AE9590 /* 3lines.png in Resources */,
-				BD7998E215D654670070D759 /* skewed_print.png in Resources */,
 				BD84D24415DDF85700F8D007 /* subtlenet@2X.png in Resources */,
 				BD031C4415E32790003A3F67 /* 3lines_highlighted@2x.png in Resources */,
 				BD031C4515E32790003A3F67 /* 3lines@2x.png in Resources */,
@@ -1024,7 +1024,7 @@
 				GCC_PREFIX_HEADER = "ThisVersusThat/ThisVersusThat-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "ThisVersusThat/ThisVersusThat-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",
@@ -1053,7 +1053,7 @@
 				GCC_PREFIX_HEADER = "ThisVersusThat/ThisVersusThat-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "ThisVersusThat/ThisVersusThat-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",

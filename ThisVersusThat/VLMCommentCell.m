@@ -32,6 +32,8 @@ static TTTTimeIntervalFormatter *timeFormatter;
     [self setAutoresizesSubviews:NO];
     [self.contentView setAutoresizesSubviews:NO];
     self.contentView.clipsToBounds = YES;
+    self.contentView.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor clearColor];
     
     CGFloat x = 20;
     CGFloat y = 0;

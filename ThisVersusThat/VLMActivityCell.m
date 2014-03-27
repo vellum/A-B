@@ -96,6 +96,10 @@ static TTTTimeIntervalFormatter *timeFormatter;
         [back addSubview:timestamp];
         
         [self.contentView setClipsToBounds:YES];
+        
+        UIView *selbg = [[UIView alloc] initWithFrame:CGRectZero];
+        [selbg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.1f]];
+        [self setSelectedBackgroundView:selbg];
     }
     return self;
 }

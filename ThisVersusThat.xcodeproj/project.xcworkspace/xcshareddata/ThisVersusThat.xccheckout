@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6C25F334-2E17-4233-91F9-0A04D26F86AD</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ThisVersusThat</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3602B97F-4E90-45F8-8F5F-CD321661646A</key>
+		<string>https://github.com/vellum/A-B.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ThisVersusThat.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3602B97F-4E90-45F8-8F5F-CD321661646A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/vellum/A-B.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3602B97F-4E90-45F8-8F5F-CD321661646A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3602B97F-4E90-45F8-8F5F-CD321661646A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>A-B</string>
+		</dict>
+	</array>
+</dict>
+</plist>

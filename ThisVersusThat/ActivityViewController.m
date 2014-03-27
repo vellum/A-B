@@ -52,6 +52,7 @@
         self.objectsPerPage = 10;
         [self.view setAutoresizesSubviews:NO];        
         [self.view setBackgroundColor:[UIColor clearColor]];
+        //[self.view setBackgroundColor:BLACK_LINEN];
         
         self.resultcount = 0;
         self.popdelegate = popmodaldelegate;
@@ -331,9 +332,9 @@
         VLMActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentIdentifier];
         if ( cell == nil ){
             cell = [[VLMActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CommentIdentifier];
-            UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
-            [bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
-            [cell setSelectedBackgroundView:bg];
+            //UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
+            //[bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
+            //[cell setSelectedBackgroundView:bg];
 
             
         }
@@ -349,7 +350,7 @@
             head = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"activityhead"];
             [head setFrame:CGRectMake(0, 0, winw, 56)];
             [head.contentView setBackgroundColor:[UIColor clearColor]];
-            
+            [head setBackgroundColor:[UIColor clearColor]];
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 6*40, 40)];
             [label setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:13.0f]];
             [label setText:@"Activity"];
@@ -377,9 +378,9 @@
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
         [cell setUserColor:[UIColor colorWithWhite:1.0f alpha:0.9f]];
         [cell setCommentColor:[UIColor colorWithWhite:1.0f alpha:0.75f]];
-        UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
-        [bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
-        [cell setSelectedBackgroundView:bg];
+        //UIView *bg = [[UIView alloc] initWithFrame:CGRectZero];
+        //[bg setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.05]];
+        //[cell setSelectedBackgroundView:bg];
     }
     
     if ( ![PFUser currentUser] ){
@@ -429,7 +430,7 @@
     //NSLog(@"constructing nextpagecell");
     LoadMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:LoadMoreCellIdentifier];
     if (!cell) {
-        cell = [[LoadMoreCell alloc] initWithFrame:CGRectMake(20, 0, 40*6, 56)  style:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier color:[UIColor colorWithWhite:1.0f alpha:0.75f] disabledcolor:[UIColor colorWithWhite:1.0f alpha:0.5f]];
+        cell = [[LoadMoreCell alloc] initWithFrame:CGRectMake(20, 0, 40*6, 56)  style:UITableViewCellStyleDefault reuseIdentifier:LoadMoreCellIdentifier color:[UIColor colorWithWhite:1.0f alpha:0.25f] disabledcolor:[UIColor colorWithWhite:1.0f alpha:0.5f]];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setDelegate:self];

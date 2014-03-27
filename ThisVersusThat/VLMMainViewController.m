@@ -50,9 +50,10 @@
     }
     return self;
 }
-
 - (void)viewDidLoad{
     [super viewDidLoad];
+
+    
     
 	// Do any additional setup after loading the view.
     [self.view setAutoresizesSubviews:NO];
@@ -63,7 +64,10 @@
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     CGFloat winw = [[UIScreen mainScreen] bounds].size.width;
     
-    self.view.frame = CGRectMake(0, STATUSBAR_HEIGHT, winw, winh-STATUSBAR_HEIGHT);
+    //self.view.frame = CGRectMake(0, STATUSBAR_HEIGHT, winw, winh-STATUSBAR_HEIGHT);
+    self.view.frame = CGRectMake(0, 0, winw, winh);
+
+    
     
     self.avatarview = [[PFImageView alloc] initWithFrame:CGRectZero];
     [self.avatarview setHidden:YES];
@@ -71,7 +75,7 @@
     CGFloat y = 0;
     CGFloat x = 20;
 
-    UIView *activityHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, 14*1 + (28+28)*2)];
+    UIView *activityHeader = [[UIView alloc] initWithFrame:CGRectMake(0, STATUSBAR_HEIGHT, winw, 14*1 + (28+28)*2)];
     [activityHeader setBackgroundColor:[UIColor clearColor]];
     [activityHeader setAutoresizesSubviews:NO];
 
@@ -103,6 +107,7 @@
     
     self.activityController = [[ActivityViewController alloc] initWithPopDelegate:self andHeaderView:activityHeader];
     [self.view addSubview:self.activityController.tableView];
+    [self.activityController.view setBackgroundColor:BLACK_LINEN];
 
 	
     VLMFeedViewController *fvc = [[VLMFeedViewController alloc] initWithTapDelegate:self];
@@ -127,6 +132,10 @@
     }
     
     self.view.clipsToBounds = YES;
+    
+    UIView *blackfield = [[UIView alloc] initWithFrame:CGRectMake(0, 0, winw, STATUSBAR_HEIGHT)];
+    [blackfield setBackgroundColor:[UIColor blackColor]];
+    [self.view addSubview:blackfield];
 }
 
 - (void)viewDidUnload{
@@ -138,6 +147,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+	return YES;
+}
 
 #pragma mark -
 #pragma mark Signup/Login
@@ -183,7 +196,7 @@
     CGFloat winh = [[UIScreen mainScreen] bounds].size.height;
     [self.footerViewController.view removeFromSuperview];
     [self.feedViewController.view setAutoresizesSubviews:NO];
-    [self.feedViewController.view setFrame:CGRectMake(0, 0, winw, winh-STATUSBAR_HEIGHT)];
+    [self.feedViewController.view setFrame:CGRectMake(0, STATUSBAR_HEIGHT, winw, winh-STATUSBAR_HEIGHT)];
     [self.feedViewController updatelayout];
     [self.feedViewController.tableViewController scrollViewDidScroll:self.feedViewController.tableViewController.tableView];
     [self.addButtonController show];
@@ -303,7 +316,7 @@
         [clearbutton setHidden:NO];
         [clearbutton setUserInteractionEnabled:YES];
         [clearbutton setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0]];
-        [clearbutton setFrame:CGRectMake(self.view.frame.size.width-40, 0, 40, self.view.frame.size.height)];
+        [clearbutton setFrame:CGRectMake(self.view.frame.size.width-40, STATUSBAR_HEIGHT, 40, self.view.frame.size.height)];
         [clearbutton addTarget:self action:@selector(hideLeftPanel:) forControlEvents:UIControlEventTouchUpInside];
         [clearbutton addTarget:self action:@selector(hideLeftPanel:) forControlEvents:UIControlEventTouchDragInside];
     }
@@ -326,7 +339,7 @@
     [feedViewController.tableViewController.tableView setScrollsToTop:YES];
     [clearbutton removeFromSuperview];
     CGRect f = self.feedViewController.view.frame;
-    f = CGRectMake(0, 0, f.size.width, f.size.height);
+    f = CGRectMake(0, STATUSBAR_HEIGHT, f.size.width, f.size.height);
     if ( [PFUser currentUser] ){
         [addButtonController show];
     }

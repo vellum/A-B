@@ -26,6 +26,7 @@
     if (self) {
         // Initialization code
         self.contentView.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
         
         VLMTextButton *loadmore = [[VLMTextButton alloc] initWithFrame:CGRectMake(15, 0, 286, 60) andTypeSize:13.0f andColor:color disabledColor:disabledcolor andText:@"load more..."];
         [loadmore setBackgroundColor:[UIColor clearColor]];
@@ -43,10 +44,11 @@
     if (self) {
         // Initialization code
         self.contentView.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
         
         VLMTextButton *loadmore = [[VLMTextButton alloc] initWithFrame:frame andTypeSize:13.0f andColor:color disabledColor:disabledcolor andText:@"load more..."];
         [loadmore setBackgroundColor:[UIColor clearColor]];
-        [loadmore setBackgroundImage:[UIImage imageNamed:@"gray_header_background.png"] forState:UIControlStateHighlighted];
+        //[loadmore setBackgroundImage:[UIImage imageNamed:@"gray_header_background.png"] forState:UIControlStateHighlighted];
         [self.contentView addSubview:loadmore];
         [loadmore addTarget:self action:@selector(press:) forControlEvents:UIControlEventTouchUpInside];
         self.button = loadmore;

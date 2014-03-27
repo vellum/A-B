@@ -10,7 +10,7 @@
 @implementation UINavigationBar (Fat)
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    CGSize newSize = CGSizeMake(self.frame.size.width,HEADER_HEIGHT);
+    CGSize newSize = CGSizeMake(self.frame.size.width,HEADER_HEIGHT_IOS7);
     return newSize;
     //return size;
 }
